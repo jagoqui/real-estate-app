@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Login } from "@/modules/login/infrastructure/UI/components/Login";
+import { Loader2 } from "lucide-react";
+import { useGoogleAuth } from "./app/modules/login/infrastructure/UI/hooks/useGoogleAuth/useGoogleAuth";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const { isAuthenticated, isLoading, user } = useGoogleAuth();
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {isLoading ? (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      ) : (
+        <div className="min-h-screen">
+          {isAuthenticated ? <>User logged in {user?.name}</> : <Login />}
+        </div>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

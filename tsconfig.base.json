@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/modules/*": ["./src/app/modules/*"],
+      "@environments/*": ["./environments/*"]
+    }
+  }
+}
