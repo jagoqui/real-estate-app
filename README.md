@@ -65,3 +65,4 @@ Para consultar la documentación completa y detallada, visita:
 
 👉 [Documentación principal](documentation/real-estate-app.md)
 🤖 [Documentación automática Deepwiki](https://deepwiki.com/jagoqui/real-estate-app)
+[Servidor remoto](https://jagoqui.github.io/real-estate-app/)
