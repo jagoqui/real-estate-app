@@ -1,4 +1,4 @@
-import type { GoogleUserDTO } from "./googleUser.dto";
+import type { GoogleUserDTO } from './googleUser.dto';
 
 export interface AuthStateDTO {
   isAuthenticated: boolean;

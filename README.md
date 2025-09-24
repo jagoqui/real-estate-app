@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# Real Estate App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositorio contiene una aplicación para la gestión de compra y ventas de propiedades raíz, diseñada como proyecto de demostración del uso de buenas prácticas y arquitectura hexagonal en el desarrollo frontend.
 
-Currently, two official plugins are available:
+## 🎯 Objetivo del Proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este proyecto tiene como propósito demostrar la implementación de:
 
-## Expanding the ESLint configuration
+- ✅ **Buenas prácticas** de desarrollo frontend
+- 🏗️ **Arquitectura hexagonal** adaptada al frontend
+- 🧪 **Testing** y calidad de código
+- 📁 **Organización** estructurada y escalable
+- 🔧 **Herramientas** modernas de desarrollo
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🏢 ¿Qué encontrarás en este proyecto?
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Gestión de propiedades**: Funcionalidades para compra y venta de bienes raíces
+- **Arquitectura limpia**: Implementación de arquitectura hexagonal con 3 capas
+- **Código de calidad**: Linting, testing y mejores prácticas
+- **Documentación completa**: Guías detalladas de instalación, uso y contribución
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Esta documentación está destinada a desarrolladores y equipos técnicos que quieran aprender sobre arquitectura hexagonal, buenas prácticas de desarrollo, o contribuir al proyecto.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📝 Contribución
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 🔄 Workflow de Desarrollo
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Fork del repositorio
+2. Crear una rama para tu feature: `git checkout -b feature/nueva-funcionalidad`
+3. Commitear cambios: `git commit -am 'Add nueva funcionalidad'`
+4. Push a la rama: `git push origin feature/nueva-funcionalidad`
+5. Crear un Pull Request
+
+### 📋 Guías de Contribución
+
+- Seguir los estándares de código establecidos
+- Ejecutar `npm run lint` antes de hacer commit
+- Escribir tests para nuevas funcionalidades
+- Actualizar documentación según sea necesario
+- Usar commits descriptivos y en inglés
+
+### 🐛 Reportar Issues
+
+Para reportar bugs o solicitar features, usar el sistema de Issues de GitHub con las siguientes etiquetas:
+
+- **bug** 🐛: Para errores
+- **enhancement** ✨: Para mejoras
+- **documentation** 📚: Para documentación
+- **help wanted** 🆘: Para ayuda de la comunidad
+
+## 📞 Contacto
+
+- **Desarrollador**: Jagoqui
+- **Repository**: [https://github.com/jagoqui/real-estate-app](https://github.com/jagoqui/real-estate-app)
+
+---
+
+⭐ **¡No olvides dar una estrella al proyecto si te fue útil!**
+
+---
+
+Para consultar la documentación completa y detallada, visita:
+
+👉 [Documentación principal](documentation/real-estate-app.md)

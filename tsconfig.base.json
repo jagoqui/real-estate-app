@@ -2,9 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/modules/*": ["./src/app/modules/*"],
-      "@environments/*": ["./environments/*"]
-    }
+      "@/*": ["src/*"],
+      "@/data/*": ["data/*"],
+      "@/modules/*": ["src/app/modules/*"],
+      "@/variables/*": ["src/app/variables/*"]
+    },
+    "types": ["vitest/globals"]
   }
 }
