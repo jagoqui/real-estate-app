@@ -1,36 +1,20 @@
 // @ts-check
 import js from '@eslint/js'
-import vitest from '@vitest/eslint-plugin'
 import prettier from 'eslint-config-prettier'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
 import eslintPluginPath from 'eslint-plugin-path'
 import importPrettier from 'eslint-plugin-prettier'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import unusedImports from 'eslint-plugin-unused-imports'
-import {defineConfig} from 'eslint/config'
-import globals from 'globals'
+import {defineConfig, globalIgnores} from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import hexagonalPlugin from './tools/eslint-plugin-hexagonal/index.mjs'
 
 export default defineConfig([
+  globalIgnores(['dist']),
   {
     files: ['./src/**/*.ts*'],
-    ...jsxA11y.flatConfigs.recommended,
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommendedTypeChecked,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-      prettier,
-    ],
+    extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked, prettier],
     languageOptions: {
       ecmaVersion: 2020,
-      ...jsxA11y.flatConfigs.recommended.languageOptions,
-      globals: {
-        ...globals.serviceworker,
-        ...globals.browser,
-      },
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
@@ -180,17 +164,6 @@ export default defineConfig([
       '@typescript-eslint/consistent-type-definitions': 'error',
       'no-invalid-this': 'off',
       '@typescript-eslint/no-invalid-this': ['warn'],
-    },
-  },
-  {
-    files: ['./src/**/__test__/**/*.test.ts'],
-    plugins: {
-      // @ts-ignore
-      vitest,
-    },
-    rules: {
-      'max-lines-per-function': 'off',
-      ...vitest.configs.recommended.rules,
     },
   },
 ])
