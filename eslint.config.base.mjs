@@ -4,12 +4,11 @@ import prettier from 'eslint-config-prettier'
 import eslintPluginPath from 'eslint-plugin-path'
 import importPrettier from 'eslint-plugin-prettier'
 import unusedImports from 'eslint-plugin-unused-imports'
-import {defineConfig, globalIgnores} from 'eslint/config'
+import {defineConfig} from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import hexagonalPlugin from './tools/eslint-plugin-hexagonal/index.mjs'
 
 export default defineConfig([
-  globalIgnores(['dist']),
   {
     files: ['./src/**/*.ts*'],
     extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked, prettier],
@@ -140,8 +139,6 @@ export default defineConfig([
           selector: 'variable',
           modifiers: ['const'],
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
-          leadingUnderscore: 'allow',
-          trailingUnderscore: 'allow',
         },
         {
           selector: 'property',
