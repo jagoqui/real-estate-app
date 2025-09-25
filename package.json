@@ -43,7 +43,7 @@
     "test:watch": "vitest",
     "test:single": "node scripts/vitest-single-coverage.js",
     "lint": "eslint . --report-unused-disable-directives --ignore-pattern '**/*.test.{ts,tsx}' --max-warnings 0",
-    "lint:fix": "eslint . --report-unused-disable-directives --quiet --fix --ignore-pattern '**/*.test.{ts,tsx}' --max-warnings 0",
+    "lint:fix": "eslint . --report-unused-disable-directives --fix --ignore-pattern '**/*.test.{ts,tsx}' --max-warnings 0",
     "format": "prettier --write .",
     "markdownlint": "markdownlint-cli2 --fix 'documentation/**/*.md'",
     "sonar-scanner:local": "docker rm -f sonar-scanner-cli; node ./scripts/sonar-scanner.js -local",
