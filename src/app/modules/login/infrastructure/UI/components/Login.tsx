@@ -7,6 +7,7 @@ import {Loader2} from 'lucide-react'
 import {useState, type ReactElement} from 'react'
 import {GoogleIcon} from './icons/google.svg'
 
+// eslint-disable-next-line max-lines-per-function
 export const Login = (): ReactElement => {
   const [error, setError] = useState<string>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -14,14 +15,14 @@ export const Login = (): ReactElement => {
 
   const login = useGoogleLogin({
     onSuccess: tokenResponse => {
-      console.log(tokenResponse)
+      console.info(tokenResponse)
       // fetching userinfo can be done on the client or the server
       fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: {Authorization: `Bearer ${tokenResponse.access_token}`},
       })
         .then(res => res.json())
         .then(userInfo => {
-          console.log(userInfo)
+          console.info(userInfo)
           setError(undefined)
         })
         .catch(err => {
