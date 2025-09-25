@@ -1,5 +1,5 @@
 {
-  "**/*.{js,jsx,ts,tsx}": [
+  "./src/**/*.ts*": [
     "npm run lint",
     "prettier --write --ignore-unknown",
     "npm run test:staged"
