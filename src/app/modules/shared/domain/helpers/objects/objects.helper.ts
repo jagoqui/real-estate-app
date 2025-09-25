@@ -99,7 +99,9 @@ function cleanObject<T>(
     if (shouldSkip(value, removeNulls)) continue;
 
     if (Array.isArray(value)) {
-      result[key] = value.length ? cleanArray(value, removeNulls) : value;
+      result[key] = value.length
+        ? cleanArray(value as Array<NullablePartial<unknown>>, removeNulls)
+        : value;
     } else if (typeof value === 'object' && value !== null) {
       result[key] = removeNullishOrUndefinedProperties(value, removeNulls);
     } else {

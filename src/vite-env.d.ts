@@ -18,7 +18,7 @@ interface ImportMetaEnv {
 }
 
 namespace NodeJS {
-  interface ProcessEnv extends ImportMetaEnv {}
+  type ProcessEnv = ImportMetaEnv;
 }
 
 interface ImportMeta {
