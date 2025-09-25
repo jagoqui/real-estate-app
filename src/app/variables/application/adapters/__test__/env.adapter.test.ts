@@ -19,11 +19,11 @@ describe('getEnvs', () => {
 
   afterEach(() => vi.clearAllMocks());
 
-  it('should return parsed envs from process.env', async () => {
+  it('should return parsed envs from process.env', () => {
     expect(getEnvs()).toEqual(ENVS_MOCK);
   });
 
-  it('should call exit(1) if envs are invalid', async () => {
+  it('should call exit(1) if envs are invalid', () => {
     process.env = {
       ...process.env,
       VITE_API_BASE_URL: '',
@@ -33,7 +33,7 @@ describe('getEnvs', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
-  it('should not set VITE_SNYK_ORG in production', async () => {
+  it('should not set VITE_SNYK_ORG in production', () => {
     process.env = {
       ...process.env,
       NODE_ENV: 'production',
