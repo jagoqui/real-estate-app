@@ -40,7 +40,7 @@ export default defineConfig([
     rules: {
       ...baseConfig[1].rules,
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', {allowConstantExport: true}],
+      'react-refresh/only-export-components': ['error', {allowConstantExport: true}],
       'prettier/prettier': 'off',
       'react/require-default-props': 'off',
       'react/react-in-jsx-scope': 'off',
