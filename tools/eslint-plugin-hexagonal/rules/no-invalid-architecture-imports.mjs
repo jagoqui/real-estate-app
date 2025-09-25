@@ -20,7 +20,7 @@ function mergeConfig(options) {
   return {
     ...defaultConfig,
     ...userConfig,
-    layers: { ...defaultConfig.layers, ...userConfig.layers },
+    layers: {...defaultConfig.layers, ...userConfig.layers},
     allowedImports: {
       ...defaultConfig.allowedImports,
       ...userConfig.allowedImports,
@@ -34,9 +34,7 @@ function mergeConfig(options) {
 
 function getLayer(filePath, layers) {
   const normalized = filePath.replace(/\\/g, '/');
-  return (
-    Object.values(layers).find((layer) => normalized.includes(layer)) ?? null
-  );
+  return Object.values(layers).find(layer => normalized.includes(layer)) ?? null;
 }
 
 function extractAppModuleName(path, fallback = '') {
@@ -61,13 +59,13 @@ export default {
       {
         type: 'object',
         properties: {
-          sharedModule: { type: 'string' },
-          layers: { type: 'object' },
+          sharedModule: {type: 'string'},
+          layers: {type: 'object'},
           whiteListPatterns: {
             type: 'array',
-            items: { type: 'string' },
+            items: {type: 'string'},
           },
-          allowedImports: { type: 'object' },
+          allowedImports: {type: 'object'},
         },
         additionalProperties: false,
       },
@@ -90,9 +88,7 @@ export default {
         // Skip white-listed patterns
         if (
           config.whiteListPatterns.some(
-            (pattern) =>
-              currentFilename.includes(pattern) ||
-              importFilename.includes(pattern)
+            pattern => currentFilename.includes(pattern) || importFilename.includes(pattern),
           )
         ) {
           return;
@@ -114,14 +110,10 @@ export default {
         }
 
         const currentFileModule = extractAppModuleName(currentFilename);
-        const importFileModule = extractAppModuleName(
-          importFilename,
-          currentFileModule
-        );
+        const importFileModule = extractAppModuleName(importFilename, currentFileModule);
 
         const cannotImportFromOtherModule =
-          importFileModule !== config.sharedModule &&
-          currentFileModule !== importFileModule;
+          importFileModule !== config.sharedModule && currentFileModule !== importFileModule;
 
         // Prevent cross-module imports that do not go through shared
         if (cannotImportFromOtherModule) {
@@ -137,9 +129,7 @@ export default {
         }
 
         if (
-          !config.allowedImports[layerCurrentFile]?.includes(
-            layerImportedFile
-          ) &&
+          !config.allowedImports[layerCurrentFile]?.includes(layerImportedFile) &&
           layerCurrentFile !== layerImportedFile
         ) {
           context.report({

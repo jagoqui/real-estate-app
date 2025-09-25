@@ -1,4 +1,4 @@
-import { type Env } from '@/variables/domain/schemas/env.schema';
+import {type Env} from '@/variables/domain/schemas/env.schema';
 
 export const ENVS_MOCK: Env = {
   VITE_API_BASE_URL: 'https://api.example.com',

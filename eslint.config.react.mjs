@@ -1,18 +1,18 @@
 // @ts-check
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import prettier from 'eslint-plugin-prettier'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import {defineConfig} from 'eslint/config'
-import globals from 'globals'
-import baseConfig from './eslint.config.base.mjs'
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import prettier from 'eslint-plugin-prettier';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import {defineConfig} from 'eslint/config';
+import globals from 'globals';
+import baseConfig from './eslint.config.base.mjs';
 
 export default defineConfig([
   baseConfig,
   {
     ...baseConfig[1],
-    files: ['./src/**/*.tsx'],
+    files: ['src/**/*.tsx'],
     plugins: {
       ...baseConfig[1].plugins,
       'react-hooks': reactHooks,
@@ -53,4 +53,4 @@ export default defineConfig([
       },
     },
   },
-])
+]);

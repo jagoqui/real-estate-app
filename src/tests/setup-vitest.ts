@@ -1,14 +1,14 @@
-import { ENVS_MOCK } from '@/data/mocks/envs/envs.mock';
+import {ENVS_MOCK} from '@/data/mocks/envs/envs.mock';
 import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
-import { afterEach } from 'vitest';
+import {cleanup} from '@testing-library/react';
+import {afterEach} from 'vitest';
 
 process.env = {
   NODE_ENV: 'test',
   ...ENVS_MOCK,
 } as typeof process.env;
 
-const originalConsole = { ...console };
+const originalConsole = {...console};
 
 // runs a clean after each test case (e.g. clearing jsdom)
 afterEach(() => {

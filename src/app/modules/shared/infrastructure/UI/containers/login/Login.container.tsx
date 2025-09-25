@@ -1,12 +1,8 @@
-import { useGoogleOAuth } from '@react-oauth/google';
-import { Loader2 } from 'lucide-react';
+import {useGoogleOAuth} from '@react-oauth/google';
+import {Loader2} from 'lucide-react';
 
-export const LoginContainer = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.ReactElement => {
-  const { scriptLoadedSuccessfully } = useGoogleOAuth();
+export const LoginContainer = ({children}: {children: React.ReactNode}): React.ReactElement => {
+  const {scriptLoadedSuccessfully} = useGoogleOAuth();
 
   return (
     <>

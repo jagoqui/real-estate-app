@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+const {spawn} = require('child_process');
 
 require('./load-env');
 
@@ -21,9 +21,9 @@ Options:
 };
 
 // Validate arguments
-if (args.some((arg) => !validArgs.includes(arg))) {
+if (args.some(arg => !validArgs.includes(arg))) {
   console.error(
-    '\x1b[31m\x1b[1m❌ Invalid argument(s). Use --h or --help for usage information.\x1b[0m'
+    '\x1b[31m\x1b[1m❌ Invalid argument(s). Use --h or --help for usage information.\x1b[0m',
   );
   process.exit(1);
 }
@@ -65,8 +65,7 @@ if (args.includes('-static')) {
   testType = 'default';
 }
 
-const { runningMsg, command, successMessage, errorMessage } =
-  testOptions[testType];
+const {runningMsg, command, successMessage, errorMessage} = testOptions[testType];
 
 `\x1b[32m\x1b[1m 🚀 ${runningMsg}\x1b[0m`;
 
@@ -76,7 +75,7 @@ const snykTest = spawn('npx', command, {
   shell: true,
 });
 
-snykTest.on('close', (buildCode) => {
+snykTest.on('close', buildCode => {
   if (buildCode !== 0) {
     console.error(`\x1b[31m\x1b[1m${errorMessage}`, buildCode, '\x1b[0m');
     process.exit(buildCode || 1);

@@ -1,4 +1,4 @@
-import {invertObject, removeNullishOrUndefinedProperties} from '../objects.helper'
+import {invertObject, removeNullishOrUndefinedProperties} from '../objects.helper';
 
 describe('Objects Helper', () => {
   it('should invert an object when call invertObject', () => {
@@ -6,23 +6,23 @@ describe('Objects Helper', () => {
       a: '1',
       b: '2',
       c: '3',
-    }
+    };
 
-    const inverted = invertObject(obj)
+    const inverted = invertObject(obj);
 
     expect(inverted).toEqual({
       1: 'a',
       2: 'b',
       3: 'c',
-    })
-  })
-})
+    });
+  });
+});
 
 const testCases: Array<{
-  description: string
-  input: Record<string, unknown> | Array<Record<string, unknown>>
-  expected: Record<string, unknown> | Array<Record<string, unknown>>
-  removeNulls: boolean
+  description: string;
+  input: Record<string, unknown> | Array<Record<string, unknown>>;
+  expected: Record<string, unknown> | Array<Record<string, unknown>>;
+  removeNulls: boolean;
 }> = [
   {
     description: 'should remove undefined properties from object',
@@ -73,15 +73,15 @@ const testCases: Array<{
     expected: {c: {}},
     removeNulls: true,
   },
-]
+];
 describe('removeNullishOrUndefinedProperties', () => {
   testCases.forEach(({description, input, expected, removeNulls}) => {
     it(`${description}`, () => {
       if (removeNulls) {
-        expect(removeNullishOrUndefinedProperties(input, removeNulls)).toStrictEqual(expected)
-        return
+        expect(removeNullishOrUndefinedProperties(input, removeNulls)).toStrictEqual(expected);
+        return;
       }
-      expect(removeNullishOrUndefinedProperties(input)).toStrictEqual(expected)
-    })
-  })
-})
+      expect(removeNullishOrUndefinedProperties(input)).toStrictEqual(expected);
+    });
+  });
+});

@@ -1,13 +1,13 @@
 // @ts-check
-import vitest from '@vitest/eslint-plugin'
-import {defineConfig} from 'eslint/config'
-import baseConfig from './eslint.config.base.mjs'
+import vitest from '@vitest/eslint-plugin';
+import {defineConfig} from 'eslint/config';
+import baseConfig from './eslint.config.base.mjs';
 
 export default defineConfig([
   baseConfig,
   {
     ...baseConfig[1],
-    files: ['**/__test__/**/*.test.ts'],
+    files: ['src/**/__test__/**/*.test.ts'],
     plugins: {
       ...baseConfig[1].plugins,
       // @ts-ignore
@@ -19,4 +19,4 @@ export default defineConfig([
       'max-lines-per-function': 'off',
     },
   },
-])
+]);

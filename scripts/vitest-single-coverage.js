@@ -1,4 +1,4 @@
-import { spawnSync } from 'child_process';
+import {spawnSync} from 'child_process';
 
 // Get the test filter from command-line arguments.
 const regexFileInput = process.argv[2];
@@ -13,12 +13,7 @@ if (!regexFileInput) {
 const sourceFileRegex = regexFileInput.replace('.test', '');
 
 // The command to run Vitest
-const vitestArgs = [
-  'run',
-  regexFileInput,
-  '--coverage.include',
-  `src/**/*${sourceFileRegex}*`,
-];
+const vitestArgs = ['run', regexFileInput, '--coverage.include', `src/**/*${sourceFileRegex}*`];
 
 console.log(`Running Vitest with: vitest ${vitestArgs.join(' ')}`);
 

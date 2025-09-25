@@ -9,5 +9,5 @@ if (!fs.existsSync(envPath)) {
   process.exit(1);
 }
 
-dotenv.config({ path: envPath });
+dotenv.config({path: envPath});
 `🟢 Variables loaded from: ${envPath}`;

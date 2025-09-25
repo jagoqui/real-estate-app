@@ -1,16 +1,16 @@
 // @ts-check
-import js from '@eslint/js'
-import prettier from 'eslint-config-prettier'
-import eslintPluginPath from 'eslint-plugin-path'
-import importPrettier from 'eslint-plugin-prettier'
-import unusedImports from 'eslint-plugin-unused-imports'
-import {defineConfig} from 'eslint/config'
-import tseslint from 'typescript-eslint'
-import hexagonalPlugin from './tools/eslint-plugin-hexagonal/index.mjs'
+import js from '@eslint/js';
+import prettier from 'eslint-config-prettier';
+import eslintPluginPath from 'eslint-plugin-path';
+import importPrettier from 'eslint-plugin-prettier';
+import unusedImports from 'eslint-plugin-unused-imports';
+import {defineConfig} from 'eslint/config';
+import tseslint from 'typescript-eslint';
+import hexagonalPlugin from './tools/eslint-plugin-hexagonal/index.mjs';
 
 export default defineConfig([
   {
-    files: ['./src/**/*.ts*'],
+    files: ['src/**/*.ts*'],
     extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked, prettier],
     languageOptions: {
       ecmaVersion: 2020,
@@ -29,15 +29,6 @@ export default defineConfig([
     },
     rules: {
       eqeqeq: 'error',
-      'no-unused-vars': [
-        'error',
-        {
-          vars: 'all',
-          args: 'after-used',
-          ignoreRestSiblings: true,
-          varsIgnorePattern: '^[A-Z_]',
-        },
-      ],
       'no-return-assign': 'error',
       'no-useless-concat': 'error',
       'no-useless-return': 'error',
@@ -74,6 +65,16 @@ export default defineConfig([
         },
       ],
       'max-lines-per-function': ['error', 60],
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          args: 'after-used',
+          ignoreRestSiblings: true,
+          varsIgnorePattern: '^[A-Z_]',
+        },
+      ],
       '@typescript-eslint/array-type': [
         'error',
         {
@@ -128,6 +129,7 @@ export default defineConfig([
           selector: 'variable',
           modifiers: ['const'],
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          leadingUnderscore: 'allow',
         },
         {
           selector: 'property',
@@ -152,4 +154,4 @@ export default defineConfig([
       '@typescript-eslint/no-invalid-this': ['error'],
     },
   },
-])
+]);

@@ -1,12 +1,12 @@
-const { spawn } = require('child_process');
+const {spawn} = require('child_process');
 
 const validArguments = ['-h', '--help', '-local', ''];
 
 const args = process.argv.slice(2);
 
-if (args.some((arg) => !validArguments.includes(arg))) {
+if (args.some(arg => !validArguments.includes(arg))) {
   console.error(
-    '\x1b[31m\x1b[1m❌ Invalid argument. Use -h or --help for usage instructions.\x1b[0m'
+    '\x1b[31m\x1b[1m❌ Invalid argument. Use -h or --help for usage instructions.\x1b[0m',
   );
   process.exit(1);
 }
@@ -30,27 +30,16 @@ const environmentsFile = args.includes('-local')
 // Step 1: Build the Docker image
 const build = spawn(
   'docker',
-  [
-    'build',
-    '--tag',
-    'sonar-scanner-cli',
-    '--build-arg',
-    `ENV_FILE=${environmentsFile}`,
-    '.',
-  ],
+  ['build', '--tag', 'sonar-scanner-cli', '--build-arg', `ENV_FILE=${environmentsFile}`, '.'],
   {
     stdio: 'inherit',
     shell: true,
-  }
+  },
 );
 
-build.on('close', (buildCode) => {
+build.on('close', buildCode => {
   if (buildCode !== 0) {
-    console.error(
-      '\x1b[31m\x1b[1m❌ Docker build failed with code',
-      buildCode,
-      '\x1b[0m'
-    );
+    console.error('\x1b[31m\x1b[1m❌ Docker build failed with code', buildCode, '\x1b[0m');
     removeDockerImageOnFail();
     process.exit(buildCode || 1);
   }
@@ -72,16 +61,12 @@ build.on('close', (buildCode) => {
     {
       stdio: 'inherit',
       shell: true,
-    }
+    },
   );
 
-  sonar.on('close', (code) => {
+  sonar.on('close', code => {
     if (code !== 0) {
-      console.error(
-        '\x1b[31m\x1b[1m❌ Docker run failed with code',
-        code,
-        '\x1b[0m'
-      );
+      console.error('\x1b[31m\x1b[1m❌ Docker run failed with code', code, '\x1b[0m');
 
       removeDockerImageOnFail();
       process.exit(code || 1);
@@ -97,12 +82,12 @@ const removeDockerImageOnFail = () => {
     shell: true,
   });
 
-  removeImage.on('close', (removeCode) => {
+  removeImage.on('close', removeCode => {
     if (removeCode !== 0) {
       console.error(
         '\x1b[31m\x1b[1m❌ Failed to remove Docker image with code',
         removeCode,
-        '\x1b[0m'
+        '\x1b[0m',
       );
       process.exit(removeCode || 1);
     }

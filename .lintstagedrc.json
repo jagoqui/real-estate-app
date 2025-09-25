@@ -1,7 +1,3 @@
 {
-  "./src/**/*.ts*": [
-    "npm run lint",
-    "prettier --write --ignore-unknown",
-    "npm run test:staged"
-  ]
+  "./src/**/*.ts*": ["npm run lint", "npm run format", "npm run test:staged"]
 }
