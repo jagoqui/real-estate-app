@@ -76,7 +76,7 @@ const testCases: Array<{
 ]
 describe('removeNullishOrUndefinedProperties', () => {
   testCases.forEach(({description, input, expected, removeNulls}) => {
-    it(description, () => {
+    it(`${description}`, () => {
       if (removeNulls) {
         expect(removeNullishOrUndefinedProperties(input, removeNulls)).toStrictEqual(expected)
         return
