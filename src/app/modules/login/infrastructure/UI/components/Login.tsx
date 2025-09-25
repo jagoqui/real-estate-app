@@ -1,48 +1,50 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { useGoogleLogin } from '@react-oauth/google';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { GoogleIcon } from './icons/google.svg';
+import {Button} from '@/components/ui/button'
+import {Input} from '@/components/ui/input'
+import {Label} from '@/components/ui/label'
+import {Separator} from '@/components/ui/separator'
+import {useGoogleLogin} from '@react-oauth/google'
+import {Loader2} from 'lucide-react'
+import {useState, type ReactElement} from 'react'
+import {GoogleIcon} from './icons/google.svg'
 
-export const Login = () => {
-  const [error, setError] = useState<string>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isHovered, setIsHovered] = useState(false);
+export const Login = (): ReactElement => {
+  const [error, setError] = useState<string>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
+    onSuccess: tokenResponse => {
+      console.log(tokenResponse)
       // fetching userinfo can be done on the client or the server
-      const userInfo = await fetch(
-        'https://www.googleapis.com/oauth2/v3/userinfo',
-        {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        }
-      ).then((res) => res.json());
-
-      console.log(userInfo);
-      setError(undefined);
-      setIsLoading(false);
+      fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {Authorization: `Bearer ${tokenResponse.access_token}`},
+      })
+        .then(res => res.json())
+        .then(userInfo => {
+          console.log(userInfo)
+          setError(undefined)
+        })
+        .catch(err => {
+          console.error(err)
+          setError('Failed to fetch user info.')
+        })
+        .finally(() => setIsLoading(false))
     },
 
-    onError: (errorResponse) =>
-      setError(errorResponse.error_description || 'Login Failed'),
-  });
+    onError: errorResponse => setError(errorResponse.error_description || 'Login Failed'),
+  })
 
-  const signIn = () => {
-    setIsLoading(true);
+  const signIn = (): void => {
+    setIsLoading(true)
     try {
-      login();
+      login()
     } catch (err) {
-      console.error(err);
-      setError('An unexpected error occurred. Please try again.');
+      console.error(err)
+      setError('An unexpected error occurred. Please try again.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className='flex items-center justify-center min-h-screen'>
@@ -94,9 +96,7 @@ export const Login = () => {
               <Separator className='w-full' />
             </div>
             <div className='relative flex justify-center text-xs uppercase'>
-              <span className='bg-background px-2 text-muted-foreground'>
-                or with
-              </span>
+              <span className='bg-background px-2 text-muted-foreground'>or with</span>
             </div>
           </div>
 
@@ -147,5 +147,5 @@ export const Login = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
