@@ -1,6 +1,6 @@
-const {spawn} = require('child_process');
+import {spawn} from 'child_process';
 
-require('./load-env');
+import './load-env.mjs';
 
 const snykOrg = process.env.VITE_SNYK_ORG;
 
@@ -23,7 +23,7 @@ Options:
 // Validate arguments
 if (args.some(arg => !validArgs.includes(arg))) {
   console.error(
-    '\x1b[31m\x1b[1m❌ Invalid argument(s). Use --h or --help for usage information.\x1b[0m',
+    '\x1b[31m\x1b[1m❌ Invalid argument(s). Use --h or --help for usage information.\x1b[0m'
   );
   process.exit(1);
 }
