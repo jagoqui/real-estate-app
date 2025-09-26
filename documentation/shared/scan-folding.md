@@ -6,8 +6,7 @@ Este proyecto sigue la arquitectura hexagonal 🧱:
 
 - **Domain**: Interfaces, entidades y reglas de negocio
 - **Application**: Casos de uso, servicios de aplicación
-- **Infrastructure**: Adaptadores para comunicarse con APIs externas o almacenamiento
-- **Presentation**: Componentes, rutas y vistas
+- **Infrastructure**: Adaptadores para comunicarse con APIs externas o almacenamiento y UI.
 
 ```json
 src/

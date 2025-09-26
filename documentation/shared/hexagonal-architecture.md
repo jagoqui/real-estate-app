@@ -39,7 +39,7 @@ Contiene la lógica de orquestación de acciones y los elementos de integración
   - `dtos/`: Objetos de transferencia de datos (Data Transfer Objects).
 
 ✅ Puede importar de: `domain/`
-🚫 **No puede ser importada** por `infrastructure/`
+🚫 **No puede ser importada** por `domain`
 
 ---
 
@@ -47,7 +47,7 @@ Contiene la lógica de orquestación de acciones y los elementos de integración
 
 Define las reglas de negocio puras. No depende de ningún framework, librería o implementación.
 
-- **Propósito:** Es el corazón del sistema, define qué se hace.
+- **Propósito:** Modelar y definir reglas de negocio.
 - **Subcarpetas comunes:**
 
   - `schemas/`: Validaciones y modelos (Zod, Yup, etc.).
@@ -73,7 +73,7 @@ Pero nunca al revés.
 | Capa             | Puede importar de       | No puede ser importada de  |
 | ---------------- | ----------------------- | -------------------------- |
 | `infrastructure` | `application`, `domain` | Ninguna                    |
-| `application`    | `domain`                | `infrastructure`           |
+| `application`    | `domain`                | `domain`           |
 | `domain`         | Ninguna                 | Se puede importar en todas |
 
 ---
