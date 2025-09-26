@@ -1,4 +1,4 @@
-const {spawn} = require('child_process');
+import {spawn} from 'child_process';
 
 const validArguments = ['-h', '--help', '-local', ''];
 
@@ -6,7 +6,7 @@ const args = process.argv.slice(2);
 
 if (args.some(arg => !validArguments.includes(arg))) {
   console.error(
-    '\x1b[31m\x1b[1m❌ Invalid argument. Use -h or --help for usage instructions.\x1b[0m',
+    '\x1b[31m\x1b[1m❌ Invalid argument. Use -h or --help for usage instructions.\x1b[0m'
   );
   process.exit(1);
 }
@@ -34,7 +34,7 @@ const build = spawn(
   {
     stdio: 'inherit',
     shell: true,
-  },
+  }
 );
 
 build.on('close', buildCode => {
@@ -61,7 +61,7 @@ build.on('close', buildCode => {
     {
       stdio: 'inherit',
       shell: true,
-    },
+    }
   );
 
   sonar.on('close', code => {
@@ -87,7 +87,7 @@ const removeDockerImageOnFail = () => {
       console.error(
         '\x1b[31m\x1b[1m❌ Failed to remove Docker image with code',
         removeCode,
-        '\x1b[0m',
+        '\x1b[0m'
       );
       process.exit(removeCode || 1);
     }

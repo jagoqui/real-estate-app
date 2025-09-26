@@ -1,21 +1,17 @@
 #!/bin/sh
 
-# Arguments for the certificate (already set as ENV, but good to ensure scope or redefine if needed locally)
-# JAVA_CACERTS_PATH="${JAVA_HOME}/lib/security/cacerts" # Already an ENV
-
-# Check and install SonarQube certificate if not 'sonar-local' environment
-if [ "$VITE_NODE_ENV" != "sonar-local" ]; then
+# Modify sonar-project.properties for 'sonar-local' environment, replacing sonar.login with sonar.token for legacy support
+if [ "$VITE_MOD" = "sonar-local" ]; then
+  echo '\033[1;33m⚠️ Note: sonar.login has been replaced with sonar.token for newer versions of SonarQube.\033[0m'
+  sed -i 's/sonar.login=/sonar.token=/g' sonar-project.properties
+else
+  # Arguments for the certificate (already set as ENV, but good to ensure scope or redefine if needed locally)
+  # JAVA_CACERTS_PATH="${JAVA_HOME}/lib/security/cacerts" # Already an ENV
   echo '\033[1;34m🔐 Downloading and installing SonarQube certificate (env ≠ sonar-local)...\033[0m'
   # Use process substitution to avoid temporary file for echo | openssl
   openssl s_client -connect "$VITE_REMOTE_SONAR_CLIENT" </dev/null | openssl x509 -outform PEM > /sonarqube_cert.pem && \
   keytool -importcert -file /sonarqube_cert.pem -keystore "$JAVA_CACERTS_PATH" -alias sonarqube -storepass changeit -noprompt && \
   rm /sonarqube_cert.pem
-fi
-
-# Modify sonar-project.properties for 'sonar-local' environment, replacing sonar.login with sonar.token for legacy support
-if [ "$VITE_NODE_ENV" = "sonar-local" ]; then
-  echo '\033[1;33m⚠️ Note: sonar.login has been replaced with sonar.token for newer versions of SonarQube.\033[0m'
-  sed -i 's/sonar.login=/sonar.token=/g' sonar-project.properties
 fi
 
 # Display directory contents

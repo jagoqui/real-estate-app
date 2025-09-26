@@ -12,6 +12,10 @@ export default defineConfig(
         globals: true,
         setupFiles: 'src/tests/setup-vitest.ts',
         include: ['src/**/__test__/**/*.test.ts*'],
+        reporters: ['verbose', 'vitest-sonar-reporter'],
+        outputFile: {
+          'vitest-sonar-reporter': './coverage/vitest-sonar-report.xml',
+        },
         coverage: {
           enabled: true,
           reporter: ['clover', 'json', 'lcov', 'text', 'text-summary', 'html'],
@@ -26,5 +30,5 @@ export default defineConfig(
           },
         },
       },
-    }) satisfies UserConfig,
+    }) satisfies UserConfig
 );
