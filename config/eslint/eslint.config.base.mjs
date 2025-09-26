@@ -6,7 +6,7 @@ import importPrettier from 'eslint-plugin-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
 import {defineConfig} from 'eslint/config';
 import tseslint from 'typescript-eslint';
-import hexagonalPlugin from './tools/eslint-plugin-hexagonal/index.mjs';
+import hexagonalPlugin from '../../tools/eslint-plugin-hexagonal/index.mjs';
 
 export default defineConfig([
   {
