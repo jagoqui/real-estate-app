@@ -1,7 +1,5 @@
 import {spawn} from 'child_process';
 
-import './load-env.mjs';
-
 const snykOrg = process.env.VITE_SNYK_ORG;
 
 const args = process.argv.slice(2);
