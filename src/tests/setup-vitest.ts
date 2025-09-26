@@ -2,10 +2,13 @@ import {ENVS_MOCK} from '@/data/mocks/envs/envs.mock';
 import '@testing-library/jest-dom/vitest';
 import {cleanup} from '@testing-library/react';
 
-process.env = {
-  NODE_ENV: 'test',
-  ...ENVS_MOCK,
-} as typeof process.env;
+const {VITE_MODE: _, ...rest} = ENVS_MOCK;
+
+for (const [key, value] of Object.entries(rest)) {
+  vi.stubEnv(key, String(value));
+}
+
+vi.stubEnv('MODE', 'test');
 
 const originalConsole = {...console};
 

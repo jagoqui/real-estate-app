@@ -74,6 +74,7 @@ const testCases: Array<{
     removeNulls: true,
   },
 ];
+
 describe('removeNullishOrUndefinedProperties', () => {
   testCases.forEach(({description, input, expected, removeNulls}) => {
     it(`${description}`, () => {

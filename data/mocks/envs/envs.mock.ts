@@ -7,5 +7,5 @@ export const ENVS_MOCK: Env = {
   VITE_SONAR_HOST_URL: 'https://sonar.test.com',
   VITE_SONAR_PROJECT_KEY: 'test-project',
   VITE_SNYK_ORG: '00000000-0000-0000-0000-000000000000',
-  VITE_NODE_ENV: 'test',
+  VITE_MODE: 'test',
 } as const;

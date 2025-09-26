@@ -8,10 +8,6 @@
   "useTabs": false,
   "tabWidth": 2,
   "printWidth": 100,
-  "trailingCommas": {
-    "array": true,
-    "object": true,
-    "function": false
-  },
+  "trailingComma": "es5",
   "endOfLine": "auto"
 }

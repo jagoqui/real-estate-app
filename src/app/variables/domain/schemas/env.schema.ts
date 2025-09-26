@@ -8,25 +8,25 @@ const baseSchema = {
   VITE_SONAR_PROJECT_KEY: z.string().min(1, 'SONAR_PROJECT_KEY is required'),
 };
 
-export const envSchema = z.discriminatedUnion('VITE_NODE_ENV', [
+export const envSchema = z.discriminatedUnion('VITE_MODE', [
   z.object({
     ...baseSchema,
-    VITE_NODE_ENV: z.literal('development'),
+    VITE_MODE: z.literal('development'),
     VITE_SNYK_ORG: z.uuid(),
   }),
   z.object({
     ...baseSchema,
-    VITE_NODE_ENV: z.literal('test'),
+    VITE_MODE: z.literal('test'),
     VITE_SNYK_ORG: z.uuid(),
   }),
   z.object({
     ...baseSchema,
-    VITE_NODE_ENV: z.literal('sonar-local'),
+    VITE_MODE: z.literal('sonar-local'),
     VITE_SNYK_ORG: z.uuid(),
   }),
   z.object({
     ...baseSchema,
-    VITE_NODE_ENV: z.literal('production'),
+    VITE_MODE: z.literal('production'),
   }),
 ]);
 

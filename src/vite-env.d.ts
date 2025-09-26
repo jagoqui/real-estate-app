@@ -13,8 +13,7 @@ interface ImportMetaEnv {
   readonly VITE_SONAR_HOST_URL: string;
   readonly VITE_SONAR_PROJECT_KEY: string;
   readonly VITE_SNYK_ORG?: string;
-  readonly VITE_NODE_ENV: 'development' | 'production' | 'test';
-  readonly NODE_ENV: 'development' | 'production' | 'test';
+  readonly VITE_MODE: 'development' | 'production' | 'test' | 'sonar-local';
 }
 
 namespace NodeJS {

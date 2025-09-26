@@ -6,5 +6,5 @@ import './index.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <MainContainer />
-  </StrictMode>,
+  </StrictMode>
 );

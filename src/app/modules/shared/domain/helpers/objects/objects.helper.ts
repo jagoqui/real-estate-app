@@ -18,7 +18,7 @@
  * ```
  */
 export function invertObject<TObject extends {[Key in keyof TObject]: string}>(
-  obj: TObject,
+  obj: TObject
 ): {
   [Value in TObject[keyof TObject]]: {
     [Key in keyof TObject]: TObject[Key] extends Value ? Key : never;
@@ -55,11 +55,11 @@ type NullablePartial<Object> = {
  */
 export function removeNullishOrUndefinedProperties<Object>(
   obj: NullablePartial<Object> | Array<NullablePartial<Object>>,
-  removeNulls?: boolean,
+  removeNulls?: boolean
 ): Object;
 export function removeNullishOrUndefinedProperties<Object>(
   obj: NullablePartial<Object> | Array<NullablePartial<Object>>,
-  removeNulls = false,
+  removeNulls = false
 ): unknown {
   if (Array.isArray(obj)) {
     return cleanArray(obj, removeNulls);
@@ -77,7 +77,7 @@ function cleanArray<T>(arr: Array<NullablePartial<T>>, removeNulls: boolean): Ar
     .map(item =>
       typeof item === 'object' && item !== null
         ? removeNullishOrUndefinedProperties(item, removeNulls)
-        : item,
+        : item
     )
     .filter(item => item !== undefined && (!removeNulls || item !== null));
 }

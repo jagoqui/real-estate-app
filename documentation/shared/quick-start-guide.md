@@ -12,7 +12,7 @@
 6. - [Extensiones Recomendadas](#-extensiones-recomendadas)
 7. - [Scripts Disponibles](#-scripts-disponibles)
 
-___
+__
 
 1. ### 📦 Instalación de Paquetes
 
@@ -72,7 +72,7 @@ ___
 
    - #### 🛑 Detener Imagen SonarQube
 
-            `npm/bun run sonarqube:image:stop`
+        `npm/bun run sonarqube:image:stop`
 
         > [!Note]
         > Para ambos debe setear el \`SONAR_TOKEN\`, \`SONAR_HOST_URL\`, \`SONAR_PROJECT_KEY\` y \`SONAR_VERBOSE\` en el `environments/.env` y `.env.sonar-local` respectivamente, ver más en [Sonarqube local con Docker](https://docs.sonarsource.com/sonarqube-server/10.5/try-out-sonarqube/), [Sonar Scanner from Docker](https://docs.sonarsource.com/sonarqube-server/10.7/analyzing-source-code/scanners/sonarscanner/#sonarscanner-from-docker-image).

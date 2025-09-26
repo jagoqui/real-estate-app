@@ -25,5 +25,5 @@ export const BUTTON_VARIANTS = cva(
       variant: 'default',
       size: 'default',
     },
-  },
+  }
 );
