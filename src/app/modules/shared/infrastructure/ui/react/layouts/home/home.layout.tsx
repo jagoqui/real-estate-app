@@ -1,31 +1,33 @@
 import {Button} from '@/components/ui/button';
-import {useAuthRequestsContext} from '@/modules/auth/infrastructure/ui/react/contexts/authRequests/authRequests.context';
-import {useRefreshTokenRequest} from '@/modules/auth/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
-import {useEffect} from 'react';
+import {useLogoutRequest} from '@/modules/auth/infrastructure/ui/react/hooks/useLogoutRequest/useLogoutRequest';
 import {useAuthResponseContext} from '../../contexts/authResponse/authResponse.context';
 
 export const HomeLayout = (): React.ReactElement => {
-  const {isPending} = useRefreshToken();
-  const {logoutRequest} = useAuthRequestsContext();
+  const {authResponse} = useAuthResponseContext();
+  const {onLogout, isPending} = useLogoutRequest();
 
   if (isPending) {
     return <div>Loading...</div>;
   }
 
-  return <Button onClick={void logoutRequest}>Sign out</Button>;
-};
+  if (!authResponse?.accessToken) {
+    return <div>Please log in to access this content.</div>;
+  }
 
-export const useRefreshToken = (): {
-  isPending: boolean;
-} => {
-  const {authResponse} = useAuthResponseContext();
-  const {onRefreshToken, isPending} = useRefreshTokenRequest();
+  return (
+    <div>
+      <h1>Welcome, you are logged in!</h1>
+      <p>Your access token: {authResponse.accessToken}</p>
+      <p>Your refresh token: {authResponse.refreshToken}</p>
+      <p>Your user ID: {authResponse.user.id}</p>
+      <p>Your email: {authResponse.user.email}</p>
+      <p>Your name: {authResponse.user.name}</p>
+      <p>Your profile picture: {authResponse.user.photoUrl}</p>
+      <p>Your roles: {authResponse.user.role}</p>
 
-  useEffect(() => {
-    if (authResponse) {
-      onRefreshToken({refreshToken: authResponse.refreshToken});
-    }
-  }, [authResponse, onRefreshToken]);
-
-  return {isPending};
+      <Button onClick={() => onLogout()} disabled={isPending}>
+        {isPending ? 'Logging out...' : 'Logout'}
+      </Button>
+    </div>
+  );
 };
