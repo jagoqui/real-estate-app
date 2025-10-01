@@ -1,4 +1,5 @@
 import {useAuthRequestsContext} from '@/modules/auth/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import {AUTH_RESPONSE_STORAGE_KEY} from '@/modules/shared/domain/constants/localStorageKeys.constants';
 import {useMutation} from '@tanstack/react-query';
 import {toast} from 'sonner';
 
@@ -28,6 +29,8 @@ export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
         description: error.message || 'An unexpected error occurred.',
         closeButton: true,
       });
+
+      localStorage.removeItem(AUTH_RESPONSE_STORAGE_KEY);
     },
   });
 
