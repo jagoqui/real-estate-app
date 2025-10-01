@@ -1,5 +1,6 @@
 {
   "name": "real-estate-app",
+  "homepage": "https://jagoqui.github.io/real-estate-app/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -21,7 +22,6 @@
   "bugs": {
     "url": "https://github.com/jagoqui/real-estate-app/issues"
   },
-  "homepage": "https://github.com/jagoqui/real-estate-app#readme",
   "keywords": [
     "react",
     "vite",
