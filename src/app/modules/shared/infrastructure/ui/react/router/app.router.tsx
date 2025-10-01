@@ -8,7 +8,7 @@ import {rootRoute} from '../route/root.route';
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: PATHNAME_ROUTES.INDEX,
-  component: () => <Navigate to={PATHNAME_ROUTES.HOME} />,
+  component: () => <Navigate to={PATHNAME_ROUTES.BASE_PATH} />,
 });
 
 const homeRoute = createRoute({
