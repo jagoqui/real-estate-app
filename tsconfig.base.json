@@ -2,10 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
       "@/data/*": ["data/*"],
+      "@/components/*": ["src/app/modules/shared/infrastructure/ui/shadcn/components/*"],
+      "@/hooks/*": ["src/app/modules/shared/infrastructure/ui/shadcn/hooks/*"],
+      "@/lib/*": ["src/app/modules/shared/infrastructure/ui/shadcn/lib/*"],
+      "@/utils/*": ["src/app/modules/shared/infrastructure/ui/shadcn/lib/utils/*"],
       "@/modules/*": ["src/app/modules/*"],
-      "@/variables/*": ["src/app/variables/*"]
+      "@/variables/*": ["src/app/variables/*"],
+      "@/*": ["src/*"]
     },
     "types": ["vitest/globals"]
   }
