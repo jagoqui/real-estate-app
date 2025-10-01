@@ -183,7 +183,10 @@ La regla es **totalmente configurable** y permite personalizar:
     domain: [],
     application: ["domain"],
     infrastructure: ["application", "domain"],
-  }
+  },
+  appRouterFileRegex: "app.router.ts*",     // Router principal
+  routeFileRegex: "route.*",                // Route por module
+ documentationInfoPath: "documentation/shared/hexagonal-architecture.md",
 }]
 ```
 

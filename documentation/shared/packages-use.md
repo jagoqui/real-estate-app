@@ -30,6 +30,8 @@ Este proyecto utiliza tecnologías modernas del ecosistema React para crear una 
 | Paquete | Versión | Descripción |
 | :------ | :------ | :---------- |
 | `@tanstack/react-query` | ^5.90.2 | Gestión de estado del servidor y caché |
+| `@tanstack/react-router` | ^1.132.23 | Router type-safe para React |
+| `@tanstack/react-router-devtools` | ^1.132.23 | Herramientas de desarrollo para TanStack Router |
 | `@tanstack/react-table` | ^8.21.3 | Librería para tablas de datos potentes |
 
 ### 📝 Forms & Validation
@@ -69,6 +71,7 @@ Este proyecto utiliza tecnologías modernas del ecosistema React para crear una 
 | `@testing-library/user-event` | ^14.6.1 | Simulación de eventos de usuario |
 | `happy-dom` | ^18.0.1 | Implementación DOM para testing |
 | `jsdom` | ^27.0.0 | Implementación alternativa de DOM |
+| `vitest-sonar-reporter` | ^2.0.4 | Reporter de SonarQube para Vitest |
 
 ### ✍️ Calidad de Código
 
@@ -80,6 +83,7 @@ Este proyecto utiliza tecnologías modernas del ecosistema React para crear una 
 | `prettier` | 3.6.2 | Formateador de código |
 | `eslint-config-prettier` | ^10.1.8 | Configuración ESLint compatible con Prettier |
 | `eslint-plugin-prettier` | ^5.5.4 | Plugin ESLint para Prettier |
+| `eslint-plugin-unused-imports` | ^4.2.0 | Detecta y remueve imports no utilizados |
 | `husky` | ^8.0.0 | Git hooks para automatización |
 | `lint-staged` | ^16.2.0 | Linting solo en archivos staged |
 | `markdownlint-cli2` | ^0.18.1 | Linter para archivos Markdown |
@@ -119,11 +123,13 @@ Este proyecto utiliza tecnologías modernas del ecosistema React para crear una 
 - **React 19**: Última versión con mejoras de rendimiento
 - **TypeScript**: Detección temprana de errores
 - **TanStack Query**: Cache inteligente y sincronización de datos
+- **TanStack Router**: Routing type-safe con code splitting
 
 ### 📊 **Gestión de Datos**
 
 - **React Hook Form**: Formularios con validación optimizada
 - **TanStack Query**: Estado del servidor y sincronización
+- **TanStack Router**: Navegación type-safe con parámetros validados
 - **TanStack Table**: Tablas complejas con sorting y filtering
 - **Zod**: Validación de esquemas con inferencia de tipos
 
@@ -144,9 +150,12 @@ Este proyecto utiliza tecnologías modernas del ecosistema React para crear una 
 ### 🔧 **Developer Experience**
 
 - **ESLint + Prettier**: Formateo y linting automático
+- **Unused Imports**: Detección automática de imports no utilizados
 - **Husky + Lint-staged**: Pre-commit hooks
-- **TypeScript**: Tipado estático robusto
+- **TypeScript**: Tipado estático robusto con check de tipos
 - **Path Mapping**: Imports absolutos organizados
+- **TanStack Router DevTools**: Herramientas de debugging para routing
+- **Vitest Sonar**: Integración con SonarQube para análisis de calidad
 
 ---
 
