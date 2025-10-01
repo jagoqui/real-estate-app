@@ -19,7 +19,7 @@ const homeRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([indexRoute, homeRoute, authRoute]);
 
-export const router = createRouter({
+export const mainRouter = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFoundPage,
 });
