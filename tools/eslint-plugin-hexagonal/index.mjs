@@ -3,24 +3,23 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
 /**
  * @fileoverview ESLint rule to enforce Hexagonal Architecture import restrictions.
  *
+ * @type {import("eslint").Rule.RuleModule}
+ *
  * ## Purpose
- * This rule enforces dependency rules between layers (`domain`, `application`, `infrastructure`)
+ * Enforces dependency rules between layers (`domain`, `application`, `infrastructure`)
  * and prevents direct cross-module imports that bypass the `shared` module.
  *
- * ## Default Behavior
- * By default, the rule enforces:
- *
- * - **Allowed imports:**
- *   - `domain`: cannot import anything
- *   - `application`: can import from `domain`
- *   - `infrastructure`: can import from `application` and `domain`
- *
- * - **Cross-module restriction:**
- *   Files in one module cannot import directly from another module.
- *   Shared code must go through the configured `sharedModule`.
- *
- * - **Whitelist patterns:**
- *   Test files (`.test.ts`) and variables (`@/variables/`) are ignored.
+ * ## Default Configuration
+ * - sharedModule: 'shared'
+ * - layers: { domain, application, infrastructure }
+ * - whiteListPatterns: ['@/variables/', '.test.ts']
+ * - allowedImports:
+ *     - domain: []
+ *     - application: ['domain']
+ *     - infrastructure: ['application', 'domain']
+ * - appRouterFileRegex: 'app.router.ts*'
+ * - routeFileRegex: 'route.*'
+ * - documentationInfoPath: 'documentation/shared/hexagonal-architecture.md'
  *
  * ## Usage
  * Add the plugin and rule to your ESLint configuration:
@@ -55,7 +54,10 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
  *       domain: [],
  *       application: ["domain"],
  *       infrastructure: ["application", "domain"],
- *     }
+ *     },
+ *     appRouterFileRegex: "app.router.ts*",
+ *     routeFileRegex: "route.*",
+ *     documentationInfoPath: "documentation/shared/hexagonal-architecture.md",
  *   }]
  * }
  * ```
@@ -86,8 +88,15 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
  * import { Logger } from "@/modules/shared/utils/logger";
  * ```
  *
+ * ✅ **Correct**
+ * ```ts
+ * // Allowed: router importing route file
+ * import { route } from "@/modules/orders/route.orders";
+ * ```
+ *
  * 📄 See full documentation at: `documentation/shared/hexagonal-architecture.md`
  */
+
 export default {
   rules: {
     'no-invalid-architecture-imports': noInvalidArchitectureImports,

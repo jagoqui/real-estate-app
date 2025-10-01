@@ -13,6 +13,9 @@ const defaultConfig = {
     application: ['domain'],
     infrastructure: ['application', 'domain'],
   },
+  appRouterFileRegex: 'app.router.ts*',
+  routeFileRegex: 'route.*',
+  documentationInfoPath: 'documentation/shared/hexagonal-architecture.md',
 };
 
 function mergeConfig(options) {
@@ -29,6 +32,9 @@ function mergeConfig(options) {
       ...(defaultConfig.whiteListPatterns || []),
       ...(userConfig.whiteListPatterns || []),
     ],
+    appRouterFileRegex: userConfig.appRouterFileRegex || defaultConfig.appRouterFileRegex,
+    routeFileRegex: userConfig.routeFileRegex || defaultConfig.routeFileRegex,
+    documentationInfoPath: userConfig.documentationInfoPath || defaultConfig.documentationInfoPath,
   };
 }
 
@@ -43,9 +49,6 @@ function extractAppModuleName(path, fallback = '') {
   const match = normalizedPath.match(regex);
   return match ? match[1] : fallback;
 }
-
-const documentationInfo =
-  '📄 See full documentation at: documentation/shared/hexagonal-architecture.md';
 
 export default {
   meta: {
@@ -71,14 +74,16 @@ export default {
       },
     ],
     messages: {
-      crossModule: `Hexagonal architecture violation: {{currentFileModule}} module cannot import from {{importFileModule}} module. ℹ️ Cross-module imports must go through the shared module. ${documentationInfo}`,
-      dependencyViolation: `Hexagonal architecture violation: {{currentLayer}} layer cannot import from {{importedLayer}} layer. ℹ️ Dependencies must flow from domain → application → infrastructure.
-      ${documentationInfo}`,
+      crossModule: `Hexagonal architecture violation: {{currentFileModule}} module cannot import from {{importFileModule}} module. ℹ️ Cross-module imports must go through the shared module. {{documentationInfoPath}}`,
+      dependencyViolation: `Hexagonal architecture violation: {{currentLayer}} layer cannot import from {{importedLayer}} layer. ℹ️ Dependencies must flow from {{layersOrder}}.
+      {{documentationInfoPath}}`,
     },
   },
 
   create(context) {
     const config = mergeConfig(context.options);
+    const layersOrder = Object.values(config.layers).join(' → ');
+    const {appRouterFileRegex, routeFileRegex, documentationInfoPath} = config;
 
     return {
       ImportDeclaration(node) {
@@ -88,7 +93,7 @@ export default {
         // Skip white-listed patterns
         if (
           config.whiteListPatterns.some(
-            pattern => currentFilename.includes(pattern) || importFilename.includes(pattern),
+            pattern => currentFilename.includes(pattern) || importFilename.includes(pattern)
           )
         ) {
           return;
@@ -115,14 +120,19 @@ export default {
         const cannotImportFromOtherModule =
           importFileModule !== config.sharedModule && currentFileModule !== importFileModule;
 
+        const isRouterFile = RegExp(appRouterFileRegex).test(currentFilename);
+        const isRouteFile = RegExp(routeFileRegex).test(importFilename);
+        const isRouterImportingRoute = isRouterFile && isRouteFile;
+
         // Prevent cross-module imports that do not go through shared
-        if (cannotImportFromOtherModule) {
+        if (cannotImportFromOtherModule && !isRouterImportingRoute) {
           context.report({
             node,
             messageId: 'crossModule',
             data: {
               currentFileModule,
               importFileModule,
+              documentationInfoPath,
             },
           });
           return;
@@ -138,6 +148,8 @@ export default {
             data: {
               currentLayer: layerCurrentFile,
               importedLayer: layerImportedFile,
+              layersOrder,
+              documentationInfoPath,
             },
           });
         }
