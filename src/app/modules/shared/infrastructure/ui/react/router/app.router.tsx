@@ -7,19 +7,19 @@ import {rootRoute} from '../route/root.route';
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: PATHNAME_ROUTES.index,
+  path: PATHNAME_ROUTES.INDEX,
   component: () => <Navigate to={PATHNAME_ROUTES.HOME} />,
 });
 
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: PATHNAME_ROUTES.HOME.split('/').pop()!,
+  path: PATHNAME_ROUTES.BASE_PATH,
   component: HomeContainer,
 });
 
 const routeTree = rootRoute.addChildren([indexRoute, homeRoute, authRoute]);
 
-export const mainRouter = createRouter({
+export const appRouter = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFoundPage,
 });

@@ -8,7 +8,7 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {RouterProvider} from '@tanstack/react-router';
 import {useGoogleProviderValidator} from '../../hooks/useGoogleProviderValidator/useGoogleProviderValidator';
 import {AuthResponseProvider} from '../../providers/authResponse/authResponse.provider';
-import {mainRouter} from '../../router/app.router';
+import {appRouter} from '../../router/app.router';
 
 export const MainContainer = (): React.ReactElement => {
   const {handlerOnScriptLoadError} = useGoogleProviderValidator();
@@ -19,7 +19,7 @@ export const MainContainer = (): React.ReactElement => {
     >
       <QueryClientProvider client={queryClient}>
         <RouterProvider
-          router={mainRouter}
+          router={appRouter}
           InnerWrap={({children}) => (
             <AuthResponseProvider>
               <AuthRequestsProvider>{children}</AuthRequestsProvider>
