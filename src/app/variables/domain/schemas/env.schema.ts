@@ -16,6 +16,11 @@ export const envSchema = z.discriminatedUnion('VITE_MODE', [
   }),
   z.object({
     ...baseSchema,
+    VITE_MODE: z.literal('staging'),
+    VITE_SNYK_ORG: z.uuid(),
+  }),
+  z.object({
+    ...baseSchema,
     VITE_MODE: z.literal('test'),
     VITE_SNYK_ORG: z.uuid(),
   }),

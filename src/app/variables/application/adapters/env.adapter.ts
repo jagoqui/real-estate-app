@@ -8,7 +8,7 @@ export const getEnvs = (): Env => {
   const {success, data, error} = envSchema.safeParse(rawEnvs);
 
   if (!success) {
-    console.error('Error parsing env variables: ', z.treeifyError(error));
+    console.error('Error parsing env variables: ', z.flattenError(error), rawEnvs);
 
     process.exit(1);
   }
