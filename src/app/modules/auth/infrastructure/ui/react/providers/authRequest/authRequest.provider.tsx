@@ -49,25 +49,25 @@ export const AuthRequestsProvider: React.FC<{children: ReactNode}> = ({children}
       registerRequest: async (args): Promise<AuthResponse> => {
         const res = await AUTH_REQUESTS.registerRequest(args);
         setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.HOME});
+        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
         return res;
       },
       loginWithEmailAndPasswordRequest: async (args): Promise<AuthResponse> => {
         const res = await AUTH_REQUESTS.loginWithEmailAndPasswordRequest(args);
         setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.HOME});
+        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
         return res;
       },
       loginWithGoogleRequest: async (args): Promise<AuthResponse> => {
         const res = await AUTH_REQUESTS.loginWithGoogleRequest(args);
         setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.HOME});
+        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
         return res;
       },
       refreshTokenRequest: async (args): Promise<AuthResponse> => {
         const res = await AUTH_REQUESTS.refreshTokenRequest(args);
         setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.HOME});
+        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
         return res;
       },
       logoutRequest: async (): Promise<void> => {

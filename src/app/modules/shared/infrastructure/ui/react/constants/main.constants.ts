@@ -1,8 +1,8 @@
-const BASE_PATH = '';
+const BASE_PATH = '/real-estate-app';
 
 export const PATHNAME_ROUTES = {
-  index: `${BASE_PATH}/`,
-  HOME: `${BASE_PATH}/home`,
+  INDEX: '/',
+  BASE_PATH,
   AUTH: `${BASE_PATH}/auth`,
   LOGIN: `${BASE_PATH}/auth/login`,
   REGISTER: `${BASE_PATH}/auth/register`,

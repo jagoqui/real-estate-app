@@ -18,7 +18,7 @@ export const authRoute = createRoute({
 
 const authIndexRoute = createRoute({
   getParentRoute: () => authRoute,
-  path: '/',
+  path: PATHNAME_ROUTES.INDEX,
   component: () => <Navigate to={PATHNAME_ROUTES.LOGIN} />,
 });
 
