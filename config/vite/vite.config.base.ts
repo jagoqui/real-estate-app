@@ -11,5 +11,5 @@ export default defineConfig(
         mode === 'production'
           ? path.resolve(__dirname, '../../')
           : path.resolve(__dirname, '../../environments'),
-    }) satisfies UserConfig,
+    }) satisfies UserConfig
 );

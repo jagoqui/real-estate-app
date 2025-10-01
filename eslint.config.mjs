@@ -6,6 +6,9 @@ import testConfig from './config/eslint/eslint.config.test.mjs';
 
 export default defineConfig([
   {
+    ignores: ['src/**/shadcn/**'],
+  },
+  {
     extends: [baseConfig, reactConfig, testConfig],
   },
 ]);

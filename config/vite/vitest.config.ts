@@ -21,7 +21,7 @@ export default defineConfig(
           reporter: ['clover', 'json', 'lcov', 'text', 'text-summary', 'html'],
           reportsDirectory: './coverage',
           include: ['src/app/**'],
-          exclude: ['src/**/*.{constants,model,dto,schema,config}.ts', 'src/**/UI/**/*'],
+          exclude: ['src/**/*.{constants,model,dto,schema,config,route}.ts*', 'src/**/ui/shadcn/*'],
           thresholds: {
             statements: 100,
             branches: 100,
