@@ -1,18 +1,14 @@
-import {useState} from 'react';
-import {QueryClientContainer} from '../../containers/queryClient/queryClient.container';
+import {AuthRequestsProvider} from '@/modules/auth/infrastructure/ui/react/providers/authRequest/authRequest.provider';
+import {queryClient} from '@/modules/shared/infrastructure/clients/query/query.client';
+import {QueryClientProvider} from '@tanstack/react-query';
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {RefreshTokenContainer} from '../../containers/refreshToken/refreshToken.container';
 
-export const MainLayout = ({children}: {children: React.ReactNode}): React.ReactElement => {
-  const [isFirstRender, setIsFirstRender] = useState(true);
-
-  if (isFirstRender) {
-    setIsFirstRender(false);
-    return (
-      <QueryClientContainer>
-        <RefreshTokenContainer>{children}</RefreshTokenContainer>
-      </QueryClientContainer>
-    );
-  }
-
-  return <QueryClientContainer>{children}</QueryClientContainer>;
-};
+export const MainLayout = ({children}: {children: React.ReactNode}): React.ReactElement => (
+  <AuthRequestsProvider>
+    <QueryClientProvider client={queryClient}>
+      <RefreshTokenContainer>{children}</RefreshTokenContainer>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </AuthRequestsProvider>
+);
