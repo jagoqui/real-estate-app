@@ -12,7 +12,6 @@ export const getEnvs = (): Env => {
     console.error('Error parsing env variables: ', z.flattenError(error));
 
     return ENVS_MOCK;
-
     process.exit(1);
   }
 
