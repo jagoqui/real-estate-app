@@ -1,5 +1,7 @@
 import {Button} from '@/components/ui/button';
 import {useLogoutRequest} from '@/modules/auth/infrastructure/ui/react/hooks/useLogoutRequest/useLogoutRequest';
+import {Link} from '@tanstack/react-router';
+import {PATHNAME_ROUTES} from '../../constants/main.constants';
 import {useAuthResponseContext} from '../../contexts/authResponse/authResponse.context';
 
 export const HomeLayout = (): React.ReactElement => {
@@ -11,7 +13,11 @@ export const HomeLayout = (): React.ReactElement => {
   }
 
   if (!authResponse?.accessToken) {
-    return <div>Please log in to access this content.</div>;
+    return (
+      <div>
+        Please log in to access this content. <Link to={PATHNAME_ROUTES.LOGIN}>Login</Link>
+      </div>
+    );
   }
 
   return (
