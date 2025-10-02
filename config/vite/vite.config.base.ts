@@ -12,5 +12,8 @@ export default defineConfig(
           ? path.resolve(__dirname, '../../')
           : path.resolve(__dirname, '../../environments'),
       base: '/real-estate-app/',
+      build: {
+        outDir: 'dist',
+      },
     }) satisfies UserConfig
 );
