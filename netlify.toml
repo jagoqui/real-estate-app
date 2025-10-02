@@ -1,6 +1,6 @@
 # netlify.toml
 
 [[redirects]]
-  from = "/real-estate-app/*"
+  from = "/*"
   to = "/"
   status = 200
