@@ -1,5 +1,5 @@
 import {Button} from '@/components/ui/button';
-import {useLogoutRequest} from '@/modules/auth/infrastructure/ui/react/hooks/useLogoutRequest/useLogoutRequest';
+import {useLogoutRequest} from '@/modules/shared/infrastructure/ui/react/hooks/useLogoutRequest/useLogoutRequest';
 import {Link} from '@tanstack/react-router';
 import {PATHNAME_ROUTES} from '../../constants/main.constants';
 import {useAuthResponseContext} from '../../contexts/authResponse/authResponse.context';

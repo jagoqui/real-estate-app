@@ -1,4 +1,4 @@
-import {useRefreshTokenRequest} from '@/modules/auth/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
+import {useRefreshTokenRequest} from '@/modules/shared/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
 import {useState} from 'react';
 
 export const RefreshTokenContainer = ({
