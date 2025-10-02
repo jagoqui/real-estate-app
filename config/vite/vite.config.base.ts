@@ -9,7 +9,7 @@ export default defineConfig(
       plugins: [tailwindcss(), tsconfigPaths()],
       envDir:
         mode === 'production'
-          ? path.resolve(__dirname, '../../')
+          ? path.resolve(__dirname, '')
           : path.resolve(__dirname, '../../environments'),
       base: '/real-estate-app/',
     }) satisfies UserConfig

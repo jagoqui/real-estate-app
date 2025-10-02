@@ -16,7 +16,7 @@ export const HomeLayout = (): React.ReactElement => {
 
   return (
     <div>
-      <h1>Welcome, you are logged in!</h1>
+      <h1>Welcome, you are logged in !</h1>
       <p>Your access token: {authResponse.accessToken}</p>
       <p>Your refresh token: {authResponse.refreshToken}</p>
       <p>Your user ID: {authResponse.user.id}</p>
