@@ -36,7 +36,6 @@ export const AuthRequestsProvider: React.FC<{children: ReactNode}> = ({children}
           setAuthResponse(res);
         } catch (error) {
           console.error('Error during token refresh on logout:', error);
-
           setAuthResponse(null);
         }
       };
