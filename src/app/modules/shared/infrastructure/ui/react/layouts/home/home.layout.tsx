@@ -9,7 +9,7 @@ export const HomeLayout = (): React.ReactElement => {
   const {onLogout, isPending} = useLogoutRequest();
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return <div>Signing out...</div>;
   }
 
   if (!authResponse?.accessToken) {

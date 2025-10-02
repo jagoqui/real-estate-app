@@ -10,15 +10,17 @@ export const RefreshTokenContainer = ({
   const {onRefreshToken, isPending, error} = useRefreshTokenRequest();
 
   if (isFirstRender) {
-    onRefreshToken();
+    void onRefreshToken();
     setIsFirstRender(false);
   }
 
   if (isPending) {
-    return <div>Loading session...</div>;
+    <div>Signing in...</div>;
   }
+
   if (error) {
-    return <div>Error: {error.message}</div>;
+    <div>Error Signing in</div>;
   }
+
   return <>{children}</>;
 };
