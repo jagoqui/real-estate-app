@@ -1,5 +1,5 @@
-import {useAuthRequestsContext} from '@/modules/auth/infrastructure/ui/react/contexts/authRequests/authRequests.context';
 import {getAuthTokenBL} from '@/modules/shared/domain/businessLogic/getAuthTokenBL/getAuthTokenBL';
+import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
 import {useMutation} from '@tanstack/react-query';
 import {toast} from 'sonner';
 

@@ -1,4 +1,4 @@
-import {useAuthRequestsContext} from '@/modules/auth/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
 import {useMutation} from '@tanstack/react-query';
 import {toast} from 'sonner';
 

@@ -1,6 +1,6 @@
 import {useMutation} from '@tanstack/react-query';
 import {toast} from 'sonner';
-import {useAuthRequestsContext} from '../../contexts/authRequests/authRequests.context';
+import {useAuthRequestsContext} from '../../../../../../shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
 
 type LogoutRequestReturn = ReturnType<typeof useAuthRequestsContext>['logoutRequest'];
 
