@@ -1,6 +1,6 @@
 import {authResponseAdapter} from '@/modules/auth/application/adapters/auth-response/auth-response.adapter';
 import type {AuthResponseDto} from '@/modules/auth/application/dtos/authResponse.dto';
-import type {LoginWithEmailAndPasswordRequest} from '@/modules/auth/domain/contracts/authRequest.contract';
+import type {LoginWithEmailAndPasswordRequest} from '@/modules/shared/domain/contracts/authRequest.contract';
 
 import {
   authResponseSchema,
