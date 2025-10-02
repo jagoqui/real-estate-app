@@ -4,12 +4,13 @@ import {loginWithGoogleRequest} from '@/modules/auth/infrastructure/requests/log
 import {logoutRequest} from '@/modules/auth/infrastructure/requests/logout/logout.request';
 import {refreshTokenRequest} from '@/modules/auth/infrastructure/requests/refreshToken/refreshToken.request';
 import {registerRequest} from '@/modules/auth/infrastructure/requests/register/register.request';
+import {asyncFunctionValidationWrapper} from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
 import type {AuthResponse} from '@/modules/shared/domain/schemas/authResponse.schema';
 import {PATHNAME_ROUTES} from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import {useAuthResponseContext} from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
 import {googleLogout} from '@react-oauth/google';
 import {useNavigate} from '@tanstack/react-router';
-import {useEffect, useMemo, useState, type ReactNode} from 'react';
+import {useCallback, useEffect, useMemo, useState, type ReactNode} from 'react';
 import {AuthRequestsContext} from '../../contexts/authRequests/authRequests.context';
 
 const AUTH_REQUESTS: AuthRequests = {
@@ -20,6 +21,7 @@ const AUTH_REQUESTS: AuthRequests = {
   logoutRequest,
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const AuthRequestsProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const {authResponse, setAuthResponse} = useAuthResponseContext();
   const navigate = useNavigate();
@@ -44,44 +46,65 @@ export const AuthRequestsProvider: React.FC<{children: ReactNode}> = ({children}
     }
   }, [authResponse, isFirstRender, setAuthResponse]);
 
+  const onSuccessRegister = useCallback(
+    (args: Parameters<typeof setAuthResponse>[number]): void => {
+      setAuthResponse(args);
+      void navigate({to: PATHNAME_ROUTES.HOME, replace: true});
+    },
+    [setAuthResponse, navigate]
+  );
+
+  const onSuccessRefreshToken = useCallback(
+    (args: Parameters<typeof setAuthResponse>[number]): void => {
+      setAuthResponse(args);
+    },
+    [setAuthResponse]
+  );
+
+  const onSuccessLogout = useCallback((): void => {
+    googleLogout();
+    setAuthResponse(null);
+    void navigate({to: PATHNAME_ROUTES.LOGIN, replace: true});
+  }, [setAuthResponse, navigate]);
+
   const wrappedRequests = useMemo<AuthRequests>(() => {
     return {
-      registerRequest: async (args): Promise<AuthResponse> => {
-        const res = await AUTH_REQUESTS.registerRequest(args);
-        setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
-        return res;
-      },
-      loginWithEmailAndPasswordRequest: async (args): Promise<AuthResponse> => {
-        const res = await AUTH_REQUESTS.loginWithEmailAndPasswordRequest(args);
-        setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
-        return res;
-      },
-      loginWithGoogleRequest: async (args): Promise<AuthResponse> => {
-        const res = await AUTH_REQUESTS.loginWithGoogleRequest(args);
-        setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
-        return res;
-      },
-      refreshTokenRequest: async (args): Promise<AuthResponse> => {
-        const res = await AUTH_REQUESTS.refreshTokenRequest(args);
-        setAuthResponse(res);
-        await navigate({to: PATHNAME_ROUTES.BASE_PATH});
-        return res;
-      },
-      logoutRequest: async (): Promise<void> => {
-        const res = await AUTH_REQUESTS.logoutRequest();
-
-        googleLogout();
-
-        setAuthResponse(null);
-        await navigate({to: PATHNAME_ROUTES.LOGIN, replace: true});
-
-        return res;
-      },
+      registerRequest: async (args): Promise<AuthResponse> =>
+        asyncFunctionValidationWrapper({
+          fn: AUTH_REQUESTS.registerRequest,
+          args,
+          onSuccess: onSuccessRegister,
+          onError: () => setAuthResponse(null),
+        }),
+      loginWithEmailAndPasswordRequest: async (args): Promise<AuthResponse> =>
+        asyncFunctionValidationWrapper({
+          fn: AUTH_REQUESTS.loginWithEmailAndPasswordRequest,
+          args,
+          onSuccess: onSuccessRegister,
+          onError: () => setAuthResponse(null),
+        }),
+      loginWithGoogleRequest: async (args): Promise<AuthResponse> =>
+        asyncFunctionValidationWrapper({
+          fn: AUTH_REQUESTS.loginWithGoogleRequest,
+          args,
+          onSuccess: onSuccessRegister,
+          onError: () => setAuthResponse(null),
+        }),
+      refreshTokenRequest: async (args): Promise<AuthResponse> =>
+        asyncFunctionValidationWrapper({
+          fn: AUTH_REQUESTS.refreshTokenRequest,
+          args,
+          onSuccess: onSuccessRefreshToken,
+          onError: () => setAuthResponse(null),
+        }),
+      logoutRequest: async (): Promise<void> =>
+        asyncFunctionValidationWrapper({
+          fn: AUTH_REQUESTS.logoutRequest,
+          onSuccess: onSuccessLogout,
+          onError: () => setAuthResponse(null),
+        }),
     };
-  }, [setAuthResponse, navigate]);
+  }, [setAuthResponse, onSuccessRegister, onSuccessLogout, onSuccessRefreshToken]);
 
   return (
     <AuthRequestsContext.Provider value={{...wrappedRequests}}>
