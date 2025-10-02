@@ -2,7 +2,7 @@ const BASE_PATH = '/real-estate-app';
 
 export const PATHNAME_ROUTES = {
   INDEX: '/',
-  BASE_PATH,
+  HOME: BASE_PATH,
   AUTH: `${BASE_PATH}/auth`,
   LOGIN: `${BASE_PATH}/auth/login`,
   REGISTER: `${BASE_PATH}/auth/register`,

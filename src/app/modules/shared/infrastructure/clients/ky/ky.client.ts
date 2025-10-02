@@ -6,9 +6,9 @@ export const api = ky.create({
   hooks: {
     beforeRequest: [
       (request: Request): void => {
-        const token = getAuthTokenBL();
-        if (token) {
-          request.headers.set('Authorization', `Bearer ${token}`);
+        const {accessToken} = getAuthTokenBL() || {};
+        if (accessToken) {
+          request.headers.set('Authorization', `Bearer ${accessToken}`);
         }
       },
     ],
