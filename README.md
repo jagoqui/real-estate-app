@@ -64,3 +64,5 @@ Este proyecto demuestra la implementación de:
 ⭐ **¡No olvides dar una estrella al proyecto si te fue útil!**
 
 📖 **Para información detallada, consulta la [Documentación Completa](documentation/real-estate-app.md)**
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/jagoqui/real-estate-app)

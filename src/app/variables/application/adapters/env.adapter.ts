@@ -1,4 +1,3 @@
-import {ENVS_MOCK} from '@/data/mocks/envs/envs.mock';
 import {removeNullishOrUndefinedProperties} from '@/modules/shared/domain/helpers/objects/objects.helper';
 import z from 'zod';
 import {envSchema, type Env} from '../../domain/schemas/env.schema';
@@ -11,7 +10,6 @@ export const getEnvs = (): Env => {
   if (!success) {
     console.error('Error parsing env variables: ', z.flattenError(error));
 
-    return ENVS_MOCK;
     process.exit(1);
   }
 
