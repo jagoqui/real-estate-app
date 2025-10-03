@@ -1,19 +1,14 @@
-import {PATHNAME_ROUTES} from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import {BlockedAuthContainer} from '@/modules/shared/infrastructure/ui/react/containers/blockedAuth/blockedAuth.container';
-import {rootRoute} from '@/modules/shared/infrastructure/ui/react/route/root.route';
-import {createRoute, Navigate} from '@tanstack/react-router';
-import {AuthContainer} from '../containers/auth/auth.container';
-import {LoginContainer} from '../containers/login/login.container';
-import {RegisterContainer} from '../containers/register/register.container';
+import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
+import { appRoute } from '@/modules/shared/infrastructure/ui/react/route/app.route';
+import { createRoute, Navigate } from '@tanstack/react-router';
+import { AuthContainer } from '../containers/auth/auth.container';
+import { LoginContainer } from '../containers/login/login.container';
+import { RegisterContainer } from '../containers/register/register.container';
 
 export const authRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => appRoute,
   path: PATHNAME_ROUTES.AUTH,
-  component: () => (
-    <BlockedAuthContainer>
-      <AuthContainer />
-    </BlockedAuthContainer>
-  ),
+  component: AuthContainer,
 });
 
 const authIndexRoute = createRoute({
