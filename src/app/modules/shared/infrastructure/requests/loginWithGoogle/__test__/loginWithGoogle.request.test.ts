@@ -1,5 +1,5 @@
 import {AUTH_RESPONSE_MOCK} from '@/data/mocks/authResponse/authResponse.mock';
-import * as authResponseAdapterModule from '@/modules/auth/application/adapters/auth-response/auth-response.adapter';
+import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import {api} from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import {LOGIN_WITH_GOOGLE_REQUEST_URL, loginWithGoogleRequest} from '../loginWithGoogle.request';
 

@@ -1,8 +1,11 @@
 import {AUTH_RESPONSE_MOCK} from '@/data/mocks/authResponse/authResponse.mock';
 import {LOGIN_USER_WITH_EMAIL_AND_PASSWORD_MOCK} from '@/data/mocks/loginUserWithEmailAndPassword/loginUserWithEmailAndPassword.mock';
-import * as authResponseAdapterModule from '@/modules/auth/application/adapters/auth-response/auth-response.adapter';
+import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import {api} from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import {loginWithEmailAndPasswordRequest} from '../loginWithEmailAndPassword.request';
+import {
+  LOGIN_WITH_EMAIL_AND_PASSWORD_REQUEST_URL,
+  loginWithEmailAndPasswordRequest,
+} from '../loginWithEmailAndPassword.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
   api: {
@@ -26,7 +29,7 @@ describe('loginWithEmailAndPassword.request', () => {
 
     const result = await loginWithEmailAndPasswordRequest(LOGIN_USER_WITH_EMAIL_AND_PASSWORD_MOCK);
 
-    expect(api.post).toHaveBeenNthCalledWith(1, LOGIN_USER_WITH_EMAIL_AND_PASSWORD_MOCK, {
+    expect(api.post).toHaveBeenNthCalledWith(1, LOGIN_WITH_EMAIL_AND_PASSWORD_REQUEST_URL, {
       json: LOGIN_USER_WITH_EMAIL_AND_PASSWORD_MOCK,
     });
     expect(result).toEqual(AUTH_RESPONSE_MOCK);

@@ -1,5 +1,5 @@
-import {authResponseAdapter} from '@/modules/auth/application/adapters/auth-response/auth-response.adapter';
-import type {AuthResponseDto} from '@/modules/auth/application/dtos/authResponse.dto';
+import {authResponseAdapter} from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
+import type {AuthResponseDto} from '@/modules/shared/application/dtos/authResponse.dto';
 import type {RefreshTokenRequest} from '@/modules/shared/domain/contracts/authRequest.contract';
 
 import {
