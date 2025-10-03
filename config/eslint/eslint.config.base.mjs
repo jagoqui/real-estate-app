@@ -4,7 +4,7 @@ import prettier from 'eslint-config-prettier';
 import eslintPluginPath from 'eslint-plugin-path';
 import importPrettier from 'eslint-plugin-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
-import {defineConfig} from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import hexagonalPlugin from '../../tools/eslint-plugin-hexagonal/index.mjs';
 
@@ -29,16 +29,29 @@ export default defineConfig([
     },
     rules: {
       eqeqeq: 'error',
+      'padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: ['function', 'export'],
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: ['function', 'export'],
+        },
+      ],
       'no-return-assign': 'error',
       'no-useless-concat': 'error',
       'no-useless-return': 'error',
       'no-duplicate-imports': 'error',
-      'no-plusplus': ['error', {allowForLoopAfterthoughts: true}],
+      'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'no-debugger': 'error',
       'no-duplicate-case': 'error',
       'max-depth': ['error', 3],
       'max-nested-callbacks': ['error', 3],
-      'no-console': ['error', {allow: ['error', 'warn', 'info']}],
+      'no-console': ['error', { allow: ['error', 'warn', 'info'] }],
       'no-empty': 'error',
       'no-eq-null': 'error',
       'no-floating-decimal': 'error',
