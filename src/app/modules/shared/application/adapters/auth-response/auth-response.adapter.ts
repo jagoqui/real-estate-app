@@ -1,6 +1,6 @@
+import {tokenAdapter} from '@/modules/shared/application/adapters/token/token.adapter';
+import type {AuthResponseDto} from '@/modules/shared/application/dtos/authResponse.dto';
 import type {AuthResponse} from '@/modules/shared/domain/schemas/authResponse.schema';
-import type {AuthResponseDto} from '../../dtos/authResponse.dto';
-import {tokenAdapter} from '../token/token.adapter';
 import {userAdapter} from '../user/user.adapter';
 
 export const authResponseAdapter = (authResponse: AuthResponseDto): AuthResponse => ({
