@@ -24,7 +24,7 @@ export default defineConfig(
           exclude: [
             'src/**/*.{constants,model,dto,schema,config,route,contract}.ts*',
             'src/**/ui/shadcn/*',
-            'src/**/ui/react/*'
+            'src/**/ui/react/*' //TODO: Temporary until we have tests for React components
           ],
           thresholds: {
             statements: 100,
