@@ -57,6 +57,7 @@ export function removeNullishOrUndefinedProperties<Object>(
   obj: NullablePartial<Object> | Array<NullablePartial<Object>>,
   removeNulls?: boolean
 ): Object;
+
 export function removeNullishOrUndefinedProperties<Object>(
   obj: NullablePartial<Object> | Array<NullablePartial<Object>>,
   removeNulls = false
