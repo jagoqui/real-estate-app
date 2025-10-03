@@ -1,4 +1,4 @@
-import {getAuthTokenBL} from '@/modules/shared/domain/businessLogic/getAuthTokenBL/getAuthTokenBL';
+import {getAuthTokenBL} from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
 import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
 import {useMutation} from '@tanstack/react-query';
 import {toast} from 'sonner';
