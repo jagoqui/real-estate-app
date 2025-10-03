@@ -1,23 +1,24 @@
-import {authRoute} from '@/modules/auth/infrastructure/ui/react/route/auth.route';
-import {createRoute, createRouter, Navigate} from '@tanstack/react-router';
-import {NotFoundPage} from '../components/notFountPage/notFountPage';
-import {PATHNAME_ROUTES} from '../constants/main.constants';
-import {HomeContainer} from '../containers/home/home.container';
-import {rootRoute} from '../route/root.route';
+import { authRoute } from '@/modules/auth/infrastructure/ui/react/route/auth.route';
+import { propertiesRoute } from '@/modules/properties/infrastructure/ui/react/router/properties.route';
+import { createRoute, createRouter, Navigate } from '@tanstack/react-router';
+import { NotFoundPage } from '../components/notFountPage/notFountPage';
+import { PATHNAME_ROUTES } from '../constants/main.constants';
+import { HomeContainer } from '../containers/home/home.container';
+import { appRoute } from '../route/app.route';
 
 const indexRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => appRoute,
   path: PATHNAME_ROUTES.INDEX,
   component: () => <Navigate to={PATHNAME_ROUTES.HOME} />,
 });
 
 const homeRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => appRoute,
   path: PATHNAME_ROUTES.HOME,
   component: HomeContainer,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, homeRoute, authRoute]);
+const routeTree = appRoute.addChildren([indexRoute, homeRoute, propertiesRoute, authRoute]);
 
 export const appRouter = createRouter({
   routeTree,
