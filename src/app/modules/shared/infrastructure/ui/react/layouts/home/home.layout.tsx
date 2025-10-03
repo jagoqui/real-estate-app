@@ -24,10 +24,8 @@ export const HomeLayout = (): React.ReactElement => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col flex-wrap gap-4 w-full">
       <h1>Welcome, you are logged in !</h1>
-      <p>Your access token: {authResponse.accessToken}</p>
-      <p>Your refresh token: {authResponse.refreshToken}</p>
       <p>Your user ID: {authResponse.user.id}</p>
       <p>Your email: {authResponse.user.email}</p>
       <p>Your name: {authResponse.user.name}</p>
