@@ -1,11 +1,11 @@
 import { Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from 'node_modules/@tanstack/react-router-devtools/dist/esm/TanStackRouterDevtools';
+
+import { RefreshTokenContainer } from '../refreshToken/refreshToken.container';
 
 export const AppContainer = (): React.ReactElement => {
   return (
-    <>
+    <RefreshTokenContainer>
       <Outlet />
-      <TanStackRouterDevtools />
-    </>
+    </RefreshTokenContainer>
   );
 };
