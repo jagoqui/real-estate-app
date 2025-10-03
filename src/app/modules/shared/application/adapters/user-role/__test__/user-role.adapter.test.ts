@@ -1,4 +1,4 @@
-import {ROLE_MAP, userRoleAdapter} from '../user-role.adapter';
+import { ROLE_MAP, userRoleAdapter } from '../user-role.adapter';
 
 describe('userRoleAdapter', () => {
   it('should map UserRoleDto to UserRole correctly', () => {

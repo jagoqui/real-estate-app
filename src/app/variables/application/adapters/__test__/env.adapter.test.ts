@@ -1,13 +1,13 @@
-import {ENVS_MOCK} from '@/data/mocks/envs/envs.mock';
-import {type MockInstance, vi} from 'vitest'; // Asegúrate de importar vi
+import { ENVS_MOCK } from '@/data/mocks/envs/envs.mock';
+import { type MockInstance, vi } from 'vitest'; // Asegúrate de importar vi
 
-import {getEnvs} from '../env.adapter';
+import { getEnvs } from '../env.adapter';
 
 let mockExit: MockInstance<typeof process.exit>;
 
 describe('getEnvs', () => {
   beforeEach(() => {
-    const {VITE_MODE: _, ...rest} = ENVS_MOCK;
+    const { VITE_MODE: _, ...rest } = ENVS_MOCK;
     for (const [key, value] of Object.entries(rest)) {
       vi.stubEnv(key, String(value));
     }
@@ -38,7 +38,7 @@ describe('getEnvs', () => {
 
     if (ENVS_MOCK.VITE_MODE !== 'test') throw new Error('MODE should be test for this check');
 
-    const {VITE_SNYK_ORG: _VITE_SNYK_ORG_DEV, ...rest} = ENVS_MOCK;
+    const { VITE_SNYK_ORG: _VITE_SNYK_ORG_DEV, ...rest } = ENVS_MOCK;
 
     expect(getEnvs()).toEqual({
       ...rest,

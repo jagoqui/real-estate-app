@@ -2,7 +2,7 @@
 
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
 
-import {cn} from '@/modules/shared/infrastructure/ui/shadcn/lib/utils';
+import { cn } from '@/modules/shared/infrastructure/ui/shadcn/lib/utils';
 
 function Separator({
   className,
@@ -24,4 +24,4 @@ function Separator({
   );
 }
 
-export {Separator};
+export { Separator };

@@ -1,4 +1,4 @@
-import {createUserSchema} from '@/modules/shared/domain/schemas/user.schema';
+import { createUserSchema } from '@/modules/shared/domain/schemas/user.schema';
 import z from 'zod';
 
 export const loginWithEmailAndPasswordFormValuesSchema = createUserSchema
@@ -9,6 +9,4 @@ export const loginWithEmailAndPasswordFormValuesSchema = createUserSchema
     password: z.string().min(1, 'Password is required'),
   });
 
-export type LoginWithEmailAndPasswordFormValues = z.infer<
-  typeof loginWithEmailAndPasswordFormValuesSchema
->;
+export type LoginWithEmailAndPasswordFormValues = z.infer<typeof loginWithEmailAndPasswordFormValuesSchema>;

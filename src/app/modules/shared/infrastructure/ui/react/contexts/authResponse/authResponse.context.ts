@@ -1,5 +1,5 @@
-import type {AuthResponse} from '@/modules/shared/domain/schemas/authResponse.schema';
-import {createContext, useContext} from 'react';
+import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
+import { createContext, useContext } from 'react';
 
 interface AuthResponseContextValue {
   authResponse: AuthResponse | null;

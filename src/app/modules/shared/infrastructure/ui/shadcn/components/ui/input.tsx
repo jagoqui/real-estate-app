@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import {cn} from '@/modules/shared/infrastructure/ui/shadcn/lib/utils';
+import { cn } from '@/modules/shared/infrastructure/ui/shadcn/lib/utils';
 
-function Input({className, type, ...props}: React.ComponentProps<'input'>): React.ReactElement {
+function Input({ className, type, ...props }: React.ComponentProps<'input'>): React.ReactElement {
   return (
     <input
       type={type}
@@ -18,4 +18,4 @@ function Input({className, type, ...props}: React.ComponentProps<'input'>): Reac
   );
 }
 
-export {Input};
+export { Input };

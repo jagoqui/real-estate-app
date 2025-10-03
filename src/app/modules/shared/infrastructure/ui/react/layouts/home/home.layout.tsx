@@ -1,12 +1,12 @@
-import {Button} from '@/components/ui/button';
-import {useLogoutRequest} from '@/modules/shared/infrastructure/ui/react/hooks/useLogoutRequest/useLogoutRequest';
-import {Link} from '@tanstack/react-router';
-import {PATHNAME_ROUTES} from '../../constants/main.constants';
-import {useAuthResponseContext} from '../../contexts/authResponse/authResponse.context';
+import { Button } from '@/components/ui/button';
+import { useLogoutRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useLogoutRequest/useLogoutRequest';
+import { Link } from '@tanstack/react-router';
+import { PATHNAME_ROUTES } from '../../constants/main.constants';
+import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 
 export const HomeLayout = (): React.ReactElement => {
-  const {authResponse} = useAuthResponseContext();
-  const {onLogout, isPending} = useLogoutRequest();
+  const { authResponse } = useAuthResponseContext();
+  const { onLogout, isPending } = useLogoutRequest();
 
   if (isPending) {
     return <div>Signing out...</div>;

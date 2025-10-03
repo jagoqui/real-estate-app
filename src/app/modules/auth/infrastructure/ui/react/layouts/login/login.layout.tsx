@@ -1,11 +1,11 @@
-import {PATHNAME_ROUTES} from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import {Separator} from '@/modules/shared/infrastructure/ui/shadcn/components/ui/separator';
-import {Link} from '@tanstack/react-router';
-import {type ReactElement} from 'react';
-import {LoginWithEmailAndPasswordForm} from '../../components/loginForm/loginForm';
-import {LoginWithGoogle} from '../../components/loginWithGoogle/loginWithGoogle';
-import {useLoginWithEmailAndPasswordRequest} from '../../hooks/useLoginWithEmailAndPasswordRequest/useLoginWithEmailAndPasswordRequest';
-import {useLoginWithGoogleRequest} from '../../hooks/useLoginWithGoogle/useLoginWithGoogle';
+import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
+import { Separator } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/separator';
+import { Link } from '@tanstack/react-router';
+import { type ReactElement } from 'react';
+import { LoginWithEmailAndPasswordForm } from '../../components/loginForm/loginForm';
+import { LoginWithGoogle } from '../../components/loginWithGoogle/loginWithGoogle';
+import { useLoginWithEmailAndPasswordRequest } from '../../hooks/useLoginWithEmailAndPasswordRequest/useLoginWithEmailAndPasswordRequest';
+import { useLoginWithGoogleRequest } from '../../hooks/useLoginWithGoogle/useLoginWithGoogle';
 
 export const LoginLayout = (): ReactElement => {
   const {
@@ -14,11 +14,7 @@ export const LoginLayout = (): ReactElement => {
     error: emailError,
   } = useLoginWithEmailAndPasswordRequest();
 
-  const {
-    onLoginWithGoogle,
-    isPending: isLoginWithGooglePending,
-    error: googleError,
-  } = useLoginWithGoogleRequest();
+  const { onLoginWithGoogle, isPending: isLoginWithGooglePending, error: googleError } = useLoginWithGoogleRequest();
 
   const isLoading = isLoginWithGooglePending || isLoginEmailAndPasswordPending;
 
@@ -28,9 +24,7 @@ export const LoginLayout = (): ReactElement => {
     <div className='flex items-center justify-center min-h-screen'>
       <div className='flex flex-1 flex-col justify-center px-4 py-10 lg:px-6'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-          <h2 className='text-center text-xl font-semibold text-foreground'>
-            Log in or create account
-          </h2>
+          <h2 className='text-center text-xl font-semibold text-foreground'>Log in or create account</h2>
 
           <LoginWithEmailAndPasswordForm
             onSubmit={onLoginWithEmailAndPassword}
@@ -59,9 +53,7 @@ export const LoginLayout = (): ReactElement => {
           </p>
 
           {error && (
-            <div className='mt-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm'>
-              {error}
-            </div>
+            <div className='mt-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm'>{error}</div>
           )}
 
           <p className='mt-4 text-xs text-muted-foreground'>

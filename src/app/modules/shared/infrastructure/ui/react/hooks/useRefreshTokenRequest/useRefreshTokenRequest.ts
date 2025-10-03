@@ -1,7 +1,7 @@
-import {getAuthTokenBL} from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
-import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
-import {useMutation} from '@tanstack/react-query';
-import {toast} from 'sonner';
+import { getAuthTokenBL } from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
+import { useAuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 type RefreshTokenRequestReturn = ReturnType<typeof useAuthRequestsContext>['refreshTokenRequest'];
 
@@ -15,9 +15,9 @@ interface UseRefreshTokenRequestReturn {
 }
 
 export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
-  const {refreshTokenRequest} = useAuthRequestsContext();
+  const { refreshTokenRequest } = useAuthRequestsContext();
 
-  const {mutate, isPending, error, data} = useMutation({
+  const { mutate, isPending, error, data } = useMutation({
     mutationKey: ['refresh-token'],
     mutationFn: refreshTokenRequest,
     onError: error => {
@@ -31,12 +31,12 @@ export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
   });
 
   const onRefreshToken = (): void => {
-    const {refreshToken} = getAuthTokenBL() || {};
+    const { refreshToken } = getAuthTokenBL() || {};
 
     if (!refreshToken) return;
 
-    mutate({refreshToken});
+    mutate({ refreshToken });
   };
 
-  return {onRefreshToken, isPending, error, data};
+  return { onRefreshToken, isPending, error, data };
 };

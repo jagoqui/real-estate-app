@@ -2,7 +2,7 @@ import {
   loginWithEmailAndPasswordFormValuesSchema,
   type LoginWithEmailAndPasswordFormValues,
 } from '@/modules/auth/domain/schemas/loginWithEmailAndPasswordFormValues.schema';
-import {Button} from '@/modules/shared/infrastructure/ui/shadcn/components/ui/button';
+import { Button } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/button';
 import {
   Form,
   FormControl,
@@ -11,11 +11,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/form';
-import {Input} from '@/modules/shared/infrastructure/ui/shadcn/components/ui/input';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Loader2} from 'lucide-react';
-import {type ReactElement} from 'react';
-import {useForm} from 'react-hook-form';
+import { Input } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { type ReactElement } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface LoginWithEmailAndPasswordFormProps {
   onSubmit: (values: LoginWithEmailAndPasswordFormValues) => Promise<void> | void;
@@ -36,7 +36,7 @@ export const LoginWithEmailAndPasswordForm = ({
         <FormField
           control={form.control}
           name='email'
-          render={({field}) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
@@ -50,16 +50,11 @@ export const LoginWithEmailAndPasswordForm = ({
         <FormField
           control={form.control}
           name='password'
-          render={({field}) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type='password'
-                  placeholder='**************'
-                  disabled={isLoading}
-                  {...field}
-                />
+                <Input type='password' placeholder='**************' disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

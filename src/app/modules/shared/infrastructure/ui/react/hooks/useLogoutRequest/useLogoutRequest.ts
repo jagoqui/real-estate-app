@@ -1,6 +1,6 @@
-import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
-import {useMutation} from '@tanstack/react-query';
-import {toast} from 'sonner';
+import { useAuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 type LogoutRequestReturn = ReturnType<typeof useAuthRequestsContext>['logoutRequest'];
 
@@ -14,9 +14,9 @@ interface UseLogoutRequestReturn {
 }
 
 export const useLogoutRequest = (): UseLogoutRequestReturn => {
-  const {logoutRequest} = useAuthRequestsContext();
+  const { logoutRequest } = useAuthRequestsContext();
 
-  const {mutate, isPending, error, data} = useMutation({
+  const { mutate, isPending, error, data } = useMutation({
     mutationKey: ['logout'],
     mutationFn: logoutRequest,
     onError: error => {
@@ -29,5 +29,5 @@ export const useLogoutRequest = (): UseLogoutRequestReturn => {
     },
   });
 
-  return {onLogout: mutate, isPending, error, data};
+  return { onLogout: mutate, isPending, error, data };
 };

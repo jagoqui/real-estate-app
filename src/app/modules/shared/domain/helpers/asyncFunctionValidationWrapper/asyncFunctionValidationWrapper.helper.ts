@@ -3,16 +3,14 @@ interface AsyncFunctionValidationWrapperCallback<TResult> {
   onError?: (error: unknown) => void;
 }
 
-type AsyncFunctionValidationWrapperParamsNoArgs<TResult> =
-  AsyncFunctionValidationWrapperCallback<TResult> & {
-    fn: () => Promise<TResult>;
-  };
+type AsyncFunctionValidationWrapperParamsNoArgs<TResult> = AsyncFunctionValidationWrapperCallback<TResult> & {
+  fn: () => Promise<TResult>;
+};
 
-type AsyncFunctionValidationWrapperParamsWithArgs<TArgs, TResult> =
-  AsyncFunctionValidationWrapperCallback<TResult> & {
-    fn: (args: TArgs) => Promise<TResult>;
-    args: TArgs;
-  };
+type AsyncFunctionValidationWrapperParamsWithArgs<TArgs, TResult> = AsyncFunctionValidationWrapperCallback<TResult> & {
+  fn: (args: TArgs) => Promise<TResult>;
+  args: TArgs;
+};
 
 export function asyncFunctionValidationWrapper<TResult>(
   params: AsyncFunctionValidationWrapperParamsNoArgs<TResult>
@@ -27,7 +25,7 @@ export async function asyncFunctionValidationWrapper<TArgs extends Array<unknown
     | AsyncFunctionValidationWrapperParamsNoArgs<TResult>
     | AsyncFunctionValidationWrapperParamsWithArgs<TArgs, TResult>
 ): Promise<TResult> {
-  const {fn, onSuccess, onError} = params;
+  const { fn, onSuccess, onError } = params;
 
   try {
     let result: TResult;

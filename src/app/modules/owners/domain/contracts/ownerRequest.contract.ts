@@ -1,4 +1,4 @@
-import type {CreateOwner, Owner} from '../schemas/owner.schema';
+import type { CreateOwner, Owner } from '../schemas/owner.schema';
 
 export type CreateOwnerRequest = (args: CreateOwner) => Promise<Owner>;
 
@@ -10,7 +10,7 @@ export type GetOwnerByIdRequest = (args: GetOwnerByIdRequestArgs) => Promise<Own
 
 export type UpdateOwnerRequest = (args: Owner) => Promise<Owner>;
 
-export type DeleteOwnerRequest = (args: {id: Owner['id']}) => Promise<void>;
+export type DeleteOwnerRequest = (args: { id: Owner['id'] }) => Promise<void>;
 
 export interface OwnerRequests {
   createOwnerRequest: CreateOwnerRequest;

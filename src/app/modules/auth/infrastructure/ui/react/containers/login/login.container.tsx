@@ -1,9 +1,9 @@
-import {useGoogleOAuth} from '@react-oauth/google';
-import {Loader2} from 'lucide-react';
-import {LoginLayout} from '../../layouts/login/login.layout';
+import { useGoogleOAuth } from '@react-oauth/google';
+import { Loader2 } from 'lucide-react';
+import { LoginLayout } from '../../layouts/login/login.layout';
 
 export const LoginContainer = (): React.ReactElement => {
-  const {scriptLoadedSuccessfully} = useGoogleOAuth();
+  const { scriptLoadedSuccessfully } = useGoogleOAuth();
 
   if (!scriptLoadedSuccessfully) {
     return (

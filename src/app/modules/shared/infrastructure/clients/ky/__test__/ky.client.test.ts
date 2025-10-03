@@ -8,7 +8,7 @@ vi.mock('ky', () => {
   return {
     __esModule: true,
     default: { create },
-    create
+    create,
   };
 });
 
@@ -42,8 +42,8 @@ describe('API Configuration', () => {
     expect(mockKyCreate).toHaveBeenNthCalledWith(1, {
       timeout: false,
       hooks: {
-        beforeRequest: expect.arrayContaining([expect.any(Function)]) as Array<unknown>
-      }
+        beforeRequest: expect.arrayContaining([expect.any(Function)]) as Array<unknown>,
+      },
     });
   });
 
@@ -55,8 +55,8 @@ describe('API Configuration', () => {
 
     const mockRequest = {
       headers: {
-        set: setFn
-      }
+        set: setFn,
+      },
     } as unknown as Request;
 
     await beforeRequestHook!(mockRequest, {} as NormalizedOptions);
@@ -76,8 +76,8 @@ describe('API Configuration', () => {
 
     const mockRequest = {
       headers: {
-        set: setFn
-      }
+        set: setFn,
+      },
     } as unknown as Request;
 
     await beforeRequestHook!(mockRequest, {} as NormalizedOptions);

@@ -1,5 +1,5 @@
-import {api} from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import {LOGOUT_REQUEST_URL, logoutRequest} from '../logout.request';
+import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { LOGOUT_REQUEST_URL, logoutRequest } from '../logout.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
   api: {

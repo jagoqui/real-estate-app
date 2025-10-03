@@ -15,8 +15,8 @@ Object.defineProperty(window, 'localStorage', {
     },
     removeItem: (...args: Array<string>): void => {
       removeItem(...args);
-    }
-  }
+    },
+  },
 });
 
 describe('getAuthTokenBL', () => {
@@ -33,7 +33,7 @@ describe('getAuthTokenBL', () => {
     expect(getItem).toHaveBeenCalledWith(AUTH_RESPONSE_STORAGE_KEY);
     expect(tokens).toEqual({
       accessToken: AUTH_RESPONSE_MOCK.accessToken,
-      refreshToken: AUTH_RESPONSE_MOCK.refreshToken
+      refreshToken: AUTH_RESPONSE_MOCK.refreshToken,
     });
     expect(removeItem).not.toHaveBeenCalled();
   });
@@ -61,7 +61,7 @@ describe('getAuthTokenBL', () => {
   it('should return null when the stored object is missing the accessToken', () => {
     const invalidAuthWithoutAccess = JSON.stringify({
       refreshToken: AUTH_RESPONSE_MOCK.refreshToken,
-      expiresIn: 3600
+      expiresIn: 3600,
     });
     getItem.mockReturnValue(invalidAuthWithoutAccess);
 
@@ -74,7 +74,7 @@ describe('getAuthTokenBL', () => {
   it('should return null when the stored object is missing the refreshToken', () => {
     const invalidAuthWithoutRefresh = JSON.stringify({
       accessToken: AUTH_RESPONSE_MOCK.accessToken,
-      expiresIn: 3600
+      expiresIn: 3600,
     });
     getItem.mockReturnValue(invalidAuthWithoutRefresh);
 

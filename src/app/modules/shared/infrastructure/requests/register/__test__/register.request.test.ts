@@ -1,9 +1,9 @@
-import {AUTH_RESPONSE_MOCK} from '@/data/mocks/authResponse/authResponse.mock';
-import {AUTH_RESPONSE_DTO_MOCK} from '@/data/mocks/authResponse/authResponseDto.mock';
-import {CREATE_USER_MOCK} from '@/data/mocks/createUser/createUser.mock';
+import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
+import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
+import { CREATE_USER_MOCK } from '@/data/mocks/createUser/createUser.mock';
 import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
-import {api} from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import {registerRequest} from '../register.request';
+import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { registerRequest } from '../register.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
   api: {
@@ -14,9 +14,7 @@ vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
 const postSpy = vi.spyOn(api, 'post');
 
 describe('register.request', () => {
-  beforeEach(() =>
-    vi.spyOn(authResponseAdapterModule, 'authResponseAdapter').mockReturnValue(AUTH_RESPONSE_MOCK)
-  );
+  beforeEach(() => vi.spyOn(authResponseAdapterModule, 'authResponseAdapter').mockReturnValue(AUTH_RESPONSE_MOCK));
 
   afterEach(() => vi.clearAllMocks());
 
@@ -27,13 +25,10 @@ describe('register.request', () => {
 
     const result = await registerRequest(CREATE_USER_MOCK);
 
-    expect(api.post).toHaveBeenNthCalledWith(1, expect.any(String), {json: CREATE_USER_MOCK});
+    expect(api.post).toHaveBeenNthCalledWith(1, expect.any(String), { json: CREATE_USER_MOCK });
     expect(result).toEqual(AUTH_RESPONSE_MOCK);
 
-    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenNthCalledWith(
-      1,
-      AUTH_RESPONSE_DTO_MOCK
-    );
+    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenNthCalledWith(1, AUTH_RESPONSE_DTO_MOCK);
     expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenCalledTimes(1);
   });
 

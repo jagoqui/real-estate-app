@@ -1,8 +1,8 @@
-import {ENVS_MOCK} from '@/data/mocks/envs/envs.mock';
+import { ENVS_MOCK } from '@/data/mocks/envs/envs.mock';
 import '@testing-library/jest-dom/vitest';
-import {cleanup} from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 
-const {VITE_MODE: _, ...rest} = ENVS_MOCK;
+const { VITE_MODE: _, ...rest } = ENVS_MOCK;
 
 for (const [key, value] of Object.entries(rest)) {
   vi.stubEnv(key, String(value));
@@ -10,7 +10,7 @@ for (const [key, value] of Object.entries(rest)) {
 
 vi.stubEnv('MODE', 'test');
 
-const originalConsole = {...console};
+const originalConsole = { ...console };
 
 // runs a clean after each test case (e.g. clearing jsdom)
 afterEach(() => {

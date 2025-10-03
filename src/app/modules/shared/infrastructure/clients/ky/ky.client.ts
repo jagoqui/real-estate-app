@@ -2,7 +2,7 @@ import { getAuthTokenBL } from '@/modules/shared/domain/businessLogic/getAuthTok
 import ky from 'ky';
 
 export const API_HEADERS = (token: string): HeadersInit => ({
-  Authorization: `Bearer ${token}`
+  Authorization: `Bearer ${token}`,
 });
 
 export const api = ky.create({
@@ -17,7 +17,7 @@ export const api = ky.create({
             request.headers.set(key, String(value));
           });
         }
-      }
-    ]
-  }
+      },
+    ],
+  },
 });

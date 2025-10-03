@@ -1,9 +1,9 @@
-import {PATHNAME_ROUTES} from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import {Navigate} from '@tanstack/react-router';
-import {useAuthResponseContext} from '../../contexts/authResponse/authResponse.context';
+import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
+import { Navigate } from '@tanstack/react-router';
+import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 
-export const BlockedAuthContainer: React.FC<{children: React.ReactNode}> = ({children}) => {
-  const {authResponse} = useAuthResponseContext();
+export const BlockedAuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { authResponse } = useAuthResponseContext();
 
   if (authResponse?.accessToken) {
     return <Navigate to={PATHNAME_ROUTES.HOME} />;

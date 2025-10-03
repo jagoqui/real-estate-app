@@ -1,13 +1,9 @@
-import {useRefreshTokenRequest} from '@/modules/shared/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
-import {useState} from 'react';
+import { useRefreshTokenRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
+import { useState } from 'react';
 
-export const RefreshTokenContainer = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.ReactElement => {
+export const RefreshTokenContainer = ({ children }: { children: React.ReactNode }): React.ReactElement => {
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const {onRefreshToken, isPending, error} = useRefreshTokenRequest();
+  const { onRefreshToken, isPending, error } = useRefreshTokenRequest();
 
   if (isFirstRender) {
     void onRefreshToken();

@@ -17,7 +17,7 @@
  *  Result: { "1": "a", "2": "b", "3": "c" }
  * ```
  */
-export function invertObject<TObject extends {[Key in keyof TObject]: string}>(
+export function invertObject<TObject extends { [Key in keyof TObject]: string }>(
   obj: TObject
 ): {
   [Value in TObject[keyof TObject]]: {
@@ -76,9 +76,7 @@ export function removeNullishOrUndefinedProperties<Object>(
 function cleanArray<T>(arr: Array<NullablePartial<T>>, removeNulls: boolean): Array<unknown> {
   return arr
     .map(item =>
-      typeof item === 'object' && item !== null
-        ? removeNullishOrUndefinedProperties(item, removeNulls)
-        : item
+      typeof item === 'object' && item !== null ? removeNullishOrUndefinedProperties(item, removeNulls) : item
     )
     .filter(item => item !== undefined && (!removeNulls || item !== null));
 }
@@ -90,9 +88,7 @@ function cleanObject<T>(obj: NullablePartial<T>, removeNulls: boolean): Record<s
     if (shouldSkip(value, removeNulls)) continue;
 
     if (Array.isArray(value)) {
-      result[key] = value.length
-        ? cleanArray(value as Array<NullablePartial<unknown>>, removeNulls)
-        : value;
+      result[key] = value.length ? cleanArray(value as Array<NullablePartial<unknown>>, removeNulls) : value;
     } else if (typeof value === 'object' && value !== null) {
       result[key] = removeNullishOrUndefinedProperties(value, removeNulls);
     } else {

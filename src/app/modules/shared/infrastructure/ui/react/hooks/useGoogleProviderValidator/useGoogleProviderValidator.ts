@@ -1,4 +1,4 @@
-import {toast} from 'sonner';
+import { toast } from 'sonner';
 
 interface UseGoogleProviderValidatorReturn {
   handlerOnScriptLoadError: () => void;
@@ -12,5 +12,5 @@ export const useGoogleProviderValidator = (): UseGoogleProviderValidatorReturn =
     });
   };
 
-  return {handlerOnScriptLoadError};
+  return { handlerOnScriptLoadError };
 };

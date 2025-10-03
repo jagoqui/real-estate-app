@@ -1,10 +1,8 @@
-import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
-import {useMutation} from '@tanstack/react-query';
-import {toast} from 'sonner';
+import { useAuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-type LoginWithGoogleRequestReturn = ReturnType<
-  typeof useAuthRequestsContext
->['loginWithGoogleRequest'];
+type LoginWithGoogleRequestReturn = ReturnType<typeof useAuthRequestsContext>['loginWithGoogleRequest'];
 
 type LoginWithGoogleRequestArgs = Parameters<LoginWithGoogleRequestReturn>[number];
 
@@ -18,9 +16,9 @@ interface UseLoginWithGoogleRequestReturn {
 }
 
 export const useLoginWithGoogleRequest = (): UseLoginWithGoogleRequestReturn => {
-  const {loginWithGoogleRequest} = useAuthRequestsContext();
+  const { loginWithGoogleRequest } = useAuthRequestsContext();
 
-  const {mutate, isPending, error, data} = useMutation({
+  const { mutate, isPending, error, data } = useMutation({
     mutationKey: ['login-with-google'],
     mutationFn: loginWithGoogleRequest,
     onError: error => {
@@ -33,5 +31,5 @@ export const useLoginWithGoogleRequest = (): UseLoginWithGoogleRequestReturn => 
     },
   });
 
-  return {onLoginWithGoogle: mutate, isPending, error, data};
+  return { onLoginWithGoogle: mutate, isPending, error, data };
 };

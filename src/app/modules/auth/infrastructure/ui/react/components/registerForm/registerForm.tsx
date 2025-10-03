@@ -1,22 +1,22 @@
-import {Button} from '@/components/ui/button';
-import {Form} from '@/components/ui/form';
-import {Input} from '@/components/ui/input';
-import {Label} from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   registerFormValuesSchema,
   type RegisterFormValues,
 } from '@/modules/auth/domain/schemas/registerFormValues.schema';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Loader2} from 'lucide-react';
-import type {JSX} from 'react';
-import {useForm, type SubmitHandler} from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import type { JSX } from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 
 interface RegisterFormProps {
   onSubmit: SubmitHandler<RegisterFormValues>;
   isPending: boolean;
 }
 
-export const RegisterForm = ({onSubmit, isPending}: RegisterFormProps): JSX.Element => {
+export const RegisterForm = ({ onSubmit, isPending }: RegisterFormProps): JSX.Element => {
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormValuesSchema),
   });
@@ -34,12 +34,7 @@ export const RegisterForm = ({onSubmit, isPending}: RegisterFormProps): JSX.Elem
 
         <div>
           <Label htmlFor='email'>Email</Label>
-          <Input
-            {...form.register('email')}
-            id='email'
-            placeholder='ephraim@blocks.so'
-            className='mt-2'
-          />
+          <Input {...form.register('email')} id='email' placeholder='ephraim@blocks.so' className='mt-2' />
           {form.formState.errors.email && (
             <p className='text-xs text-red-500 mt-1'>{form.formState.errors.email.message}</p>
           )}
@@ -47,13 +42,7 @@ export const RegisterForm = ({onSubmit, isPending}: RegisterFormProps): JSX.Elem
 
         <div>
           <Label htmlFor='password'>Password</Label>
-          <Input
-            {...form.register('password')}
-            type='password'
-            id='password'
-            placeholder='Password'
-            className='mt-2'
-          />
+          <Input {...form.register('password')} type='password' id='password' placeholder='Password' className='mt-2' />
           {form.formState.errors.password && (
             <p className='text-xs text-red-500 mt-1'>{form.formState.errors.password.message}</p>
           )}
@@ -69,9 +58,7 @@ export const RegisterForm = ({onSubmit, isPending}: RegisterFormProps): JSX.Elem
             className='mt-2'
           />
           {form.formState.errors.confirmPassword && (
-            <p className='text-xs text-red-500 mt-1'>
-              {form.formState.errors.confirmPassword.message}
-            </p>
+            <p className='text-xs text-red-500 mt-1'>{form.formState.errors.confirmPassword.message}</p>
           )}
         </div>
 
@@ -81,11 +68,7 @@ export const RegisterForm = ({onSubmit, isPending}: RegisterFormProps): JSX.Elem
           disabled={form.formState.isSubmitting || isPending}
         >
           Create account
-          {isPending && (
-            <Loader2
-              className={`w-4 h-4 ml-2 ${isPending ? 'inline-block animate-spin' : 'hidden'}`}
-            />
-          )}
+          {isPending && <Loader2 className={`w-4 h-4 ml-2 ${isPending ? 'inline-block animate-spin' : 'hidden'}`} />}
         </Button>
       </form>
     </Form>

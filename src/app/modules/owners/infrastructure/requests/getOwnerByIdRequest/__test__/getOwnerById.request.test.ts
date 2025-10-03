@@ -1,8 +1,8 @@
-import {OWNER_MOCK} from '@/data/mocks/owners/owner.mock';
-import {OWNER_DTO_MOCK} from '@/data/mocks/owners/ownerDto.mock';
+import { OWNER_MOCK } from '@/data/mocks/owners/owner.mock';
+import { OWNER_DTO_MOCK } from '@/data/mocks/owners/ownerDto.mock';
 import * as ownerDtoAdapterModule from '@/modules/owners/application/adapters/ownerDto/ownerDto.adapter';
-import {api} from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import {getOwnerByIdRequest, OWNER_BY_ID_REQUEST_URL} from '../getOwnerById.request';
+import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { getOwnerByIdRequest, OWNER_BY_ID_REQUEST_URL } from '../getOwnerById.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
   api: {
@@ -24,7 +24,7 @@ describe('fetchGetOwnerById.request', () => {
       json: vi.fn().mockResolvedValue(OWNER_DTO_MOCK),
     } as unknown as ReturnType<typeof api.post>);
 
-    const result = await getOwnerByIdRequest({id: OWNER_DTO_MOCK.idOwner});
+    const result = await getOwnerByIdRequest({ id: OWNER_DTO_MOCK.idOwner });
 
     expect(api.get).toHaveBeenNthCalledWith(1, OWNER_BY_ID_REQUEST_URL(OWNER_DTO_MOCK.idOwner));
     expect(result).toEqual(OWNER_MOCK);
@@ -34,6 +34,6 @@ describe('fetchGetOwnerById.request', () => {
     getSpy.mockReturnValueOnce({
       json: vi.fn().mockRejectedValue(new Error('API Error')),
     } as unknown as ReturnType<typeof api.get>);
-    await expect(getOwnerByIdRequest({id: OWNER_DTO_MOCK.idOwner})).rejects.toThrow('API Error');
+    await expect(getOwnerByIdRequest({ id: OWNER_DTO_MOCK.idOwner })).rejects.toThrow('API Error');
   });
 });

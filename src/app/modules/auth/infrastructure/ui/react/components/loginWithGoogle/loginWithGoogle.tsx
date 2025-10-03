@@ -1,25 +1,22 @@
-import {Button} from '@/modules/shared/infrastructure/ui/shadcn/components/ui/button';
-import {useGoogleLogin} from '@react-oauth/google';
-import {Loader2} from 'lucide-react';
-import {useState, type ReactElement} from 'react';
-import {GoogleIcon} from '../../icons/google.svg';
+import { Button } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/button';
+import { useGoogleLogin } from '@react-oauth/google';
+import { Loader2 } from 'lucide-react';
+import { useState, type ReactElement } from 'react';
+import { GoogleIcon } from '../../icons/google.svg';
 
 interface LoginWithGoogleProps {
-  onSuccess: (args: {code: string}) => void;
+  onSuccess: (args: { code: string }) => void;
   isPendingLogin: boolean;
 }
 
-export const LoginWithGoogle = ({
-  onSuccess,
-  isPendingLogin,
-}: LoginWithGoogleProps): ReactElement => {
+export const LoginWithGoogle = ({ onSuccess, isPendingLogin }: LoginWithGoogleProps): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const loginGoogle = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: response => {
-      onSuccess({code: response.code});
+      onSuccess({ code: response.code });
       setIsLoading(false);
     },
     onError: () => {

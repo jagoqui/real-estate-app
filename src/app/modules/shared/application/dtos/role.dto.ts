@@ -1,4 +1,4 @@
-import type {UserRole} from '@/modules/shared/domain/schemas/userRole.schema';
+import type { UserRole } from '@/modules/shared/domain/schemas/userRole.schema';
 
 export const USER_ROLES_DTO = {
   OWNER: 0,

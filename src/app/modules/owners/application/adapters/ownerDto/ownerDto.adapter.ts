@@ -1,5 +1,5 @@
-import type {Owner} from '@/app/modules/owners/domain/schemas/owner.schema';
-import type {OwnerDto} from '../../dtos/owner.dto';
+import type { Owner } from '@/app/modules/owners/domain/schemas/owner.schema';
+import type { OwnerDto } from '../../dtos/owner.dto';
 
 export const ownerDtoAdapter = (ownerDTO: OwnerDto): Owner => ({
   id: ownerDTO.idOwner,

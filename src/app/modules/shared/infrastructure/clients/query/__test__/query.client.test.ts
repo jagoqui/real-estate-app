@@ -1,5 +1,5 @@
-import {QueryClient} from '@tanstack/react-query';
-import {QUERY_CLIENT_CONFIG} from '../query.client';
+import { QueryClient } from '@tanstack/react-query';
+import { QUERY_CLIENT_CONFIG } from '../query.client';
 
 vi.mock('@tanstack/react-query', () => ({
   QueryClient: vi.fn(),

@@ -1,6 +1,6 @@
-import {AUTH_RESPONSE_STORAGE_KEY} from '@/modules/shared/domain/constants/localStorageKeys.constants';
-import type {AuthResponse} from '@/modules/shared/domain/schemas/authResponse.schema';
-import {useEffect, useState} from 'react';
+import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/localStorageKeys.constants';
+import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
+import { useEffect, useState } from 'react';
 
 interface UseAuthResponseStorageReturn {
   authResponse: AuthResponse | null;
@@ -29,5 +29,5 @@ export const useAuthResponseStorage = (): UseAuthResponseStorageReturn => {
     localStorage.removeItem(AUTH_RESPONSE_STORAGE_KEY);
   }, [authResponse]);
 
-  return {authResponse, setAuthResponse};
+  return { authResponse, setAuthResponse };
 };

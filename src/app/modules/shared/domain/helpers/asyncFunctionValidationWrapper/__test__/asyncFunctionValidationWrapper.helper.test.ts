@@ -1,4 +1,4 @@
-import {asyncFunctionValidationWrapper} from '../asyncFunctionValidationWrapper.helper';
+import { asyncFunctionValidationWrapper } from '../asyncFunctionValidationWrapper.helper';
 
 const MULTIPLIER = 2;
 const mockSuccessFn = vi.fn(async (args: number) => Promise.resolve(args * MULTIPLIER));

@@ -1,15 +1,15 @@
-import type {AuthRequests} from '@/modules/shared/domain/contracts/authRequest.contract';
-import {asyncFunctionValidationWrapper} from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
-import type {AuthResponse} from '@/modules/shared/domain/schemas/authResponse.schema';
-import {loginWithEmailAndPasswordRequest} from '@/modules/shared/infrastructure/requests/loginWithEmailAndPassword/loginWithEmailAndPassword.request';
-import {loginWithGoogleRequest} from '@/modules/shared/infrastructure/requests/loginWithGoogle/loginWithGoogle.request';
-import {logoutRequest} from '@/modules/shared/infrastructure/requests/logout/logout.request';
-import {refreshTokenRequest} from '@/modules/shared/infrastructure/requests/refreshToken/refreshToken.request';
-import {registerRequest} from '@/modules/shared/infrastructure/requests/register/register.request';
-import {PATHNAME_ROUTES} from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import {useAuthResponseContext} from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
-import {googleLogout} from '@react-oauth/google';
-import {useNavigate} from '@tanstack/react-router';
+import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequest.contract';
+import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
+import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
+import { loginWithEmailAndPasswordRequest } from '@/modules/shared/infrastructure/requests/loginWithEmailAndPassword/loginWithEmailAndPassword.request';
+import { loginWithGoogleRequest } from '@/modules/shared/infrastructure/requests/loginWithGoogle/loginWithGoogle.request';
+import { logoutRequest } from '@/modules/shared/infrastructure/requests/logout/logout.request';
+import { refreshTokenRequest } from '@/modules/shared/infrastructure/requests/refreshToken/refreshToken.request';
+import { registerRequest } from '@/modules/shared/infrastructure/requests/register/register.request';
+import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
+import { useAuthResponseContext } from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
+import { googleLogout } from '@react-oauth/google';
+import { useNavigate } from '@tanstack/react-router';
 
 const AUTH_REQUESTS: AuthRequests = {
   registerRequest,
@@ -20,12 +20,12 @@ const AUTH_REQUESTS: AuthRequests = {
 };
 
 export const useAuthRequests = (): AuthRequests => {
-  const {setAuthResponse} = useAuthResponseContext();
+  const { setAuthResponse } = useAuthResponseContext();
   const navigate = useNavigate();
 
   const onSuccessRegister = (args: Parameters<typeof setAuthResponse>[number]): void => {
     setAuthResponse(args);
-    void navigate({to: PATHNAME_ROUTES.HOME, replace: true});
+    void navigate({ to: PATHNAME_ROUTES.HOME, replace: true });
   };
 
   const onSuccessRefreshToken = (args: Parameters<typeof setAuthResponse>[number]): void => {
@@ -35,7 +35,7 @@ export const useAuthRequests = (): AuthRequests => {
   const onSuccessLogout = (): void => {
     googleLogout();
     setAuthResponse(null);
-    void navigate({to: PATHNAME_ROUTES.LOGIN, replace: true});
+    void navigate({ to: PATHNAME_ROUTES.LOGIN, replace: true });
   };
 
   const onError = (): void => {

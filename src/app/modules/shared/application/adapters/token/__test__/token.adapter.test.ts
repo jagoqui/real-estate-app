@@ -1,6 +1,6 @@
-import {TOKEN_MOCK} from '@/data/mocks/token/token.mock';
-import {TOKEN_DTO_MOCK} from '@/data/mocks/token/tokenDto.mock';
-import {tokenAdapter} from '../token.adapter';
+import { TOKEN_MOCK } from '@/data/mocks/token/token.mock';
+import { TOKEN_DTO_MOCK } from '@/data/mocks/token/tokenDto.mock';
+import { tokenAdapter } from '../token.adapter';
 
 describe('tokenAdapter', () => {
   it('should correctly adapt TokenDto to Token', () => {

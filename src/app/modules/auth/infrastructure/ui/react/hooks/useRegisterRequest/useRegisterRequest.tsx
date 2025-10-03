@@ -1,6 +1,6 @@
-import {useAuthRequestsContext} from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
-import {useMutation} from '@tanstack/react-query';
-import {toast} from 'sonner';
+import { useAuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 type RegisterRequestReturn = ReturnType<typeof useAuthRequestsContext>['registerRequest'];
 
@@ -16,9 +16,9 @@ interface UseRegisterRequestReturn {
 }
 
 export const useRegisterRequest = (): UseRegisterRequestReturn => {
-  const {registerRequest} = useAuthRequestsContext();
+  const { registerRequest } = useAuthRequestsContext();
 
-  const {mutate, isPending, error, data} = useMutation({
+  const { mutate, isPending, error, data } = useMutation({
     mutationKey: ['register'],
     mutationFn: registerRequest,
     onSuccess: () => {
@@ -34,5 +34,5 @@ export const useRegisterRequest = (): UseRegisterRequestReturn => {
     },
   });
 
-  return {onRegister: mutate, isPending, error, data};
+  return { onRegister: mutate, isPending, error, data };
 };

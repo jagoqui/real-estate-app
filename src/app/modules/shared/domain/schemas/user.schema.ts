@@ -1,6 +1,6 @@
 import z from 'zod';
-import {COMMONS_VALIDATIONS, objectIdSchema} from './commonsValidations.schema';
-import {userRoleSchema} from './userRole.schema';
+import { COMMONS_VALIDATIONS, objectIdSchema } from './commonsValidations.schema';
+import { userRoleSchema } from './userRole.schema';
 
 export const userSchema = z.object({
   id: objectIdSchema,

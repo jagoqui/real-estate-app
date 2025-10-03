@@ -1,8 +1,8 @@
-import {AUTH_RESPONSE_MOCK} from '@/data/mocks/authResponse/authResponse.mock';
-import {AUTH_RESPONSE_DTO_MOCK} from '@/data/mocks/authResponse/authResponseDto.mock';
+import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
+import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
 import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
-import {api} from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import {REFRESH_TOKEN_REQUEST_URL, refreshTokenRequest} from '../refreshToken.request';
+import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { REFRESH_TOKEN_REQUEST_URL, refreshTokenRequest } from '../refreshToken.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
   api: {
@@ -25,15 +25,12 @@ describe('refreshToken.request', () => {
       json: vi.fn().mockResolvedValue(AUTH_RESPONSE_DTO_MOCK),
     } as unknown as ReturnType<typeof api.post>);
 
-    const result = await refreshTokenRequest({refreshToken});
+    const result = await refreshTokenRequest({ refreshToken });
 
-    expect(api.post).toHaveBeenNthCalledWith(1, REFRESH_TOKEN_REQUEST_URL, {json: {refreshToken}});
+    expect(api.post).toHaveBeenNthCalledWith(1, REFRESH_TOKEN_REQUEST_URL, { json: { refreshToken } });
     expect(result).toEqual(AUTH_RESPONSE_MOCK);
 
-    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenNthCalledWith(
-      1,
-      AUTH_RESPONSE_DTO_MOCK
-    );
+    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenNthCalledWith(1, AUTH_RESPONSE_DTO_MOCK);
     expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenCalledTimes(1);
   });
 
@@ -41,6 +38,6 @@ describe('refreshToken.request', () => {
     postSpy.mockReturnValueOnce({
       json: vi.fn().mockRejectedValue(new Error('API Error')),
     } as unknown as ReturnType<typeof api.post>);
-    await expect(refreshTokenRequest({refreshToken})).rejects.toThrow('API Error');
+    await expect(refreshTokenRequest({ refreshToken })).rejects.toThrow('API Error');
   });
 });
