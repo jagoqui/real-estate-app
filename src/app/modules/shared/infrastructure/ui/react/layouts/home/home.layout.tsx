@@ -15,7 +15,10 @@ export const HomeLayout = (): React.ReactElement => {
   if (!authResponse?.accessToken) {
     return (
       <div>
-        Please log in to access this content. <Link to={PATHNAME_ROUTES.LOGIN}>Login</Link>
+        Please log in to access this content.{' '}
+        <Link to={PATHNAME_ROUTES.AUTH_LOGIN} replace>
+          Login
+        </Link>
       </div>
     );
   }
