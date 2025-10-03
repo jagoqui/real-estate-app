@@ -6,7 +6,7 @@ export const BlockedAuthContainer: React.FC<{ children: React.ReactNode }> = ({ 
   const { authResponse } = useAuthResponseContext();
 
   if (authResponse?.accessToken) {
-    return <Navigate to={PATHNAME_ROUTES.HOME} />;
+    return <Navigate to={PATHNAME_ROUTES.HOME} replace />;
   }
 
   return <>{children}</>;
