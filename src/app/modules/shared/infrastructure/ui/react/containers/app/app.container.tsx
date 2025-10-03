@@ -1,11 +1,10 @@
-import { Outlet } from '@tanstack/react-router';
-
+import { AppLayout } from '../../layouts/app/app.layout';
 import { RefreshTokenContainer } from '../refreshToken/refreshToken.container';
 
 export const AppContainer = (): React.ReactElement => {
   return (
     <RefreshTokenContainer>
-      <Outlet />
+      <AppLayout />
     </RefreshTokenContainer>
   );
 };
