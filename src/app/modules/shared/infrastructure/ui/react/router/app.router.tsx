@@ -1,3 +1,4 @@
+import { adminRoute } from '@/modules/admin/infrastructure/ui/react/router/admin.router';
 import { authRoute } from '@/modules/auth/infrastructure/ui/react/route/auth.route';
 import { propertiesRoute } from '@/modules/properties/infrastructure/ui/react/router/properties.route';
 import { createRoute, createRouter, Navigate } from '@tanstack/react-router';
@@ -18,7 +19,7 @@ const homeRoute = createRoute({
   component: HomeContainer,
 });
 
-const routeTree = appRoute.addChildren([indexRoute, homeRoute, propertiesRoute, authRoute]);
+const routeTree = appRoute.addChildren([indexRoute, homeRoute, propertiesRoute, authRoute, adminRoute]);
 
 export const appRouter = createRouter({
   routeTree,
