@@ -9,7 +9,7 @@ import { registerRequest } from '@/modules/shared/infrastructure/requests/regist
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { useAuthResponseContext } from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
 import { googleLogout } from '@react-oauth/google';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 
 const AUTH_REQUESTS: AuthRequests = {
   registerRequest,
@@ -22,10 +22,13 @@ const AUTH_REQUESTS: AuthRequests = {
 export const useAuthRequests = (): AuthRequests => {
   const { setAuthResponse } = useAuthResponseContext();
   const navigate = useNavigate();
+  const router = useRouter();
 
   const onSuccessRegister = (args: Parameters<typeof setAuthResponse>[number]): void => {
     setAuthResponse(args);
-    void navigate({ to: PATHNAME_ROUTES.HOME, replace: true });
+    const redirectTo = (router.state.location.search as Record<string, string>)?.redirect || PATHNAME_ROUTES.HOME;
+
+    void navigate({ to: redirectTo, replace: true });
   };
 
   const onSuccessRefreshToken = (args: Parameters<typeof setAuthResponse>[number]): void => {
@@ -35,7 +38,7 @@ export const useAuthRequests = (): AuthRequests => {
   const onSuccessLogout = (): void => {
     googleLogout();
     setAuthResponse(null);
-    void navigate({ to: PATHNAME_ROUTES.LOGIN, replace: true });
+    void navigate({ to: PATHNAME_ROUTES.HOME, replace: true });
   };
 
   const onError = (): void => {
