@@ -1,5 +1,5 @@
-import { PropertiesLayout } from '../../layouts/properties/properties.layout';
+import { Outlet } from '@tanstack/react-router';
 
 export const PropertiesContainer = (): React.ReactElement => {
-  return <PropertiesLayout />;
+  return <Outlet />;
 };
