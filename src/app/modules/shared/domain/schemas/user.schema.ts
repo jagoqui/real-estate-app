@@ -29,5 +29,7 @@ export const loginUserWithEmailAndPasswordSchema = createUserSchema.pick({
 });
 
 export type User = z.infer<typeof userSchema>;
+
 export type CreateUser = z.infer<typeof createUserSchema>;
+
 export type LoginUserWithEmailAndPassword = z.infer<typeof loginUserWithEmailAndPasswordSchema>;
