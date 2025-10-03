@@ -14,7 +14,7 @@ export default defineConfig(
         include: ['src/**/__test__/**/*.test.ts*'],
         reporters: ['verbose', 'vitest-sonar-reporter'],
         outputFile: {
-          'vitest-sonar-reporter': './coverage/vitest-sonar-report.xml'
+          'vitest-sonar-reporter': './coverage/vitest-sonar-report.xml',
         },
         coverage: {
           enabled: true,
@@ -24,15 +24,15 @@ export default defineConfig(
           exclude: [
             'src/**/*.{constants,model,dto,schema,config,route,contract}.ts*',
             'src/**/ui/shadcn/*',
-            'src/**/ui/react/*' //TODO: Temporary until we have tests for React components
+            'src/**/ui/react/*', //TODO: Temporary until we have tests for React components
           ],
           thresholds: {
             statements: 100,
             branches: 100,
             functions: 100,
-            lines: 100
-          }
-        }
-      }
+            lines: 100,
+          },
+        },
+      },
     }) satisfies UserConfig
 );
