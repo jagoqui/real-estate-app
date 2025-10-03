@@ -1,12 +1,15 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import type { JSX } from 'react';
 import { RegisterForm } from '../../components/registerForm/registerForm';
 import { useRegisterRequest } from '../../hooks/useRegisterRequest/useRegisterRequest';
 
 export const RegisterLayout = (): JSX.Element => {
   const { onRegister, isPending } = useRegisterRequest();
+  const router = useRouter();
+
+  const currentSearch = router.state.location.search as Record<string, unknown>;
 
   return (
     <div className='flex items-center justify-center min-h-screen'>
@@ -35,7 +38,12 @@ export const RegisterLayout = (): JSX.Element => {
 
         <p className='mt-6 text-center text-sm text-muted-foreground dark:text-muted-foreground'>
           Already have an account?{' '}
-          <Link to={PATHNAME_ROUTES.LOGIN} className='font-medium text-primary hover:text-primary/90 cursor-pointer'>
+          <Link
+            to={PATHNAME_ROUTES.AUTH_LOGIN}
+            replace
+            search={currentSearch}
+            className='font-medium text-primary hover:text-primary/90 cursor-pointer'
+          >
             Sign in
           </Link>
         </p>

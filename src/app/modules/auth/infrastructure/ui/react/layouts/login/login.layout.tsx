@@ -1,6 +1,6 @@
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { Separator } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/separator';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { type ReactElement } from 'react';
 import { LoginWithEmailAndPasswordForm } from '../../components/loginForm/loginForm';
 import { LoginWithGoogle } from '../../components/loginWithGoogle/loginWithGoogle';
@@ -13,6 +13,8 @@ export const LoginLayout = (): ReactElement => {
     isPending: isLoginEmailAndPasswordPending,
     error: emailError,
   } = useLoginWithEmailAndPasswordRequest();
+  const router = useRouter();
+  const currentSearch = router.state.location.search as Record<string, unknown>;
 
   const { onLoginWithGoogle, isPending: isLoginWithGooglePending, error: googleError } = useLoginWithGoogleRequest();
 
@@ -45,7 +47,9 @@ export const LoginLayout = (): ReactElement => {
           <p className='mt-6 text-center text-sm text-muted-foreground'>
             Don't have an account?{' '}
             <Link
-              to={PATHNAME_ROUTES.REGISTER}
+              to={PATHNAME_ROUTES.AUTH_REGISTER}
+              replace
+              search={currentSearch}
               className='font-medium text-primary hover:text-primary/90 cursor-pointer'
             >
               Sign up
