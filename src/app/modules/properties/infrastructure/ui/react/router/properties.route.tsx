@@ -4,8 +4,8 @@ import {
 } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { appRoute } from '@/modules/shared/infrastructure/ui/react/route/app.route';
 import { createRoute } from '@tanstack/react-router';
-import { PropertyDetail } from '../components/propertyDetail/propertyDetail';
 import { PropertiesContainer } from '../containers/properties/properties.container';
+import { PropertyDetailContainer } from '../containers/propertyDetail/propertyDetail.container';
 import { PropertiesLayout } from '../layouts/properties/properties.layout';
 
 export const propertiesRoute = createRoute({
@@ -23,7 +23,7 @@ const propertiesIndexRoute = createRoute({
 const propertyDetailsRoute = createRoute({
   getParentRoute: () => propertiesRoute,
   path: PATHNAME_ROUTES_LAST_SEGMENTS.PROPERTY_DETAILS,
-  component: PropertyDetail,
+  component: PropertyDetailContainer,
 });
 
 propertiesRoute.addChildren([propertiesIndexRoute, propertyDetailsRoute]);
