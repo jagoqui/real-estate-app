@@ -26,7 +26,7 @@ export const AdminSidebarContent = ({ setMobileMenuOpen }: AdminSidebarContentPr
     </div>
     <nav className="space-y-1 p-4">
       {navItems.map(item => (
-        <Link to={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)}>
+        <Link to={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)} key={item.href}>
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 text-muted-foreground hover:bg-accent hover:text-foreground"
