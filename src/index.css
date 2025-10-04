@@ -118,8 +118,33 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scroll-behavior: smooth;
   }
+
   body {
+    all: unset;
+    overflow-x: hidden;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+    letter-spacing: var(--tracking-normal);
     @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 9px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-300 rounded-xl;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-400 rounded-xl;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-500;
   }
 }

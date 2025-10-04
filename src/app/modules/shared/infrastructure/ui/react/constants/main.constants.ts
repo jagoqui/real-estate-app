@@ -11,6 +11,7 @@ export const PATHNAME_ROUTES = {
   PROPERTIES: `${BASE_PATH}/properties`,
   PROPERTY_DETAILS: `${BASE_PATH}/properties/$propertyId`,
   AGENTS: `${BASE_PATH}/agents`,
+  SERVICES: `${BASE_PATH}/services`,
   BLOG: `${BASE_PATH}/blog`,
   CALCULATOR: `${BASE_PATH}/calculator`,
   FAVORITES: `${BASE_PATH}/favorites`,

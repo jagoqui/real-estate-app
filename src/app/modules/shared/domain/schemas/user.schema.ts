@@ -9,6 +9,9 @@ export const userSchema = z.object({
   photoUrl: z.url().min(COMMONS_VALIDATIONS.PHOTO.min).optional(),
   googleId: z.string().optional(),
   role: userRoleSchema,
+  isAdmin: z.boolean(),
+  phone: z.string().regex(COMMONS_VALIDATIONS.PHONE.pattern).optional(),
+  bio: z.string().min(COMMONS_VALIDATIONS.BIO.min).max(COMMONS_VALIDATIONS.BIO.max).optional(),
 });
 
 export const createUserSchema = userSchema
