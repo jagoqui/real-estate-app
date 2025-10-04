@@ -9,18 +9,20 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { User } from '@/modules/shared/domain/schemas/user.schema';
 import { Link } from '@tanstack/react-router';
-import { LayoutDashboard, LogOut, Settings } from 'lucide-react';
+import { Heart, Home, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
 import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 import { useLogoutRequest } from '../../hooks/useLogoutRequest/useLogoutRequest';
 import { EditProfileDialog } from '../editProfileDialog/editProfileDialog';
+import { FavoritesDialog } from '../favoritesDialog/favoritesDialog';
+import { MyPropertiesDialog } from '../myPropertiesDialog/myPropertiesDialog';
 
 // eslint-disable-next-line max-lines-per-function
 export const UserProfileMenu = (): React.ReactElement => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  // const [favoritesDialogOpen, setFavoritesDialogOpen] = useState(false);
-  // const [propertiesDialogOpen, setPropertiesDialogOpen] = useState(false);
+  const [favoritesDialogOpen, setFavoritesDialogOpen] = useState(false);
+  const [propertiesDialogOpen, setPropertiesDialogOpen] = useState(false);
 
   const { authResponse } = useAuthResponseContext();
   const { onLogout, isPending } = useLogoutRequest();
@@ -78,14 +80,14 @@ export const UserProfileMenu = (): React.ReactElement => {
             <Settings className="w-4 h-4" />
             <span>Editar Perfil</span>
           </DropdownMenuItem>
-          {/* <DropdownMenuItem onClick={() => setFavoritesDialogOpen(true)}>
+          <DropdownMenuItem onClick={() => setFavoritesDialogOpen(true)}>
             <Heart className="w-4 h-4" />
             <span>Mis Favoritos</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setPropertiesDialogOpen(true)}>
             <Home className="w-4 h-4" />
             <span>Mis Propiedades</span>
-          </DropdownMenuItem> */}
+          </DropdownMenuItem>
           {user.isAdmin && (
             <>
               <DropdownMenuSeparator />
@@ -114,8 +116,8 @@ export const UserProfileMenu = (): React.ReactElement => {
         }}
       />
 
-      {/* <FavoritesDialog open={favoritesDialogOpen} onOpenChange={setFavoritesDialogOpen} />
-      <MyPropertiesDialog open={propertiesDialogOpen} onOpenChange={setPropertiesDialogOpen} /> */}
+      <FavoritesDialog open={favoritesDialogOpen} onOpenChange={setFavoritesDialogOpen} />
+      <MyPropertiesDialog open={propertiesDialogOpen} onOpenChange={setPropertiesDialogOpen} />
     </>
   );
 };
