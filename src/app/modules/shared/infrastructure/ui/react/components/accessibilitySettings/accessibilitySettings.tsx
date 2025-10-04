@@ -58,7 +58,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
           </DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="themes" className="w-full">
+        <Tabs defaultValue="themes" className="w-full min-h-[640px]">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="themes" className="gap-2">
               <Palette className="w-4 h-4" />

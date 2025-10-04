@@ -8,7 +8,7 @@ export const FloatingAccessibilityButton = (): React.ReactElement => {
 
   return (
     <>
-      <div className="fixed top-24 right-6 z-50">
+      <div className="fixed bottom-20 right-3 z-50">
         <Button
           onClick={() => setOpen(true)}
           size="lg"
