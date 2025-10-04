@@ -58,7 +58,7 @@ export const PropertySearch = (): React.ReactElement => {
                     <SheetDescription>Refina tu búsqueda con filtros avanzados</SheetDescription>
                   </SheetHeader>
 
-                  <div className="mt-8 space-y-8">
+                  <div className="mt-8 px-4 space-y-8">
                     {/* Price Range Slider */}
                     <div className="space-y-4">
                       <Label className="text-base">Rango de precio</Label>
