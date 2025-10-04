@@ -19,6 +19,7 @@ const AUTH_REQUESTS: AuthRequests = {
   logoutRequest,
 };
 
+//FIXME: No esta funcionando el redirect
 export const useAuthRequests = (): AuthRequests => {
   const { setAuthResponse } = useAuthResponseContext();
   const navigate = useNavigate();
