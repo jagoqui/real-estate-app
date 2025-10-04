@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { UserProfileMenu } from '@/modules/shared/infrastructure/ui/react/components/userProfileMenu/userProfileMenu';
 import { useAuthResponseContext } from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
@@ -47,14 +47,7 @@ export const PanelContainer = ({ mobileMenuOpen, setMobileMenuOpen }: SidebarCon
           <h1 className="font-serif text-xl lg:text-2xl font-semibold">Panel Administrativo</h1>
         </div>
         <div className="flex items-center gap-2 lg:gap-4">
-          <span className="text-xs lg:text-sm text-muted-foreground hidden sm:inline">Admin User</span>
-          <Avatar className="size-8 lg:size-10">
-            <AvatarImage src={formData?.photoUrl} alt={userName} />
-            <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
-              {' '}
-              {getInitials(userName)}
-            </AvatarFallback>
-          </Avatar>
+          <UserProfileMenu />
         </div>
       </header>
       <main className="p-4 lg:p-8">

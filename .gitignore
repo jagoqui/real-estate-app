@@ -26,6 +26,9 @@ dist-ssr
 
 # package management
 bun.lock
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
 
 # Environment variables
 environments

@@ -32,6 +32,7 @@ const NavLinks = ({ onClick, className = '' }: { onClick?: () => void; className
   );
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const Header = (): React.ReactElement => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { authResponse } = useAuthResponseContext();
@@ -45,14 +46,19 @@ export const Header = (): React.ReactElement => {
             <nav className="flex flex-col gap-4">
               <NavLinks onClick={() => setMobileMenuOpen(false)} />
               {authResponse && (
-                <Link
-                  to={PATHNAME_ROUTES.ADMIN}
-                  className="text-sm tracking-wide hover:text-accent transition-colors flex items-center gap-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  DASHBOARD
-                </Link>
+                <>
+                  <Link
+                    to={PATHNAME_ROUTES.ADMIN}
+                    className="text-sm tracking-wide hover:text-accent transition-colors flex items-center gap-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    DASHBOARD
+                  </Link>
+                  <div className="w-fit self-end">
+                    <UserProfileMenu />
+                  </div>
+                </>
               )}
               {!user && (
                 <Button
@@ -72,10 +78,10 @@ export const Header = (): React.ReactElement => {
             <div className="w-8 h-8 bg-primary" />
             <span className="text-xl font-serif tracking-tight">LUXE ESTATES</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-4">
             <NavLinks />
           </nav>
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center">
             {user ? (
               <>
                 {user.isAdmin && (
