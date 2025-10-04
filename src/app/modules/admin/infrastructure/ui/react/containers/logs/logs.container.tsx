@@ -1,3 +1,5 @@
+import { LogsLayout } from '../../layouts/logs/logs.layout';
+
 export const LogsContainer = (): React.ReactElement => {
-  return <div>Logs Management</div>;
+  return <LogsLayout />;
 };
