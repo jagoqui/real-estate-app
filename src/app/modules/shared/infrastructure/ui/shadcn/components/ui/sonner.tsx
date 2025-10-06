@@ -7,7 +7,7 @@ const Toaster = ({ ...props }: ToasterProps): React.ReactElement => {
   return (
     <Sonner
       theme={theme as ToasterProps['theme']}
-      className='toaster group'
+      className="toaster group"
       style={
         {
           '--normal-bg': 'var(--popover)',

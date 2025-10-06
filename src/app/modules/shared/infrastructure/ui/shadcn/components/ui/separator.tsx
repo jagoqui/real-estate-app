@@ -10,7 +10,7 @@ function Separator({
 }: React.ComponentProps<typeof SeparatorPrimitive.Root>): React.ReactElement {
   return (
     <SeparatorPrimitive.Root
-      data-slot='separator'
+      data-slot="separator"
       decorative={decorative}
       orientation={orientation}
       className={cn(
