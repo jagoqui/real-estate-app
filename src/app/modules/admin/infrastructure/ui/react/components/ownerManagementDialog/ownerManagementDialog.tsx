@@ -2,12 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { CreateOwner, Owner } from '@/modules/shared/domain/schemas/owner.schema';
-import { useCreateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreateOwnerRequest/useCreateOwnerRequest';
-import { useUpdateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdateOwnerRequest/useUpdateOwnerRequest';
+import type { Owner } from '@/modules/shared/domain/schemas/owner.schema';
 
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useOwnerManagementDialog } from '../../hooks/useOwnerManagementDialog/useOwnerManagementDialog';
 
 interface OwnerManagementDialogProps {
   isDialogOpen: boolean;
@@ -17,14 +15,6 @@ interface OwnerManagementDialogProps {
   editingOwner?: Owner | null;
 }
 
-const getInitialFormData = (owner: OwnerManagementDialogProps['editingOwner']): CreateOwner => ({
-  name: owner?.name || '',
-  email: owner?.email || '',
-  phone: owner?.phone || '',
-  address: owner?.address || '',
-  birthday: owner?.birthday || '',
-});
-
 // eslint-disable-next-line max-lines-per-function
 export const OwnerManagementDialog = ({
   isDialogOpen,
@@ -33,55 +23,12 @@ export const OwnerManagementDialog = ({
   setEditingOwner,
   onGetOwners,
 }: OwnerManagementDialogProps): React.ReactElement => {
-  const initialOwnerData = getInitialFormData(editingOwner);
-  const [formData, setFormData] = useState<CreateOwner>(initialOwnerData);
-
-  const onEditSuccess = (): void => {
-    onResetForm();
-    onGetOwners();
-  };
-
-  const onResetForm = (): void => {
-    setEditingOwner(null);
-    setFormData(initialOwnerData);
-    setIsDialogOpen(false);
-  };
-
-  const {
-    onCreateOwner,
-    isPending: isPendingCreate,
-    error: createError,
-  } = useCreateOwnerRequest({
-    onSuccess: onEditSuccess,
+  const { formData, onResetForm, handleSubmit, setFormData, isLoading, error, buttonText } = useOwnerManagementDialog({
+    setEditingOwner,
+    onGetOwners,
+    setIsDialogOpen,
+    editingOwner,
   });
-
-  const {
-    onUpdateOwner,
-    isPending: isPendingUpdate,
-    error: updateError,
-  } = useUpdateOwnerRequest({
-    onSuccess: onEditSuccess,
-  });
-
-  const isLoading = isPendingCreate || isPendingUpdate;
-  const error = createError || updateError;
-
-  const buttonText = editingOwner ? 'Save Changes' : 'Create Owner';
-
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
-
-    if (editingOwner) {
-      onUpdateOwner({
-        ...editingOwner,
-        ...formData,
-      });
-      return;
-    }
-
-    void onCreateOwner(formData);
-  };
-
   return (
     <>
       <Dialog
