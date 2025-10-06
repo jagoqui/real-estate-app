@@ -6,7 +6,7 @@ import { type Owner, ownerSchema } from '@/modules/shared/domain/schemas/owner.s
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 
-export const UPDATE_USER_REQUEST_URL = (ownerId: string): string => `${VARIABLES.VITE_API_BASE_URL}/owner/${ownerId}`;
+export const UPDATE_USER_REQUEST_URL = (ownerId: string): string => `${VARIABLES.VITE_API_BASE_URL}/owners/${ownerId}`;
 
 export const updateOwnerRequest: UpdateOwnerRequest = async (owner): Promise<Owner> => {
   const ownerDto = ownerAdapter(owner);
