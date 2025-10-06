@@ -9,7 +9,7 @@ export const GET_OWNER_BY_USER_ID_REQUEST_URL = (userId: string): string =>
   `${VARIABLES.VITE_API_BASE_URL}/owners/user/${userId}`;
 
 export const getOwnerByUserIdRequest: GetOwnerByUserIdRequest = async ({ userId }): Promise<Array<Owner>> => {
-  const ownersDTO = await api.get<Array<OwnerDto>>(GET_OWNER_BY_USER_ID_REQUEST_URL(userId)).json();
+  const ownersDTO = await api.get<Array<OwnerDto>>(GET_OWNER_BY_USER_ID_REQUEST_URL(userId!)).json();
 
   const owners = ownersDTO.map(ownerDtoAdapter);
 
