@@ -9,6 +9,7 @@ interface ViteTypeOptions {
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string;
   readonly VITE_GOOGLE_CLIENT_ID: string;
+  readonly VITE_CLOUDINARY_URL: string;
   readonly VITE_SONAR_TOKEN: string;
   readonly VITE_SONAR_HOST_URL: string;
   readonly VITE_SONAR_PROJECT_KEY: string;

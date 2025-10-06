@@ -3,6 +3,7 @@ import { z } from 'zod';
 const baseSchema = {
   VITE_API_BASE_URL: z.url().min(1, 'VITE_API_BASE_URL is required'),
   VITE_GOOGLE_CLIENT_ID: z.string().min(1, 'VITE_GOOGLE_CLIENT_ID is required'),
+  VITE_CLOUDINARY_URL: z.string().min(1, 'CLOUDINARY_URL is required'),
   VITE_SONAR_TOKEN: z.string().min(1, 'SONAR_TOKEN is required'),
   VITE_SONAR_HOST_URL: z.url(),
   VITE_SONAR_PROJECT_KEY: z.string().min(1, 'SONAR_PROJECT_KEY is required'),

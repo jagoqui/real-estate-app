@@ -20,6 +20,7 @@ const pickEnvVars = (): Env =>
   removeNullishOrUndefinedProperties<Env>({
     VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
     VITE_GOOGLE_CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    VITE_CLOUDINARY_URL: import.meta.env.VITE_CLOUDINARY_URL,
     VITE_SONAR_TOKEN: import.meta.env.VITE_SONAR_TOKEN,
     VITE_SONAR_HOST_URL: import.meta.env.VITE_SONAR_HOST_URL,
     VITE_SONAR_PROJECT_KEY: import.meta.env.VITE_SONAR_PROJECT_KEY,
