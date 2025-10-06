@@ -4,91 +4,21 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import type { UpdateUser } from '@/modules/shared/domain/schemas/user.schema';
 import { Camera, Loader2 } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
-import { fileToBase64Helper } from '../../helpers/fileToBase64/fileToBase64.helper';
-import { useUpdateUserRequest } from '../../hooks/useUpdateUserRequest/useUpdateUserRequest';
+import { useRef } from 'react';
+import { useEditProfileDialog } from '../../hooks/useEditProfileDialog/useEditProfileDialog';
 
 interface EditProfileDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  getInitials: (name: string) => string;
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const EditProfileDialog = ({ open, onOpenChange }: EditProfileDialogProps): React.ReactElement => {
-  const { authResponse } = useAuthResponseContext();
-  const user = authResponse!.user;
-  const [formData, setFormData] = useState(user);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [isUploadingFile, setIsUploadingFile] = useState(false);
-  const [uploadFileError, setUploadFileError] = useState<string | null>(null);
+export const EditProfileDialog = ({ open, onOpenChange, getInitials }: EditProfileDialogProps): React.ReactElement => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const onSuccess = (): void => {
-    setFormData(user);
-    setImageFile(null);
-    setUploadFileError(null);
-    setIsUploadingFile(false);
-    onOpenChange(false);
-  };
-
-  const { isPending, onUpdateUser, error: updateUserError } = useUpdateUserRequest({ onSuccess });
-
-  const isLoading = isUploadingFile || isPending;
-  const error = updateUserError?.message || uploadFileError;
-
-  const onSave = (user: UpdateUser): void => {
-    const { photoUrl: _, ...rest } = authResponse!.user;
-
-    const updatedUser: UpdateUser = {
-      ...rest,
-      ...user,
-    };
-
-    onUpdateUser({
-      user: updatedUser,
-      photoFile: imageFile,
-    });
-  };
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setImageFile(file);
-    setIsUploadingFile(true);
-
-    try {
-      const base64Url = await fileToBase64Helper(file);
-      setFormData(prev => ({ ...prev, photoUrl: base64Url }));
-    } catch (error) {
-      console.error('Error during file preview:', error);
-      setUploadFileError('Error al previsualizar la imagen.');
-      setImageFile(null);
-    } finally {
-      setIsUploadingFile(false);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
-
-    const { photoUrl: _, ...rest } = formData;
-    onSave(rest);
-  };
-
-  const INITIALS_LENGTH = 2;
-
-  const getInitials = (name: string): string => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, INITIALS_LENGTH);
-  };
+  const { formData, handleSubmit, handleFileChange, isLoading, error, isUploadingFile, setFormData } =
+    useEditProfileDialog({ onOpenChange });
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
