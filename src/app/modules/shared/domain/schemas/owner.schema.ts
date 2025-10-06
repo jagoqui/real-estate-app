@@ -15,4 +15,4 @@ export const ownerSchema = z.object({
 
 export type Owner = z.infer<typeof ownerSchema>;
 
-export type CreateOwner = z.infer<typeof ownerSchema.omit<{ id: true }>>;
+export type CreateOwner = Omit<Owner, 'id' | 'userId' | 'createdAt'>;
