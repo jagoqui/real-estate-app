@@ -62,17 +62,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }): React.Reac
     localStorage.setItem('reducedMotion', String(reducedMotion));
   }, [theme, fontSize, contrastMode, isDarkMode, reducedMotion, mounted]);
 
-  const setTheme = (newTheme: ThemeType): void => {
-    setThemeState(newTheme);
-  };
-
-  const setFontSize = (size: FontSize): void => {
-    setFontSizeState(size);
-  };
-
-  const setContrastMode = (mode: ContrastMode): void => {
-    setContrastModeState(mode);
-  };
+  const setTheme: React.Dispatch<React.SetStateAction<ThemeType>> = setThemeState;
+  const setFontSize: React.Dispatch<React.SetStateAction<FontSize>> = setFontSizeState;
+  const setContrastMode: React.Dispatch<React.SetStateAction<ContrastMode>> = setContrastModeState;
 
   const toggleDarkMode = (): void => {
     setIsDarkMode(prev => !prev);

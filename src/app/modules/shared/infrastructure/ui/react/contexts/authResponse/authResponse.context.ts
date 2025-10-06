@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 
 interface AuthResponseContextValue {
   authResponse: AuthResponse | null;
-  setAuthResponse: (res: AuthResponse | null) => void;
+  setAuthResponse: React.Dispatch<React.SetStateAction<AuthResponse | null>>;
 }
 
 export const AuthResponseContext = createContext<AuthResponseContextValue | undefined>(undefined);

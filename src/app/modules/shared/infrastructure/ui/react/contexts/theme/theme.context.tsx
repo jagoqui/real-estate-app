@@ -8,11 +8,11 @@ export type ContrastMode = 'normal' | 'high' | 'higher';
 
 interface ThemeContextType {
   theme: ThemeType;
-  setTheme: (theme: ThemeType) => void;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeType>>;
   fontSize: FontSize;
-  setFontSize: (size: FontSize) => void;
+  setFontSize: React.Dispatch<React.SetStateAction<FontSize>>;
   contrastMode: ContrastMode;
-  setContrastMode: (mode: ContrastMode) => void;
+  setContrastMode: React.Dispatch<React.SetStateAction<ContrastMode>>;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   reducedMotion: boolean;

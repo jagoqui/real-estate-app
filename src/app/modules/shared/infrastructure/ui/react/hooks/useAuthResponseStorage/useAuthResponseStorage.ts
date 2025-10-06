@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 interface UseAuthResponseStorageReturn {
   authResponse: AuthResponse | null;
-  setAuthResponse: (res: AuthResponse | null) => void;
+  setAuthResponse: React.Dispatch<React.SetStateAction<AuthResponse | null>>;
 }
 
 export const useAuthResponseStorage = (): UseAuthResponseStorageReturn => {
