@@ -28,7 +28,7 @@ export const CalculatorLayout = (): React.ReactElement => {
   const totalInterest = totalPayment - loanAmount;
 
   const formatCurrency = (value: number): string => {
-    return new Intl.NumberFormat('es-ES', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'EUR',
       minimumFractionDigits: 0,
@@ -46,10 +46,10 @@ export const CalculatorLayout = (): React.ReactElement => {
           <Calculator className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-          Calculadora de Hipoteca
+          Mortgage Calculator
         </h1>
         <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-          Calcula tu pago mensual y planifica tu inversión inmobiliaria
+          Calculate your monthly payment and plan your real estate investment
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export const CalculatorLayout = (): React.ReactElement => {
           <CardContent className="pt-6 space-y-8">
             <div className="space-y-4">
               <Label htmlFor="propertyPrice" className="text-base sm:text-lg font-semibold">
-                Precio de la propiedad
+                Property Price
               </Label>
               <Input
                 id="propertyPrice"
@@ -77,14 +77,14 @@ export const CalculatorLayout = (): React.ReactElement => {
                 className="w-full"
               />
               <div className="flex justify-between text-sm text-muted-foreground">
-                <span>100.000€</span>
-                <span>20.000.000€</span>
+                <span>€100,000</span>
+                <span>€20,000,000</span>
               </div>
             </div>
 
             <div className="space-y-4">
               <Label htmlFor="downPayment" className="text-base sm:text-lg font-semibold">
-                Entrada ({downPayment}%)
+                Down Payment ({downPayment}%)
               </Label>
               <div className="text-xl sm:text-2xl font-bold text-primary">{formatCurrency(downPaymentAmount)}</div>
               <Slider
@@ -103,7 +103,7 @@ export const CalculatorLayout = (): React.ReactElement => {
 
             <div className="space-y-4">
               <Label htmlFor="interestRate" className="text-base sm:text-lg font-semibold">
-                Tasa de interés anual ({interestRate}%)
+                Annual Interest Rate ({interestRate}%)
               </Label>
               <Slider
                 value={[interestRate]}
@@ -121,7 +121,7 @@ export const CalculatorLayout = (): React.ReactElement => {
 
             <div className="space-y-4">
               <Label htmlFor="loanTerm" className="text-base sm:text-lg font-semibold">
-                Plazo del préstamo ({loanTerm} años)
+                Loan Term ({loanTerm} years)
               </Label>
               <Slider
                 value={[loanTerm]}
@@ -132,8 +132,8 @@ export const CalculatorLayout = (): React.ReactElement => {
                 className="w-full"
               />
               <div className="flex justify-between text-sm text-muted-foreground">
-                <span>5 años</span>
-                <span>40 años</span>
+                <span>5 years</span>
+                <span>40 years</span>
               </div>
             </div>
           </CardContent>
@@ -145,10 +145,10 @@ export const CalculatorLayout = (): React.ReactElement => {
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-4">
                 <Home className="h-6 w-6 sm:h-8 sm:w-8" />
-                <h3 className="text-base sm:text-lg font-semibold">Pago mensual</h3>
+                <h3 className="text-base sm:text-lg font-semibold">Monthly Payment</h3>
               </div>
               <p className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">{formatCurrency(monthlyPayment)}</p>
-              <p className="opacity-90 text-sm sm:text-base">Estimado por {loanTerm} años</p>
+              <p className="opacity-90 text-sm sm:text-base">Estimated for {loanTerm} years</p>
             </CardContent>
           </Card>
 
@@ -160,7 +160,7 @@ export const CalculatorLayout = (): React.ReactElement => {
                     <PiggyBank className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Monto del préstamo</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Loan Amount</p>
                     <p className="text-lg sm:text-xl lg:text-2xl font-bold">{formatCurrency(loanAmount)}</p>
                   </div>
                 </div>
@@ -172,7 +172,7 @@ export const CalculatorLayout = (): React.ReactElement => {
                     <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Total de intereses</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Total Interest</p>
                     <p className="text-lg sm:text-xl lg:text-2xl font-bold">{formatCurrency(totalInterest)}</p>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export const CalculatorLayout = (): React.ReactElement => {
                     <Calculator className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Pago total</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Total Payment</p>
                     <p className="text-lg sm:text-xl lg:text-2xl font-bold">
                       {formatCurrency(totalPayment + downPaymentAmount)}
                     </p>
@@ -196,22 +196,22 @@ export const CalculatorLayout = (): React.ReactElement => {
 
           <Card>
             <CardContent className="pt-6">
-              <h3 className="font-semibold text-base sm:text-lg mb-4">Desglose del pago</h3>
+              <h3 className="font-semibold text-base sm:text-lg mb-4">Payment Breakdown</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm sm:text-base text-muted-foreground">Principal e intereses</span>
+                  <span className="text-sm sm:text-base text-muted-foreground">Principal & Interest</span>
                   <span className="font-semibold text-sm sm:text-base">{formatCurrency(monthlyPayment)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm sm:text-base text-muted-foreground">Impuestos estimados</span>
+                  <span className="text-sm sm:text-base text-muted-foreground">Estimated Taxes</span>
                   <span className="font-semibold text-sm sm:text-base">{formatCurrency(propertyPrice * 0.001)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm sm:text-base text-muted-foreground">Seguro estimado</span>
+                  <span className="text-sm sm:text-base text-muted-foreground">Estimated Insurance</span>
                   <span className="font-semibold text-sm sm:text-base">{formatCurrency(propertyPrice * 0.0005)}</span>
                 </div>
                 <div className="pt-3 border-t border-border flex justify-between items-center">
-                  <span className="font-semibold text-sm sm:text-base">Total mensual estimado</span>
+                  <span className="font-semibold text-sm sm:text-base">Estimated Total Monthly</span>
                   <span className="text-lg sm:text-xl font-bold text-primary">
                     {formatCurrency(monthlyPayment + propertyPrice * 0.001 + propertyPrice * 0.0005)}
                   </span>
@@ -221,7 +221,7 @@ export const CalculatorLayout = (): React.ReactElement => {
           </Card>
 
           <Button size="lg" className="w-full">
-            Solicitar pre-aprobación
+            Request Pre-Approval
           </Button>
         </div>
       </div>
@@ -230,10 +230,9 @@ export const CalculatorLayout = (): React.ReactElement => {
       <Card className="mt-12 max-w-6xl mx-auto bg-muted">
         <CardContent className="pt-6">
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            <strong>Nota importante:</strong> Esta calculadora proporciona estimaciones basadas en los datos ingresados.
-            Los pagos reales pueden variar según las condiciones del mercado, tasas de interés actuales, impuestos
-            locales, seguros y otros factores. Consulte con nuestros asesores financieros para obtener una cotización
-            precisa y personalizada.
+            <strong>Important Note:</strong> This calculator provides estimates based on the entered data. Actual
+            payments may vary depending on market conditions, current interest rates, local taxes, insurance, and other
+            factors. Please consult our financial advisors for an accurate and personalized quote.
           </p>
         </CardContent>
       </Card>

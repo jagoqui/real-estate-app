@@ -28,9 +28,9 @@ export const ContactLayout = (): React.ReactElement => {
       <main className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="mb-12 text-center">
-          <h1 className="font-serif text-5xl font-bold text-foreground mb-4">Contáctanos</h1>
+          <h1 className="font-serif text-5xl font-bold text-foreground mb-4">Contact Us</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Estamos aquí para ayudarte a encontrar la propiedad de tus sueños
+            We are here to help you find your dream property
           </p>
         </div>
 
@@ -41,8 +41,8 @@ export const ContactLayout = (): React.ReactElement => {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
                 <Phone className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Teléfono</h3>
-              <p className="text-muted-foreground mb-2">Lunes a Viernes, 9:00 - 18:00</p>
+              <h3 className="font-semibold text-lg mb-2">Phone</h3>
+              <p className="text-muted-foreground mb-2">Monday to Friday, 9:00 AM - 6:00 PM</p>
               <a href="tel:+34900123456" className="text-primary hover:underline">
                 +34 900 123 456
               </a>
@@ -55,7 +55,7 @@ export const ContactLayout = (): React.ReactElement => {
                 <Mail className="h-8 w-8 text-primary" />
               </div>
               <h3 className="font-semibold text-lg mb-2">Email</h3>
-              <p className="text-muted-foreground mb-2">Respuesta en 24 horas</p>
+              <p className="text-muted-foreground mb-2">Response within 24 hours</p>
               <a href="mailto:info@luxeestates.com" className="text-primary hover:underline">
                 info@luxeestates.com
               </a>
@@ -67,9 +67,9 @@ export const ContactLayout = (): React.ReactElement => {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
                 <MapPin className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Oficina Principal</h3>
-              <p className="text-muted-foreground mb-2">Visítanos</p>
-              <p className="text-sm">Paseo de la Castellana 123, Madrid, España</p>
+              <h3 className="font-semibold text-lg mb-2">Main Office</h3>
+              <p className="text-muted-foreground mb-2">Visit us</p>
+              <p className="text-sm">Paseo de la Castellana 123, Madrid, Spain</p>
             </CardContent>
           </Card>
         </div>
@@ -78,14 +78,14 @@ export const ContactLayout = (): React.ReactElement => {
           {/* Contact Form */}
           <Card>
             <CardContent className="pt-6">
-              <h2 className="font-serif text-3xl font-bold text-foreground mb-6">Envíanos un mensaje</h2>
+              <h2 className="font-serif text-3xl font-bold text-foreground mb-6">Send us a message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nombre completo *</Label>
+                    <Label htmlFor="name">Full Name *</Label>
                     <Input
                       id="name"
-                      placeholder="Tu nombre"
+                      placeholder="Your name"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
                       required
@@ -96,7 +96,7 @@ export const ContactLayout = (): React.ReactElement => {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="tu@email.com"
+                      placeholder="your@email.com"
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
                       required
@@ -106,7 +106,7 @@ export const ContactLayout = (): React.ReactElement => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Teléfono</Label>
+                    <Label htmlFor="phone">Phone</Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -116,30 +116,30 @@ export const ContactLayout = (): React.ReactElement => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="subject">Asunto *</Label>
+                    <Label htmlFor="subject">Subject *</Label>
                     <Select
                       value={formData.subject}
                       onValueChange={(value: string) => setFormData({ ...formData, subject: value })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un asunto" />
+                        <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="buying">Comprar propiedad</SelectItem>
-                        <SelectItem value="selling">Vender propiedad</SelectItem>
-                        <SelectItem value="valuation">Tasación</SelectItem>
-                        <SelectItem value="consultation">Consultoría</SelectItem>
-                        <SelectItem value="other">Otro</SelectItem>
+                        <SelectItem value="buying">Buy property</SelectItem>
+                        <SelectItem value="selling">Sell property</SelectItem>
+                        <SelectItem value="valuation">Valuation</SelectItem>
+                        <SelectItem value="consultation">Consulting</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Mensaje *</Label>
+                  <Label htmlFor="message">Message *</Label>
                   <Textarea
                     id="message"
-                    placeholder="Cuéntanos cómo podemos ayudarte..."
+                    placeholder="Tell us how we can help you..."
                     rows={6}
                     value={formData.message}
                     onChange={e => setFormData({ ...formData, message: e.target.value })}
@@ -149,7 +149,7 @@ export const ContactLayout = (): React.ReactElement => {
 
                 <Button type="submit" size="lg" className="w-full">
                   <Send className="h-4 w-4 mr-2" />
-                  Enviar mensaje
+                  Send message
                 </Button>
               </form>
             </CardContent>
@@ -159,27 +159,27 @@ export const ContactLayout = (): React.ReactElement => {
           <div className="space-y-6">
             <Card>
               <CardContent className="pt-6">
-                <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Horario de atención</h3>
+                <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Office Hours</h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Clock className="h-5 w-5 text-muted-foreground mt-1" />
                     <div>
-                      <p className="font-semibold">Lunes a Viernes</p>
-                      <p className="text-muted-foreground">9:00 - 18:00</p>
+                      <p className="font-semibold">Monday to Friday</p>
+                      <p className="text-muted-foreground">9:00 AM - 6:00 PM</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock className="h-5 w-5 text-muted-foreground mt-1" />
                     <div>
-                      <p className="font-semibold">Sábado</p>
-                      <p className="text-muted-foreground">10:00 - 14:00</p>
+                      <p className="font-semibold">Saturday</p>
+                      <p className="text-muted-foreground">10:00 AM - 2:00 PM</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock className="h-5 w-5 text-muted-foreground mt-1" />
                     <div>
-                      <p className="font-semibold">Domingo</p>
-                      <p className="text-muted-foreground">Cerrado</p>
+                      <p className="font-semibold">Sunday</p>
+                      <p className="text-muted-foreground">Closed</p>
                     </div>
                   </div>
                 </div>
@@ -188,27 +188,27 @@ export const ContactLayout = (): React.ReactElement => {
 
             <Card>
               <CardContent className="pt-6">
-                <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Ubicación</h3>
+                <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Location</h3>
                 <div className="aspect-video bg-secondary rounded-lg flex items-center justify-center mb-4">
                   <div className="text-center">
                     <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
                     <p className="text-muted-foreground">Paseo de la Castellana 123</p>
-                    <p className="text-muted-foreground">28046 Madrid, España</p>
+                    <p className="text-muted-foreground">28046 Madrid, Spain</p>
                   </div>
                 </div>
                 <Button variant="outline" className="w-full bg-transparent">
-                  Ver en Google Maps
+                  View on Google Maps
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="bg-primary text-primary-foreground">
               <CardContent className="pt-6">
-                <h3 className="font-serif text-2xl font-bold mb-2">¿Necesitas ayuda inmediata?</h3>
-                <p className="mb-4 opacity-90">Nuestro equipo está disponible para atenderte</p>
+                <h3 className="font-serif text-2xl font-bold mb-2">Need immediate help?</h3>
+                <p className="mb-4 opacity-90">Our team is available to assist you</p>
                 <Button variant="secondary" size="lg" className="w-full">
                   <Phone className="h-4 w-4 mr-2" />
-                  Llamar ahora
+                  Call now
                 </Button>
               </CardContent>
             </Card>

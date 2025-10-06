@@ -32,11 +32,11 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
   const [currency, setCurrency] = useState<string>('usd');
 
   const themes = [
-    { value: 'luxury', label: 'Luxury', description: 'Elegante y sofisticado con tonos cálidos' },
-    { value: 'modern', label: 'Modern', description: 'Limpio y contemporáneo con acentos vibrantes' },
-    { value: 'classic', label: 'Classic', description: 'Tradicional y atemporal con tonos neutros' },
-    { value: 'minimal', label: 'Minimal', description: 'Minimalista y espacioso con grises suaves' },
-    { value: 'ocean', label: 'Ocean', description: 'Fresco y sereno con azules profundos' },
+    { value: 'luxury', label: 'Luxury', description: 'Elegant and sophisticated with warm tones' },
+    { value: 'modern', label: 'Modern', description: 'Clean and contemporary with vibrant accents' },
+    { value: 'classic', label: 'Classic', description: 'Traditional and timeless with neutral tones' },
+    { value: 'minimal', label: 'Minimal', description: 'Minimalist and spacious with soft grays' },
+    { value: 'ocean', label: 'Ocean', description: 'Fresh and serene with deep blues' },
   ];
 
   const dialogProps = open !== undefined && onOpenChange !== undefined ? { open, onOpenChange } : {};
@@ -44,7 +44,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
   return (
     <Dialog {...dialogProps}>
       {open === undefined && (
-        <Button variant="ghost" size="icon" className="relative" aria-label={'Configuración de accesibilidad y temas'}>
+        <Button variant="ghost" size="icon" className="relative" aria-label={'Accessibility and Theme Settings'}>
           <Settings className="w-5 h-5" />
         </Button>
       )}
@@ -52,7 +52,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Settings className="w-5 h-5" />
-            Accesibilidad y Personalización
+            Accessibility & Personalization
           </DialogTitle>
         </DialogHeader>
 
@@ -60,29 +60,29 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="themes" className="gap-2">
               <Palette className="w-4 h-4" />
-              <span className="hidden sm:inline">Temas</span>
+              <span className="hidden sm:inline">Themes</span>
             </TabsTrigger>
             <TabsTrigger value="typography" className="gap-2">
               <Type className="w-4 h-4" />
-              <span className="hidden sm:inline">Tipografía</span>
+              <span className="hidden sm:inline">Typography</span>
             </TabsTrigger>
             <TabsTrigger value="contrast" className="gap-2">
               <Eye className="w-4 h-4" />
-              <span className="hidden sm:inline">Contraste</span>
+              <span className="hidden sm:inline">Contrast</span>
             </TabsTrigger>
             <TabsTrigger value="motion" className="gap-2">
               <Zap className="w-4 h-4" />
-              <span className="hidden sm:inline">Movimiento</span>
+              <span className="hidden sm:inline">Motion</span>
             </TabsTrigger>
             <TabsTrigger value="language" className="gap-2">
               <Globe className="w-4 h-4" />
-              <span className="hidden sm:inline">Idioma</span>
+              <span className="hidden sm:inline">Language</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="themes" className="space-y-4 mt-6">
             <div>
-              <h3 className="text-sm font-medium mb-3">Seleccione un tema</h3>
+              <h3 className="text-sm font-medium mb-3">Select a theme</h3>
               <RadioGroup value={theme} onValueChange={value => setTheme(value as ThemeType)}>
                 <div className="grid gap-3">
                   {themes.map(t => (
@@ -110,9 +110,9 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
             <div className="flex items-center justify-between pt-4 border-t">
               <div>
                 <Label htmlFor="dark-mode" className="font-medium">
-                  Modo Oscuro
+                  Dark Mode
                 </Label>
-                <p className="text-sm text-muted-foreground">Reduce el brillo de la pantalla</p>
+                <p className="text-sm text-muted-foreground">Reduces screen brightness</p>
               </div>
               <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={toggleDarkMode} />
             </div>
@@ -120,7 +120,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
 
           <TabsContent value="typography" className="space-y-4 mt-6">
             <div>
-              <h3 className="text-sm font-medium mb-3">Tamaño de fuente</h3>
+              <h3 className="text-sm font-medium mb-3">Font size</h3>
               <RadioGroup value={fontSize} onValueChange={value => setFontSize(value as FontSize)}>
                 <div className="grid gap-3">
                   <div
@@ -131,7 +131,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                   >
                     <RadioGroupItem value="small" id="small" />
                     <Label htmlFor="small" className="cursor-pointer flex-1 text-sm">
-                      Pequeño - Texto compacto
+                      Small - Compact text
                     </Label>
                   </div>
                   <div
@@ -142,7 +142,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                   >
                     <RadioGroupItem value="medium" id="medium" />
                     <Label htmlFor="medium" className="cursor-pointer flex-1 text-base">
-                      Mediano - Tamaño estándar
+                      Medium - Standard size
                     </Label>
                   </div>
                   <div
@@ -153,7 +153,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                   >
                     <RadioGroupItem value="large" id="large" />
                     <Label htmlFor="large" className="cursor-pointer flex-1 text-lg">
-                      Grande - Más grande y legible
+                      Large - Bigger and more readable
                     </Label>
                   </div>
                   <div
@@ -164,7 +164,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                   >
                     <RadioGroupItem value="xlarge" id="xlarge" />
                     <Label htmlFor="xlarge" className="cursor-pointer flex-1 text-xl">
-                      Extra Grande - Máxima legibilidad
+                      Extra Large - Maximum readability
                     </Label>
                   </div>
                 </div>
@@ -174,7 +174,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
 
           <TabsContent value="contrast" className="space-y-4 mt-6">
             <div>
-              <h3 className="text-sm font-medium mb-3">Nivel de contraste</h3>
+              <h3 className="text-sm font-medium mb-3">Contrast level</h3>
               <RadioGroup value={contrastMode} onValueChange={value => setContrastMode(value as ContrastMode)}>
                 <div className="grid gap-3">
                   <div
@@ -190,7 +190,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                       <Label htmlFor="normal" className="cursor-pointer font-medium">
                         Normal
                       </Label>
-                      <p className="text-sm text-muted-foreground">Contraste estándar</p>
+                      <p className="text-sm text-muted-foreground">Standard contrast</p>
                     </div>
                   </div>
                   <div
@@ -204,10 +204,10 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                     <RadioGroupItem value="high" id="high" />
                     <div className="flex-1">
                       <Label htmlFor="high" className="cursor-pointer font-medium">
-                        Alto
+                        High
                       </Label>
                       <p className="text-sm text-muted-foreground">
-                        Mayor diferencia entre colores para mejorar la visibilidad
+                        Greater difference between colors for improved visibility
                       </p>
                     </div>
                   </div>
@@ -222,10 +222,10 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                     <RadioGroupItem value="higher" id="higher" />
                     <div className="flex-1">
                       <Label htmlFor="higher" className="cursor-pointer font-medium">
-                        Muy Alto
+                        Very High
                       </Label>
                       <p className="text-sm text-muted-foreground">
-                        Mayor contraste entre texto y fondo para mejorar la legibilidad
+                        Maximum contrast between text and background for improved readability
                       </p>
                     </div>
                   </div>
@@ -238,10 +238,10 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
             <div className="flex items-center justify-between p-4 rounded-lg border">
               <div>
                 <Label htmlFor="reduced-motion" className="font-medium">
-                  Reducir movimiento
+                  Reduce motion
                 </Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Minimiza animaciones y transiciones para reducir mareos
+                  Minimizes animations and transitions to reduce dizziness
                 </p>
               </div>
               <Switch id="reduced-motion" checked={reducedMotion} onCheckedChange={toggleReducedMotion} />
@@ -252,7 +252,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
             <div>
               <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
                 <Globe className="w-4 h-4" />
-                Idioma
+                Language
               </h3>
               <RadioGroup value={language} onValueChange={(value: string) => setLanguage(value)}>
                 <div className="grid gap-3">
@@ -265,9 +265,9 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
                     <RadioGroupItem value="es" id="lang-es" />
                     <div className="flex-1">
                       <Label htmlFor="lang-es" className="cursor-pointer font-medium">
-                        Español
+                        Spanish
                       </Label>
-                      <p className="text-sm text-muted-foreground">Spanish - Idioma predeterminado</p>
+                      <p className="text-sm text-muted-foreground">Spanish - Default language</p>
                     </div>
                     <span className="text-2xl">🇪🇸</span>
                   </div>
@@ -293,7 +293,7 @@ export const AccessibilitySettings = ({ open, onOpenChange }: AccessibilitySetti
             <div>
               <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
                 <DollarSign className="w-4 h-4" />
-                Moneda
+                Currency
               </h3>
               <RadioGroup value={currency} onValueChange={(value: string) => setCurrency(value)}>
                 <div className="grid gap-3">

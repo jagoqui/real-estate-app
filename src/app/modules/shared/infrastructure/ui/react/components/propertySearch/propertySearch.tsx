@@ -27,9 +27,7 @@ export const PropertySearch = (): React.ReactElement => {
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif text-center mb-8 text-balance">
-            Encuentra tu propiedad ideal
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-serif text-center mb-8 text-balance">Find your ideal property</h2>
 
           <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
             <div className="flex flex-col md:flex-row gap-4">
@@ -37,7 +35,7 @@ export const PropertySearch = (): React.ReactElement => {
               <div className="flex-1">
                 <Input
                   type="text"
-                  placeholder="Buscar por nombre, dirección o ubicación..."
+                  placeholder="Search by name, address or location..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   className="h-12 text-base"
@@ -49,19 +47,19 @@ export const PropertySearch = (): React.ReactElement => {
                 <SheetTrigger asChild>
                   <Button variant="outline" className="h-12 gap-2 md:w-auto bg-transparent">
                     <SlidersHorizontal className="w-4 h-4" />
-                    Filtros
+                    Filters
                   </Button>
                 </SheetTrigger>
                 <SheetContent>
                   <SheetHeader>
-                    <SheetTitle className="font-serif text-2xl">Filtros de búsqueda</SheetTitle>
-                    <SheetDescription>Refina tu búsqueda con filtros avanzados</SheetDescription>
+                    <SheetTitle className="font-serif text-2xl">Search filters</SheetTitle>
+                    <SheetDescription>Refine your search with advanced filters</SheetDescription>
                   </SheetHeader>
 
                   <div className="mt-8 px-4 space-y-8">
                     {/* Price Range Slider */}
                     <div className="space-y-4">
-                      <Label className="text-base">Rango de precio</Label>
+                      <Label className="text-base">Price range</Label>
                       <Slider
                         min={0}
                         max={10000000}
@@ -78,11 +76,11 @@ export const PropertySearch = (): React.ReactElement => {
 
                     {/* Min Price */}
                     <div className="space-y-2">
-                      <Label htmlFor="min-price">Precio mínimo</Label>
+                      <Label htmlFor="min-price">Minimum price</Label>
                       <Input
                         id="min-price"
                         type="number"
-                        placeholder="Ej: 500000"
+                        placeholder="E.g.: 500000"
                         value={minPrice}
                         onChange={e => setMinPrice(e.target.value)}
                       />
@@ -90,18 +88,18 @@ export const PropertySearch = (): React.ReactElement => {
 
                     {/* Max Price */}
                     <div className="space-y-2">
-                      <Label htmlFor="max-price">Precio máximo</Label>
+                      <Label htmlFor="max-price">Maximum price</Label>
                       <Input
                         id="max-price"
                         type="number"
-                        placeholder="Ej: 5000000"
+                        placeholder="E.g.: 5000000"
                         value={maxPrice}
                         onChange={e => setMaxPrice(e.target.value)}
                       />
                     </div>
 
                     <Button onClick={handleSearch} className="w-full bg-primary hover:bg-primary/90">
-                      Aplicar filtros
+                      Apply filters
                     </Button>
                   </div>
                 </SheetContent>
@@ -110,7 +108,7 @@ export const PropertySearch = (): React.ReactElement => {
               {/* Search Button */}
               <Button onClick={handleSearch} className="h-12 gap-2 bg-primary hover:bg-primary/90">
                 <Search className="w-4 h-4" />
-                Buscar
+                Search
               </Button>
             </div>
           </div>

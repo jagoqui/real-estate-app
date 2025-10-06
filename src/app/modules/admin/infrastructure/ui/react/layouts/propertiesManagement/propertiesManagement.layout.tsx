@@ -49,7 +49,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
   const [properties, setProperties] = useState<Array<Property>>([
     {
       id: '1',
-      name: 'Villa Moderna Beverly Hills',
+      name: 'Modern Villa Beverly Hills',
       address: '123 Luxury Lane',
       city: 'Beverly Hills',
       state: 'CA',
@@ -58,8 +58,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: 6,
       bathrooms: 7,
       area: 850,
-      description: 'Espectacular villa moderna con vistas panorámicas',
-      features: ['Piscina', 'Gimnasio', 'Cine'],
+      description: 'Spectacular modern villa with panoramic views',
+      features: ['Pool', 'Gym', 'Cinema'],
       images: ['/luxury-villa-sunset.png'],
       ownerId: '1',
       ownerName: 'John Smith',
@@ -78,8 +78,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: 4,
       bathrooms: 5,
       area: 450,
-      description: 'Penthouse de lujo en el corazón de Manhattan',
-      features: ['Terraza', 'Vista panorámica', 'Conserje 24/7'],
+      description: 'Luxury penthouse in the heart of Manhattan',
+      features: ['Terrace', 'Panoramic view', '24/7 Concierge'],
       images: ['/luxury-penthouse-with-ocean-view-modern-interior.jpg'],
       ownerId: '2',
       ownerName: 'Sarah Johnson',
@@ -179,7 +179,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
   };
 
   const handleDelete = (id: string): void => {
-    if (confirm('¿Estás seguro de eliminar esta propiedad?')) {
+    if (confirm('Are you sure you want to delete this property?')) {
       setProperties(properties.filter(p => p.id !== id));
     }
   };
@@ -219,9 +219,9 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     } as const;
 
     const labels = {
-      available: 'Disponible',
-      sold: 'Vendida',
-      pending: 'Pendiente',
+      available: 'Available',
+      sold: 'Sold',
+      pending: 'Pending',
     };
 
     return <Badge variant={variants[status]}>{labels[status]}</Badge>;
@@ -231,10 +231,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-serif text-2xl lg:text-3xl font-semibold">Propiedades</h2>
-          <p className="mt-2 text-sm lg:text-base text-muted-foreground">
-            Gestiona todas las propiedades de tu plataforma
-          </p>
+          <h2 className="font-serif text-2xl lg:text-3xl font-semibold">Properties</h2>
+          <p className="mt-2 text-sm lg:text-base text-muted-foreground">Manage all properties on your platform</p>
         </div>
         <Dialog
           open={isDialogOpen}
@@ -246,20 +244,20 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
           <DialogTrigger asChild>
             <Button className="gap-2 w-full sm:w-auto">
               <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Agregar Propiedad</span>
-              <span className="sm:hidden">Agregar</span>
+              <span className="hidden sm:inline">Add Property</span>
+              <span className="sm:hidden">Add</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle className="font-serif text-2xl">
-                {editingProperty ? 'Editar Propiedad' : 'Nueva Propiedad'}
+                {editingProperty ? 'Edit Property' : 'New Property'}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="name">Nombre de la Propiedad</Label>
+                  <Label htmlFor="name">Property Name</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -268,7 +266,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="address">Dirección</Label>
+                  <Label htmlFor="address">Address</Label>
                   <Input
                     id="address"
                     value={formData.address}
@@ -277,7 +275,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city">Ciudad</Label>
+                  <Label htmlFor="city">City</Label>
                   <Input
                     id="city"
                     value={formData.city}
@@ -286,7 +284,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="state">Estado/Provincia</Label>
+                  <Label htmlFor="state">State/Province</Label>
                   <Input
                     id="state"
                     value={formData.state}
@@ -295,7 +293,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="country">País</Label>
+                  <Label htmlFor="country">Country</Label>
                   <Input
                     id="country"
                     value={formData.country}
@@ -304,7 +302,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="price">Precio (USD)</Label>
+                  <Label htmlFor="price">Price (USD)</Label>
                   <Input
                     id="price"
                     type="number"
@@ -314,7 +312,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="bedrooms">Habitaciones</Label>
+                  <Label htmlFor="bedrooms">Bedrooms</Label>
                   <Input
                     id="bedrooms"
                     type="number"
@@ -324,7 +322,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="bathrooms">Baños</Label>
+                  <Label htmlFor="bathrooms">Bathrooms</Label>
                   <Input
                     id="bathrooms"
                     type="number"
@@ -334,7 +332,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="area">Área (m²)</Label>
+                  <Label htmlFor="area">Area (m²)</Label>
                   <Input
                     id="area"
                     type="number"
@@ -344,7 +342,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="status">Estado</Label>
+                  <Label htmlFor="status">Status</Label>
                   <Select
                     value={formData.status}
                     onValueChange={(value: Property['status']) => setFormData({ ...formData, status: value })}
@@ -353,14 +351,14 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="available">Disponible</SelectItem>
-                      <SelectItem value="pending">Pendiente</SelectItem>
-                      <SelectItem value="sold">Vendida</SelectItem>
+                      <SelectItem value="available">Available</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="sold">Sold</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="ownerName">Propietario</Label>
+                  <Label htmlFor="ownerName">Owner</Label>
                   <Input
                     id="ownerName"
                     value={formData.ownerName}
@@ -369,7 +367,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="ownerId">ID Propietario</Label>
+                  <Label htmlFor="ownerId">Owner ID</Label>
                   <Input
                     id="ownerId"
                     value={formData.ownerId}
@@ -378,7 +376,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="description">Descripción</Label>
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
@@ -388,12 +386,12 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="features">Características (separadas por coma)</Label>
+                  <Label htmlFor="features">Features (comma separated)</Label>
                   <Input
                     id="features"
                     value={formData.features}
                     onChange={e => setFormData({ ...formData, features: e.target.value })}
-                    placeholder="Piscina, Gimnasio, Jardín"
+                    placeholder="Pool, Gym, Garden"
                   />
                 </div>
               </div>
@@ -406,9 +404,9 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     resetForm();
                   }}
                 >
-                  Cancelar
+                  Cancel
                 </Button>
-                <Button type="submit">{editingProperty ? 'Guardar Cambios' : 'Crear Propiedad'}</Button>
+                <Button type="submit">{editingProperty ? 'Save Changes' : 'Create Property'}</Button>
               </div>
             </form>
           </DialogContent>
@@ -421,7 +419,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nombre, dirección o ciudad..."
+                placeholder="Search by name, address or city..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -435,13 +433,13 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[150px]">Propiedad</TableHead>
-                    <TableHead className="min-w-[120px]">Ubicación</TableHead>
-                    <TableHead className="min-w-[100px]">Precio</TableHead>
-                    <TableHead className="min-w-[150px]">Detalles</TableHead>
-                    <TableHead className="min-w-[120px]">Propietario</TableHead>
-                    <TableHead className="min-w-[100px]">Estado</TableHead>
-                    <TableHead className="text-right min-w-[100px]">Acciones</TableHead>
+                    <TableHead className="min-w-[150px]">Property</TableHead>
+                    <TableHead className="min-w-[120px]">Location</TableHead>
+                    <TableHead className="min-w-[100px]">Price</TableHead>
+                    <TableHead className="min-w-[150px]">Details</TableHead>
+                    <TableHead className="min-w-[120px]">Owner</TableHead>
+                    <TableHead className="min-w-[100px]">Status</TableHead>
+                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -453,7 +451,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                       </TableCell>
                       <TableCell className="font-semibold">${property.price.toLocaleString()}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
-                        {property.bedrooms} hab • {property.bathrooms} baños • {property.area}m²
+                        {property.bedrooms} beds • {property.bathrooms} baths • {property.area}m²
                       </TableCell>
                       <TableCell>{property.ownerName}</TableCell>
                       <TableCell>{getStatusBadge(property.status)}</TableCell>

@@ -21,37 +21,37 @@ import {
 
 // Mock data for charts
 const salesByMonth = [
-  { month: 'Ene', ventas: 2400000, propiedades: 3 },
-  { month: 'Feb', ventas: 1800000, propiedades: 2 },
-  { month: 'Mar', ventas: 3200000, propiedades: 4 },
-  { month: 'Abr', ventas: 2800000, propiedades: 3 },
-  { month: 'May', ventas: 4100000, propiedades: 5 },
-  { month: 'Jun', ventas: 3600000, propiedades: 4 },
+  { month: 'Jan', sales: 2400000, properties: 3 },
+  { month: 'Feb', sales: 1800000, properties: 2 },
+  { month: 'Mar', sales: 3200000, properties: 4 },
+  { month: 'Apr', sales: 2800000, properties: 3 },
+  { month: 'May', sales: 4100000, properties: 5 },
+  { month: 'Jun', sales: 3600000, properties: 4 },
 ];
 
 const propertyTypeDistribution = [
   { type: 'Villa', value: 35, count: 8 },
   { type: 'Penthouse', value: 25, count: 6 },
   { type: 'Mansion', value: 20, count: 5 },
-  { type: 'Casa de Playa', value: 15, count: 3 },
-  { type: 'Apartamento', value: 5, count: 2 },
+  { type: 'Beach House', value: 15, count: 3 },
+  { type: 'Apartment', value: 5, count: 2 },
 ];
 
 const topLocations = [
-  { location: 'Beverly Hills', ventas: 8500000, propiedades: 5 },
-  { location: 'Manhattan', ventas: 7200000, propiedades: 4 },
-  { location: 'Miami Beach', ventas: 6800000, propiedades: 6 },
-  { location: 'Malibu', ventas: 5400000, propiedades: 3 },
-  { location: 'Los Angeles', ventas: 4200000, propiedades: 4 },
+  { location: 'Beverly Hills', sales: 8500000, properties: 5 },
+  { location: 'Manhattan', sales: 7200000, properties: 4 },
+  { location: 'Miami Beach', sales: 6800000, properties: 6 },
+  { location: 'Malibu', sales: 5400000, properties: 3 },
+  { location: 'Los Angeles', sales: 4200000, properties: 4 },
 ];
 
 const conversionRate = [
-  { month: 'Ene', tasa: 18 },
-  { month: 'Feb', tasa: 22 },
-  { month: 'Mar', tasa: 25 },
-  { month: 'Abr', tasa: 20 },
-  { month: 'May', tasa: 28 },
-  { month: 'Jun', tasa: 24 },
+  { month: 'Jan', rate: 18 },
+  { month: 'Feb', rate: 22 },
+  { month: 'Mar', rate: 25 },
+  { month: 'Apr', rate: 20 },
+  { month: 'May', rate: 28 },
+  { month: 'Jun', rate: 24 },
 ];
 
 const COLORS = [
@@ -64,32 +64,32 @@ const COLORS = [
 
 const stats = [
   {
-    title: 'Ventas Totales',
+    title: 'Total Sales',
     value: '$18.9M',
     change: '+23.5%',
     icon: DollarSign,
-    description: 'vs período anterior',
+    description: 'vs previous period',
   },
   {
-    title: 'Propiedades Vendidas',
+    title: 'Properties Sold',
     value: '21',
     change: '+15.2%',
     icon: Home,
-    description: 'en los últimos 6 meses',
+    description: 'in the last 6 months',
   },
   {
-    title: 'Precio Promedio',
+    title: 'Average Price',
     value: '$900K',
     change: '+8.1%',
     icon: TrendingUp,
-    description: 'por propiedad',
+    description: 'per property',
   },
   {
-    title: 'Clientes Activos',
+    title: 'Active Clients',
     value: '156',
     change: '+32.4%',
     icon: Users,
-    description: 'compradores potenciales',
+    description: 'potential buyers',
   },
 ];
 
@@ -101,8 +101,8 @@ export const AnalyticsLayout = (): React.ReactElement => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-3xl font-semibold">Analytics de Ventas</h2>
-          <p className="mt-2 text-muted-foreground">Visualiza el rendimiento de tu plataforma</p>
+          <h2 className="font-serif text-3xl font-semibold">Sales Analytics</h2>
+          <p className="mt-2 text-muted-foreground">Visualize your platform's performance</p>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger className="w-[180px]">
@@ -110,10 +110,10 @@ export const AnalyticsLayout = (): React.ReactElement => {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1month">Último mes</SelectItem>
-            <SelectItem value="3months">Últimos 3 meses</SelectItem>
-            <SelectItem value="6months">Últimos 6 meses</SelectItem>
-            <SelectItem value="1year">Último año</SelectItem>
+            <SelectItem value="1month">Last month</SelectItem>
+            <SelectItem value="3months">Last 3 months</SelectItem>
+            <SelectItem value="6months">Last 6 months</SelectItem>
+            <SelectItem value="1year">Last year</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -142,13 +142,13 @@ export const AnalyticsLayout = (): React.ReactElement => {
         {/* Sales by Month */}
         <Card>
           <CardHeader>
-            <CardTitle>Ventas Mensuales</CardTitle>
+            <CardTitle>Monthly Sales</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer
               config={{
-                ventas: {
-                  label: 'Ventas',
+                sales: {
+                  label: 'Sales',
                   color: 'hsl(var(--chart-1))',
                 },
               }}
@@ -160,7 +160,7 @@ export const AnalyticsLayout = (): React.ReactElement => {
                   <XAxis dataKey="month" className="text-xs" />
                   <YAxis className="text-xs" tickFormatter={value => `$${value / 1000000}M`} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="ventas" fill="hsl(var(--chart-1))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="sales" fill="hsl(var(--chart-1))" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -170,13 +170,13 @@ export const AnalyticsLayout = (): React.ReactElement => {
         {/* Property Type Distribution */}
         <Card>
           <CardHeader>
-            <CardTitle>Distribución por Tipo</CardTitle>
+            <CardTitle>Type Distribution</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer
               config={{
                 value: {
-                  label: 'Porcentaje',
+                  label: 'Percentage',
                 },
               }}
               className="min-h-[300px] w-full"
@@ -207,13 +207,13 @@ export const AnalyticsLayout = (): React.ReactElement => {
         {/* Top Locations */}
         <Card>
           <CardHeader>
-            <CardTitle>Ubicaciones Top</CardTitle>
+            <CardTitle>Top Locations</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer
               config={{
-                ventas: {
-                  label: 'Ventas',
+                sales: {
+                  label: 'Sales',
                   color: 'hsl(var(--chart-2))',
                 },
               }}
@@ -225,7 +225,7 @@ export const AnalyticsLayout = (): React.ReactElement => {
                   <XAxis type="number" className="text-xs" tickFormatter={value => `$${value / 1000000}M`} />
                   <YAxis dataKey="location" type="category" className="text-xs" width={100} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="ventas" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
+                  <Bar dataKey="sales" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -235,13 +235,13 @@ export const AnalyticsLayout = (): React.ReactElement => {
         {/* Conversion Rate */}
         <Card>
           <CardHeader>
-            <CardTitle>Tasa de Conversión</CardTitle>
+            <CardTitle>Conversion Rate</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer
               config={{
-                tasa: {
-                  label: 'Tasa %',
+                rate: {
+                  label: 'Rate %',
                   color: 'hsl(var(--chart-3))',
                 },
               }}
@@ -255,7 +255,7 @@ export const AnalyticsLayout = (): React.ReactElement => {
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Line
                     type="monotone"
-                    dataKey="tasa"
+                    dataKey="rate"
                     stroke="hsl(var(--chart-3))"
                     strokeWidth={2}
                     dot={{ fill: 'hsl(var(--chart-3))', r: 4 }}
@@ -271,34 +271,34 @@ export const AnalyticsLayout = (): React.ReactElement => {
       <div className="grid gap-6 lg:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>Tiempo Promedio de Venta</CardTitle>
+            <CardTitle>Average Sale Time</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="font-serif text-4xl font-bold">45</div>
-            <p className="mt-2 text-sm text-muted-foreground">días desde listado hasta venta</p>
-            <div className="mt-4 text-sm text-emerald-600">-12% vs mes anterior</div>
+            <p className="mt-2 text-sm text-muted-foreground">days from listing to sale</p>
+            <div className="mt-4 text-sm text-emerald-600">-12% vs previous month</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Valor Total del Portfolio</CardTitle>
+            <CardTitle>Total Portfolio Value</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="font-serif text-4xl font-bold">$124M</div>
-            <p className="mt-2 text-sm text-muted-foreground">en propiedades activas</p>
-            <div className="mt-4 text-sm text-emerald-600">+18% vs mes anterior</div>
+            <p className="mt-2 text-sm text-muted-foreground">in active properties</p>
+            <div className="mt-4 text-sm text-emerald-600">+18% vs previous month</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Consultas Mensuales</CardTitle>
+            <CardTitle>Monthly Inquiries</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="font-serif text-4xl font-bold">1,247</div>
-            <p className="mt-2 text-sm text-muted-foreground">consultas de compradores</p>
-            <div className="mt-4 text-sm text-emerald-600">+24% vs mes anterior</div>
+            <p className="mt-2 text-sm text-muted-foreground">buyer inquiries</p>
+            <div className="mt-4 text-sm text-emerald-600">+24% vs previous month</div>
           </CardContent>
         </Card>
       </div>

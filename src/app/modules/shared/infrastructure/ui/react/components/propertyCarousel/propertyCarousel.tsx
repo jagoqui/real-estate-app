@@ -6,8 +6,8 @@ import { useState } from 'react';
 const properties = [
   {
     id: 1,
-    name: 'Villa Moderna Mediterránea',
-    location: 'Marbella, España',
+    name: 'Modern Mediterranean Villa',
+    location: 'Marbella, Spain',
     price: 4500000,
     bedrooms: 5,
     bathrooms: 6,
@@ -16,7 +16,7 @@ const properties = [
   },
   {
     id: 2,
-    name: 'Penthouse Contemporáneo',
+    name: 'Contemporary Penthouse',
     location: 'Miami Beach, Florida',
     price: 8900000,
     bedrooms: 4,
@@ -26,7 +26,7 @@ const properties = [
   },
   {
     id: 3,
-    name: 'Mansión Colonial Renovada',
+    name: 'Renovated Colonial Mansion',
     location: 'Cartagena, Colombia',
     price: 3200000,
     bedrooms: 6,
@@ -36,8 +36,8 @@ const properties = [
   },
   {
     id: 4,
-    name: 'Residencia Minimalista',
-    location: 'Los Cabos, México',
+    name: 'Minimalist Residence',
+    location: 'Los Cabos, Mexico',
     price: 5600000,
     bedrooms: 4,
     bathrooms: 5,
@@ -46,7 +46,7 @@ const properties = [
   },
   {
     id: 5,
-    name: 'Chalet Alpino de Lujo',
+    name: 'Luxury Alpine Chalet',
     location: 'Aspen, Colorado',
     price: 12500000,
     bedrooms: 7,
@@ -74,9 +74,9 @@ export const PropertyCarousel = (): React.ReactElement => {
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-serif mb-4 text-balance">Encuentra tu propiedad ideal</h2>
+          <h2 className="text-4xl md:text-5xl font-serif mb-4 text-balance">Find your ideal property</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Una selección exclusiva de las propiedades más excepcionales disponibles
+            An exclusive selection of the most exceptional properties available
           </p>
         </div>
 
@@ -110,12 +110,12 @@ export const PropertyCarousel = (): React.ReactElement => {
                         <div className="text-center">
                           <Bed className="w-6 h-6 mx-auto mb-2 text-accent" />
                           <div className="text-2xl font-semibold">{currentProperty.bedrooms}</div>
-                          <div className="text-sm text-muted-foreground">Habitaciones</div>
+                          <div className="text-sm text-muted-foreground">Bedrooms</div>
                         </div>
                         <div className="text-center">
                           <Bath className="w-6 h-6 mx-auto mb-2 text-accent" />
                           <div className="text-2xl font-semibold">{currentProperty.bathrooms}</div>
-                          <div className="text-sm text-muted-foreground">Baños</div>
+                          <div className="text-sm text-muted-foreground">Bathrooms</div>
                         </div>
                         <div className="text-center">
                           <Maximize className="w-6 h-6 mx-auto mb-2 text-accent" />
@@ -124,7 +124,7 @@ export const PropertyCarousel = (): React.ReactElement => {
                         </div>
                       </div>
 
-                      <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-base">Ver detalles</Button>
+                      <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-base">View details</Button>
                       <Button
                         variant="outline"
                         className="w-full h-12 gap-2 text-base mt-3 bg-transparent"
@@ -134,7 +134,7 @@ export const PropertyCarousel = (): React.ReactElement => {
                         }}
                       >
                         <Mail className="h-5 w-5" />
-                        Contactar agente
+                        Contact agent
                       </Button>
                     </div>
                   </div>

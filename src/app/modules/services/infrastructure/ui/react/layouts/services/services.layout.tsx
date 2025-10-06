@@ -19,62 +19,53 @@ import type React from 'react';
 const services = [
   {
     icon: Home,
-    title: 'Compra de Propiedades',
+    title: 'Property Purchase',
     description:
-      'Te ayudamos a encontrar la propiedad perfecta que se ajuste a tus necesidades y presupuesto. Acceso exclusivo a propiedades de lujo en todo el mundo.',
-    features: ['Búsqueda personalizada', 'Visitas guiadas', 'Negociación de precios', 'Asesoramiento legal'],
+      'We help you find the perfect property that fits your needs and budget. Exclusive access to luxury properties worldwide.',
+    features: ['Personalized search', 'Guided tours', 'Price negotiation', 'Legal advice'],
   },
   {
     icon: TrendingUp,
-    title: 'Venta de Propiedades',
+    title: 'Property Sale',
     description:
-      'Maximiza el valor de tu propiedad con nuestras estrategias de marketing y red internacional de compradores potenciales.',
-    features: ['Valoración profesional', 'Marketing internacional', 'Fotografía profesional', 'Gestión de visitas'],
+      'Maximize your property’s value with our marketing strategies and international network of potential buyers.',
+    features: ['Professional valuation', 'International marketing', 'Professional photography', 'Visit management'],
   },
   {
     icon: FileText,
-    title: 'Tasación de Propiedades',
-    description:
-      'Obtén una valoración precisa y detallada de tu propiedad realizada por expertos certificados en el mercado de lujo.',
-    features: ['Análisis de mercado', 'Informe detallado', 'Comparativa de propiedades', 'Recomendaciones'],
+    title: 'Property Appraisal',
+    description: 'Get an accurate and detailed valuation of your property by certified experts in the luxury market.',
+    features: ['Market analysis', 'Detailed report', 'Property comparison', 'Recommendations'],
   },
   {
     icon: Briefcase,
-    title: 'Inversión Inmobiliaria',
-    description:
-      'Asesoramiento experto para inversores que buscan oportunidades en el mercado inmobiliario de alto valor.',
-    features: ['Análisis de ROI', 'Oportunidades exclusivas', 'Gestión de cartera', 'Estrategias fiscales'],
+    title: 'Real Estate Investment',
+    description: 'Expert advice for investors seeking opportunities in the high-value real estate market.',
+    features: ['ROI analysis', 'Exclusive opportunities', 'Portfolio management', 'Tax strategies'],
   },
   {
     icon: Building2,
-    title: 'Gestión de Propiedades',
-    description:
-      'Servicio completo de administración y mantenimiento de propiedades de lujo para propietarios e inversores.',
-    features: ['Mantenimiento integral', 'Gestión de inquilinos', 'Reportes mensuales', 'Servicio 24/7'],
+    title: 'Property Management',
+    description: 'Comprehensive administration and maintenance service for luxury properties for owners and investors.',
+    features: ['Comprehensive maintenance', 'Tenant management', 'Monthly reports', '24/7 service'],
   },
   {
     icon: Key,
-    title: 'Alquiler de Lujo',
-    description: 'Encuentra o alquila propiedades de lujo con contratos flexibles y servicios premium incluidos.',
-    features: ['Propiedades amuebladas', 'Contratos flexibles', 'Servicios de conserjería', 'Mantenimiento incluido'],
+    title: 'Luxury Rentals',
+    description: 'Find or rent luxury properties with flexible contracts and premium services included.',
+    features: ['Furnished properties', 'Flexible contracts', 'Concierge services', 'Maintenance included'],
   },
   {
     icon: Shield,
-    title: 'Asesoría Legal',
-    description:
-      'Equipo legal especializado en transacciones inmobiliarias internacionales y protección de inversiones.',
-    features: ['Due diligence', 'Contratos internacionales', 'Protección de activos', 'Resolución de conflictos'],
+    title: 'Legal Advisory',
+    description: 'Specialized legal team for international real estate transactions and investment protection.',
+    features: ['Due diligence', 'International contracts', 'Asset protection', 'Conflict resolution'],
   },
   {
     icon: Calculator,
-    title: 'Consultoría Financiera',
-    description: 'Soluciones de financiamiento personalizadas y asesoramiento fiscal para transacciones de alto valor.',
-    features: [
-      'Opciones de financiamiento',
-      'Planificación fiscal',
-      'Estructuración de compra',
-      'Optimización de costos',
-    ],
+    title: 'Financial Consulting',
+    description: 'Personalized financing solutions and tax advice for high-value transactions.',
+    features: ['Financing options', 'Tax planning', 'Purchase structuring', 'Cost optimization'],
   },
 ];
 
@@ -85,9 +76,9 @@ export const ServicesLayout = (): React.ReactElement => {
       <main className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="mb-16 text-center">
-          <h1 className="font-serif text-5xl font-bold text-foreground mb-4">Nuestros Servicios</h1>
+          <h1 className="font-serif text-5xl font-bold text-foreground mb-4">Our Services</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Soluciones integrales para todas tus necesidades inmobiliarias de lujo
+            Comprehensive solutions for all your luxury real estate needs
           </p>
         </div>
 
@@ -112,7 +103,7 @@ export const ServicesLayout = (): React.ReactElement => {
                     ))}
                   </ul>
                   <Button variant="outline" className="w-full bg-transparent">
-                    Más información
+                    More information
                   </Button>
                 </CardContent>
               </Card>
@@ -122,16 +113,16 @@ export const ServicesLayout = (): React.ReactElement => {
 
         {/* Why Choose Us Section */}
         <div className="mb-16">
-          <h2 className="font-serif text-4xl font-bold text-foreground text-center mb-12">¿Por qué elegirnos?</h2>
+          <h2 className="font-serif text-4xl font-bold text-foreground text-center mb-12">Why Choose Us?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card>
               <CardContent className="pt-6 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
                   <Users className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-semibold text-xl mb-2">Experiencia Global</h3>
+                <h3 className="font-semibold text-xl mb-2">Global Experience</h3>
                 <p className="text-muted-foreground">
-                  Más de 20 años de experiencia en el mercado inmobiliario de lujo internacional
+                  Over 20 years of experience in the international luxury real estate market
                 </p>
               </CardContent>
             </Card>
@@ -140,10 +131,8 @@ export const ServicesLayout = (): React.ReactElement => {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
                   <Shield className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-semibold text-xl mb-2">Confidencialidad</h3>
-                <p className="text-muted-foreground">
-                  Máxima discreción y protección de la privacidad de nuestros clientes
-                </p>
+                <h3 className="font-semibold text-xl mb-2">Confidentiality</h3>
+                <p className="text-muted-foreground">Maximum discretion and protection of our clients’ privacy</p>
               </CardContent>
             </Card>
             <Card>
@@ -151,9 +140,9 @@ export const ServicesLayout = (): React.ReactElement => {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
                   <TrendingUp className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-semibold text-xl mb-2">Resultados Comprobados</h3>
+                <h3 className="font-semibold text-xl mb-2">Proven Results</h3>
                 <p className="text-muted-foreground">
-                  Miles de transacciones exitosas y clientes satisfechos en todo el mundo
+                  Thousands of successful transactions and satisfied clients worldwide
                 </p>
               </CardContent>
             </Card>
@@ -163,14 +152,14 @@ export const ServicesLayout = (): React.ReactElement => {
         {/* CTA Section */}
         <Card className="bg-primary text-primary-foreground">
           <CardContent className="py-12 text-center">
-            <h2 className="font-serif text-4xl font-bold mb-4">¿Listo para comenzar?</h2>
+            <h2 className="font-serif text-4xl font-bold mb-4">Ready to get started?</h2>
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-              Agenda una consulta gratuita con uno de nuestros expertos y descubre cómo podemos ayudarte
+              Schedule a free consultation with one of our experts and discover how we can help you
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to={PATHNAME_ROUTES.CONTACT}>
                 <Button size="lg" variant="secondary">
-                  Contactar ahora
+                  Contact now
                 </Button>
               </Link>
               <Link to={PATHNAME_ROUTES.AGENTS}>
@@ -179,7 +168,7 @@ export const ServicesLayout = (): React.ReactElement => {
                   variant="outline"
                   className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10"
                 >
-                  Ver nuestro equipo
+                  Meet our team
                 </Button>
               </Link>
             </div>

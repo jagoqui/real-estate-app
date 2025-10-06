@@ -13,8 +13,8 @@ import { useState } from 'react';
 const properties = [
   {
     id: 1,
-    name: 'Villa Mediterránea',
-    location: 'Marbella, España',
+    name: 'Mediterranean Villa',
+    location: 'Marbella, Spain',
     price: 8500000,
     type: 'Villa',
     bedrooms: 6,
@@ -26,8 +26,8 @@ const properties = [
   },
   {
     id: 2,
-    name: 'Penthouse Manhattan',
-    location: 'Nueva York, USA',
+    name: 'Manhattan Penthouse',
+    location: 'New York, USA',
     price: 15000000,
     type: 'Penthouse',
     bedrooms: 4,
@@ -39,8 +39,8 @@ const properties = [
   },
   {
     id: 3,
-    name: 'Château Provenzal',
-    location: 'Provence, Francia',
+    name: 'Provençal Château',
+    location: 'Provence, France',
     price: 12000000,
     type: 'Château',
     bedrooms: 8,
@@ -52,7 +52,7 @@ const properties = [
   },
   {
     id: 4,
-    name: 'Beach House Malibu',
+    name: 'Malibu Beach House',
     location: 'Malibu, California',
     price: 18500000,
     type: 'Beach House',
@@ -65,10 +65,10 @@ const properties = [
   },
   {
     id: 5,
-    name: 'Apartamento Parisino',
-    location: 'París, Francia',
+    name: 'Parisian Apartment',
+    location: 'Paris, France',
     price: 6500000,
-    type: 'Apartamento',
+    type: 'Apartment',
     bedrooms: 3,
     bathrooms: 3,
     area: 280,
@@ -78,8 +78,8 @@ const properties = [
   },
   {
     id: 6,
-    name: 'Villa Toscana',
-    location: 'Toscana, Italia',
+    name: 'Tuscan Villa',
+    location: 'Tuscany, Italy',
     price: 9800000,
     type: 'Villa',
     bedrooms: 7,
@@ -122,10 +122,10 @@ export const PropertiesLayout = (): React.ReactElement => {
       <main className="container mx-auto px-4 py-12 pt-32">
         <div className="mb-12 text-center">
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Propiedades Exclusivas
+            Exclusive Properties
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Descubre nuestra selección curada de propiedades de lujo en las ubicaciones más prestigiosas del mundo
+            Discover our curated selection of luxury properties in the world's most prestigious locations
           </p>
         </div>
 
@@ -134,7 +134,7 @@ export const PropertiesLayout = (): React.ReactElement => {
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nombre o ubicación..."
+                placeholder="Search by name or location..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -142,7 +142,7 @@ export const PropertiesLayout = (): React.ReactElement => {
             </div>
             <Button variant="outline" onClick={() => setShowFilters(!showFilters)} className="gap-2">
               <SlidersHorizontal className="h-4 w-4" />
-              Filtros
+              Filters
             </Button>
           </div>
 
@@ -151,30 +151,30 @@ export const PropertiesLayout = (): React.ReactElement => {
               <CardContent className="pt-6 space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-2">
-                    <Label>Tipo de Propiedad</Label>
+                    <Label>Property Type</Label>
                     <Select value={propertyType} onValueChange={setPropertyType}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">Todas</SelectItem>
+                        <SelectItem value="all">All</SelectItem>
                         <SelectItem value="Villa">Villa</SelectItem>
                         <SelectItem value="Penthouse">Penthouse</SelectItem>
                         <SelectItem value="Château">Château</SelectItem>
                         <SelectItem value="Beach House">Beach House</SelectItem>
-                        <SelectItem value="Apartamento">Apartamento</SelectItem>
+                        <SelectItem value="Apartment">Apartment</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Habitaciones</Label>
+                    <Label>Bedrooms</Label>
                     <Select value={bedrooms} onValueChange={setBedrooms}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">Todas</SelectItem>
+                        <SelectItem value="all">All</SelectItem>
                         <SelectItem value="3">3+</SelectItem>
                         <SelectItem value="4">4+</SelectItem>
                         <SelectItem value="5">5+</SelectItem>
@@ -184,21 +184,21 @@ export const PropertiesLayout = (): React.ReactElement => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Ordenar por</Label>
+                    <Label>Sort by</Label>
                     <Select value={sortBy} onValueChange={setSortBy}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="featured">Destacadas</SelectItem>
-                        <SelectItem value="price-asc">Precio: Menor a Mayor</SelectItem>
-                        <SelectItem value="price-desc">Precio: Mayor a Menor</SelectItem>
+                        <SelectItem value="featured">Featured</SelectItem>
+                        <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                        <SelectItem value="price-desc">Price: High to Low</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Rango de Precio</Label>
+                    <Label>Price Range</Label>
                     <div className="pt-2">
                       <Slider
                         value={priceRange}
@@ -221,8 +221,7 @@ export const PropertiesLayout = (): React.ReactElement => {
 
         <div className="mb-6">
           <p className="text-muted-foreground">
-            {filteredProperties.length}{' '}
-            {filteredProperties.length === 1 ? 'propiedad encontrada' : 'propiedades encontradas'}
+            {filteredProperties.length} {filteredProperties.length === 1 ? 'property found' : 'properties found'}
           </p>
         </div>
 
@@ -237,10 +236,10 @@ export const PropertiesLayout = (): React.ReactElement => {
                     className="object-cover group-hover:scale-110 transition-transform duration-500 size-full"
                   />
                   {property.featured && (
-                    <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">Destacada</Badge>
+                    <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">Featured</Badge>
                   )}
                   {property.status === 'sold' && (
-                    <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground">Vendida</Badge>
+                    <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground">Sold</Badge>
                   )}
                   <Button
                     size="icon"
@@ -290,7 +289,7 @@ export const PropertiesLayout = (): React.ReactElement => {
                     }}
                   >
                     <Mail className="h-4 w-4" />
-                    Contactar Agente
+                    Contact Agent
                   </Button>
                 </CardContent>
               </Card>
@@ -300,7 +299,7 @@ export const PropertiesLayout = (): React.ReactElement => {
 
         {filteredProperties.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-xl text-muted-foreground">No se encontraron propiedades con los filtros seleccionados</p>
+            <p className="text-xl text-muted-foreground">No properties found with the selected filters</p>
           </div>
         )}
       </main>

@@ -36,8 +36,8 @@ import { useState } from 'react';
 const propertyData = {
   1: {
     id: 1,
-    name: 'Villa Mediterránea',
-    location: 'Marbella, España',
+    name: 'Mediterranean Villa',
+    location: 'Marbella, Spain',
     price: 8500000,
     type: 'Villa',
     bedrooms: 6,
@@ -48,24 +48,24 @@ const propertyData = {
     status: 'available',
     featured: true,
     description:
-      'Espectacular villa mediterránea ubicada en una de las zonas más exclusivas de Marbella. Esta propiedad única combina elegancia clásica con comodidades modernas, ofreciendo vistas panorámicas al mar Mediterráneo y a las montañas. Diseñada por arquitectos de renombre internacional, cada detalle ha sido cuidadosamente seleccionado para crear un ambiente de lujo y sofisticación.',
+      'Spectacular Mediterranean villa located in one of the most exclusive areas of Marbella. This unique property combines classic elegance with modern amenities, offering panoramic views of the Mediterranean Sea and mountains. Designed by internationally renowned architects, every detail has been carefully selected to create an atmosphere of luxury and sophistication.',
     features: [
-      'Piscina infinita con vistas al mar',
-      'Gimnasio completamente equipado',
-      'Bodega de vinos climatizada',
-      'Sistema de domótica integral',
-      'Jardines diseñados por paisajistas',
-      'Cocina gourmet con electrodomésticos de alta gama',
-      'Suite principal con vestidor y terraza privada',
-      'Sistema de seguridad 24/7',
+      'Infinity pool with sea views',
+      'Fully equipped gym',
+      'Climate-controlled wine cellar',
+      'Integrated home automation system',
+      'Landscaped gardens by professional designers',
+      'Gourmet kitchen with high-end appliances',
+      'Master suite with walk-in closet and private terrace',
+      '24/7 security system',
     ],
     amenities: [
-      { icon: Wifi, label: 'WiFi de alta velocidad' },
-      { icon: Dumbbell, label: 'Gimnasio privado' },
-      { icon: Waves, label: 'Piscina infinita' },
-      { icon: Trees, label: 'Jardín paisajístico' },
-      { icon: Shield, label: 'Seguridad 24/7' },
-      { icon: Car, label: 'Garaje para 4 autos' },
+      { icon: Wifi, label: 'High-speed WiFi' },
+      { icon: Dumbbell, label: 'Private gym' },
+      { icon: Waves, label: 'Infinity pool' },
+      { icon: Trees, label: 'Landscaped garden' },
+      { icon: Shield, label: '24/7 security' },
+      { icon: Car, label: 'Garage for 4 cars' },
     ],
     images: [
       '/luxury-mediterranean-villa.jpg',
@@ -76,7 +76,7 @@ const propertyData = {
       '/luxury-villa-bathroom.png',
     ],
     agent: {
-      name: 'María González',
+      name: 'Maria Gonzalez',
       phone: '+34 600 123 456',
       email: 'maria@luxeestates.com',
       image: '/professional-woman-realtor.jpg',
@@ -94,9 +94,9 @@ export const PropertyDetailLayout = (): React.ReactElement => {
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-12 text-center">
-          <h1 className="text-3xl font-bold mb-4">Propiedad no encontrada</h1>
+          <h1 className="text-3xl font-bold mb-4">Property not found</h1>
           <Link to={PATHNAME_ROUTES.PROPERTIES}>
-            <Button>Ver todas las propiedades</Button>
+            <Button>View all properties</Button>
           </Link>
         </div>
       </div>
@@ -118,7 +118,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
         <Link to={PATHNAME_ROUTES.PROPERTIES}>
           <Button variant="ghost" className="mb-6">
             <ChevronLeft className="h-4 w-4 mr-2" />
-            Volver a propiedades
+            Back to properties
           </Button>
         </Link>
 
@@ -143,7 +143,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                 setIsLightboxOpen(true);
               }}
             >
-              Ver todas las fotos ({property.images.length})
+              View all photos ({property.images.length})
             </Button>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
@@ -170,14 +170,14 @@ export const PropertyDetailLayout = (): React.ReactElement => {
         {/* Lightbox */}
         <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
           <DialogContent className="max-w-7xl h-[90vh] p-0">
-            <DialogTitle className="sr-only">Galería de imágenes</DialogTitle>
+            <DialogTitle className="sr-only">Image gallery</DialogTitle>
             <div className="relative w-full h-full flex items-center justify-center bg-black">
               <Button
                 variant="ghost"
                 size="icon"
                 className="absolute top-4 right-4 z-50 bg-white/10 text-white hover:bg-white/20"
                 onClick={() => setIsLightboxOpen(false)}
-                aria-label="Cerrar galería"
+                aria-label="Close gallery"
               >
                 <X className="h-6 w-6" />
               </Button>
@@ -186,7 +186,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                 size="icon"
                 className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white/50 text-white hover:bg-white/70"
                 onClick={prevImage}
-                aria-label="Imagen anterior"
+                aria-label="Previous image"
               >
                 <ChevronLeft className="h-8 w-8" />
               </Button>
@@ -195,7 +195,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                 size="icon"
                 className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white/50 text-white hover:bg-white/70"
                 onClick={nextImage}
-                aria-label="Imagen siguiente"
+                aria-label="Next image"
               >
                 <ChevronRight className="h-8 w-8" />
               </Button>
@@ -240,7 +240,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                 <Badge variant="secondary" className="text-base px-4 py-1">
                   {property.type}
                 </Badge>
-                {property.featured && <Badge className="text-base px-4 py-1">Destacada</Badge>}
+                {property.featured && <Badge className="text-base px-4 py-1">Featured</Badge>}
               </div>
             </div>
 
@@ -249,10 +249,10 @@ export const PropertyDetailLayout = (): React.ReactElement => {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Precio</p>
+                    <p className="text-sm text-muted-foreground mb-1">Price</p>
                     <p className="text-4xl font-bold text-foreground">${(property.price / 1000000).toFixed(1)}M</p>
                   </div>
-                  <Button size="lg">Agendar visita</Button>
+                  <Button size="lg">Schedule a visit</Button>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="flex items-center gap-3">
@@ -261,7 +261,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     </div>
                     <div>
                       <p className="text-2xl font-bold">{property.bedrooms}</p>
-                      <p className="text-sm text-muted-foreground">Habitaciones</p>
+                      <p className="text-sm text-muted-foreground">Bedrooms</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -270,7 +270,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     </div>
                     <div>
                       <p className="text-2xl font-bold">{property.bathrooms}</p>
-                      <p className="text-sm text-muted-foreground">Baños</p>
+                      <p className="text-sm text-muted-foreground">Bathrooms</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -288,7 +288,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     </div>
                     <div>
                       <p className="text-2xl font-bold">{property.parking}</p>
-                      <p className="text-sm text-muted-foreground">Estacionamientos</p>
+                      <p className="text-sm text-muted-foreground">Parking spaces</p>
                     </div>
                   </div>
                 </div>
@@ -298,9 +298,9 @@ export const PropertyDetailLayout = (): React.ReactElement => {
             {/* Tabs */}
             <Tabs defaultValue="description" className="w-full">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="description">Descripción</TabsTrigger>
-                <TabsTrigger value="features">Características</TabsTrigger>
-                <TabsTrigger value="virtual-tour">Tour Virtual</TabsTrigger>
+                <TabsTrigger value="description">Description</TabsTrigger>
+                <TabsTrigger value="features">Features</TabsTrigger>
+                <TabsTrigger value="virtual-tour">Virtual Tour</TabsTrigger>
               </TabsList>
               <TabsContent value="description" className="space-y-4">
                 <Card>
@@ -308,12 +308,12 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     <p className="text-muted-foreground leading-relaxed">{property.description}</p>
                     <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-border">
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">Año de construcción</p>
+                        <p className="text-sm text-muted-foreground mb-1">Year built</p>
                         <p className="text-lg font-semibold">{property.yearBuilt}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">Estado</p>
-                        <Badge variant="secondary">Disponible</Badge>
+                        <p className="text-sm text-muted-foreground mb-1">Status</p>
+                        <Badge variant="secondary">Available</Badge>
                       </div>
                     </div>
                   </CardContent>
@@ -322,7 +322,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
               <TabsContent value="features" className="space-y-4">
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-semibold mb-4">Características destacadas</h3>
+                    <h3 className="text-xl font-semibold mb-4">Highlighted features</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {property.features.map((feature, index) => (
                         <li key={index} className="flex items-start gap-2">
@@ -331,7 +331,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                         </li>
                       ))}
                     </ul>
-                    <h3 className="text-xl font-semibold mb-4 mt-8">Amenidades</h3>
+                    <h3 className="text-xl font-semibold mb-4 mt-8">Amenities</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {property.amenities.map((amenity, index) => {
                         const Icon = amenity.icon;
@@ -352,11 +352,11 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     <div className="aspect-video bg-secondary rounded-lg flex items-center justify-center">
                       <div className="text-center">
                         <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                        <p className="text-lg font-semibold mb-2">Tour Virtual 360°</p>
+                        <p className="text-lg font-semibold mb-2">360° Virtual Tour</p>
                         <p className="text-muted-foreground mb-4">
-                          Explora esta propiedad desde la comodidad de tu hogar
+                          Explore this property from the comfort of your home
                         </p>
-                        <Button>Iniciar Tour Virtual</Button>
+                        <Button>Start Virtual Tour</Button>
                       </div>
                     </div>
                   </CardContent>
@@ -367,7 +367,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
             {/* Map */}
             <Card>
               <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-4">Ubicación</h3>
+                <h3 className="text-xl font-semibold mb-4">Location</h3>
                 <div className="aspect-video bg-secondary rounded-lg flex items-center justify-center">
                   <div className="text-center">
                     <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
@@ -383,7 +383,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
             {/* Agent Card */}
             <Card>
               <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-4">Contacta al agente</h3>
+                <h3 className="text-xl font-semibold mb-4">Contact the agent</h3>
                 <div className="flex items-center gap-4 mb-6">
                   <div className="relative h-16 w-16 rounded-full overflow-hidden">
                     <img
@@ -394,7 +394,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                   </div>
                   <div>
                     <p className="font-semibold text-lg">{property.agent.name}</p>
-                    <p className="text-sm text-muted-foreground">Agente de lujo</p>
+                    <p className="text-sm text-muted-foreground">Luxury agent</p>
                   </div>
                 </div>
                 <div className="space-y-3 mb-6">
@@ -409,23 +409,23 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                 </div>
                 <form className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nombre</Label>
-                    <Input id="name" placeholder="Tu nombre" />
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" placeholder="Your name" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="tu@email.com" />
+                    <Input id="email" type="email" placeholder="your@email.com" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Teléfono</Label>
+                    <Label htmlFor="phone">Phone</Label>
                     <Input id="phone" type="tel" placeholder="+34 600 000 000" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="message">Mensaje</Label>
-                    <Textarea id="message" placeholder="Estoy interesado en esta propiedad..." rows={4} />
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea id="message" placeholder="I'm interested in this property..." rows={4} />
                   </div>
                   <Button className="w-full" type="submit">
-                    Enviar mensaje
+                    Send message
                   </Button>
                 </form>
               </CardContent>
@@ -434,11 +434,11 @@ export const PropertyDetailLayout = (): React.ReactElement => {
             {/* Schedule Visit */}
             <Card>
               <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-4">Agendar visita</h3>
-                <p className="text-sm text-muted-foreground mb-4">Programa una visita personalizada a esta propiedad</p>
+                <h3 className="text-xl font-semibold mb-4">Schedule a visit</h3>
+                <p className="text-sm text-muted-foreground mb-4">Book a personalized visit to this property</p>
                 <Button className="w-full bg-transparent" variant="outline">
                   <Calendar className="h-4 w-4 mr-2" />
-                  Seleccionar fecha
+                  Select date
                 </Button>
               </CardContent>
             </Card>

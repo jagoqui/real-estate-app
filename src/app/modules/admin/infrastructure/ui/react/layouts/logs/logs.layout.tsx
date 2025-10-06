@@ -51,7 +51,7 @@ export const LogsLayout = (): React.ReactElement => {
       purchaseDate: '2024-03-15T14:30:00',
       status: 'completed',
       paymentMethod: 'Wire Transfer',
-      notes: 'Compra completada sin inconvenientes. Cliente muy satisfecho.',
+      notes: 'Purchase completed without issues. Client very satisfied.',
     },
     {
       id: '2',
@@ -68,12 +68,12 @@ export const LogsLayout = (): React.ReactElement => {
       purchaseDate: '2024-03-10T10:15:00',
       status: 'completed',
       paymentMethod: 'Bank Transfer',
-      notes: 'Transacción internacional. Documentación completa.',
+      notes: 'International transaction. Complete documentation.',
     },
     {
       id: '3',
       propertyId: 'prop-003',
-      propertyName: 'Casa de Playa Malibu',
+      propertyName: 'Malibu Beach House',
       propertyAddress: '789 Ocean Drive, Malibu, CA',
       buyerId: 'buyer-003',
       buyerName: 'David Williams',
@@ -85,12 +85,12 @@ export const LogsLayout = (): React.ReactElement => {
       purchaseDate: '2024-03-05T16:45:00',
       status: 'pending',
       paymentMethod: 'Escrow',
-      notes: 'Esperando documentación final del banco.',
+      notes: 'Waiting for final bank documentation.',
     },
     {
       id: '4',
       propertyId: 'prop-004',
-      propertyName: 'Mansion Colonial',
+      propertyName: 'Colonial Mansion',
       propertyAddress: '321 Estate Road, Los Angeles, CA',
       buyerId: 'buyer-004',
       buyerName: 'Jennifer Martinez',
@@ -106,7 +106,7 @@ export const LogsLayout = (): React.ReactElement => {
     {
       id: '5',
       propertyId: 'prop-005',
-      propertyName: 'Loft Moderno Downtown',
+      propertyName: 'Modern Loft Downtown',
       propertyAddress: '555 Urban Street, San Francisco, CA',
       buyerId: 'buyer-005',
       buyerName: 'Robert Taylor',
@@ -118,7 +118,7 @@ export const LogsLayout = (): React.ReactElement => {
       purchaseDate: '2024-02-20T09:00:00',
       status: 'cancelled',
       paymentMethod: 'N/A',
-      notes: 'Comprador retiró la oferta por problemas de financiamiento.',
+      notes: 'Buyer withdrew the offer due to financing issues.',
     },
   ]);
 
@@ -130,9 +130,9 @@ export const LogsLayout = (): React.ReactElement => {
     } as const;
 
     const labels = {
-      completed: 'Completada',
-      pending: 'Pendiente',
-      cancelled: 'Cancelada',
+      completed: 'Completed',
+      pending: 'Pending',
+      cancelled: 'Cancelled',
     };
 
     return <Badge variant={variants[status]}>{labels[status]}</Badge>;
@@ -157,7 +157,7 @@ export const LogsLayout = (): React.ReactElement => {
     .reduce((acc, log) => acc + log.commissionAmount, 0);
 
   const exportToCSV = (): void => {
-    const headers = ['ID', 'Propiedad', 'Comprador', 'Email', 'Precio', 'Comisión', 'Fecha', 'Estado'];
+    const headers = ['ID', 'Property', 'Buyer', 'Email', 'Price', 'Commission', 'Date', 'Status'];
     const csvData = filteredLogs.map(log => [
       log.id,
       log.propertyName,
@@ -182,12 +182,12 @@ export const LogsLayout = (): React.ReactElement => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-3xl font-semibold">Logs de Compras</h2>
-          <p className="mt-2 text-muted-foreground">Historial completo de transacciones</p>
+          <h2 className="font-serif text-3xl font-semibold">Purchase Logs</h2>
+          <p className="mt-2 text-muted-foreground">Complete transaction history</p>
         </div>
         <Button onClick={exportToCSV} variant="outline" className="gap-2 bg-transparent">
           <Download className="h-4 w-4" />
-          Exportar CSV
+          Export CSV
         </Button>
       </div>
 
@@ -195,33 +195,33 @@ export const LogsLayout = (): React.ReactElement => {
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Total Transacciones</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Total Transactions</h3>
           </CardHeader>
           <CardContent>
             <div className="font-serif text-3xl font-bold">{logs.length}</div>
             <p className="mt-1 text-sm text-muted-foreground">
-              {logs.filter(l => l.status === 'completed').length} completadas
+              {logs.filter(l => l.status === 'completed').length} completed
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Ventas Totales</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Total Sales</h3>
           </CardHeader>
           <CardContent>
             <div className="font-serif text-3xl font-bold">${(totalSales / 1000000).toFixed(1)}M</div>
-            <p className="mt-1 text-sm text-muted-foreground">En transacciones completadas</p>
+            <p className="mt-1 text-sm text-muted-foreground">In completed transactions</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Comisiones Totales</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Total Commissions</h3>
           </CardHeader>
           <CardContent>
             <div className="font-serif text-3xl font-bold">${(totalCommissions / 1000).toFixed(0)}K</div>
-            <p className="mt-1 text-sm text-muted-foreground">Generadas en comisiones</p>
+            <p className="mt-1 text-sm text-muted-foreground">Generated in commissions</p>
           </CardContent>
         </Card>
       </div>
@@ -233,7 +233,7 @@ export const LogsLayout = (): React.ReactElement => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Buscar por propiedad, comprador o email..."
+                placeholder="Search by property, buyer or email..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -245,10 +245,10 @@ export const LogsLayout = (): React.ReactElement => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos los estados</SelectItem>
-                <SelectItem value="completed">Completadas</SelectItem>
-                <SelectItem value="pending">Pendientes</SelectItem>
-                <SelectItem value="cancelled">Canceladas</SelectItem>
+                <SelectItem value="all">All statuses</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="cancelled">Cancelled</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -257,13 +257,13 @@ export const LogsLayout = (): React.ReactElement => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Propiedad</TableHead>
-                <TableHead>Comprador</TableHead>
-                <TableHead>Precio</TableHead>
-                <TableHead>Comisión</TableHead>
-                <TableHead>Fecha</TableHead>
-                <TableHead>Estado</TableHead>
-                <TableHead className="text-right">Acciones</TableHead>
+                <TableHead>Property</TableHead>
+                <TableHead>Buyer</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Commission</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -284,7 +284,7 @@ export const LogsLayout = (): React.ReactElement => {
                   <TableCell className="font-semibold">${log.purchasePrice.toLocaleString()}</TableCell>
                   <TableCell className="text-emerald-600">${log.commissionAmount.toLocaleString()}</TableCell>
                   <TableCell className="text-muted-foreground">
-                    {new Date(log.purchaseDate).toLocaleDateString('es-ES', {
+                    {new Date(log.purchaseDate).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric',
@@ -300,43 +300,43 @@ export const LogsLayout = (): React.ReactElement => {
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[600px]">
                         <DialogHeader>
-                          <DialogTitle className="font-serif text-2xl">Detalles de la Transacción</DialogTitle>
+                          <DialogTitle className="font-serif text-2xl">Transaction Details</DialogTitle>
                         </DialogHeader>
                         {selectedLog && (
                           <div className="space-y-6">
                             <div className="grid gap-4 sm:grid-cols-2">
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Propiedad</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Property</h4>
                                 <p className="font-medium">{selectedLog.propertyName}</p>
                                 <p className="text-sm text-muted-foreground">{selectedLog.propertyAddress}</p>
                               </div>
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Estado</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Status</h4>
                                 {getStatusBadge(selectedLog.status)}
                               </div>
                             </div>
 
                             <div className="grid gap-4 sm:grid-cols-2">
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Comprador</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Buyer</h4>
                                 <p className="font-medium">{selectedLog.buyerName}</p>
                                 <p className="text-sm text-muted-foreground">{selectedLog.buyerEmail}</p>
                               </div>
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Vendedor</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Seller</h4>
                                 <p className="font-medium">{selectedLog.sellerName}</p>
                               </div>
                             </div>
 
                             <div className="grid gap-4 sm:grid-cols-2">
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Precio de Compra</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Purchase Price</h4>
                                 <p className="font-serif text-2xl font-bold">
                                   ${selectedLog.purchasePrice.toLocaleString()}
                                 </p>
                               </div>
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Comisión</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Commission</h4>
                                 <p className="font-serif text-2xl font-bold text-emerald-600">
                                   ${selectedLog.commissionAmount.toLocaleString()}
                                 </p>
@@ -345,9 +345,9 @@ export const LogsLayout = (): React.ReactElement => {
 
                             <div className="grid gap-4 sm:grid-cols-2">
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Fecha de Compra</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Purchase Date</h4>
                                 <p className="font-medium">
-                                  {new Date(selectedLog.purchaseDate).toLocaleDateString('es-ES', {
+                                  {new Date(selectedLog.purchaseDate).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
@@ -357,14 +357,14 @@ export const LogsLayout = (): React.ReactElement => {
                                 </p>
                               </div>
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Método de Pago</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Payment Method</h4>
                                 <p className="font-medium">{selectedLog.paymentMethod}</p>
                               </div>
                             </div>
 
                             {selectedLog.notes && (
                               <div>
-                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Notas</h4>
+                                <h4 className="mb-2 text-sm font-medium text-muted-foreground">Notes</h4>
                                 <p className="rounded-lg bg-muted p-4 text-sm">{selectedLog.notes}</p>
                               </div>
                             )}
