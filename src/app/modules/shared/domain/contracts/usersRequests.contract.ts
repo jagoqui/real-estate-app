@@ -7,6 +7,6 @@ interface UpdateUserRequestArgs {
 
 export type UpdateUserRequest = (args: UpdateUserRequestArgs) => Promise<User>;
 
-export interface UserRequests {
+export interface UsersRequests {
   updateUserRequest: UpdateUserRequest;
 }

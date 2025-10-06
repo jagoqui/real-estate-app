@@ -1,14 +1,14 @@
-import type { UserRequests } from '@/modules/shared/domain/contracts/userRequests.contract';
+import type { UsersRequests } from '@/modules/shared/domain/contracts/usersRequests.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
 import type { User } from '@/modules/shared/domain/schemas/user.schema';
 import { updateUserRequest } from '@/modules/shared/infrastructure/requests/updateUser/updateUser.request';
 import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 
-const USER_REQUESTS: UserRequests = {
+const USER_REQUESTS: UsersRequests = {
   updateUserRequest,
 };
 
-export const useUserRequests = (): UserRequests => {
+export const useUserRequests = (): UsersRequests => {
   const { setAuthResponse } = useAuthResponseContext();
 
   const onUpdateUserSuccess = (args: Awaited<ReturnType<typeof USER_REQUESTS.updateUserRequest>>): void => {
@@ -30,7 +30,7 @@ export const useUserRequests = (): UserRequests => {
     });
   };
 
-  const wrappedRequests: UserRequests = {
+  const wrappedRequests: UsersRequests = {
     updateUserRequest: async (args): Promise<User> =>
       asyncFunctionValidationWrapper({
         fn: USER_REQUESTS.updateUserRequest,
