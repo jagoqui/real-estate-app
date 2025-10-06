@@ -10,11 +10,11 @@ import { Link } from '@tanstack/react-router';
 import { Bath, Bed, Edit, Eye, MapPin, Maximize, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
-// Mock data - replace with actual data from your backend
+// Mock data - replace with actual data from backend
 const mockProperties = [
   {
     id: '1',
-    name: 'Villa Moderna en Beverly Hills',
+    name: 'Modern Villa in Beverly Hills',
     address: '123 Luxury Lane',
     city: 'Beverly Hills',
     state: 'CA',
@@ -28,7 +28,7 @@ const mockProperties = [
   },
   {
     id: '2',
-    name: 'Penthouse con Vista al Mar',
+    name: 'Penthouse with Ocean View',
     address: '456 Ocean Drive',
     city: 'Miami',
     state: 'FL',
@@ -57,9 +57,9 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
 
   const getStatusBadge = (status: 'active' | 'pending' | 'sold'): React.ReactElement => {
     const variants = {
-      active: { label: 'Activa', className: 'bg-green-500/10 text-green-500 hover:bg-green-500/20' },
-      pending: { label: 'Pendiente', className: 'bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20' },
-      sold: { label: 'Vendida', className: 'bg-gray-500/10 text-gray-500 hover:bg-gray-500/20' },
+      active: { label: 'Active', className: 'bg-green-500/10 text-green-500 hover:bg-green-500/20' },
+      pending: { label: 'Pending', className: 'bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20' },
+      sold: { label: 'Sold', className: 'bg-gray-500/10 text-gray-500 hover:bg-gray-500/20' },
     };
     const variant = variants[status];
     return (
@@ -75,12 +75,12 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
         <DialogHeader className="p-6 pb-4">
           <div className="flex items-center justify-between">
             <div>
-              <DialogTitle className="mt-5 text-2xl font-serif">Mis Propiedades</DialogTitle>
-              <p className="text-sm text-muted-foreground">Administra tus listados de propiedades</p>
+              <DialogTitle className="mt-5 text-2xl font-serif">My Properties</DialogTitle>
+              <p className="text-sm text-muted-foreground">Manage your property listings</p>
             </div>
             <Button className="gap-2">
               <Plus className="w-4 h-4" />
-              Nueva Propiedad
+              New Property
             </Button>
           </div>
         </DialogHeader>
@@ -91,11 +91,11 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
               <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
                 <Plus className="w-8 h-8 text-muted-foreground" />
               </div>
-              <h3 className="text-xl font-serif mb-2">No tienes propiedades listadas</h3>
-              <p className="text-muted-foreground mb-6 text-center">Comienza a listar tus propiedades de lujo</p>
+              <h3 className="text-xl font-serif mb-2">You have no listed properties</h3>
+              <p className="text-muted-foreground mb-6 text-center">Start listing your luxury properties</p>
               <Button className="gap-2">
                 <Plus className="w-4 h-4" />
-                Agregar Primera Propiedad
+                Add First Property
               </Button>
             </div>
           ) : (
@@ -138,7 +138,7 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
                             </div>
                             <div className="flex items-center gap-2">
                               <Eye className="w-4 h-4 text-muted-foreground" />
-                              <span>{property.views} vistas</span>
+                              <span>{property.views} views</span>
                             </div>
                           </div>
 
@@ -148,7 +148,7 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
                         <div className="flex md:flex-col gap-2">
                           <Button variant="outline" size="sm" className="gap-2 flex-1 md:flex-none bg-transparent">
                             <Edit className="w-4 h-4" />
-                            Editar
+                            Edit
                           </Button>
                           <Link
                             to={`/properties/${property.id}`}
@@ -157,7 +157,7 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
                           >
                             <Button variant="outline" size="sm" className="gap-2 w-full bg-transparent">
                               <Eye className="w-4 h-4" />
-                              Ver
+                              View
                             </Button>
                           </Link>
                           <Button
@@ -167,7 +167,7 @@ export const MyPropertiesDialog = ({ open, onOpenChange }: MyPropertiesDialogPro
                             onClick={() => deleteProperty(property.id)}
                           >
                             <Trash2 className="w-4 h-4" />
-                            Eliminar
+                            Delete
                           </Button>
                         </div>
                       </div>

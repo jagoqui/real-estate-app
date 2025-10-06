@@ -10,11 +10,11 @@ import { Bath, Bed, Heart, Mail, MapPin, Maximize } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
 
-// Mock data - replace with actual data from your backend
+// Mock data - replace with actual data
 const mockFavorites = [
   {
     id: '1',
-    name: 'Villa Moderna en Beverly Hills',
+    name: 'Modern Villa in Beverly Hills',
     address: '123 Luxury Lane',
     city: 'Beverly Hills',
     state: 'CA',
@@ -26,7 +26,7 @@ const mockFavorites = [
   },
   {
     id: '2',
-    name: 'Penthouse con Vista al Mar',
+    name: 'Penthouse with Ocean View',
     address: '456 Ocean Drive',
     city: 'Miami',
     state: 'FL',
@@ -55,20 +55,18 @@ export const FavoritesDialog = ({ open, onOpenChange }: FavoritesDialogProps): R
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-5xl max-h-[85vh] p-0">
         <DialogHeader className="p-6 pb-4">
-          <DialogTitle className="text-2xl font-serif">Mis Favoritos</DialogTitle>
-          <p className="text-sm text-muted-foreground">Propiedades que has guardado para revisar más tarde</p>
+          <DialogTitle className="text-2xl font-serif">My Favorites</DialogTitle>
+          <p className="text-sm text-muted-foreground">Properties you have saved to review later</p>
         </DialogHeader>
 
         <ScrollArea className="px-6 pb-6">
           {favorites.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
               <Heart className="w-16 h-16 text-muted-foreground mb-4" />
-              <h3 className="text-xl font-serif mb-2">No tienes favoritos aún</h3>
-              <p className="text-muted-foreground mb-6 text-center">
-                Explora nuestras propiedades y guarda tus favoritas
-              </p>
+              <h3 className="text-xl font-serif mb-2">You have no favorites yet</h3>
+              <p className="text-muted-foreground mb-6 text-center">Explore our properties and save your favorites</p>
               <Link to={PATHNAME_ROUTES.PROPERTIES} onClick={() => onOpenChange(false)}>
-                <Button>Ver Propiedades</Button>
+                <Button>View Properties</Button>
               </Link>
             </div>
           ) : (
@@ -121,12 +119,12 @@ export const FavoritesDialog = ({ open, onOpenChange }: FavoritesDialogProps): R
                       <div className="flex gap-2">
                         <Link to={`${PATHNAME_ROUTES.PROPERTIES}/${property.id}`} onClick={() => onOpenChange(false)}>
                           <Button variant="outline" size="sm">
-                            Ver
+                            View
                           </Button>
                         </Link>
                         <Button size="sm" className="gap-2">
                           <Mail className="w-3 h-3" />
-                          Contactar
+                          Contact
                         </Button>
                       </div>
                     </div>
