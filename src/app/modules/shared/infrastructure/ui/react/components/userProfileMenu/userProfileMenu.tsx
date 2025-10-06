@@ -7,7 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import type { User } from '@/modules/shared/domain/schemas/user.schema';
 import { Link } from '@tanstack/react-router';
 import { Heart, Home, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -38,10 +37,6 @@ export const UserProfileMenu = (): React.ReactElement => {
       .join('')
       .toUpperCase()
       .slice(0, INITIALS_LENGTH);
-  };
-
-  const onUpdateProfile = (user: User): void => {
-    console.log('Updated user:', user);
   };
 
   if (isPending) {
@@ -78,15 +73,15 @@ export const UserProfileMenu = (): React.ReactElement => {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
             <Settings className="w-4 h-4" />
-            <span>Editar Perfil</span>
+            <span>Edit Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setFavoritesDialogOpen(true)}>
             <Heart className="w-4 h-4" />
-            <span>Mis Favoritos</span>
+            <span>My Favorites</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setPropertiesDialogOpen(true)}>
             <Home className="w-4 h-4" />
-            <span>Mis Propiedades</span>
+            <span>My Properties</span>
           </DropdownMenuItem>
           {user.isAdmin && (
             <>
@@ -102,19 +97,12 @@ export const UserProfileMenu = (): React.ReactElement => {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => void onLogout()} variant="destructive">
             <LogOut className="w-4 h-4" />
-            <span>Cerrar Sesión</span>
+            <span>Sign Out</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditProfileDialog
-        open={editDialogOpen}
-        onOpenChange={setEditDialogOpen}
-        onSave={updatedUser => {
-          onUpdateProfile(updatedUser);
-          setEditDialogOpen(false);
-        }}
-      />
+      <EditProfileDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
       <FavoritesDialog open={favoritesDialogOpen} onOpenChange={setFavoritesDialogOpen} />
       <MyPropertiesDialog open={propertiesDialogOpen} onOpenChange={setPropertiesDialogOpen} />
