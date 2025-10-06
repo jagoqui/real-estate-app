@@ -15,14 +15,15 @@ interface UseDeleteOwnerRequestReturn {
   data?: DeleteOwnerReturnValue;
 }
 
-export const useDeleteOwnerRequest = (args: { onSuccess?: VoidFunction }): UseDeleteOwnerRequestReturn => {
+export const useDeleteOwnerRequest = ({ onSuccess }: { onSuccess: VoidFunction }): UseDeleteOwnerRequestReturn => {
   const { deleteOwnerRequest } = useOwnersRequestsContext();
 
   const { mutate, isPending, error, data } = useMutation({
     mutationKey: ['delete-owner'],
     mutationFn: deleteOwnerRequest,
     onSuccess: () => {
-      args.onSuccess?.();
+      onSuccess();
+      toast.success('Owner deleted successfully!');
     },
     onError: error => {
       console.error('Delete owner failed:', error);

@@ -1,3 +1,4 @@
+import { queryClient } from '@/modules/shared/infrastructure/clients/query/query.client';
 import { useQuery } from '@tanstack/react-query';
 import { useOwnersRequestsContext } from '../../contexts/ownersRequests/ownersRequests.context';
 
@@ -6,7 +7,7 @@ type GetOwnersReturn = ReturnType<typeof useOwnersRequestsContext>['getOwnersReq
 type GetOwnersReturnValue = Awaited<ReturnType<GetOwnersReturn>>;
 
 interface UseGetOwnersRequestReturn {
-  onGetOwners: () => Promise<GetOwnersReturnValue>;
+  onGetOwners: () => void;
   isPending: boolean;
   error: Error | null;
   data?: GetOwnersReturnValue;
@@ -15,11 +16,13 @@ interface UseGetOwnersRequestReturn {
 export const useGetOwnersRequest = (): UseGetOwnersRequestReturn => {
   const { getOwnersRequest } = useOwnersRequestsContext();
 
-  const onGetOwners = getOwnersRequest.bind(null);
+  const onGetOwners = (): void => {
+    void queryClient.resetQueries({ queryKey: ['get-owners'] });
+  };
 
   const { isPending, error, data } = useQuery<GetOwnersReturnValue, Error>({
     queryKey: ['get-owners'],
-    queryFn: onGetOwners,
+    queryFn: getOwnersRequest,
   });
 
   return {
