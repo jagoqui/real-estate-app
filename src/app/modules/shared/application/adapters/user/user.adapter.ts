@@ -1,7 +1,7 @@
 import type { User } from '@/modules/shared/domain/schemas/user.schema';
 import { USER_ROLES_DTO } from '../../dtos/role.dto';
 import type { UserDto } from '../../dtos/user.dto';
-import { userRoleAdapter } from '../user-role/user-role.adapter';
+import { userRoleAdapter } from '../userRole/userRole.adapter';
 
 export const userAdapter = (user: UserDto): User => ({
   id: user.id,

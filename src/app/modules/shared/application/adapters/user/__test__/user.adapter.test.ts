@@ -1,6 +1,6 @@
 import { USER_MOCK } from '@/data/mocks/users/user.mock';
 import { USER_DTO_MOCK } from '@/data/mocks/users/userDto.mock';
-import * as userRoleAdapterModule from '../../user-role/user-role.adapter';
+import * as userRoleAdapterModule from '../../userRole/userRole.adapter';
 import { userAdapter } from '../user.adapter';
 
 describe('User Adapter', () => {
