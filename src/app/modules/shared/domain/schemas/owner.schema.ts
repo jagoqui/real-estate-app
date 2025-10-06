@@ -3,14 +3,14 @@ import z from 'zod';
 
 export const ownerSchema = z.object({
   id: objectIdSchema,
-  userId: objectIdSchema,
+  userId: objectIdSchema.optional(),
   name: z.string().min(COMMONS_VALIDATIONS.NAME.min).max(COMMONS_VALIDATIONS.NAME.max),
-  address: z.string().min(COMMONS_VALIDATIONS.ADDRESS.min).max(COMMONS_VALIDATIONS.ADDRESS.max),
+  address: z.string().max(COMMONS_VALIDATIONS.ADDRESS.max).optional(),
   phone: z.string().regex(COMMONS_VALIDATIONS.PHONE.pattern).optional(),
   email: z.email().min(COMMONS_VALIDATIONS.EMAIL.min).max(COMMONS_VALIDATIONS.EMAIL.max).optional(),
-  photoUrl: z.url().min(COMMONS_VALIDATIONS.PHOTO.min),
-  birthday: z.iso.datetime(),
-  createdAt: z.iso.datetime(),
+  photoUrl: z.string().optional(),
+  birthday: z.string().optional(),
+  createdAt: z.iso.datetime().optional(),
 });
 
 export type Owner = z.infer<typeof ownerSchema>;
