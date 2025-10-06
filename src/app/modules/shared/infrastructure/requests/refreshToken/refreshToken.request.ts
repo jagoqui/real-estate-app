@@ -1,6 +1,6 @@
 import { authResponseAdapter } from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import type { AuthResponseDto } from '@/modules/shared/application/dtos/authResponse.dto';
-import type { RefreshTokenRequest } from '@/modules/shared/domain/contracts/authRequest.contract';
+import type { RefreshTokenRequest } from '@/modules/shared/domain/contracts/authRequests.contract';
 
 import { authResponseSchema, type AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';

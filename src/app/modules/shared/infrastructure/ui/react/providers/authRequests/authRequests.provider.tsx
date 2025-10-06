@@ -1,4 +1,4 @@
-import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequest.contract';
+import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequests.contract';
 import { AuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
 import { useAuthRequests } from '@/modules/shared/infrastructure/ui/react/hooks/useAuthRequests/useAuthRequests';
 import { useMemo, type ReactNode } from 'react';

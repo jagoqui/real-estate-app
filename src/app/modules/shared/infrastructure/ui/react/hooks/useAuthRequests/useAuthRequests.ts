@@ -1,4 +1,4 @@
-import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequest.contract';
+import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequests.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
 import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
 import { loginWithEmailAndPasswordRequest } from '@/modules/shared/infrastructure/requests/loginWithEmailAndPassword/loginWithEmailAndPassword.request';

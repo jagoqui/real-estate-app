@@ -1,4 +1,4 @@
-import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequest.contract';
+import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequests.contract';
 import { createContext, useContext } from 'react';
 
 export const AuthRequestsContext = createContext<AuthRequests | undefined>(undefined);
