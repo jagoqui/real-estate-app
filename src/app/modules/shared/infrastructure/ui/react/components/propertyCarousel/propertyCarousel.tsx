@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Bath, Bed, ChevronLeft, ChevronRight, Mail, MapPin, Maximize } from 'lucide-react';
