@@ -17,6 +17,17 @@ import { EditProfileDialog } from '../editProfileDialog/editProfileDialog';
 import { FavoritesDialog } from '../favoritesDialog/favoritesDialog';
 import { MyPropertiesDialog } from '../myPropertiesDialog/myPropertiesDialog';
 
+const INITIALS_LENGTH = 2;
+
+const getInitials = (name: string): string => {
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, INITIALS_LENGTH);
+};
+
 // eslint-disable-next-line max-lines-per-function
 export const UserProfileMenu = (): React.ReactElement => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -27,17 +38,6 @@ export const UserProfileMenu = (): React.ReactElement => {
   const { onLogout, isPending } = useLogoutRequest();
 
   const user = authResponse!.user;
-
-  const INITIALS_LENGTH = 2;
-
-  const getInitials = (name: string): string => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, INITIALS_LENGTH);
-  };
 
   if (isPending) {
     return <div>Signing out...</div>;
@@ -102,7 +102,7 @@ export const UserProfileMenu = (): React.ReactElement => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditProfileDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+      <EditProfileDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} getInitials={getInitials} />
 
       <FavoritesDialog open={favoritesDialogOpen} onOpenChange={setFavoritesDialogOpen} />
       <MyPropertiesDialog open={propertiesDialogOpen} onOpenChange={setPropertiesDialogOpen} />
