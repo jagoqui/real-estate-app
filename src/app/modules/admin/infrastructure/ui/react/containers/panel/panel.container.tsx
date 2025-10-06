@@ -26,7 +26,7 @@ export const PanelContainer = ({ mobileMenuOpen, setMobileMenuOpen }: SidebarCon
               <AdminSidebarContent setMobileMenuOpen={setMobileMenuOpen} />
             </SheetContent>
           </Sheet>
-          <h1 className="font-serif text-xl lg:text-2xl font-semibold">Panel Administrativo</h1>
+          <h1 className="font-serif text-xl lg:text-2xl font-semibold">Admin Panel</h1>
         </div>
         <div className="flex items-center gap-2 lg:gap-4">
           <UserProfileMenu />

@@ -89,7 +89,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
   };
 
   const handleDelete = (id: string): void => {
-    if (confirm('¿Estás seguro de eliminar este propietario?')) {
+    if (confirm('Are you sure you want to delete this owner?')) {
       setOwners(owners.filter(o => o.id !== id));
     }
   };
@@ -114,8 +114,8 @@ export const OwnersManagementLayout = (): React.ReactElement => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-3xl font-semibold">Propietarios</h2>
-          <p className="mt-2 text-muted-foreground">Gestiona los propietarios de las propiedades</p>
+          <h2 className="font-serif text-3xl font-semibold">Owners</h2>
+          <p className="mt-2 text-muted-foreground">Manage the owners of the properties</p>
         </div>
         <Dialog
           open={isDialogOpen}
@@ -127,19 +127,17 @@ export const OwnersManagementLayout = (): React.ReactElement => {
           <DialogTrigger asChild>
             <Button className="gap-2">
               <Plus className="h-4 w-4" />
-              Agregar Propietario
+              Add Owner
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle className="font-serif text-2xl">
-                {editingOwner ? 'Editar Propietario' : 'Nuevo Propietario'}
-              </DialogTitle>
+              <DialogTitle className="font-serif text-2xl">{editingOwner ? 'Edit Owner' : 'New Owner'}</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nombre Completo</Label>
+                  <Label htmlFor="name">Full Name</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -158,7 +156,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Teléfono</Label>
+                  <Label htmlFor="phone">Phone</Label>
                   <Input
                     id="phone"
                     type="tel"
@@ -177,9 +175,9 @@ export const OwnersManagementLayout = (): React.ReactElement => {
                     resetForm();
                   }}
                 >
-                  Cancelar
+                  Cancel
                 </Button>
-                <Button type="submit">{editingOwner ? 'Guardar Cambios' : 'Crear Propietario'}</Button>
+                <Button type="submit">{editingOwner ? 'Save Changes' : 'Create Owner'}</Button>
               </div>
             </form>
           </DialogContent>
@@ -189,34 +187,34 @@ export const OwnersManagementLayout = (): React.ReactElement => {
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Total Propietarios</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Total Owners</h3>
             <Home className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="font-serif text-3xl font-bold">{owners.length}</div>
-            <p className="mt-1 text-sm text-muted-foreground">Registrados en la plataforma</p>
+            <p className="mt-1 text-sm text-muted-foreground">Registered on the platform</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Propiedades Totales</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Total Properties</h3>
             <Home className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="font-serif text-3xl font-bold">{owners.reduce((acc, o) => acc + o.properties, 0)}</div>
-            <p className="mt-1 text-sm text-muted-foreground">En gestión</p>
+            <p className="mt-1 text-sm text-muted-foreground">Under management</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Promedio por Propietario</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Average per Owner</h3>
             <Home className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="font-serif text-3xl font-bold">
               {owners.length > 0 ? (owners.reduce((acc, o) => acc + o.properties, 0) / owners.length).toFixed(1) : 0}
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">Propiedades</p>
+            <p className="mt-1 text-sm text-muted-foreground">Properties</p>
           </CardContent>
         </Card>
       </div>
@@ -227,7 +225,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nombre, email o teléfono..."
+                placeholder="Search by name, email or phone..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -239,11 +237,11 @@ export const OwnersManagementLayout = (): React.ReactElement => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nombre</TableHead>
-                <TableHead>Contacto</TableHead>
-                <TableHead>Propiedades</TableHead>
-                <TableHead>Fecha de Registro</TableHead>
-                <TableHead className="text-right">Acciones</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Contact</TableHead>
+                <TableHead>Properties</TableHead>
+                <TableHead>Registration Date</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -269,7 +267,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {new Date(owner.createdAt).toLocaleDateString('es-ES', {
+                    {new Date(owner.createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',

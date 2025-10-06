@@ -5,11 +5,11 @@ import { BarChart3, FileText, Home, LayoutDashboard, Users } from 'lucide-react'
 
 const navItems = [
   { href: PATHNAME_ROUTES.ADMIN, icon: LayoutDashboard, label: 'Dashboard' },
-  { href: PATHNAME_ROUTES.ADMIN_USERS, icon: Users, label: 'Usuarios' },
-  { href: PATHNAME_ROUTES.ADMIN_OWNERS, icon: Users, label: 'Propietarios' },
-  { href: PATHNAME_ROUTES.ADMIN_PROPERTIES, icon: Home, label: 'Propiedades' },
+  { href: PATHNAME_ROUTES.ADMIN_USERS, icon: Users, label: 'Users' },
+  { href: PATHNAME_ROUTES.ADMIN_OWNERS, icon: Users, label: 'Owners' },
+  { href: PATHNAME_ROUTES.ADMIN_PROPERTIES, icon: Home, label: 'Properties' },
   { href: PATHNAME_ROUTES.ADMIN_ANALYTICS, icon: BarChart3, label: 'Analytics' },
-  { href: PATHNAME_ROUTES.ADMIN_LOGS, icon: FileText, label: 'Logs de Compras' },
+  { href: PATHNAME_ROUTES.ADMIN_LOGS, icon: FileText, label: 'Purchase Logs' },
 ];
 
 interface AdminSidebarContentProps {
@@ -40,7 +40,7 @@ export const AdminSidebarContent = ({ setMobileMenuOpen }: AdminSidebarContentPr
     <div className="absolute bottom-12 left-4 right-4">
       <Link to={PATHNAME_ROUTES.INDEX}>
         <Button variant="outline" className="w-full bg-transparent">
-          Volver al home
+          Back to home
         </Button>
       </Link>
     </div>

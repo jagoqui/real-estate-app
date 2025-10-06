@@ -3,31 +3,31 @@ import { DollarSign, Home, TrendingUp, Users } from 'lucide-react';
 
 const stats = [
   {
-    title: 'Total Propiedades',
+    title: 'Total Properties',
     value: '24',
     icon: Home,
-    change: '+3 este mes',
+    change: '+3 this month',
     changeType: 'positive' as const,
   },
   {
-    title: 'Propietarios',
+    title: 'Owners',
     value: '18',
     icon: Users,
-    change: '+2 este mes',
+    change: '+2 this month',
     changeType: 'positive' as const,
   },
   {
-    title: 'Ventas Totales',
+    title: 'Total Sales',
     value: '$12.5M',
     icon: DollarSign,
-    change: '+18% vs mes anterior',
+    change: '+18% vs last month',
     changeType: 'positive' as const,
   },
   {
-    title: 'Tasa de Conversión',
+    title: 'Conversion Rate',
     value: '24%',
     icon: TrendingUp,
-    change: '+5% vs mes anterior',
+    change: '+5% vs last month',
     changeType: 'positive' as const,
   },
 ];
@@ -37,8 +37,8 @@ export const DashboardLayout = (): React.ReactElement => {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="font-serif text-3xl font-semibold">Bienvenido al Dashboard</h2>
-        <p className="mt-2 text-muted-foreground">Resumen general de tu plataforma de bienes raíces</p>
+        <h2 className="font-serif text-3xl font-semibold">Welcome to the Dashboard</h2>
+        <p className="mt-2 text-muted-foreground">General overview of your real estate platform</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -59,25 +59,25 @@ export const DashboardLayout = (): React.ReactElement => {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Actividad Reciente</CardTitle>
+            <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
                 {
-                  action: 'Nueva propiedad agregada',
-                  property: 'Villa Moderna en Beverly Hills',
-                  time: 'Hace 2 horas',
+                  action: 'New property added',
+                  property: 'Modern Villa in Beverly Hills',
+                  time: '2 hours ago',
                 },
                 {
-                  action: 'Venta completada',
-                  property: 'Penthouse en Manhattan',
-                  time: 'Hace 5 horas',
+                  action: 'Sale completed',
+                  property: 'Penthouse in Manhattan',
+                  time: '5 hours ago',
                 },
                 {
-                  action: 'Nuevo propietario registrado',
+                  action: 'New owner registered',
                   property: 'John Smith',
-                  time: 'Hace 1 día',
+                  time: '1 day ago',
                 },
               ].map((activity, i) => (
                 <div key={i} className="flex items-start gap-4 border-b border-border pb-4 last:border-0 last:pb-0">
@@ -95,14 +95,14 @@ export const DashboardLayout = (): React.ReactElement => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Propiedades Destacadas</CardTitle>
+            <CardTitle>Featured Properties</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
-                { name: 'Villa Moderna', views: 1234, inquiries: 45 },
-                { name: 'Penthouse Manhattan', views: 987, inquiries: 32 },
-                { name: 'Casa de Playa Malibu', views: 856, inquiries: 28 },
+                { name: 'Modern Villa', views: 1234, inquiries: 45 },
+                { name: 'Manhattan Penthouse', views: 987, inquiries: 32 },
+                { name: 'Malibu Beach House', views: 856, inquiries: 28 },
               ].map((property, i) => (
                 <div
                   key={i}
@@ -110,11 +110,11 @@ export const DashboardLayout = (): React.ReactElement => {
                 >
                   <div>
                     <p className="font-medium">{property.name}</p>
-                    <p className="text-sm text-muted-foreground">{property.views} vistas</p>
+                    <p className="text-sm text-muted-foreground">{property.views} views</p>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-primary">{property.inquiries}</p>
-                    <p className="text-xs text-muted-foreground">consultas</p>
+                    <p className="text-xs text-muted-foreground">inquiries</p>
                   </div>
                 </div>
               ))}
