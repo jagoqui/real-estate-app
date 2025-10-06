@@ -1,7 +1,7 @@
 import { userAdapter } from '@/modules/shared/application/adapters/user/user.adapter';
 import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import { createUserFormDataUseCase } from '@/modules/shared/application/useCases/createUserFormData/createUserFormData.uc';
-import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/userRequests.contract';
+import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
 import { userSchema, type User } from '@/modules/shared/domain/schemas/user.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
