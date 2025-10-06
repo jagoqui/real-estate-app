@@ -11,4 +11,6 @@ export const userAdapter = (user: UserDto): User => ({
   googleId: user.googleId,
   role: userRoleAdapter(user.role),
   isAdmin: user.role === USER_ROLES_DTO.ADMIN,
+  phone: user.phoneNumber,
+  bio: user.bio,
 });

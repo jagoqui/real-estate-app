@@ -8,4 +8,6 @@ export const USER_DTO_MOCK: UserDto = {
   photoUrl: 'https://example.com/photo.jpg',
   googleId: 'google-123456',
   role: USER_ROLES_DTO.OWNER,
+  phoneNumber: '123-456-7890',
+  bio: 'This is a sample bio',
 };

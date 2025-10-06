@@ -7,4 +7,6 @@ export interface UserDto {
   photoUrl?: string;
   googleId?: string;
   role: UserRoleDto;
+  phoneNumber?: string;
+  bio?: string;
 }

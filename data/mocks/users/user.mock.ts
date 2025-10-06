@@ -8,5 +8,7 @@ export const USER_MOCK: User = {
   photoUrl: 'https://example.com/photo.jpg',
   googleId: 'google-123456',
   role: USER_ROLES.OWNER,
+  phone: '123-456-7890',
+  bio: 'This is a sample bio',
   isAdmin: false,
 };
