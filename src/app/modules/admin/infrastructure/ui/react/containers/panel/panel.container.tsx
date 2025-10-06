@@ -2,13 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 import { UserProfileMenu } from '@/modules/shared/infrastructure/ui/react/components/userProfileMenu/userProfileMenu';
-import { useAuthResponseContext } from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
 import { Menu } from 'lucide-react';
-import { useState } from 'react';
 import { AdminSidebarContent } from '../../components/adminSidebarContent/adminSidebarContent';
 import { PanelBodyContainer } from '../panelBody/panelBody.container';
-
-const INITIALS_LENGTH = 2;
 
 interface SidebarContentProps {
   mobileMenuOpen: boolean;
@@ -16,20 +12,6 @@ interface SidebarContentProps {
 }
 
 export const PanelContainer = ({ mobileMenuOpen, setMobileMenuOpen }: SidebarContentProps): React.ReactElement => {
-  const { authResponse } = useAuthResponseContext();
-
-  const [formData] = useState(authResponse?.user);
-  const userName = authResponse?.user?.name || 'Admin User';
-
-  const getInitials = (name: string): string => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, INITIALS_LENGTH);
-  };
-
   return (
     <div className="flex-1 w-full">
       <header className="flex h-16 items-center justify-between border-b border-border px-4 lg:px-8">

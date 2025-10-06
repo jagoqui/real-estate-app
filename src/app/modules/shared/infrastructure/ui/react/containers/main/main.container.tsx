@@ -14,7 +14,15 @@ export const MainContainer = (): React.ReactElement => {
       <AuthResponseProvider>
         <RouterProvider router={appRouter} InnerWrap={({ children }) => <MainLayout>{children}</MainLayout>} />
       </AuthResponseProvider>
-      <Toaster richColors />
+      <Toaster
+        richColors
+        toastOptions={{
+          classNames: {
+            toast:
+              'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg group-[.toaster]:pointer-events-auto',
+          },
+        }}
+      />
     </GoogleOAuthProvider>
   );
 };
