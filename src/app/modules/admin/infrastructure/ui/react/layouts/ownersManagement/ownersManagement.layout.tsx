@@ -1,113 +1,60 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Home, Mail, Pencil, Phone, Plus, Search, Trash2 } from 'lucide-react';
+import type { Owner } from '@/modules/shared/domain/schemas/owner.schema';
+import { useDeleteOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useDeleteOwnerRequest/useDeleteOwnerRequest';
+import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetOwnersRequest/useGetOwnersRequest';
+import { Home, Mail, Pencil, Phone, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import type { Owner } from '../propertiesManagement/propertiesManagement.layout';
+import { OwnerManagementDialog } from '../../components/ownerManagementDialog/ownerManagementDialog';
 
 // eslint-disable-next-line max-lines-per-function
 export const OwnersManagementLayout = (): React.ReactElement => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingOwner, setEditingOwner] = useState<Owner | null>(null);
+  const { onGetOwners, isPending: isPendingOwners, error: ownersError, data: owners } = useGetOwnersRequest();
 
-  // Mock data - replace with real data from your backend
-  const [owners, setOwners] = useState<Array<Owner>>([
-    {
-      id: '1',
-      name: 'John Smith',
-      email: 'john.smith@email.com',
-      phone: '+1 (555) 123-4567',
-      properties: 3,
-      createdAt: '2024-01-10',
-    },
-    {
-      id: '2',
-      name: 'Sarah Johnson',
-      email: 'sarah.j@email.com',
-      phone: '+1 (555) 987-6543',
-      properties: 5,
-      createdAt: '2024-01-15',
-    },
-    {
-      id: '3',
-      name: 'Michael Chen',
-      email: 'm.chen@email.com',
-      phone: '+1 (555) 456-7890',
-      properties: 2,
-      createdAt: '2024-02-01',
-    },
-    {
-      id: '4',
-      name: 'Emma Williams',
-      email: 'emma.w@email.com',
-      phone: '+1 (555) 234-5678',
-      properties: 4,
-      createdAt: '2024-02-10',
-    },
-  ]);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
+  const {
+    onDeleteOwner,
+    isPending: isPendingDelete,
+    error: deleteError,
+  } = useDeleteOwnerRequest({
+    onSuccess: () => void onGetOwners(),
   });
 
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
+  const isLoading = isPendingOwners || isPendingDelete;
+  const error = ownersError || deleteError;
 
-    const newOwner: Owner = {
-      id: editingOwner?.id || Date.now().toString(),
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      properties: editingOwner?.properties || 0,
-      createdAt: editingOwner?.createdAt || new Date().toISOString(),
-    };
+  if (isLoading) {
+    return <div>Loading owners...</div>;
+  }
 
-    if (editingOwner) {
-      setOwners(owners.map(o => (o.id === editingOwner.id ? newOwner : o)));
-    } else {
-      setOwners([...owners, newOwner]);
-    }
-
-    resetForm();
-    setIsDialogOpen(false);
-  };
+  if (!owners) {
+    return <div className="text-destructive">No owners data available.</div>;
+  }
 
   const handleEdit = (owner: Owner): void => {
     setEditingOwner(owner);
-    setFormData({
-      name: owner.name,
-      email: owner.email,
-      phone: owner.phone,
+    setTimeout(() => {
+      setIsDialogOpen(true);
     });
-    setIsDialogOpen(true);
   };
 
   const handleDelete = (id: string): void => {
     if (confirm('Are you sure you want to delete this owner?')) {
-      setOwners(owners.filter(o => o.id !== id));
+      void onDeleteOwner({
+        id,
+      });
     }
-  };
-
-  const resetForm = (): void => {
-    setEditingOwner(null);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-    });
   };
 
   const filteredOwners = owners.filter(
     o =>
       o.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      o.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      o.phone.includes(searchTerm)
+      (o.email && o.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (o.phone && o.phone.includes(searchTerm))
   );
 
   return (
@@ -117,73 +64,16 @@ export const OwnersManagementLayout = (): React.ReactElement => {
           <h2 className="font-serif text-3xl font-semibold">Owners</h2>
           <p className="mt-2 text-muted-foreground">Manage the owners of the properties</p>
         </div>
-        <Dialog
-          open={isDialogOpen}
-          onOpenChange={open => {
-            setIsDialogOpen(open);
-            if (!open) resetForm();
-          }}
-        >
-          <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" />
-              Add Owner
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
-            <DialogHeader>
-              <DialogTitle className="font-serif text-2xl">{editingOwner ? 'Edit Owner' : 'New Owner'}</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={e => setFormData({ ...formData, email: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setIsDialogOpen(false);
-                    resetForm();
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">{editingOwner ? 'Save Changes' : 'Create Owner'}</Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
       </div>
-
+      {error && <div className="text-destructive">Error loading owners: {error.message}</div>}
+      <OwnerManagementDialog
+        key={editingOwner ? editingOwner.id : 'new-owner'}
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        onGetOwners={() => onGetOwners.bind(null)}
+        editingOwner={editingOwner}
+        setEditingOwner={setEditingOwner}
+      />
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -201,7 +91,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
             <Home className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="font-serif text-3xl font-bold">{owners.reduce((acc, o) => acc + o.properties, 0)}</div>
+            <div className="font-serif text-3xl font-bold">Calculating...</div>
             <p className="mt-1 text-sm text-muted-foreground">Under management</p>
           </CardContent>
         </Card>
@@ -211,9 +101,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
             <Home className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="font-serif text-3xl font-bold">
-              {owners.length > 0 ? (owners.reduce((acc, o) => acc + o.properties, 0) / owners.length).toFixed(1) : 0}
-            </div>
+            <div className="font-serif text-3xl font-bold">Calculating...</div>
             <p className="mt-1 text-sm text-muted-foreground">Properties</p>
           </CardContent>
         </Card>
@@ -239,7 +127,9 @@ export const OwnersManagementLayout = (): React.ReactElement => {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Contact</TableHead>
+                <TableHead>Address</TableHead>
                 <TableHead>Properties</TableHead>
+                <TableHead>Birthday</TableHead>
                 <TableHead>Registration Date</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -260,18 +150,30 @@ export const OwnersManagementLayout = (): React.ReactElement => {
                       </div>
                     </div>
                   </TableCell>
+                  <TableCell className="text-muted-foreground">{owner.address || 'N/A'}</TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {owner.birthday
+                      ? new Date(owner.birthday).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })
+                      : 'N/A'}
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Home className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">{owner.properties}</span>
+                      <span className="font-semibold">Calculating...</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {new Date(owner.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                    {owner.createdAt
+                      ? new Date(owner.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })
+                      : 'N/A'}
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
