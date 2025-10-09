@@ -1,29 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import { useUserRequests } from '../useUserRequests/useUserRequests';
+import { useUsersRequests } from '../useUsersRequests/useUsersRequests';
 
-type GetUsersWithoutOwnerRequestReturn = ReturnType<typeof useUserRequests>['getUsersWithoutOwnerRequest'];
+type GetUsersWithoutOwnerRequestReturn = ReturnType<typeof useUsersRequests>['getUsersWithoutOwnerRequest'];
 
 type GetUsersWithoutOwnerRequestReturnValue = Awaited<ReturnType<GetUsersWithoutOwnerRequestReturn>>;
 
 interface UseGetUsersWithoutOwnerRequestReturn {
-  onGetUsersWithoutOwner: () => Promise<GetUsersWithoutOwnerRequestReturnValue>;
+  onRefetchGetUsersWithoutOwner: () => Promise<void>;
   isPending: boolean;
   error: Error | null;
   data?: GetUsersWithoutOwnerRequestReturnValue;
 }
 
 export const useGetUsersWithoutOwnerRequest = (): UseGetUsersWithoutOwnerRequestReturn => {
-  const { getUsersWithoutOwnerRequest } = useUserRequests();
+  const { getUsersWithoutOwnerRequest } = useUsersRequests();
 
-  const onGetUsersWithoutOwner = getUsersWithoutOwnerRequest;
-
-  const { isPending, error, data } = useQuery<GetUsersWithoutOwnerRequestReturnValue, Error>({
+  const { isPending, error, data, refetch } = useQuery<GetUsersWithoutOwnerRequestReturnValue, Error>({
     queryKey: ['get-users-without-owner'],
-    queryFn: onGetUsersWithoutOwner,
+    queryFn: getUsersWithoutOwnerRequest,
   });
 
+  const onRefetchGetUsersWithoutOwner = async (): Promise<void> => {
+    await refetch();
+  };
+
   return {
-    onGetUsersWithoutOwner,
+    onRefetchGetUsersWithoutOwner,
     isPending,
     error,
     data,

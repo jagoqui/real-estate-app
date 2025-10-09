@@ -14,7 +14,7 @@ interface UseGetOwnerByIdRequestReturn {
   data?: GetOwnerByIdReturnValue;
 }
 
-export const useGetOwnerByIdRequest = (id: OnGetOwnerByIdArgs['id']): UseGetOwnerByIdRequestReturn => {
+export const useGetOwnerByIdRequest = ({ id }: OnGetOwnerByIdArgs): UseGetOwnerByIdRequestReturn => {
   const { getOwnerByIdRequest } = useOwnersRequestsContext();
 
   const onGetOwnerById = getOwnerByIdRequest.bind(null, { id });

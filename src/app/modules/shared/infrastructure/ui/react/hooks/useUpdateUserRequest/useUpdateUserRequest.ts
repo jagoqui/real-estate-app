@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useUserRequestsContext } from '../../contexts/userRequests/userRequests.context';
+import { useUsersRequestsContext } from '../../contexts/usersRequests/usersRequests.context';
 
-type UpdateUserRequestReturn = ReturnType<typeof useUserRequestsContext>['updateUserRequest'];
+type UpdateUserRequestReturn = ReturnType<typeof useUsersRequestsContext>['updateUserRequest'];
 
 type UpdateUserRequestReturnValue = Awaited<ReturnType<UpdateUserRequestReturn>>;
 
@@ -16,7 +16,7 @@ interface UseUpdateUserRequestReturn {
 }
 
 export const useUpdateUserRequest = (args: { onSuccess?: VoidFunction }): UseUpdateUserRequestReturn => {
-  const { updateUserRequest } = useUserRequestsContext();
+  const { updateUserRequest } = useUsersRequestsContext();
 
   const { mutate, isPending, error, data } = useMutation({
     mutationKey: ['update-user'],
