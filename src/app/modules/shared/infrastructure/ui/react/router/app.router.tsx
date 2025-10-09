@@ -27,4 +27,5 @@ const routeTree = appRoute.addChildren([
 export const appRouter = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFoundPage,
+  scrollRestoration: true,
 });

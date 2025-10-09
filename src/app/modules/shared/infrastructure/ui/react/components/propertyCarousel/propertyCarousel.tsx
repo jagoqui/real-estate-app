@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Link } from '@tanstack/react-router';
 import { Bath, Bed, ChevronLeft, ChevronRight, Mail, MapPin, Maximize } from 'lucide-react';
 import { useState } from 'react';
+import { PATHNAME_ROUTES } from '../../constants/main.constants';
 
 const properties = [
   {
@@ -124,7 +126,9 @@ export const PropertyCarousel = (): React.ReactElement => {
                         </div>
                       </div>
 
-                      <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-base">View details</Button>
+                      <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-base">
+                        <Link to={PATHNAME_ROUTES.PROPERTY_DETAILS}>View details</Link>
+                      </Button>
                       <Button
                         variant="outline"
                         className="w-full h-12 gap-2 text-base mt-3 bg-transparent"
