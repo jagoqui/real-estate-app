@@ -15,7 +15,7 @@ interface UseGetUpdateOwnerRequestReturn {
   data?: GetUpdateOwnerRequestReturnValue;
 }
 
-export const getUpdateOwnerRequest = (args: { onSuccess?: VoidFunction }): UseGetUpdateOwnerRequestReturn => {
+export const useGetUpdateOwnerRequest = (args: { onSuccess?: VoidFunction }): UseGetUpdateOwnerRequestReturn => {
   const { updateOwnerRequest } = useOwnersRequestsContext();
 
   const { mutate, isPending, error, data } = useMutation({
