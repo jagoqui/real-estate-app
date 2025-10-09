@@ -24,7 +24,7 @@ export const EditProfileDialog = ({ open, onOpenChange, getInitials }: EditProfi
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md" onInteractOutside={e => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-serif">Edit Profile</DialogTitle>
+          <DialogTitle className="text-2xl font-serif">Edit User</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
