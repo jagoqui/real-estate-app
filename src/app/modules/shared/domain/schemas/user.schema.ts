@@ -38,3 +38,5 @@ export type UpdateUser = Omit<User, 'photoUrl'>;
 export type CreateUser = z.infer<typeof createUserSchema>;
 
 export type LoginUserWithEmailAndPassword = z.infer<typeof loginUserWithEmailAndPasswordSchema>;
+
+export type ChangeUserPassword = Pick<User, 'id'> & { newPassword: string };
