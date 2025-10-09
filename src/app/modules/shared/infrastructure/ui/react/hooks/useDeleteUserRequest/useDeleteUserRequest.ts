@@ -20,6 +20,7 @@ export const useDeleteUserRequest = (args: { onSuccess?: VoidFunction }): UseDel
     mutationFn: deleteUserRequest,
     onSuccess: () => {
       args.onSuccess?.();
+      toast.success('User deleted successfully.');
     },
     onError: error => {
       console.error('Delete user failed:', error);
