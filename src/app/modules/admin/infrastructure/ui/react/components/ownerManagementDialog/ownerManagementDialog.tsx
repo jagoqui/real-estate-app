@@ -35,12 +35,10 @@ export const OwnerManagementDialog = ({
   });
   const { isPending, error: userError, data: usersWithoutOwner } = useGetUsersWithoutOwnerRequest();
 
-  // Combinar usuarios disponibles con el userId actual del owner si existe
   const availableUsers = usersWithoutOwner ? [...usersWithoutOwner] : [];
   if (editingOwner?.userId && usersWithoutOwner) {
     const userIds = new Set(usersWithoutOwner.map(user => user.id));
     if (!userIds.has(editingOwner.userId)) {
-      // Agregar el usuario actual del owner si no existe en la lista
       availableUsers.push({
         id: editingOwner.userId,
         email: `Current User (${editingOwner.userId})`,

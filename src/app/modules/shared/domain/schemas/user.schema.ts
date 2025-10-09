@@ -18,6 +18,7 @@ export const createUserSchema = userSchema
   .pick({
     email: true,
     name: true,
+    role: true,
   })
   .extend({
     password: z.string().regex(COMMONS_VALIDATIONS.PASSWORD.pattern, {
