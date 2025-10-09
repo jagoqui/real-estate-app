@@ -52,6 +52,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
 
   const filteredOwners = owners.filter(
     o =>
+      o.id === searchTerm ||
       o.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (o.email && o.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (o.phone && o.phone.includes(searchTerm))
