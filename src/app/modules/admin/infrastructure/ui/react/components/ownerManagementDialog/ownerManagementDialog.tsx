@@ -33,7 +33,22 @@ export const OwnerManagementDialog = ({
     setIsDialogOpen,
     editingOwner,
   });
-  const { isPending, error: userError, data } = useGetUsersWithoutOwnerRequest();
+  const { isPending, error: userError, data: usersWithoutOwner } = useGetUsersWithoutOwnerRequest();
+
+  // Combinar usuarios disponibles con el userId actual del owner si existe
+  const availableUsers = usersWithoutOwner ? [...usersWithoutOwner] : [];
+  if (editingOwner?.userId && usersWithoutOwner) {
+    const userIds = new Set(usersWithoutOwner.map(user => user.id));
+    if (!userIds.has(editingOwner.userId)) {
+      // Agregar el usuario actual del owner si no existe en la lista
+      availableUsers.push({
+        id: editingOwner.userId,
+        email: `Current User (${editingOwner.userId})`,
+        role: 'OWNER',
+        isAdmin: false,
+      });
+    }
+  }
 
   if (isPending) {
     return <div>Loading users...</div>;
@@ -43,7 +58,7 @@ export const OwnerManagementDialog = ({
     return <div>Error loading users: {userError.message}</div>;
   }
 
-  if (!data?.length) {
+  if (!availableUsers?.length && !editingOwner) {
     return (
       <div className="flex flex-col items-center justify-center gap-2 p-6">
         <p className="text-center text-lg font-medium">
@@ -134,7 +149,7 @@ export const OwnerManagementDialog = ({
                     <SelectValue placeholder="Select User ID" />
                   </SelectTrigger>
                   <SelectContent>
-                    {data.map(user => (
+                    {availableUsers?.map(user => (
                       <SelectItem key={user.id} value={user.id}>
                         {user.id} - {user.email}
                       </SelectItem>
