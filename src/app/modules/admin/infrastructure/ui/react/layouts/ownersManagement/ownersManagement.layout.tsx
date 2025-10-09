@@ -167,6 +167,12 @@ export const OwnersManagementLayout = (): React.ReactElement => {
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">{owner.address || 'N/A'}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Home className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-semibold">Calculating...</span>
+                      </div>
+                    </TableCell>
                     <TableCell className="text-muted-foreground">
                       {owner.birthday
                         ? new Date(owner.birthday).toLocaleDateString('en-US', {
@@ -175,12 +181,6 @@ export const OwnersManagementLayout = (): React.ReactElement => {
                             day: 'numeric',
                           })
                         : 'N/A'}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Home className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-semibold">Calculating...</span>
-                      </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
                       {owner.createdAt
