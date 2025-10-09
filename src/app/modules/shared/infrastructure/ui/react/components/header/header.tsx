@@ -4,6 +4,7 @@ import { LayoutDashboard, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
 import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
+import { HomeNavigation } from '../homeNavigation/homeNavigation';
 import { UserProfileMenu } from '../userProfileMenu/userProfileMenu';
 
 const NAV_LINKS = [
@@ -74,10 +75,7 @@ export const Header = (): React.ReactElement => {
         )}
 
         <div className="flex items-center justify-between h-20">
-          <Link to={PATHNAME_ROUTES.HOME} className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary" />
-            <span className="text-xl font-serif tracking-tight">LUXE ESTATES</span>
-          </Link>
+          <HomeNavigation />
           <nav className="hidden md:flex items-center gap-4">
             <NavLinks />
           </nav>

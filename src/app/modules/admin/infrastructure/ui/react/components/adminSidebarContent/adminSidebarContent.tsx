@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { HomeNavigation } from '@/modules/shared/infrastructure/ui/react/components/homeNavigation/homeNavigation';
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { Link } from '@tanstack/react-router';
 import { BarChart3, FileText, Home, LayoutDashboard, Users } from 'lucide-react';
@@ -19,10 +20,7 @@ interface AdminSidebarContentProps {
 export const AdminSidebarContent = ({ setMobileMenuOpen }: AdminSidebarContentProps): React.ReactElement => (
   <>
     <div className="flex h-16 items-center border-b border-border px-6">
-      <Link to={PATHNAME_ROUTES.INDEX} className="flex items-center gap-2">
-        <div className="h-8 w-8 rounded-lg bg-primary" />
-        <span className="font-serif text-xl font-semibold">Admin</span>
-      </Link>
+      <HomeNavigation />
     </div>
     <nav className="space-y-1 p-4">
       {navItems.map(item => (
