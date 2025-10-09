@@ -5,8 +5,11 @@ interface UpdateUserRequestArgs {
   photoFile?: File | null;
 }
 
+export type GetUsersWithoutOwnerRequest = () => Promise<Array<User>>;
+
 export type UpdateUserRequest = (args: UpdateUserRequestArgs) => Promise<User>;
 
 export interface UsersRequests {
+  getUsersWithoutOwnerRequest: GetUsersWithoutOwnerRequest;
   updateUserRequest: UpdateUserRequest;
 }
