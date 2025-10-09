@@ -4,10 +4,9 @@ import { useUsersRequestsContext } from '../../contexts/usersRequests/usersReque
 type GetUsersReturn = ReturnType<typeof useUsersRequestsContext>['getUsersRequest'];
 
 type GetUsersReturnValue = Awaited<ReturnType<GetUsersReturn>>;
-type GetUsersArgs = Parameters<GetUsersReturn>[number];
 
 interface UseGetUsersRequestReturn {
-  onRefetchGetUsers: (args: GetUsersArgs) => Promise<void>;
+  onRefetchGetUsers: () => Promise<void>;
   isPending: boolean;
   error: Error | null;
   data?: GetUsersReturnValue;
