@@ -3,7 +3,7 @@ import z from 'zod';
 
 export const ownerSchema = z.object({
   id: objectIdSchema,
-  userId: objectIdSchema.optional(),
+  userId: objectIdSchema,
   name: z.string().min(COMMONS_VALIDATIONS.NAME.min).max(COMMONS_VALIDATIONS.NAME.max),
   address: z.string().max(COMMONS_VALIDATIONS.ADDRESS.max).optional(),
   phone: z.string().regex(COMMONS_VALIDATIONS.PHONE.pattern).optional(),
@@ -15,4 +15,4 @@ export const ownerSchema = z.object({
 
 export type Owner = z.infer<typeof ownerSchema>;
 
-export type CreateOwner = Omit<Owner, 'id' | 'userId' | 'createdAt'>;
+export type CreateOwner = Omit<Owner, 'id' | 'createdAt'>;

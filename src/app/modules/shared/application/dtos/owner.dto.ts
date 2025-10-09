@@ -1,6 +1,6 @@
 export interface OwnerDto {
   idOwner: string;
-  userId?: string;
+  userId: string;
   name: string;
   address?: string;
   phone?: string;

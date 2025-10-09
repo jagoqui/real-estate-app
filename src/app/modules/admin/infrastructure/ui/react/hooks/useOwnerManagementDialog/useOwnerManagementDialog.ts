@@ -9,6 +9,7 @@ const getInitialFormData = (owner?: Owner | null): CreateOwner => ({
   phone: owner?.phone || '',
   address: owner?.address || '',
   birthday: owner?.birthday || '',
+  userId: owner?.userId || '',
 });
 
 interface UseOwnerManagementDialogProps {

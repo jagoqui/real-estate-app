@@ -2,8 +2,12 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Owner } from '@/modules/shared/domain/schemas/owner.schema';
 
+import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
+import { useGetUsersWithoutOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetUsersWithoutOwnerRequest/useGetUsersWithoutOwnerRequest';
+import { Link } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 import { useOwnerManagementDialog } from '../../hooks/useOwnerManagementDialog/useOwnerManagementDialog';
 
@@ -29,6 +33,29 @@ export const OwnerManagementDialog = ({
     setIsDialogOpen,
     editingOwner,
   });
+  const { isPending, error: userError, data } = useGetUsersWithoutOwnerRequest();
+
+  if (isPending) {
+    return <div>Loading users...</div>;
+  }
+
+  if (userError) {
+    return <div>Error loading users: {userError.message}</div>;
+  }
+
+  if (!data?.length) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 p-6">
+        <p className="text-center text-lg font-medium">
+          There are no users available to associate with owners. Please create a user first.
+        </p>
+        <Link to={PATHNAME_ROUTES.ADMIN_USERS} className="text-blue-600 underline">
+          Create User
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <>
       <Dialog
@@ -96,6 +123,24 @@ export const OwnerManagementDialog = ({
                   value={formData.birthday}
                   onChange={e => setFormData({ ...formData, birthday: e.target.value })}
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="userId">User ID</Label>
+                <Select
+                  value={formData.userId || undefined}
+                  onValueChange={(value: string) => setFormData({ ...formData, userId: value })}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select User ID" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {data.map(user => (
+                      <SelectItem key={user.id} value={user.id}>
+                        {user.id} - {user.email}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             {error && <p className="text-sm text-red-600">Error: {error.message}</p>}
