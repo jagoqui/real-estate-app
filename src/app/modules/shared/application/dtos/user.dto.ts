@@ -10,3 +10,7 @@ export interface UserDto {
   phoneNumber?: string;
   bio?: string;
 }
+
+export type CreateUserDto = Pick<UserDto, 'email' | 'name' | 'role'> & {
+  password: string;
+};
