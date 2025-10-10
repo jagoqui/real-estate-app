@@ -9,6 +9,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
 import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
+import {
+  PropertyImageManager,
+  PropertyImagesTableCell,
+  type PropertyImage,
+} from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -27,6 +32,7 @@ export interface Property {
   features: Array<string>;
   amenities?: Array<Amenity>;
   images: Array<string>;
+  imageFiles?: Array<{ id: string; file: File; preview: string; name: string; size: number }>;
   ownerId: string;
   ownerName: string;
   status: 'available' | 'sold' | 'pending';
@@ -109,6 +115,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     description: string;
     features: string;
     amenities: Array<Amenity>;
+    images: Array<PropertyImage>;
     ownerId: string;
     ownerName: string;
     status: Property['status'];
@@ -125,6 +132,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     description: '',
     features: '',
     amenities: [],
+    images: [],
     ownerId: '',
     ownerName: '',
     status: 'available',
@@ -147,7 +155,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: formData.description,
       features: formData.features.split(',').map(f => f.trim()),
       amenities: formData.amenities,
-      images: ['/placeholder.svg?height=400&width=600'],
+      images: formData.images.map(img => img.preview), // Convert File objects to URLs for display
+      imageFiles: formData.images, // Store the actual File objects
       ownerId: formData.ownerId,
       ownerName: formData.ownerName,
       status: formData.status,
@@ -180,6 +189,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: property.description,
       features: property.features.join(', '),
       amenities: property.amenities || [],
+      images: property.imageFiles || [],
       ownerId: property.ownerId,
       ownerName: property.ownerName,
       status: property.status,
@@ -209,6 +219,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: '',
       features: '',
       amenities: [],
+      images: [],
       ownerId: '',
       ownerName: '',
       status: 'available',
@@ -409,6 +420,11 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   onValidationChange={setIsAmenityFormValid}
                   className="space-y-2 sm:col-span-2"
                 />
+                <PropertyImageManager
+                  value={formData.images}
+                  onValueChange={images => setFormData({ ...formData, images })}
+                  className="space-y-2 sm:col-span-2"
+                />
               </div>
               <div className="flex justify-end gap-3">
                 <Button
@@ -456,6 +472,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     <TableHead className="min-w-[150px]">Details</TableHead>
                     <TableHead className="min-w-[140px]">Features</TableHead>
                     <TableHead className="min-w-[140px]">Amenities</TableHead>
+                    <TableHead className="min-w-[120px]">Images</TableHead>
                     <TableHead className="min-w-[120px]">Owner</TableHead>
                     <TableHead className="min-w-[100px]">Status</TableHead>
                     <TableHead className="text-right min-w-[100px]">Actions</TableHead>
@@ -503,6 +520,9 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                             <span className="text-xs text-muted-foreground">None</span>
                           )}
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        <PropertyImagesTableCell images={property.imageFiles || []} propertyName={property.name} />
                       </TableCell>
                       <TableCell>{property.ownerName}</TableCell>
                       <TableCell>{getStatusBadge(property.status)}</TableCell>
