@@ -12,7 +12,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { DynamicIcon, type LucideIconName } from '../dynamicIcon/dynamicIcon';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Check, Search } from 'lucide-react';
+import { Check, Loader2, Search } from 'lucide-react';
 
 interface IconPickerProps {
   value?: LucideIconName;
@@ -96,7 +96,7 @@ const ICON_CATEGORIES = {
     label: 'Other',
     keywords: [],
   },
-} as const;
+} as const satisfies Record<string, { label: string; keywords: Array<string> }>;
 
 type CategoryKey = keyof typeof ICON_CATEGORIES;
 
@@ -118,20 +118,46 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryKey | 'all'>('all');
+  const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
+  const [isIconsLoaded, setIsIconsLoaded] = useState(false);
   const parentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (open) {
       setSearch('');
       setActiveCategory('all');
+      setIsIconsLoaded(false);
+      // Delay icon processing to allow loading UI to show
+      const PROCESSING_DELAY = 50;
+      const timer = setTimeout(() => {
+        setIsIconsLoaded(true);
+      }, PROCESSING_DELAY);
+      return (): void => clearTimeout(timer);
     }
   }, [open]);
 
   const iconNames = useMemo(() => {
+    if (!isIconsLoaded) return [];
     return Object.keys(dynamicIconImports) as Array<LucideIconName>;
-  }, []);
+  }, [isIconsLoaded]);
 
   const categorizedIcons = useMemo(() => {
+    if (!isIconsLoaded)
+      return {
+        home: [],
+        amenities: [],
+        nature: [],
+        security: [],
+        navigation: [],
+        communication: [],
+        media: [],
+        business: [],
+        people: [],
+        files: [],
+        ui: [],
+        other: [],
+      } as Record<CategoryKey, Array<LucideIconName>>;
+
     const categories: Record<CategoryKey, Array<LucideIconName>> = {
       home: [],
       amenities: [],
@@ -153,7 +179,7 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
     });
 
     return categories;
-  }, [iconNames]);
+  }, [iconNames, isIconsLoaded]);
 
   const filteredIcons = useMemo(() => {
     let icons: Array<LucideIconName> = [];
@@ -180,21 +206,43 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
     return result;
   }, [filteredIcons]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
   const rowVirtualizer: Virtualizer<HTMLDivElement, Element> = useVirtualizer({
     count: rows.length,
-    getScrollElement: () => parentRef.current,
+    getScrollElement: () => containerElement,
     estimateSize: () => ITEM_HEIGHT,
     overscan: 5,
   });
+
+  // Force update when container becomes available
+  useEffect(() => {
+    if (containerElement && open) {
+      const RENDER_DELAY = 10;
+      const timer = setTimeout(() => {
+        rowVirtualizer.measure();
+      }, RENDER_DELAY);
+      return (): void => clearTimeout(timer);
+    }
+  }, [containerElement, open, rowVirtualizer]);
+
+  // Force update when filtered icons change
+  useEffect(() => {
+    if (containerElement && open) {
+      rowVirtualizer.measure();
+    }
+  }, [filteredIcons.length, containerElement, open, rowVirtualizer]);
 
   const handleSelect = (iconName: LucideIconName): void => {
     onSelect(iconName);
     setOpen(false);
   };
 
+  const setContainerRef = (element: HTMLDivElement | null): void => {
+    parentRef.current = element;
+    setContainerElement(element);
+  };
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-between h-10 px-3 bg-background hover:bg-accent">
           {value ? (
@@ -203,9 +251,15 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
               <span className="text-sm truncate">{value}</span>
             </div>
           ) : (
-            <span className="text-sm text-muted-foreground">Seleccionar icono</span>
+            <span className="text-sm text-muted-foreground">
+              {open && !isIconsLoaded ? 'Cargando iconos...' : 'Seleccionar icono'}
+            </span>
           )}
-          <Search className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
+          {open && !isIconsLoaded ? (
+            <Loader2 className="h-4 w-4 text-muted-foreground ml-2 shrink-0 animate-spin" />
+          ) : (
+            <Search className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[480px] p-0" align="start" sideOffset={4}>
@@ -223,7 +277,28 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
           </div>
 
           {!search && (
-            <ScrollArea className="w-full border-b">
+            <ScrollArea
+              className="w-full border-b"
+              onWheel={e => {
+                const container = e.currentTarget.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
+                if (container) {
+                  e.preventDefault();
+
+                  // Determinar la dirección y cantidad de scroll
+                  const baseScrollAmount = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+                  const SCROLL_MULTIPLIER = 2.2;
+                  const scrollAmount = baseScrollAmount * SCROLL_MULTIPLIER; // Más desplazamiento
+                  const targetScrollLeft = container.scrollLeft + scrollAmount;
+
+                  // Aplicar smooth scroll
+                  container.style.scrollBehavior = 'smooth';
+                  container.scrollTo({
+                    left: targetScrollLeft,
+                    behavior: 'smooth',
+                  });
+                }
+              }}
+            >
               <div className="flex gap-1 px-2 py-2">
                 <Button
                   variant={activeCategory === 'all' ? 'secondary' : 'ghost'}
@@ -253,58 +328,96 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
             </ScrollArea>
           )}
 
-          <div ref={parentRef} className="h-[320px] w-full overflow-auto">
-            <div
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                width: '100%',
-                position: 'relative',
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                const rowIcons = rows[virtualRow.index];
-                return (
+          <div ref={setContainerRef} className="h-[320px] w-full overflow-auto relative">
+            {!isIconsLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-10">
+                <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                  <span className="text-sm">Cargando iconos...</span>
+                </div>
+              </div>
+            )}
+            {isIconsLoaded && (
+              <>
+                {containerElement ? (
                   <div
-                    key={virtualRow.key}
                     style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
+                      height: `${rowVirtualizer.getTotalSize()}px`,
                       width: '100%',
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
+                      position: 'relative',
                     }}
                   >
-                    <div className="grid grid-cols-8 gap-1 p-2">
-                      {rowIcons.map(iconName => (
-                        <button
-                          key={iconName}
-                          onClick={() => handleSelect(iconName)}
-                          className={`
-                            relative flex items-center justify-center rounded-md p-2 
-                            transition-all duration-150
-                            hover:bg-accent hover:scale-105
-                            ${value === iconName ? 'bg-primary/10 ring-2 ring-primary' : ''}
-                          `}
-                          title={iconName}
+                    {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                      const rowIcons = rows[virtualRow.index];
+                      return (
+                        <div
+                          key={virtualRow.key}
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: `${virtualRow.size}px`,
+                            transform: `translateY(${virtualRow.start}px)`,
+                          }}
                         >
-                          <DynamicIcon
-                            name={iconName}
-                            className={`h-5 w-5 transition-colors ${
-                              value === iconName ? 'text-primary' : 'text-muted-foreground'
-                            }`}
-                          />
-                          {value === iconName && (
-                            <Check className="absolute -top-0.5 -right-0.5 h-3 w-3 text-primary" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
+                          <div className="grid grid-cols-6 gap-1 p-2">
+                            {rowIcons.map(iconName => (
+                              <button
+                                key={iconName}
+                                onClick={() => handleSelect(iconName)}
+                                className={`
+                                  relative flex items-center justify-center rounded-md p-2 
+                                  transition-all duration-150
+                                  hover:bg-accent hover:scale-105
+                                  ${value === iconName ? 'bg-primary/10 ring-2 ring-primary' : ''}
+                                `}
+                                title={iconName}
+                              >
+                                <DynamicIcon
+                                  name={iconName}
+                                  className={`h-5 w-5 transition-colors ${
+                                    value === iconName ? 'text-primary' : 'text-muted-foreground'
+                                  }`}
+                                />
+                                {value === iconName && (
+                                  <Check className="absolute top-0.5 right-0.5 h-3 w-3 text-primary" />
+                                )}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-            {filteredIcons.length === 0 && (
+                ) : (
+                  <div className="grid grid-cols-6 gap-1 p-2">
+                    {filteredIcons.map(iconName => (
+                      <button
+                        key={iconName}
+                        onClick={() => handleSelect(iconName)}
+                        className={`
+                          relative flex items-center justify-center rounded-md p-2 
+                          transition-all duration-150
+                          hover:bg-accent hover:scale-105
+                          ${value === iconName ? 'bg-primary/10 ring-2 ring-primary' : ''}
+                        `}
+                        title={iconName}
+                      >
+                        <DynamicIcon
+                          name={iconName}
+                          className={`h-5 w-5 transition-colors ${
+                            value === iconName ? 'text-primary' : 'text-muted-foreground'
+                          }`}
+                        />
+                        {value === iconName && <Check className="absolute top-0.5 right-0.5 h-3 w-3 text-primary" />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+            {isIconsLoaded && filteredIcons.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground py-8">
                 <Search className="h-8 w-8 mb-2 opacity-50" />
                 <p className="text-sm">No se encontraron iconos</p>
