@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -44,9 +45,13 @@ export interface Owner {
 
 // eslint-disable-next-line max-lines-per-function
 export const PropertiesManagementLayout = (): React.ReactElement => {
+  const MAX_VISIBLE_FEATURES = 2;
+  const MAX_VISIBLE_AMENITIES = 3;
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
+  const [isAmenityFormValid, setIsAmenityFormValid] = useState(true);
 
   const [properties, setProperties] = useState<Array<Property>>([
     {
@@ -90,8 +95,6 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       updatedAt: '2024-02-20',
     },
   ]);
-
-  // Mock data - replace with real data from your backend
 
   const [formData, setFormData] = useState<{
     name: string;
@@ -192,6 +195,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
 
   const resetForm = (): void => {
     setEditingProperty(null);
+    setIsAmenityFormValid(true);
     setFormData({
       name: '',
       address: '',
@@ -402,6 +406,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                 <AmenityForm
                   value={formData.amenities}
                   onValueChange={amenities => setFormData({ ...formData, amenities })}
+                  onValidationChange={setIsAmenityFormValid}
                   className="space-y-2 sm:col-span-2"
                 />
               </div>
@@ -416,7 +421,9 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit">{editingProperty ? 'Save Changes' : 'Create Property'}</Button>
+                <Button type="submit" disabled={!isAmenityFormValid}>
+                  {editingProperty ? 'Save Changes' : 'Create Property'}
+                </Button>
               </div>
             </form>
           </DialogContent>
@@ -447,6 +454,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     <TableHead className="min-w-[120px]">Location</TableHead>
                     <TableHead className="min-w-[100px]">Price</TableHead>
                     <TableHead className="min-w-[150px]">Details</TableHead>
+                    <TableHead className="min-w-[140px]">Features</TableHead>
+                    <TableHead className="min-w-[140px]">Amenities</TableHead>
                     <TableHead className="min-w-[120px]">Owner</TableHead>
                     <TableHead className="min-w-[100px]">Status</TableHead>
                     <TableHead className="text-right min-w-[100px]">Actions</TableHead>
@@ -462,6 +471,38 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                       <TableCell className="font-semibold">${property.price.toLocaleString()}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
                         {property.bedrooms} beds • {property.bathrooms} baths • {property.area}m²
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-1 max-w-[130px]">
+                          {property.features.slice(0, MAX_VISIBLE_FEATURES).map((feature, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {feature}
+                            </Badge>
+                          ))}
+                          {property.features.length > MAX_VISIBLE_FEATURES && (
+                            <Badge variant="outline" className="text-xs">
+                              +{property.features.length - MAX_VISIBLE_FEATURES}
+                            </Badge>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-1 max-w-[130px]">
+                          {property.amenities?.slice(0, MAX_VISIBLE_AMENITIES).map((amenity, index) => (
+                            <div key={index} className="flex items-center gap-1 text-xs bg-muted px-2 py-1 rounded">
+                              <DynamicIcon name={amenity.icon} className="h-3 w-3" />
+                              <span className="truncate max-w-[60px]">{amenity.name}</span>
+                            </div>
+                          ))}
+                          {(property.amenities?.length || 0) > MAX_VISIBLE_AMENITIES && (
+                            <Badge variant="outline" className="text-xs">
+                              +{(property.amenities?.length || 0) - MAX_VISIBLE_AMENITIES}
+                            </Badge>
+                          )}
+                          {(!property.amenities || property.amenities.length === 0) && (
+                            <span className="text-xs text-muted-foreground">None</span>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>{property.ownerName}</TableCell>
                       <TableCell>{getStatusBadge(property.status)}</TableCell>

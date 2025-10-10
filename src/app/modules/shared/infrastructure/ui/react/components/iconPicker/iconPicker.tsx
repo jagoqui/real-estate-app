@@ -17,6 +17,7 @@ import { Check, Loader2, Search } from 'lucide-react';
 interface IconPickerProps {
   value?: LucideIconName;
   onSelect: (iconName: LucideIconName) => void;
+  excludedIcons?: Array<LucideIconName>;
 }
 
 const ICON_CATEGORIES = {
@@ -114,7 +115,7 @@ function categorizeIcon(iconName: string): CategoryKey {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactElement => {
+export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerProps): React.ReactElement => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryKey | 'all'>('all');
@@ -138,8 +139,9 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
 
   const iconNames = useMemo(() => {
     if (!isIconsLoaded) return [];
-    return Object.keys(dynamicIconImports) as Array<LucideIconName>;
-  }, [isIconsLoaded]);
+    const allIcons = Object.keys(dynamicIconImports) as Array<LucideIconName>;
+    return allIcons.filter(icon => !excludedIcons.includes(icon));
+  }, [isIconsLoaded, excludedIcons]);
 
   const categorizedIcons = useMemo(() => {
     if (!isIconsLoaded)
@@ -248,11 +250,11 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
           {value ? (
             <div className="flex items-center gap-2">
               <DynamicIcon name={value} className="h-4 w-4" />
-              <span className="text-sm truncate">{value}</span>
+              <span className="text-sm truncate min-w-0">{value}</span>
             </div>
           ) : (
             <span className="text-sm text-muted-foreground">
-              {open && !isIconsLoaded ? 'Cargando iconos...' : 'Seleccionar icono'}
+              {open && !isIconsLoaded ? 'Loading icons...' : 'Select icon'}
             </span>
           )}
           {open && !isIconsLoaded ? (
@@ -268,7 +270,7 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Buscar iconos..."
+                placeholder="Search icons..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 className="h-9 pl-9 text-sm"
@@ -284,13 +286,13 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
                 if (container) {
                   e.preventDefault();
 
-                  // Determinar la dirección y cantidad de scroll
+                  // Determine scroll direction and amount
                   const baseScrollAmount = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
                   const SCROLL_MULTIPLIER = 2.2;
-                  const scrollAmount = baseScrollAmount * SCROLL_MULTIPLIER; // Más desplazamiento
+                  const scrollAmount = baseScrollAmount * SCROLL_MULTIPLIER; // increase scroll distance
                   const targetScrollLeft = container.scrollLeft + scrollAmount;
 
-                  // Aplicar smooth scroll
+                  // Apply smooth scroll
                   container.style.scrollBehavior = 'smooth';
                   container.scrollTo({
                     left: targetScrollLeft,
@@ -306,7 +308,7 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
                   onClick={() => setActiveCategory('all')}
                   className="h-7 px-2.5 text-xs shrink-0"
                 >
-                  Todos
+                  All
                 </Button>
                 {Object.entries(ICON_CATEGORIES).map(([key, { label }]) => {
                   const count = categorizedIcons[key as CategoryKey].length;
@@ -333,7 +335,7 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
               <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-10">
                 <div className="flex flex-col items-center gap-2 text-muted-foreground">
                   <Loader2 className="h-6 w-6 animate-spin" />
-                  <span className="text-sm">Cargando iconos...</span>
+                  <span className="text-sm">Loading icons...</span>
                 </div>
               </div>
             )}
@@ -420,7 +422,7 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
             {isIconsLoaded && filteredIcons.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground py-8">
                 <Search className="h-8 w-8 mb-2 opacity-50" />
-                <p className="text-sm">No se encontraron iconos</p>
+                <p className="text-sm">No icons found</p>
               </div>
             )}
           </div>
@@ -428,9 +430,9 @@ export const IconPicker = ({ value, onSelect }: IconPickerProps): React.ReactEle
           <div className="px-3 py-2 border-t bg-muted/30">
             <p className="text-xs text-muted-foreground text-center">
               {search
-                ? `${filteredIcons.length} resultado${filteredIcons.length !== 1 ? 's' : ''}`
-                : `${filteredIcons.length} icono${filteredIcons.length !== 1 ? 's' : ''} en ${
-                    activeCategory === 'all' ? 'todas las categorías' : ICON_CATEGORIES[activeCategory].label
+                ? `${filteredIcons.length} result${filteredIcons.length !== 1 ? 's' : ''}`
+                : `${filteredIcons.length} icon${filteredIcons.length !== 1 ? 's' : ''} in ${
+                    activeCategory === 'all' ? 'all categories' : ICON_CATEGORIES[activeCategory].label
                   }`}
             </p>
           </div>

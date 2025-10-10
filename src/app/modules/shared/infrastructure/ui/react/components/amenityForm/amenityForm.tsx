@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { X } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { DynamicIcon, type LucideIconName } from '../dynamicIcon/dynamicIcon';
 import { IconPicker } from '../iconPicker/iconPicker';
 
@@ -19,6 +19,7 @@ type AmenityFormProps = {
   onValueChange?: (amenities: Array<Amenity>) => void;
   onSave?: (amenities: Array<Amenity>) => void;
   initialAmenities?: Array<Amenity>;
+  onValidationChange?: (isValid: boolean) => void;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 // eslint-disable-next-line max-lines-per-function
@@ -27,12 +28,22 @@ export const AmenityForm = ({
   onValueChange,
   onSave,
   initialAmenities = [],
+  onValidationChange,
   ...props
 }: AmenityFormProps): React.ReactElement => {
   // Use controlled value if provided, otherwise use internal state
   const amenities = value.length > 0 ? value : initialAmenities;
   const [currentName, setCurrentName] = useState('');
   const [currentIcon, setCurrentIcon] = useState<LucideIconName>();
+
+  // Check if there's an incomplete amenity (partial input)
+  const hasIncompleteAmenity = Boolean(currentName.trim() || currentIcon);
+  const isFormValid = !hasIncompleteAmenity;
+
+  // Notify parent component about validation status changes
+  useEffect(() => {
+    onValidationChange?.(isFormValid);
+  }, [isFormValid, onValidationChange]);
 
   const updateAmenities = useCallback(
     (updatedAmenities: Array<Amenity>): void => {
@@ -74,7 +85,14 @@ export const AmenityForm = ({
   return (
     <div {...props}>
       <div className="space-y-4">
-        <Label>Property Amenities</Label>
+        <div className="flex items-center justify-between">
+          <Label>Property Amenities</Label>
+          {hasIncompleteAmenity && (
+            <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">
+              Complete the amenity to save the form
+            </span>
+          )}
+        </div>
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-2">
             <Label htmlFor="amenity-name" className="text-sm font-medium">
@@ -95,7 +113,11 @@ export const AmenityForm = ({
           </div>
           <div className="space-y-2">
             <Label className="text-sm font-medium">Associated Icon</Label>
-            <IconPicker value={currentIcon} onSelect={handleIconSelect} />
+            <IconPicker
+              value={currentIcon}
+              onSelect={handleIconSelect}
+              excludedIcons={amenities.map(amenity => amenity.icon)}
+            />
           </div>
           <div className="flex items-end">
             <Button onClick={handleAdd} disabled={!currentName.trim() || !currentIcon} className="w-full">
