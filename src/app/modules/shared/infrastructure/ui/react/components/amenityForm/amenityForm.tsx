@@ -1,11 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DynamicIcon, type LucideIconName } from '../dynamicIcon/dynamicIcon';
 import { IconPicker } from '../iconPicker/iconPicker';
 
@@ -15,18 +14,35 @@ export interface Amenity {
   icon: LucideIconName;
 }
 
-interface AmenityFormProps {
+type AmenityFormProps = {
+  value?: Array<Amenity>;
+  onValueChange?: (amenities: Array<Amenity>) => void;
   onSave?: (amenities: Array<Amenity>) => void;
   initialAmenities?: Array<Amenity>;
-}
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 // eslint-disable-next-line max-lines-per-function
-export const AmenityForm = ({ onSave, initialAmenities = [] }: AmenityFormProps): React.ReactElement => {
-  const [amenities, setAmenities] = useState<Array<Amenity>>(initialAmenities);
+export const AmenityForm = ({
+  value = [],
+  onValueChange,
+  onSave,
+  initialAmenities = [],
+  ...props
+}: AmenityFormProps): React.ReactElement => {
+  // Use controlled value if provided, otherwise use internal state
+  const amenities = value.length > 0 ? value : initialAmenities;
   const [currentName, setCurrentName] = useState('');
   const [currentIcon, setCurrentIcon] = useState<LucideIconName>();
 
-  const handleAdd = (): void => {
+  const updateAmenities = useCallback(
+    (updatedAmenities: Array<Amenity>): void => {
+      onValueChange?.(updatedAmenities);
+      onSave?.(updatedAmenities);
+    },
+    [onValueChange, onSave]
+  );
+
+  const handleAdd = useCallback((): void => {
     if (!currentName.trim() || !currentIcon) {
       return;
     }
@@ -38,83 +54,77 @@ export const AmenityForm = ({ onSave, initialAmenities = [] }: AmenityFormProps)
     };
 
     const updatedAmenities = [...amenities, newAmenity];
-    setAmenities(updatedAmenities);
+    updateAmenities(updatedAmenities);
     setCurrentName('');
     setCurrentIcon(undefined);
-  };
+  }, [currentName, currentIcon, amenities, updateAmenities]);
 
-  const handleRemove = (id: string): void => {
-    const updatedAmenities = amenities.filter(a => a.id !== id);
-    setAmenities(updatedAmenities);
-  };
+  const handleRemove = useCallback(
+    (id: string): void => {
+      const updatedAmenities = amenities.filter(a => a.id !== id);
+      updateAmenities(updatedAmenities);
+    },
+    [amenities, updateAmenities]
+  );
 
-  const handleSave = (): void => {
-    onSave?.(amenities);
-
-    console.log;
-  };
+  const handleIconSelect = useCallback((icon: LucideIconName): void => {
+    setCurrentIcon(icon);
+  }, []);
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Property Amenities</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6 w-full">
-        {/* Form to add a new amenity */}
-        <div className="space-y-4">
-          <div className="grid gap-4 w-full">
-            <div className="space-y-2">
-              <Label htmlFor="amenity-name">Amenity Name</Label>
-              <Input
-                id="amenity-name"
-                placeholder="e.g.: Pool, WiFi, Gym"
-                value={currentName}
-                onChange={e => setCurrentName(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleAdd();
-                  }
-                }}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Icon</Label>
-              <IconPicker value={currentIcon} onSelect={setCurrentIcon} />
-            </div>
-          </div>
-          <Button onClick={handleAdd} disabled={!currentName.trim() || !currentIcon}>
-            Add Amenity
-          </Button>
-        </div>
-
-        {amenities.length > 0 && (
+    <div {...props}>
+      <div className="space-y-4">
+        <Label>Property Amenities</Label>
+        <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-2">
-            <Label>Added Amenities ({amenities.length})</Label>
-            <div className="grid gap-2 w-full">
-              {amenities.map(amenity => (
-                <div key={amenity.id} className="flex items-center gap-2 rounded-md border p-3 bg-muted/50">
-                  <DynamicIcon name={amenity.icon} className="h-5 w-5 flex-shrink-0" />
-                  <span className="flex-1 text-sm truncate">{amenity.name}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 flex-shrink-0"
-                    onClick={() => handleRemove(amenity.id)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
-            </div>
+            <Label htmlFor="amenity-name" className="text-sm font-medium">
+              Amenity Name
+            </Label>
+            <Input
+              id="amenity-name"
+              placeholder="e.g. Pool, WiFi, Gym"
+              value={currentName}
+              onChange={e => setCurrentName(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAdd();
+                }
+              }}
+            />
           </div>
-        )}
-        {onSave && amenities.length > 0 && (
-          <Button onClick={handleSave} className="w-full">
-            Save Amenities
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Associated Icon</Label>
+            <IconPicker value={currentIcon} onSelect={handleIconSelect} />
+          </div>
+          <div className="flex items-end">
+            <Button onClick={handleAdd} disabled={!currentName.trim() || !currentIcon} className="w-full">
+              Add Amenity
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {amenities.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex flex-wrap gap-2">
+            {amenities.map(amenity => (
+              <div key={amenity.id} className="flex items-center gap-1 px-2 py-1 bg-secondary rounded-md text-sm">
+                <DynamicIcon name={amenity.icon} className="h-4 w-4" />
+                <span>{amenity.name}</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-4 w-4 ml-1 hover:bg-destructive hover:text-destructive-foreground"
+                  onClick={() => handleRemove(amenity.id)}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
