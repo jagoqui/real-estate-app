@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { AmenityForm } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -24,6 +24,7 @@ export interface Property {
   area: number;
   description: string;
   features: Array<string>;
+  amenities?: Array<Amenity>;
   images: Array<string>;
   ownerId: string;
   ownerName: string;
@@ -104,6 +105,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     area: string;
     description: string;
     features: string;
+    amenities: Array<Amenity>;
     ownerId: string;
     ownerName: string;
     status: Property['status'];
@@ -119,6 +121,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     area: '',
     description: '',
     features: '',
+    amenities: [],
     ownerId: '',
     ownerName: '',
     status: 'available',
@@ -140,6 +143,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       area: Number(formData.area),
       description: formData.description,
       features: formData.features.split(',').map(f => f.trim()),
+      amenities: formData.amenities,
       images: ['/placeholder.svg?height=400&width=600'],
       ownerId: formData.ownerId,
       ownerName: formData.ownerName,
@@ -172,6 +176,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       area: property.area.toString(),
       description: property.description,
       features: property.features.join(', '),
+      amenities: property.amenities || [],
       ownerId: property.ownerId,
       ownerName: property.ownerName,
       status: property.status,
@@ -199,6 +204,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       area: '',
       description: '',
       features: '',
+      amenities: [],
       ownerId: '',
       ownerName: '',
       status: 'available',
@@ -249,7 +255,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
               <span className="sm:hidden">Add</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
+          <DialogContent
+            className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]"
+            onInteractOutside={e => e.preventDefault()}
+          >
             <DialogHeader>
               <DialogTitle className="font-serif text-2xl">
                 {editingProperty ? 'Edit Property' : 'New Property'}
@@ -360,12 +369,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="ownerName">Owner</Label>
-                  <Input
-                    id="ownerName"
-                    value={formData.ownerName}
-                    onChange={e => setFormData({ ...formData, ownerName: e.target.value })}
-                    required
-                  />
+                  <Input id="ownerName" value={formData.ownerName} disabled required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="ownerId">Owner ID</Label>
@@ -395,7 +399,11 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     placeholder="Pool, Gym, Garden"
                   />
                 </div>
-                <AmenityForm onSave={console.log} />
+                <AmenityForm
+                  value={formData.amenities}
+                  onValueChange={amenities => setFormData({ ...formData, amenities })}
+                  className="space-y-2 sm:col-span-2"
+                />
               </div>
               <div className="flex justify-end gap-3">
                 <Button
