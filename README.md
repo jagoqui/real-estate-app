@@ -13,7 +13,7 @@ Para obtener información detallada sobre instalación, configuración, arquitec
 ### 🌐 **Recursos Adicionales**
 
 - 🤖 [Documentación automática Deepwiki](https://deepwiki.com/jagoqui/real-estate-app)
-- 🚀 [Servidor remoto](https://jagoqui.github.io/real-estate-app/)
+- 🚀 [Servidor remoto](https://real-estate-app-hex.netlify.app/)
 
 ---
 
