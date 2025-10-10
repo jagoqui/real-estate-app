@@ -58,6 +58,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isAmenityFormValid, setIsAmenityFormValid] = useState(true);
+  const [pendingImageDeletions, setPendingImageDeletions] = useState<Set<string>>(new Set());
 
   const [properties, setProperties] = useState<Array<Property>>([
     {
@@ -141,6 +142,18 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
+    // Process pending image deletions
+    const finalImages = formData.images.filter(img => !pendingImageDeletions.has(img.id));
+
+    // Clean up object URLs for deleted images
+    formData.images
+      .filter(img => pendingImageDeletions.has(img.id))
+      .forEach(img => {
+        if (img.preview.startsWith('blob:')) {
+          URL.revokeObjectURL(img.preview);
+        }
+      });
+
     const newProperty: Property = {
       id: editingProperty?.id || Date.now().toString(),
       name: formData.name,
@@ -155,8 +168,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: formData.description,
       features: formData.features.split(',').map(f => f.trim()),
       amenities: formData.amenities,
-      images: formData.images.map(img => img.preview), // Convert File objects to URLs for display
-      imageFiles: formData.images, // Store the actual File objects
+      images: finalImages.map(img => img.preview), // Convert File objects to URLs for display
+      imageFiles: finalImages, // Store the actual File objects
       ownerId: formData.ownerId,
       ownerName: formData.ownerName,
       status: formData.status,
@@ -206,6 +219,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
   const resetForm = (): void => {
     setEditingProperty(null);
     setIsAmenityFormValid(true);
+    setPendingImageDeletions(new Set());
     setFormData({
       name: '',
       address: '',
@@ -422,7 +436,12 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                 />
                 <PropertyImageManager
                   value={formData.images}
-                  onValueChange={images => setFormData({ ...formData, images })}
+                  onValueChange={(images, pendingDeletions) => {
+                    setFormData({ ...formData, images });
+                    if (pendingDeletions) {
+                      setPendingImageDeletions(pendingDeletions);
+                    }
+                  }}
                   className="space-y-2 sm:col-span-2"
                 />
               </div>

@@ -1,9 +1,10 @@
+/* eslint-disable complexity */
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Eye, ImageIcon, Trash2, Upload, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ImageIcon, Trash2, Upload, X, ZoomIn } from 'lucide-react';
 import React, { useCallback, useRef, useState } from 'react';
 
 // Constants
@@ -12,7 +13,8 @@ const DEFAULT_MAX_IMAGES = 10;
 const DEFAULT_MAX_FILE_SIZE = 5; // MB
 const KB_SIZE = 1024;
 const BYTES_IN_MB = KB_SIZE * KB_SIZE;
-const PREVIOUS_INDEX_OFFSET = 2;
+
+const DECIMAL_PLACES = 2;
 
 export interface PropertyImage {
   id: string;
@@ -20,11 +22,12 @@ export interface PropertyImage {
   preview: string;
   name: string;
   size: number;
+  markedForDeletion?: boolean;
 }
 
 interface PropertyImageManagerProps {
   value?: Array<PropertyImage>;
-  onValueChange?: (images: Array<PropertyImage>) => void;
+  onValueChange?: (images: Array<PropertyImage>, pendingDeletions?: Set<string>) => void;
   maxImages?: number;
   maxFileSize?: number; // in MB
   acceptedTypes?: Array<string>;
@@ -99,14 +102,14 @@ export const ImagePreview = ({
       )}
       {onViewAll && (
         <Button variant="ghost" size="icon" className="h-6 w-6 ml-1" onClick={onViewAll}>
-          <Eye className="h-3 w-3" />
+          <ZoomIn className="h-3 w-3" />
         </Button>
       )}
     </div>
   );
 };
 
-// Main component for managing property images
+// Main component for managing property images with inline carousel
 // eslint-disable-next-line max-lines-per-function
 export const PropertyImageManager = ({
   value = [],
@@ -117,8 +120,9 @@ export const PropertyImageManager = ({
   className,
 }: PropertyImageManagerProps): React.ReactElement => {
   const [isDragging, setIsDragging] = useState(false);
-  const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [showCarousel, setShowCarousel] = useState(false);
+  const [pendingDeletions, setPendingDeletions] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validateFile = useCallback(
@@ -170,10 +174,10 @@ export const PropertyImageManager = ({
 
       if (newImages.length > 0) {
         const updatedImages = [...value, ...newImages].slice(0, maxImages);
-        onValueChange?.(updatedImages);
+        onValueChange?.(updatedImages, pendingDeletions);
       }
     },
-    [value, validateFile, createImageObject, maxImages, onValueChange]
+    [value, validateFile, createImageObject, maxImages, onValueChange, pendingDeletions]
   );
 
   const handleFileInput = useCallback(
@@ -212,27 +216,34 @@ export const PropertyImageManager = ({
     setIsDragging(false);
   }, []);
 
-  const removeImage = useCallback(
+  const markImageForDeletion = useCallback(
     (id: string) => {
-      const updatedImages = value.filter(img => img.id !== id);
-      onValueChange?.(updatedImages);
+      setPendingDeletions(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(id)) {
+          // If already marked for deletion, unmark it (undo delete)
+          newSet.delete(id);
+          console.info('Restored image:', id);
+        } else {
+          // Mark for deletion
+          newSet.add(id);
+          console.info('Marked for deletion:', id);
+        }
 
-      // Clean up object URL
-      const imageToRemove = value.find(img => img.id === id);
-      if (imageToRemove) {
-        URL.revokeObjectURL(imageToRemove.preview);
-      }
+        // Notify parent component about the changes
+        onValueChange?.(value, newSet);
+
+        return newSet;
+      });
     },
     [value, onValueChange]
   );
 
+  // Get images that are not marked for deletion (for display)
+  const visibleImages = value.filter(img => !pendingDeletions.has(img.id));
+
   const openFileDialog = useCallback(() => {
     fileInputRef.current?.click();
-  }, []);
-
-  const openPreviewDialog = useCallback((index: number = 0) => {
-    setSelectedImageIndex(index);
-    setPreviewDialogOpen(true);
   }, []);
 
   return (
@@ -272,129 +283,234 @@ export const PropertyImageManager = ({
           className="hidden"
         />
 
-        {/* Images Grid */}
+        {/* Inline Image Carousel */}
         {value.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <Label className="text-sm">Uploaded Images ({value.length})</Label>
-              <Button variant="outline" size="sm" onClick={() => openPreviewDialog(0)} className="gap-2">
-                <Eye className="h-4 w-4" />
-                View All
+              <Label className="text-sm">
+                Property Images ({visibleImages.length}
+                {pendingDeletions.size > 0 && ` • ${pendingDeletions.size} marked for deletion`})
+              </Label>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowCarousel(!showCarousel);
+                }}
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
+                className="gap-2"
+              >
+                {showCarousel ? (
+                  <>
+                    <X className="h-4 w-4" />
+                    Hide Preview
+                  </>
+                ) : (
+                  <>
+                    <ZoomIn className="h-4 w-4" />
+                    Show Preview
+                  </>
+                )}
               </Button>
             </div>
 
-            <ScrollArea className="h-32">
-              <div className="grid grid-cols-6 gap-2 pr-4">
-                {value.map((image, index) => (
-                  <div key={image.id} className="relative group">
+            {/* Carousel View */}
+            {showCarousel ? (
+              <div
+                className="space-y-3 p-4 border rounded-lg bg-muted/20"
+                onClick={e => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+              >
+                {/* Main Image Display */}
+                <div className="relative bg-background rounded-lg overflow-hidden border">
+                  <div className="aspect-video relative flex items-center justify-center bg-muted/30">
                     <img
-                      src={image.preview}
-                      alt={image.name}
-                      className="w-full h-16 object-cover rounded border cursor-pointer"
-                      onClick={() => openPreviewDialog(index)}
+                      src={value[selectedImageIndex]?.preview}
+                      alt={value[selectedImageIndex]?.name}
+                      className={`max-h-full max-w-full object-contain transition-all ${
+                        pendingDeletions.has(value[selectedImageIndex]?.id || '') ? 'opacity-40 grayscale' : ''
+                      }`}
                     />
+                    {/* Deletion overlay */}
+                    {pendingDeletions.has(value[selectedImageIndex]?.id || '') && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-red-500/20">
+                        <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                          Marked for Deletion
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Navigation Controls */}
+                    {value.length > 1 && (
+                      <>
+                        <button
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedImageIndex(Math.max(0, selectedImageIndex - 1));
+                          }}
+                          onMouseDown={e => e.stopPropagation()}
+                          disabled={selectedImageIndex === 0}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                        >
+                          <ChevronLeft className="h-5 w-5" />
+                        </button>
+                        <button
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedImageIndex(Math.min(value.length - 1, selectedImageIndex + 1));
+                          }}
+                          onMouseDown={e => e.stopPropagation()}
+                          disabled={selectedImageIndex === value.length - 1}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                        >
+                          <ChevronRight className="h-5 w-5" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Image Info Bar */}
+                  <div className="p-3 bg-background border-t flex justify-between items-center">
+                    <div>
+                      <p className="font-medium text-sm">{value[selectedImageIndex]?.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {(value[selectedImageIndex]?.size / BYTES_IN_MB).toFixed(DECIMAL_PLACES)} MB • Image{' '}
+                        {selectedImageIndex + 1} of {value.length}
+                      </p>
+                    </div>
                     <Button
-                      variant="destructive"
-                      size="icon"
-                      className="absolute -top-1 -right-1 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      variant={pendingDeletions.has(value[selectedImageIndex]?.id || '') ? 'secondary' : 'destructive'}
+                      size="sm"
                       onClick={e => {
+                        e.preventDefault();
                         e.stopPropagation();
-                        removeImage(image.id);
+                        const imageToRemove = value[selectedImageIndex];
+                        markImageForDeletion(imageToRemove.id);
                       }}
+                      onMouseDown={e => e.stopPropagation()}
                     >
-                      <X className="h-3 w-3" />
+                      {pendingDeletions.has(value[selectedImageIndex]?.id || '') ? (
+                        <>
+                          <Upload className="h-4 w-4 mr-1" />
+                          Restore
+                        </>
+                      ) : (
+                        <>
+                          <Trash2 className="h-4 w-4 mr-1" />
+                          Delete
+                        </>
+                      )}
                     </Button>
                   </div>
-                ))}
-              </div>
-            </ScrollArea>
-          </div>
-        )}
-      </div>
-
-      {/* Preview Dialog */}
-      <Dialog open={previewDialogOpen} onOpenChange={setPreviewDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
-          <DialogHeader>
-            <DialogTitle>
-              Property Images ({selectedImageIndex + 1} of {value.length})
-            </DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col space-y-4">
-            {value.length > 0 && (
-              <>
-                <div className="relative flex justify-center">
-                  <img
-                    src={value[selectedImageIndex]?.preview}
-                    alt={value[selectedImageIndex]?.name}
-                    className="max-h-96 max-w-full object-contain rounded"
-                  />
                 </div>
 
+                {/* Thumbnail Navigation */}
                 {value.length > 1 && (
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedImageIndex(Math.max(0, selectedImageIndex - 1))}
-                      disabled={selectedImageIndex === 0}
-                    >
-                      Previous
-                    </Button>
-                    <span className="flex items-center text-sm text-muted-foreground">
-                      {selectedImageIndex + 1} / {value.length}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedImageIndex(Math.min(value.length - 1, selectedImageIndex + 1))}
-                      disabled={selectedImageIndex === value.length - 1}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                )}
-
-                <ScrollArea className="h-20">
-                  <div className="flex gap-2 pb-2">
+                  <div className="flex gap-2 overflow-x-auto pb-2">
                     {value.map((image, index) => (
                       <button
                         key={image.id}
-                        onClick={() => setSelectedImageIndex(index)}
-                        className={`
-                          flex-shrink-0 border-2 rounded overflow-hidden transition-all
-                          ${index === selectedImageIndex ? 'border-primary' : 'border-transparent'}
-                        `}
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedImageIndex(index);
+                        }}
+                        onMouseDown={e => e.stopPropagation()}
+                        className={`group flex-shrink-0 border-2 rounded overflow-hidden transition-all hover:scale-105 relative ${
+                          index === selectedImageIndex
+                            ? 'border-primary ring-2 ring-primary/20'
+                            : 'border-muted hover:border-primary/50'
+                        } ${pendingDeletions.has(image.id) ? 'opacity-60' : ''}`}
                       >
-                        <img src={image.preview} alt={image.name} className="w-16 h-12 object-cover" />
+                        <img
+                          src={image.preview}
+                          alt={image.name}
+                          className={`w-16 h-12 object-cover transition-all ${
+                            pendingDeletions.has(image.id) ? 'grayscale' : ''
+                          }`}
+                        />
+                        {pendingDeletions.has(image.id) && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-red-500/30">
+                            <X className="h-3 w-3 text-white" />
+                          </div>
+                        )}
+                        {/* Delete/Restore button for thumbnail */}
+                        <div
+                          className={`absolute -top-1 -right-1 h-5 w-5 rounded-full flex items-center justify-center cursor-pointer transition-all opacity-0 group-hover:opacity-100 ${
+                            pendingDeletions.has(image.id)
+                              ? 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+                              : 'bg-destructive hover:bg-destructive/80 text-destructive-foreground'
+                          }`}
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            markImageForDeletion(image.id);
+                          }}
+                          onMouseDown={e => e.stopPropagation()}
+                        >
+                          {pendingDeletions.has(image.id) ? (
+                            <Upload className="h-3 w-3" />
+                          ) : (
+                            <Trash2 className="h-3 w-3" />
+                          )}
+                        </div>
                       </button>
                     ))}
                   </div>
-                </ScrollArea>
-
-                <div className="flex justify-between items-center text-sm text-muted-foreground">
-                  <span>{value[selectedImageIndex]?.name}</span>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => {
-                      removeImage(value[selectedImageIndex].id);
-                      if (selectedImageIndex >= value.length - 1) {
-                        setSelectedImageIndex(Math.max(0, value.length - PREVIOUS_INDEX_OFFSET));
-                      }
-                      if (value.length <= 1) {
-                        setPreviewDialogOpen(false);
-                      }
-                    }}
-                  >
-                    Delete Image
-                  </Button>
+                )}
+              </div>
+            ) : (
+              /* Compact Grid View */
+              <ScrollArea className="h-32">
+                <div className="grid grid-cols-6 gap-2 pr-4">
+                  {value.map((image, index) => (
+                    <div key={image.id} className="relative group">
+                      <img
+                        src={image.preview}
+                        alt={image.name}
+                        className={`w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80 transition-all ${
+                          pendingDeletions.has(image.id) ? 'opacity-40 grayscale' : ''
+                        }`}
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedImageIndex(index);
+                          setShowCarousel(true);
+                        }}
+                        onMouseDown={e => e.stopPropagation()}
+                      />
+                      <Button
+                        variant={pendingDeletions.has(image.id) ? 'secondary' : 'destructive'}
+                        size="icon"
+                        className="absolute -top-1 -right-1 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          markImageForDeletion(image.id);
+                        }}
+                        onMouseDown={e => e.stopPropagation()}
+                      >
+                        {pendingDeletions.has(image.id) ? <Upload className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                      </Button>
+                      {/* Deletion overlay for grid view */}
+                      {pendingDeletions.has(image.id) && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-red-500/30 rounded pointer-events-none">
+                          <div className="bg-red-500 text-white px-1 py-0.5 rounded text-xs font-medium">Marked</div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              </>
+              </ScrollArea>
             )}
           </div>
-        </DialogContent>
-      </Dialog>
+        )}
+      </div>
     </div>
   );
 };
