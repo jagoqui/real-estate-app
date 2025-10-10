@@ -34,7 +34,6 @@ export const LogsLayout = (): React.ReactElement => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedLog, setSelectedLog] = useState<PurchaseLog | null>(null);
 
-  // Mock data - replace with real data from your backend
   const [logs] = useState<Array<PurchaseLog>>([
     {
       id: '1',
