@@ -10,11 +10,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
 import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
 import {
+  LocationPicker,
+  type SearchSuggestion,
+} from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
+import {
   PropertyImageManager,
   PropertyImagesTableCell,
   type PropertyImage,
 } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
-import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { MapPin, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 export interface Property {
@@ -24,6 +28,8 @@ export interface Property {
   city: string;
   state: string;
   country: string;
+  lat?: string;
+  lon?: string;
   price: number;
   bedrooms: number;
   bathrooms: number;
@@ -68,6 +74,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       city: 'Beverly Hills',
       state: 'CA',
       country: 'USA',
+      lat: '34.0736',
+      lon: '-118.4004',
       price: 8500000,
       bedrooms: 6,
       bathrooms: 7,
@@ -88,6 +96,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       city: 'New York',
       state: 'NY',
       country: 'USA',
+      lat: '40.7589',
+      lon: '-73.9441',
       price: 12000000,
       bedrooms: 4,
       bathrooms: 5,
@@ -105,10 +115,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
 
   const [formData, setFormData] = useState<{
     name: string;
-    address: string;
     city: string;
     state: string;
     country: string;
+    location: SearchSuggestion | null;
     price: string;
     bedrooms: string;
     bathrooms: string;
@@ -122,10 +132,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     status: Property['status'];
   }>({
     name: '',
-    address: '',
     city: '',
     state: '',
     country: '',
+    location: null,
     price: '',
     bedrooms: '',
     bathrooms: '',
@@ -157,10 +167,12 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     const newProperty: Property = {
       id: editingProperty?.id || Date.now().toString(),
       name: formData.name,
-      address: formData.address,
+      address: formData.location?.display_name || '',
       city: formData.city,
       state: formData.state,
       country: formData.country,
+      lat: formData.location?.lat,
+      lon: formData.location?.lon,
       price: Number(formData.price),
       bedrooms: Number(formData.bedrooms),
       bathrooms: Number(formData.bathrooms),
@@ -191,10 +203,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     setEditingProperty(property);
     setFormData({
       name: property.name,
-      address: property.address,
       city: property.city,
       state: property.state,
       country: property.country,
+      location: null, // TODO: Convertir address + city + state + country a SearchSuggestion
       price: property.price.toString(),
       bedrooms: property.bedrooms.toString(),
       bathrooms: property.bathrooms.toString(),
@@ -222,10 +234,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     setPendingImageDeletions(new Set());
     setFormData({
       name: '',
-      address: '',
       city: '',
       state: '',
       country: '',
+      location: null,
       price: '',
       bedrooms: '',
       bathrooms: '',
@@ -261,6 +273,53 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     };
 
     return <Badge variant={variants[status]}>{labels[status]}</Badge>;
+  };
+
+  const handleLocationChange = (location: SearchSuggestion | undefined): void => {
+    setFormData(prev => ({
+      ...prev,
+      location: location || null,
+    }));
+  };
+
+  const LocationPreview = ({ property }: { property: Property }): React.ReactElement => {
+    if (!property.lat || !property.lon) {
+      return (
+        <div className="flex items-start gap-2 max-w-[200px]">
+          <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+          <div className="min-w-0">
+            <div className="text-sm font-medium truncate">
+              {property.address || `${property.city}, ${property.state}`}
+            </div>
+            <div className="text-xs text-muted-foreground truncate">
+              {property.city}, {property.state}, {property.country}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex items-start gap-2 max-w-[200px]">
+        <div className="shrink-0">
+          <div
+            className="w-12 h-8 rounded border bg-muted bg-cover bg-center cursor-pointer hover:opacity-80 transition-opacity"
+            style={{
+              backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.lon},${property.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
+            }}
+            title="Click to view on map"
+          />
+        </div>
+        <div className="min-w-0">
+          <div className="text-sm font-medium truncate">
+            {property.address || `${property.city}, ${property.state}`}
+          </div>
+          <div className="text-xs text-muted-foreground truncate">
+            {property.city}, {property.state}, {property.country}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -304,15 +363,6 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     required
                   />
                 </div>
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Input
-                    id="address"
-                    value={formData.address}
-                    onChange={e => setFormData({ ...formData, address: e.target.value })}
-                    required
-                  />
-                </div>
                 <div className="space-y-2">
                   <Label htmlFor="city">City</Label>
                   <Input
@@ -338,6 +388,14 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     value={formData.country}
                     onChange={e => setFormData({ ...formData, country: e.target.value })}
                     required
+                  />
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="location">Location Picker</Label>
+                  <LocationPicker
+                    value={formData.location || undefined}
+                    onValueChange={handleLocationChange}
+                    placeholder="Search for a location..."
                   />
                 </div>
                 <div className="space-y-2">
@@ -502,7 +560,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     <TableRow key={property.id}>
                       <TableCell className="font-medium">{property.name}</TableCell>
                       <TableCell>
-                        {property.city}, {property.state}
+                        <LocationPreview property={property} />
                       </TableCell>
                       <TableCell className="font-semibold">${property.price.toLocaleString()}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
