@@ -23,7 +23,7 @@ import {
 } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
 import {
   Scene360Editor,
-  type Scene360,
+  type View360,
 } from '@/modules/shared/infrastructure/ui/react/components/scene360Editor/scene360Editor';
 import 'leaflet/dist/leaflet.css';
 import { MapPin, Pencil, Plus, Search, Trash2 } from 'lucide-react';
@@ -48,24 +48,8 @@ export interface Property {
   features: Array<string>;
   amenities?: Array<Amenity>;
   images: Array<string>;
-  // 360 scenes: each scene is an equirectangular panorama with hotspots
-  scenes?: Array<{
-    id: string;
-    name: string;
-    // preview URL or uploaded file preview
-    preview: string;
-    // original file meta if uploaded
-    file?: { id: string; file: File; name: string; size: number };
-    hotspots: Array<{
-      id: string;
-      // image coordinates (u,v) 0..1 used to compute spherical coords
-      u: number;
-      v: number;
-      title?: string;
-      description?: string;
-      icon?: string;
-    }>;
-  }>;
+  // 360 views: multiple views with scenes and hotspots
+  views360?: Array<View360>;
   imageFiles?: Array<{ id: string; file: File; preview: string; name: string; size: number }>;
   ownerId: string;
   ownerName: string;
@@ -112,7 +96,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: 'Spectacular modern villa with panoramic views',
       features: ['Pool', 'Gym', 'Cinema'],
       images: ['/luxury-villa-sunset.png'],
-      scenes: [],
+      views360: [],
       ownerId: '1',
       ownerName: 'John Smith',
       status: 'available',
@@ -136,7 +120,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: 'Luxury penthouse in the heart of Manhattan',
       features: ['Terrace', 'Panoramic view', '24/7 Concierge'],
       images: ['/luxury-penthouse-with-ocean-view-modern-interior.jpg'],
-      scenes: [],
+      views360: [],
       ownerId: '2',
       ownerName: 'Sarah Johnson',
       status: 'sold',
@@ -163,7 +147,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     ownerId: string;
     ownerName: string;
     status: Property['status'];
-    scenes: Property['scenes'];
+    views360: Property['views360'];
   }>({
     name: '',
     city: '',
@@ -179,7 +163,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     features: '',
     amenities: [],
     images: [],
-    scenes: [],
+    views360: [],
     ownerId: '',
     ownerName: '',
     status: 'available',
@@ -267,7 +251,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       ownerId: property.ownerId,
       ownerName: property.ownerName,
       status: property.status,
-      scenes: property.scenes || [],
+      views360: property.views360 || [],
     });
     setIsDialogOpen(true);
   };
@@ -300,7 +284,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       ownerId: '',
       ownerName: '',
       status: 'available',
-      scenes: [],
+      views360: [],
     });
   };
 
@@ -660,10 +644,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     className="space-y-2 sm:col-span-2"
                   />
                   <div className="space-y-2 sm:col-span-2">
-                    <Label>360 Scenes</Label>
+                    <Label>360° Views</Label>
                     <Scene360Editor
-                      value={formData.scenes as Scene360[]}
-                      onChange={scenes => setFormData({ ...formData, scenes: scenes as any })}
+                      value={formData.views360 || []}
+                      onChange={views360 => setFormData({ ...formData, views360 })}
                     />
                   </div>
                 </div>
