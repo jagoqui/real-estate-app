@@ -45,7 +45,7 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
   const [selectedSceneIndex, setSelectedSceneIndex] = useState<number>(0);
   const [viewMode, setViewMode] = useState<ViewMode>('navigate');
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const [isFileDragging, setIsFileDragging] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const canvasContainerRef = useRef<HTMLDivElement | null>(null);
@@ -70,8 +70,15 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
   const RANDOM_START = 2;
   const RANDOM_LENGTH = 9;
   const WHITE_COLOR = 0xffffff;
+  const GRAY_COLOR = 0x808080;
   const FALLBACK_COLOR = 0x404040;
   const HOTSPOT_DELAY = 100;
+  const MOUSE_SENSITIVITY = 0.2;
+  const ZOOM_SENSITIVITY = 0.05;
+  const MIN_LAT = -85;
+  const MAX_LAT = 85;
+  const MIN_FOV = 10;
+  const MAX_FOV = 120;
 
   // Initialize with external value only once
   const isInitializedRef = useRef(false);
@@ -97,19 +104,28 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
   const currentView = views[selectedViewIndex];
   const currentScene = currentView?.scenes[selectedSceneIndex];
 
+  // Mouse controls
+  const isDragging = useRef(false);
+  const previousMousePosition = useRef({ x: 0, y: 0 });
+
   // Initialize Three.js
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      console.warn('🚨 Canvas ref not available, skipping Three.js initialization');
+      return;
+    }
+    console.info('🎬 Initializing Three.js scene...');
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
       alpha: false,
+      preserveDrawingBuffer: true,
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    renderer.setClearColor(WHITE_COLOR, 1.0);
+    renderer.setClearColor(0x000000, 1.0); // Black background initially
     rendererRef.current = renderer;
 
     const scene = new THREE.Scene();
@@ -128,12 +144,52 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
     geometry.scale(-1, 1, 1);
 
     const material = new THREE.MeshBasicMaterial({
-      color: WHITE_COLOR,
+      color: GRAY_COLOR, // Gray initially
       side: THREE.BackSide,
     });
     const sphere = new THREE.Mesh(geometry, material);
     sphere.name = 'panorama-sphere';
     scene.add(sphere);
+
+    // Mouse controls for navigation
+    const handleMouseDown = (event: MouseEvent): void => {
+      if (viewMode === 'navigate') {
+        isDragging.current = true;
+        previousMousePosition.current = { x: event.clientX, y: event.clientY };
+        canvas.style.cursor = 'grabbing';
+      }
+    };
+
+    const handleMouseMove = (event: MouseEvent): void => {
+      if (!isDragging.current || viewMode !== 'navigate') return;
+
+      const deltaX = event.clientX - previousMousePosition.current.x;
+      const deltaY = event.clientY - previousMousePosition.current.y;
+
+      controlsRef.current.lon -= deltaX * MOUSE_SENSITIVITY;
+      controlsRef.current.lat += deltaY * MOUSE_SENSITIVITY;
+
+      // Clamp latitude
+      controlsRef.current.lat = Math.max(MIN_LAT, Math.min(MAX_LAT, controlsRef.current.lat));
+
+      previousMousePosition.current = { x: event.clientX, y: event.clientY };
+    };
+
+    const handleMouseUp = (): void => {
+      isDragging.current = false;
+      canvas.style.cursor = viewMode === 'navigate' ? 'grab' : 'crosshair';
+    };
+
+    const handleWheel = (event: WheelEvent): void => {
+      event.preventDefault();
+      controlsRef.current.fov += event.deltaY * ZOOM_SENSITIVITY;
+      controlsRef.current.fov = Math.max(MIN_FOV, Math.min(MAX_FOV, controlsRef.current.fov));
+    };
+
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('wheel', handleWheel);
 
     const animate = (): void => {
       requestAnimationFrame(animate);
@@ -154,24 +210,37 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
     animate();
 
     return () => {
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseup', handleMouseUp);
+      canvas.removeEventListener('wheel', handleWheel);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
     };
-  }, []);
+  }, [viewMode, MIN_LAT]);
 
   // Load texture when current scene changes
   useEffect(() => {
-    if (!currentScene || !sceneRef.current) return;
+    if (!currentScene || !sceneRef.current || !rendererRef.current) return;
 
     const sphere = sceneRef.current.getObjectByName('panorama-sphere') as THREE.Mesh;
     if (!sphere) return;
 
     const material = sphere.material as THREE.MeshBasicMaterial;
 
+    console.info('🔄 Loading texture for scene:', currentScene.name);
+
+    // Clean up previous texture
     if (textureRef.current) {
       textureRef.current.dispose();
+      textureRef.current = null;
     }
+
+    // Reset material to show loading state
+    material.map = null;
+    material.color.setHex(GRAY_COLOR);
+    material.needsUpdate = true;
 
     const loader = new THREE.TextureLoader();
     loader.setCrossOrigin('anonymous');
@@ -179,25 +248,45 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
     loader.load(
       currentScene.preview,
       texture => {
+        console.info('✅ Texture loaded successfully for scene:', currentScene.name);
+
+        // Configure texture for panoramic display
         texture.wrapS = THREE.ClampToEdgeWrapping;
         texture.wrapT = THREE.ClampToEdgeWrapping;
         texture.flipY = false;
         texture.minFilter = THREE.LinearFilter;
         texture.magFilter = THREE.LinearFilter;
+        texture.generateMipmaps = false;
 
         textureRef.current = texture;
         material.map = texture;
-        material.color.setHex(WHITE_COLOR);
+        material.color.setHex(WHITE_COLOR); // Set to white for proper texture display
         material.needsUpdate = true;
 
-        console.info('✅ Texture loaded for scene:', currentScene.name);
+        // Force a render to show the texture immediately
+        if (rendererRef.current && cameraRef.current && sceneRef.current) {
+          rendererRef.current.render(sceneRef.current, cameraRef.current);
+        }
       },
-      undefined,
+      progress => {
+        if (progress.total > 0) {
+          const percent = ((progress.loaded / progress.total) * 100).toFixed(1);
+          console.info('📊 Loading progress:', percent + '%');
+        }
+      },
       error => {
-        console.error('❌ Error loading texture:', error);
+        console.error('❌ Error loading texture for scene:', currentScene.name, error);
+        console.error('URL length:', currentScene.preview.length);
+        console.error('URL preview:', currentScene.preview.substring(0, 50) + '...');
+
         material.color.setHex(FALLBACK_COLOR);
         material.map = null;
         material.needsUpdate = true;
+
+        // Force render to show fallback
+        if (rendererRef.current && cameraRef.current && sceneRef.current) {
+          rendererRef.current.render(sceneRef.current, cameraRef.current);
+        }
       }
     );
   }, [currentScene]);
@@ -292,17 +381,17 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
   // File drag handlers
   const handleFileDragOver = (e: React.DragEvent): void => {
     e.preventDefault();
-    setIsDragging(true);
+    setIsFileDragging(true);
   };
 
   const handleFileDragLeave = (e: React.DragEvent): void => {
     e.preventDefault();
-    setIsDragging(false);
+    setIsFileDragging(false);
   };
 
   const handleFileDrop = (e: React.DragEvent): void => {
     e.preventDefault();
-    setIsDragging(false);
+    setIsFileDragging(false);
     const files = e.dataTransfer.files;
     if (files && files.length > 0) {
       handleAddScenes(files);
@@ -405,7 +494,7 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
           <div
             className={`
               border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer
-              ${isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
+              ${isFileDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
               hover:border-primary hover:bg-primary/5
             `}
             onDrop={handleFileDrop}
@@ -605,7 +694,7 @@ export const Scene360Editor = ({ value = [], onChange }: Props): React.ReactElem
                         {currentScene.hotspots.map(hotspot => (
                           <div key={hotspot.id} className="flex items-center gap-2 mb-2 p-2 rounded hover:bg-muted/50">
                             <div className="w-8 h-8 flex items-center justify-center bg-muted rounded">
-                              <DynamicIcon name={(hotspot.icon || 'pin') as any} className="h-4 w-4" />
+                              <DynamicIcon name={hotspot.icon || 'pin'} className="h-4 w-4" />
                             </div>
                             <div className="flex-1">
                               <Input
