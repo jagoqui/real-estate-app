@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { FormattedInput } from '@/components/ui/formatted-input';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -354,22 +355,31 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     return (
       <Popover>
         <PopoverTrigger asChild>
-          <div className="flex items-start gap-2 max-w-[200px] cursor-pointer hover:opacity-80 transition-opacity">
-            <div className="shrink-0">
+          <div className="flex items-start gap-2 max-w-[200px] cursor-pointer hover:bg-muted/50 rounded-md p-1 transition-all duration-200 hover:shadow-sm group">
+            <div className="shrink-0 relative">
               <div
-                className="w-12 h-8 rounded border bg-muted bg-cover bg-center"
+                className="w-12 h-8 rounded border bg-muted bg-cover bg-center relative overflow-hidden"
                 style={{
                   backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.lon},${property.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
                 }}
-                title="Click to view map preview"
-              />
+              >
+                {/* Overlay with click indicator */}
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                  <div className="w-4 h-4 bg-white/90 rounded-full flex items-center justify-center">
+                    <MapPin className="h-2 w-2 text-gray-700" />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="min-w-0">
-              <div className="text-sm font-medium truncate">
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-medium truncate group-hover:text-primary transition-colors">
                 {property.address || `${property.city}, ${property.state}`}
               </div>
-              <div className="text-xs text-muted-foreground truncate">
+              <div className="text-xs text-muted-foreground truncate group-hover:hidden transition-all duration-200">
                 {property.city}, {property.state}, {property.country}
+              </div>
+              <div className="text-xs text-primary hidden group-hover:block transition-all duration-200 truncate">
+                📍 Click to view map
               </div>
             </div>
           </div>
@@ -504,41 +514,56 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="price">Price (USD)</Label>
-                    <Input
+                    <FormattedInput
                       id="price"
-                      type="number"
+                      formatType="currency"
                       value={formData.price}
-                      onChange={e => setFormData({ ...formData, price: e.target.value })}
+                      onChange={(value: string) => setFormData({ ...formData, price: value })}
+                      placeholder="$0"
                       required
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="bedrooms">Bedrooms</Label>
-                    <Input
+                    <FormattedInput
                       id="bedrooms"
-                      type="number"
+                      formatType="number"
                       value={formData.bedrooms}
-                      onChange={e => setFormData({ ...formData, bedrooms: e.target.value })}
+                      onChange={(value: string) => setFormData({ ...formData, bedrooms: value })}
+                      placeholder="0"
                       required
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="bathrooms">Bathrooms</Label>
-                    <Input
+                    <FormattedInput
                       id="bathrooms"
-                      type="number"
+                      formatType="number"
                       value={formData.bathrooms}
-                      onChange={e => setFormData({ ...formData, bathrooms: e.target.value })}
+                      onChange={(value: string) => setFormData({ ...formData, bathrooms: value })}
+                      placeholder="0"
                       required
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="area">Area (m²)</Label>
-                    <Input
+                    <FormattedInput
                       id="area"
-                      type="number"
+                      formatType="number"
                       value={formData.area}
-                      onChange={e => setFormData({ ...formData, area: e.target.value })}
+                      onChange={(value: string) => setFormData({ ...formData, area: value })}
+                      placeholder="0"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="buildYear">Build Year</Label>
+                    <FormattedInput
+                      id="buildYear"
+                      formatType="year"
+                      value={formData.buildYear}
+                      onChange={(value: string) => setFormData({ ...formData, buildYear: value })}
+                      placeholder="2024"
                       required
                     />
                   </div>
