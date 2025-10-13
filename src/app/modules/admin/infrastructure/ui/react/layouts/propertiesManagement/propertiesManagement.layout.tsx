@@ -21,6 +21,10 @@ import {
   PropertyImagesTableCell,
   type PropertyImage,
 } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
+import {
+  Scene360Editor,
+  type Scene360,
+} from '@/modules/shared/infrastructure/ui/react/components/scene360Editor/scene360Editor';
 import 'leaflet/dist/leaflet.css';
 import { MapPin, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -44,6 +48,24 @@ export interface Property {
   features: Array<string>;
   amenities?: Array<Amenity>;
   images: Array<string>;
+  // 360 scenes: each scene is an equirectangular panorama with hotspots
+  scenes?: Array<{
+    id: string;
+    name: string;
+    // preview URL or uploaded file preview
+    preview: string;
+    // original file meta if uploaded
+    file?: { id: string; file: File; name: string; size: number };
+    hotspots: Array<{
+      id: string;
+      // image coordinates (u,v) 0..1 used to compute spherical coords
+      u: number;
+      v: number;
+      title?: string;
+      description?: string;
+      icon?: string;
+    }>;
+  }>;
   imageFiles?: Array<{ id: string; file: File; preview: string; name: string; size: number }>;
   ownerId: string;
   ownerName: string;
@@ -90,6 +112,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: 'Spectacular modern villa with panoramic views',
       features: ['Pool', 'Gym', 'Cinema'],
       images: ['/luxury-villa-sunset.png'],
+      scenes: [],
       ownerId: '1',
       ownerName: 'John Smith',
       status: 'available',
@@ -113,6 +136,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: 'Luxury penthouse in the heart of Manhattan',
       features: ['Terrace', 'Panoramic view', '24/7 Concierge'],
       images: ['/luxury-penthouse-with-ocean-view-modern-interior.jpg'],
+      scenes: [],
       ownerId: '2',
       ownerName: 'Sarah Johnson',
       status: 'sold',
@@ -139,6 +163,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     ownerId: string;
     ownerName: string;
     status: Property['status'];
+    scenes: Property['scenes'];
   }>({
     name: '',
     city: '',
@@ -154,6 +179,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     features: '',
     amenities: [],
     images: [],
+    scenes: [],
     ownerId: '',
     ownerName: '',
     status: 'available',
@@ -241,6 +267,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       ownerId: property.ownerId,
       ownerName: property.ownerName,
       status: property.status,
+      scenes: property.scenes || [],
     });
     setIsDialogOpen(true);
   };
@@ -273,6 +300,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       ownerId: '',
       ownerName: '',
       status: 'available',
+      scenes: [],
     });
   };
 
@@ -631,6 +659,13 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     }}
                     className="space-y-2 sm:col-span-2"
                   />
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label>360 Scenes</Label>
+                    <Scene360Editor
+                      value={formData.scenes as Scene360[]}
+                      onChange={scenes => setFormData({ ...formData, scenes: scenes as any })}
+                    />
+                  </div>
                 </div>
               </form>
             </div>
