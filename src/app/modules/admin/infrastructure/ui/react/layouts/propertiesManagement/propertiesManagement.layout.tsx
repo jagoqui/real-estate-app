@@ -1,9 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,8 +20,10 @@ import {
   PropertyImagesTableCell,
   type PropertyImage,
 } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
+import 'leaflet/dist/leaflet.css';
 import { MapPin, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 export interface Property {
   id: string;
@@ -201,12 +205,23 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
 
   const handleEdit = (property: Property): void => {
     setEditingProperty(property);
+
+    // Convertir la propiedad guardada a SearchSuggestion si tiene coordenadas
+    const locationSuggestion: SearchSuggestion | null =
+      property.lat && property.lon
+        ? {
+            display_name: property.address || `${property.city}, ${property.state}, ${property.country}`,
+            lat: property.lat,
+            lon: property.lon,
+          }
+        : null;
+
     setFormData({
       name: property.name,
       city: property.city,
       state: property.state,
       country: property.country,
-      location: null, // TODO: Convertir address + city + state + country a SearchSuggestion
+      location: locationSuggestion,
       price: property.price.toString(),
       bedrooms: property.bedrooms.toString(),
       bathrooms: property.bathrooms.toString(),
@@ -276,17 +291,46 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
   };
 
   const handleLocationChange = (location: SearchSuggestion | undefined): void => {
-    setFormData(prev => ({
-      ...prev,
-      location: location || null,
-    }));
+    setFormData(prev => {
+      if (!location) {
+        return { ...prev, location: null };
+      }
+
+      // Intentar extraer ciudad, estado y país del display_name
+      const parts = location.display_name.split(',').map(part => part.trim());
+      const updates: Partial<typeof prev> = { location };
+
+      // Si hay suficientes partes, intentar mapear
+      const MIN_PARTS = 3;
+      const CITY_OFFSET = 3;
+      const STATE_OFFSET = 2;
+      const COUNTRY_OFFSET = 1;
+
+      if (parts.length >= MIN_PARTS) {
+        // Típicamente: "Street, City, State, Country" o similar
+        const possibleCity = parts[parts.length - CITY_OFFSET] || prev.city;
+        const possibleState = parts[parts.length - STATE_OFFSET] || prev.state;
+        const possibleCountry = parts[parts.length - COUNTRY_OFFSET] || prev.country;
+
+        updates.city = possibleCity;
+        updates.state = possibleState;
+        updates.country = possibleCountry;
+      }
+
+      return { ...prev, ...updates };
+    });
   };
 
+  // eslint-disable-next-line max-lines-per-function
   const LocationPreview = ({ property }: { property: Property }): React.ReactElement => {
     if (!property.lat || !property.lon) {
       return (
         <div className="flex items-start gap-2 max-w-[200px]">
-          <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+          <div className="shrink-0">
+            <div className="w-12 h-8 rounded border bg-muted flex items-center justify-center">
+              <MapPin className="h-3 w-3 text-muted-foreground" />
+            </div>
+          </div>
           <div className="min-w-0">
             <div className="text-sm font-medium truncate">
               {property.address || `${property.city}, ${property.state}`}
@@ -300,25 +344,73 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     }
 
     return (
-      <div className="flex items-start gap-2 max-w-[200px]">
-        <div className="shrink-0">
-          <div
-            className="w-12 h-8 rounded border bg-muted bg-cover bg-center cursor-pointer hover:opacity-80 transition-opacity"
-            style={{
-              backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.lon},${property.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
-            }}
-            title="Click to view on map"
-          />
-        </div>
-        <div className="min-w-0">
-          <div className="text-sm font-medium truncate">
-            {property.address || `${property.city}, ${property.state}`}
+      <Popover>
+        <PopoverTrigger asChild>
+          <div className="flex items-start gap-2 max-w-[200px] cursor-pointer hover:opacity-80 transition-opacity">
+            <div className="shrink-0">
+              <div
+                className="w-12 h-8 rounded border bg-muted bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.lon},${property.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
+                }}
+                title="Click to view map preview"
+              />
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-medium truncate">
+                {property.address || `${property.city}, ${property.state}`}
+              </div>
+              <div className="text-xs text-muted-foreground truncate">
+                {property.city}, {property.state}, {property.country}
+              </div>
+            </div>
           </div>
-          <div className="text-xs text-muted-foreground truncate">
-            {property.city}, {property.state}, {property.country}
+        </PopoverTrigger>
+        <PopoverContent className="w-80 p-0" side="right" align="start">
+          <div className="p-3 border-b">
+            <h4 className="font-medium text-sm">Property Location</h4>
+            <p className="text-xs text-muted-foreground truncate mt-1">
+              {property.address || `${property.city}, ${property.state}`}
+            </p>
           </div>
-        </div>
-      </div>
+          <div className="h-48 relative">
+            <MapContainer
+              center={[parseFloat(property.lat), parseFloat(property.lon)]}
+              zoom={15}
+              style={{ height: '100%', width: '100%' }}
+              zoomControl={false}
+              scrollWheelZoom={false}
+              doubleClickZoom={false}
+              dragging={false}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={[parseFloat(property.lat), parseFloat(property.lon)]}>
+                <Popup>
+                  <div className="text-sm">
+                    <strong>{property.name}</strong>
+                    <br />
+                    {property.address || `${property.city}, ${property.state}`}
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </div>
+          <div className="p-3 border-t bg-muted/30">
+            <button
+              className="text-xs text-primary hover:underline"
+              onClick={() => {
+                const googleMapsUrl = `https://www.google.com/maps?q=${property.lat},${property.lon}&z=15`;
+                window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+              }}
+            >
+              Open in Google Maps →
+            </button>
+          </div>
+        </PopoverContent>
+      </Popover>
     );
   };
 
@@ -344,165 +436,174 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
             </Button>
           </DialogTrigger>
           <DialogContent
-            className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]"
+            className="max-h-[90vh] sm:max-w-[600px] p-0 flex flex-col"
             onInteractOutside={e => e.preventDefault()}
           >
-            <DialogHeader>
+            {/* Fixed Header */}
+            <DialogHeader className="flex-shrink-0 bg-background border-b px-6 py-4 rounded-t-lg">
               <DialogTitle className="font-serif text-2xl">
                 {editingProperty ? 'Edit Property' : 'New Property'}
               </DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="name">Property Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    required
+
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 min-h-0">
+              <form onSubmit={handleSubmit} className="space-y-4" id="property-form">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="name">Property Name</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={e => setFormData({ ...formData, name: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City</Label>
+                    <Input
+                      id="city"
+                      value={formData.city}
+                      onChange={e => setFormData({ ...formData, city: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="state">State/Province</Label>
+                    <Input
+                      id="state"
+                      value={formData.state}
+                      onChange={e => setFormData({ ...formData, state: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="country">Country</Label>
+                    <Input
+                      id="country"
+                      value={formData.country}
+                      onChange={e => setFormData({ ...formData, country: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="location">Location Picker</Label>
+                    <LocationPicker
+                      value={formData.location || undefined}
+                      onValueChange={handleLocationChange}
+                      placeholder="Search for a location..."
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="price">Price (USD)</Label>
+                    <Input
+                      id="price"
+                      type="number"
+                      value={formData.price}
+                      onChange={e => setFormData({ ...formData, price: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="bedrooms">Bedrooms</Label>
+                    <Input
+                      id="bedrooms"
+                      type="number"
+                      value={formData.bedrooms}
+                      onChange={e => setFormData({ ...formData, bedrooms: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="bathrooms">Bathrooms</Label>
+                    <Input
+                      id="bathrooms"
+                      type="number"
+                      value={formData.bathrooms}
+                      onChange={e => setFormData({ ...formData, bathrooms: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="area">Area (m²)</Label>
+                    <Input
+                      id="area"
+                      type="number"
+                      value={formData.area}
+                      onChange={e => setFormData({ ...formData, area: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="status">Status</Label>
+                    <Select
+                      value={formData.status}
+                      onValueChange={(value: Property['status']) => setFormData({ ...formData, status: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="available">Available</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="sold">Sold</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ownerName">Owner</Label>
+                    <Input id="ownerName" value={formData.ownerName} disabled required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ownerId">Owner ID</Label>
+                    <Input
+                      id="ownerId"
+                      value={formData.ownerId}
+                      onChange={e => setFormData({ ...formData, ownerId: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={e => setFormData({ ...formData, description: e.target.value })}
+                      rows={3}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="features">Features (comma separated)</Label>
+                    <Input
+                      id="features"
+                      value={formData.features}
+                      onChange={e => setFormData({ ...formData, features: e.target.value })}
+                      placeholder="Pool, Gym, Garden"
+                    />
+                  </div>
+                  <AmenityForm
+                    value={formData.amenities}
+                    onValueChange={amenities => setFormData({ ...formData, amenities })}
+                    onValidationChange={setIsAmenityFormValid}
+                    className="space-y-2 sm:col-span-2"
+                  />
+                  <PropertyImageManager
+                    value={formData.images}
+                    onValueChange={(images, pendingDeletions) => {
+                      setFormData({ ...formData, images });
+                      if (pendingDeletions) {
+                        setPendingImageDeletions(pendingDeletions);
+                      }
+                    }}
+                    className="space-y-2 sm:col-span-2"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
-                  <Input
-                    id="city"
-                    value={formData.city}
-                    onChange={e => setFormData({ ...formData, city: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="state">State/Province</Label>
-                  <Input
-                    id="state"
-                    value={formData.state}
-                    onChange={e => setFormData({ ...formData, state: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="country">Country</Label>
-                  <Input
-                    id="country"
-                    value={formData.country}
-                    onChange={e => setFormData({ ...formData, country: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="location">Location Picker</Label>
-                  <LocationPicker
-                    value={formData.location || undefined}
-                    onValueChange={handleLocationChange}
-                    placeholder="Search for a location..."
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="price">Price (USD)</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    value={formData.price}
-                    onChange={e => setFormData({ ...formData, price: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="bedrooms">Bedrooms</Label>
-                  <Input
-                    id="bedrooms"
-                    type="number"
-                    value={formData.bedrooms}
-                    onChange={e => setFormData({ ...formData, bedrooms: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="bathrooms">Bathrooms</Label>
-                  <Input
-                    id="bathrooms"
-                    type="number"
-                    value={formData.bathrooms}
-                    onChange={e => setFormData({ ...formData, bathrooms: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="area">Area (m²)</Label>
-                  <Input
-                    id="area"
-                    type="number"
-                    value={formData.area}
-                    onChange={e => setFormData({ ...formData, area: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="status">Status</Label>
-                  <Select
-                    value={formData.status}
-                    onValueChange={(value: Property['status']) => setFormData({ ...formData, status: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="available">Available</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="sold">Sold</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="ownerName">Owner</Label>
-                  <Input id="ownerName" value={formData.ownerName} disabled required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="ownerId">Owner ID</Label>
-                  <Input
-                    id="ownerId"
-                    value={formData.ownerId}
-                    onChange={e => setFormData({ ...formData, ownerId: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={e => setFormData({ ...formData, description: e.target.value })}
-                    rows={3}
-                    required
-                  />
-                </div>
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="features">Features (comma separated)</Label>
-                  <Input
-                    id="features"
-                    value={formData.features}
-                    onChange={e => setFormData({ ...formData, features: e.target.value })}
-                    placeholder="Pool, Gym, Garden"
-                  />
-                </div>
-                <AmenityForm
-                  value={formData.amenities}
-                  onValueChange={amenities => setFormData({ ...formData, amenities })}
-                  onValidationChange={setIsAmenityFormValid}
-                  className="space-y-2 sm:col-span-2"
-                />
-                <PropertyImageManager
-                  value={formData.images}
-                  onValueChange={(images, pendingDeletions) => {
-                    setFormData({ ...formData, images });
-                    if (pendingDeletions) {
-                      setPendingImageDeletions(pendingDeletions);
-                    }
-                  }}
-                  className="space-y-2 sm:col-span-2"
-                />
-              </div>
+              </form>
+            </div>
+
+            {/* Fixed Footer */}
+            <div className="flex-shrink-0 bg-background border-t px-6 py-4 rounded-b-lg">
               <div className="flex justify-end gap-3">
                 <Button
                   type="button"
@@ -514,11 +615,11 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={!isAmenityFormValid}>
+                <Button type="submit" form="property-form" disabled={!isAmenityFormValid}>
                   {editingProperty ? 'Save Changes' : 'Create Property'}
                 </Button>
               </div>
-            </form>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -537,74 +638,99 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto -mx-6 sm:mx-0">
-            <div className="inline-block min-w-full align-middle">
-              <Table>
+        <CardContent className="px-0">
+          <div className="w-full overflow-hidden">
+            <div className="max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-20rem)]">
+              <Table className="w-full">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[150px]">Property</TableHead>
-                    <TableHead className="min-w-[120px]">Location</TableHead>
-                    <TableHead className="min-w-[100px]">Price</TableHead>
-                    <TableHead className="min-w-[150px]">Details</TableHead>
-                    <TableHead className="min-w-[140px]">Features</TableHead>
-                    <TableHead className="min-w-[140px]">Amenities</TableHead>
-                    <TableHead className="min-w-[120px]">Images</TableHead>
-                    <TableHead className="min-w-[120px]">Owner</TableHead>
-                    <TableHead className="min-w-[100px]">Status</TableHead>
-                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
+                    <TableHead className="w-[200px] sticky left-0 z-20 bg-background shadow-[2px_0_4px_rgba(0,0,0,0.1)] font-medium">
+                      Property
+                    </TableHead>
+                    <TableHead className="flex-1 p-0">
+                      <div
+                        className="flex overflow-x-auto"
+                        style={{ scrollbarWidth: 'thin', scrollbarColor: '#cbd5e1 transparent' }}
+                      >
+                        <div className="w-[180px] flex-shrink-0">Location</div>
+                        <div className="w-[120px] flex-shrink-0">Price</div>
+                        <div className="w-[150px] flex-shrink-0">Details</div>
+                        <div className="w-[150px] flex-shrink-0">Features</div>
+                        <div className="w-[150px] flex-shrink-0">Amenities</div>
+                        <div className="w-[120px] flex-shrink-0">Images</div>
+                        <div className="w-[120px] flex-shrink-0">Owner</div>
+                        <div className="w-[100px] flex-shrink-0">Status</div>
+                      </div>
+                    </TableHead>
+                    <TableHead className="w-[100px] sticky right-0 z-20 bg-background shadow-[-2px_0_4px_rgba(0,0,0,0.1)] text-right font-medium">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredProperties.map(property => (
                     <TableRow key={property.id}>
-                      <TableCell className="font-medium">{property.name}</TableCell>
-                      <TableCell>
-                        <LocationPreview property={property} />
-                      </TableCell>
-                      <TableCell className="font-semibold">${property.price.toLocaleString()}</TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {property.bedrooms} beds • {property.bathrooms} baths • {property.area}m²
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex flex-wrap gap-1 max-w-[130px]">
-                          {property.features.slice(0, MAX_VISIBLE_FEATURES).map((feature, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
-                              {feature}
-                            </Badge>
-                          ))}
-                          {property.features.length > MAX_VISIBLE_FEATURES && (
-                            <Badge variant="outline" className="text-xs">
-                              +{property.features.length - MAX_VISIBLE_FEATURES}
-                            </Badge>
-                          )}
+                      <TableCell className="w-[200px] sticky left-0 z-10 bg-background/95 shadow-[2px_0_4px_rgba(0,0,0,0.1)] font-medium">
+                        <div className="font-medium truncate">{property.name}</div>
+                        <div className="text-xs text-muted-foreground mt-1 truncate">
+                          {property.city}, {property.state}
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex flex-wrap gap-1 max-w-[130px]">
-                          {property.amenities?.slice(0, MAX_VISIBLE_AMENITIES).map((amenity, index) => (
-                            <div key={index} className="flex items-center gap-1 text-xs bg-muted px-2 py-1 rounded">
-                              <DynamicIcon name={amenity.icon} className="h-3 w-3" />
-                              <span className="truncate max-w-[60px]">{amenity.name}</span>
+                      <TableCell className="flex-1 p-0">
+                        <div
+                          className="flex overflow-x-auto"
+                          style={{ scrollbarWidth: 'thin', scrollbarColor: '#cbd5e1 transparent' }}
+                        >
+                          <div className="w-[180px] flex-shrink-0 px-4 py-3">
+                            <LocationPreview property={property} />
+                          </div>
+                          <div className="w-[120px] flex-shrink-0 px-4 py-3 font-semibold">
+                            ${property.price.toLocaleString()}
+                          </div>
+                          <div className="w-[150px] flex-shrink-0 px-4 py-3 text-sm text-muted-foreground">
+                            {property.bedrooms} beds • {property.bathrooms} baths • {property.area}m²
+                          </div>
+                          <div className="w-[150px] flex-shrink-0 px-4 py-3">
+                            <div className="flex flex-wrap gap-1 max-w-[140px]">
+                              {property.features.slice(0, MAX_VISIBLE_FEATURES).map((feature, index) => (
+                                <Badge key={index} variant="secondary" className="text-xs">
+                                  {feature}
+                                </Badge>
+                              ))}
+                              {property.features.length > MAX_VISIBLE_FEATURES && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{property.features.length - MAX_VISIBLE_FEATURES}
+                                </Badge>
+                              )}
                             </div>
-                          ))}
-                          {(property.amenities?.length || 0) > MAX_VISIBLE_AMENITIES && (
-                            <Badge variant="outline" className="text-xs">
-                              +{(property.amenities?.length || 0) - MAX_VISIBLE_AMENITIES}
-                            </Badge>
-                          )}
-                          {(!property.amenities || property.amenities.length === 0) && (
-                            <span className="text-xs text-muted-foreground">None</span>
-                          )}
+                          </div>
+                          <div className="w-[150px] flex-shrink-0 px-4 py-3">
+                            <div className="flex flex-wrap gap-1 max-w-[130px]">
+                              {property.amenities?.slice(0, MAX_VISIBLE_AMENITIES).map((amenity, index) => (
+                                <div key={index} className="flex items-center gap-1 text-xs bg-muted px-2 py-1 rounded">
+                                  <DynamicIcon name={amenity.icon} className="h-3 w-3" />
+                                  <span className="truncate max-w-[60px]">{amenity.name}</span>
+                                </div>
+                              ))}
+                              {(property.amenities?.length || 0) > MAX_VISIBLE_AMENITIES && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{(property.amenities?.length || 0) - MAX_VISIBLE_AMENITIES}
+                                </Badge>
+                              )}
+                              {(!property.amenities || property.amenities.length === 0) && (
+                                <span className="text-xs text-muted-foreground">None</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="w-[120px] flex-shrink-0 px-4 py-3">
+                            <PropertyImagesTableCell images={property.imageFiles || []} propertyName={property.name} />
+                          </div>
+                          <div className="w-[120px] flex-shrink-0 px-4 py-3">{property.ownerName}</div>
+                          <div className="w-[100px] flex-shrink-0 px-4 py-3">{getStatusBadge(property.status)}</div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <PropertyImagesTableCell images={property.imageFiles || []} propertyName={property.name} />
-                      </TableCell>
-                      <TableCell>{property.ownerName}</TableCell>
-                      <TableCell>{getStatusBadge(property.status)}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
+                      <TableCell className="w-[100px] sticky right-0 z-10 bg-background/95 shadow-[-2px_0_4px_rgba(0,0,0,0.1)] text-right">
+                        <div className="flex justify-end gap-1">
                           <Button variant="ghost" size="icon" onClick={() => handleEdit(property)}>
                             <Pencil className="h-4 w-4" />
                           </Button>
