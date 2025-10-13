@@ -38,6 +38,7 @@ export interface Property {
   bedrooms: number;
   bathrooms: number;
   area: number;
+  buildYear: number;
   description: string;
   features: Array<string>;
   amenities?: Array<Amenity>;
@@ -84,6 +85,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: 6,
       bathrooms: 7,
       area: 850,
+      buildYear: 2020,
       description: 'Spectacular modern villa with panoramic views',
       features: ['Pool', 'Gym', 'Cinema'],
       images: ['/luxury-villa-sunset.png'],
@@ -106,6 +108,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: 4,
       bathrooms: 5,
       area: 450,
+      buildYear: 2018,
       description: 'Luxury penthouse in the heart of Manhattan',
       features: ['Terrace', 'Panoramic view', '24/7 Concierge'],
       images: ['/luxury-penthouse-with-ocean-view-modern-interior.jpg'],
@@ -127,6 +130,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     bedrooms: string;
     bathrooms: string;
     area: string;
+    buildYear: string;
     description: string;
     features: string;
     amenities: Array<Amenity>;
@@ -144,6 +148,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     bedrooms: '',
     bathrooms: '',
     area: '',
+    buildYear: '',
     description: '',
     features: '',
     amenities: [],
@@ -181,6 +186,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: Number(formData.bedrooms),
       bathrooms: Number(formData.bathrooms),
       area: Number(formData.area),
+      buildYear: Number(formData.buildYear),
       description: formData.description,
       features: formData.features.split(',').map(f => f.trim()),
       amenities: formData.amenities,
@@ -226,6 +232,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: property.bedrooms.toString(),
       bathrooms: property.bathrooms.toString(),
       area: property.area.toString(),
+      buildYear: property.buildYear.toString(),
       description: property.description,
       features: property.features.join(', '),
       amenities: property.amenities || [],
@@ -257,6 +264,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       bedrooms: '',
       bathrooms: '',
       area: '',
+      buildYear: '',
       description: '',
       features: '',
       amenities: [],
@@ -688,7 +696,12 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                             ${property.price.toLocaleString()}
                           </div>
                           <div className="w-[150px] flex-shrink-0 px-4 py-3 text-sm text-muted-foreground">
-                            {property.bedrooms} beds • {property.bathrooms} baths • {property.area}m²
+                            <div>
+                              {property.bedrooms} beds • {property.bathrooms} baths
+                            </div>
+                            <div className="text-xs mt-1">
+                              {property.area}m² • Built {property.buildYear}
+                            </div>
                           </div>
                           <div className="w-[150px] flex-shrink-0 px-4 py-3">
                             <div className="flex flex-wrap gap-1 max-w-[140px]">
