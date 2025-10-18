@@ -217,6 +217,40 @@ export const LocationPicker = ({
   );
 
   // Handle current location button
+  const [showPermissionError, setShowPermissionError] = useState(false);
+
+  const requestGeolocationPermission = useCallback(async (): Promise<GeolocationPosition> => {
+    try {
+      await navigator.permissions.query({ name: 'geolocation' });
+
+      return await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setShowPermissionError(false);
+            resolve(position);
+          },
+          error => {
+            if (error.code === 1) {
+              // PERMISSION_DENIED
+              setShowPermissionError(true);
+              reject(new Error('Location permission denied. Please enable location access in your browser settings.'));
+            } else {
+              reject(new Error(error.message));
+            }
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
+          }
+        );
+      });
+    } catch {
+      setShowPermissionError(true);
+      throw new Error('Failed to request location permission');
+    }
+  }, []);
+
   const handleGetCurrentLocation = useCallback(async (): Promise<void> => {
     if (!navigator.geolocation) {
       console.error('Geolocation is not supported by your browser');
@@ -225,16 +259,7 @@ export const LocationPicker = ({
 
     try {
       setIsGettingLocation(true);
-
-      // Get current position as a promise
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0, // Force fresh location reading
-        });
-      });
-
+      const position = await requestGeolocationPermission();
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
@@ -271,7 +296,7 @@ export const LocationPicker = ({
     } finally {
       setIsGettingLocation(false);
     }
-  }, [onValueChange, SEARCH_ZOOM]);
+  }, [onValueChange, SEARCH_ZOOM, requestGeolocationPermission]);
 
   // Clear selection
   const handleClear = useCallback((): void => {
@@ -370,6 +395,40 @@ export const LocationPicker = ({
           >
             {isGettingLocation ? <Loader2 className="h-3 w-3 animate-spin" /> : <Navigation className="h-3 w-3" />}
           </Button>
+          {showPermissionError && (
+            <div className="mt-2 text-sm text-destructive flex items-center gap-2">
+              <span>
+                Location access was denied. Please enable location access in your browser settings and try again.
+              </span>
+              <Button
+                type="button"
+                variant="link"
+                className="p-0 h-auto font-medium hover:underline"
+                onClick={() => {
+                  // Detect browser and show specific instructions
+                  const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
+                  const isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+
+                  let instructions = '';
+                  if (isChrome) {
+                    instructions =
+                      '1. Click the lock icon 🔒 in the address bar\n2. Click "Site settings"\n3. Allow location access\n4. Reload the page';
+                  } else if (isFirefox) {
+                    instructions =
+                      '1. Click the lock icon 🔒 in the address bar\n2. Clear the "Block" setting for Location\n3. Reload the page';
+                  } else {
+                    instructions =
+                      'Please enable location access in your browser settings:\n1. Look for the lock icon 🔒 in the address bar\n2. Check location permissions\n3. Reload the page after enabling';
+                  }
+
+                  alert(instructions);
+                  setShowPermissionError(false);
+                }}
+              >
+                How to enable?
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
