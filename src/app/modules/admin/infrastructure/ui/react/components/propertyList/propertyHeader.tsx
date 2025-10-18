@@ -1,22 +1,23 @@
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 interface PropertyHeaderProps {
-  onAddProperty: () => void;
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
-export const PropertyHeader = ({ onAddProperty }: PropertyHeaderProps): React.ReactElement => {
+export const PropertyHeader = ({ value, onValueChange }: PropertyHeaderProps): React.ReactElement => {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-      <div>
-        <h2 className="font-serif text-2xl lg:text-3xl font-semibold">Properties</h2>
-        <p className="mt-2 text-sm lg:text-base text-muted-foreground">Manage all properties on your platform</p>
+    <div className="flex items-center gap-4">
+      <div className="relative flex-1">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          placeholder="Search by name, address or city..."
+          value={value}
+          onChange={e => onValueChange(e.target.value)}
+          className="pl-10"
+        />
       </div>
-      <Button className="gap-2 w-full sm:w-auto" onClick={onAddProperty}>
-        <Plus className="h-4 w-4" />
-        <span className="hidden sm:inline">Add Property</span>
-        <span className="sm:hidden">Add</span>
-      </Button>
     </div>
   );
 };

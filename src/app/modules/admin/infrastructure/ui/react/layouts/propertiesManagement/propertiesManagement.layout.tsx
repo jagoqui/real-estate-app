@@ -1,16 +1,13 @@
 /* eslint-disable max-lines-per-function */
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
-import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
 import {
   LocationPicker,
@@ -18,13 +15,13 @@ import {
 } from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
 import {
   PropertyImageManager,
-  PropertyImagesTableCell,
   type PropertyImage,
 } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
-import 'leaflet/dist/leaflet.css';
-import { MapPin, Maximize, Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { Maximize, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { PropertyHeader } from '../../components/propertyList/propertyHeader';
+import { PropertyTableHeader } from '../../components/propertyList/propertyTableHeader';
+import { PropertyTableRow } from '../../components/propertyList/propertyTableRow';
 
 export interface Property {
   id: string;
@@ -301,22 +298,6 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       p.city.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const getStatusBadge = (status: Property['status']): React.ReactElement => {
-    const variants = {
-      available: 'default',
-      sold: 'secondary',
-      pending: 'outline',
-    } as const;
-
-    const labels = {
-      available: 'Available',
-      sold: 'Sold',
-      pending: 'Pending',
-    };
-
-    return <Badge variant={variants[status]}>{labels[status]}</Badge>;
-  };
-
   const handleLocationChange = (location: SearchSuggestion | undefined): void => {
     setFormData(prev => {
       if (!location) {
@@ -346,107 +327,6 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
 
       return { ...prev, ...updates };
     });
-  };
-
-  const LocationPreview = ({ property }: { property: Property }): React.ReactElement => {
-    if (!property.location?.lat || !property.location?.lon) {
-      return (
-        <div className="flex items-start gap-2 max-w-[200px]">
-          <div className="shrink-0">
-            <div className="w-12 h-8 rounded border bg-muted flex items-center justify-center">
-              <MapPin className="h-3 w-3 text-muted-foreground" />
-            </div>
-          </div>
-          <div className="min-w-0">
-            <div className="text-sm font-medium truncate">
-              {property.address || `${property.city}, ${property.state}`}
-            </div>
-            <div className="text-xs text-muted-foreground truncate">
-              {property.city}, {property.state}, {property.country}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <Popover>
-        <PopoverTrigger asChild>
-          <div className="flex items-start gap-2 max-w-[200px] cursor-pointer hover:bg-muted/50 rounded-md p-1 transition-all duration-200 hover:shadow-sm group">
-            <div className="shrink-0 relative">
-              <div
-                className="w-12 h-8 rounded border bg-muted bg-cover bg-center relative overflow-hidden"
-                style={{
-                  backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.location.lon},${property.location.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
-                }}
-              >
-                {/* Overlay with click indicator */}
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white/90 rounded-full flex items-center justify-center">
-                    <MapPin className="h-2 w-2 text-gray-700" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-sm font-medium truncate group-hover:text-primary transition-colors">
-                {property.address || `${property.city}, ${property.state}`}
-              </div>
-              <div className="text-xs text-muted-foreground truncate group-hover:hidden transition-all duration-200">
-                {property.city}, {property.state}, {property.country}
-              </div>
-              <div className="text-xs text-primary hidden group-hover:block transition-all duration-200 truncate">
-                📍 Click to view map
-              </div>
-            </div>
-          </div>
-        </PopoverTrigger>
-        <PopoverContent className="w-80 p-0" side="right" align="start">
-          <div className="p-3 border-b">
-            <h4 className="font-medium text-sm">Property Location</h4>
-            <p className="text-xs text-muted-foreground truncate mt-1">
-              {property.address || `${property.city}, ${property.state}`}
-            </p>
-          </div>
-          <div className="h-48 relative">
-            <MapContainer
-              center={[parseFloat(property.location?.lat || '0'), parseFloat(property.location?.lon || '0')]}
-              zoom={15}
-              style={{ height: '100%', width: '100%' }}
-              zoomControl={false}
-              scrollWheelZoom={false}
-              doubleClickZoom={false}
-              dragging={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Marker position={[parseFloat(property.location?.lat || '0'), parseFloat(property.location?.lon || '0')]}>
-                <Popup>
-                  <div className="text-sm">
-                    <strong>{property.name}</strong>
-                    <br />
-                    {property.address || `${property.city}, ${property.state}`}
-                  </div>
-                </Popup>
-              </Marker>
-            </MapContainer>
-          </div>
-          <div className="p-3 border-t bg-muted/30">
-            <button
-              className="text-xs text-primary hover:underline"
-              onClick={() => {
-                const googleMapsUrl = `https://www.google.com/maps?q=${property.location?.lat},${property.location?.lon}&z=15`;
-                window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
-              }}
-            >
-              Open in Google Maps →
-            </button>
-          </div>
-        </PopoverContent>
-      </Popover>
-    );
   };
 
   return (
@@ -747,125 +627,23 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
 
       <Card>
         <CardHeader>
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                placeholder="Search by name, address or city..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
+          <PropertyHeader value={searchTerm} onValueChange={setSearchTerm} />
         </CardHeader>
         <CardContent className="px-0">
           <div className="w-full overflow-hidden">
             <div className="max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-20rem)]">
               <Table className="w-full">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[200px] sticky left-0 z-20 bg-background shadow-[2px_0_4px_rgba(0,0,0,0.1)] font-medium">
-                      Property
-                    </TableHead>
-                    <TableHead className="flex-1 p-0">
-                      <div
-                        className="flex overflow-x-auto"
-                        style={{ scrollbarWidth: 'thin', scrollbarColor: '#cbd5e1 transparent' }}
-                      >
-                        <div className="w-[180px] flex-shrink-0">Location</div>
-                        <div className="w-[120px] flex-shrink-0">Price</div>
-                        <div className="w-[150px] flex-shrink-0">Details</div>
-                        <div className="w-[150px] flex-shrink-0">Features</div>
-                        <div className="w-[150px] flex-shrink-0">Amenities</div>
-                        <div className="w-[120px] flex-shrink-0">Images</div>
-                        <div className="w-[120px] flex-shrink-0">Owner</div>
-                        <div className="w-[100px] flex-shrink-0">Status</div>
-                      </div>
-                    </TableHead>
-                    <TableHead className="w-[100px] sticky right-0 z-20 bg-background shadow-[-2px_0_4px_rgba(0,0,0,0.1)] text-right font-medium">
-                      Actions
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
+                <PropertyTableHeader />
                 <TableBody>
                   {filteredProperties.map(property => (
-                    <TableRow key={property.id}>
-                      <TableCell className="w-[200px] sticky left-0 z-10 bg-background/95 shadow-[2px_0_4px_rgba(0,0,0,0.1)] font-medium">
-                        <div className="font-medium truncate">{property.name}</div>
-                        <div className="text-xs text-muted-foreground mt-1 truncate">
-                          {property.city}, {property.state}
-                        </div>
-                      </TableCell>
-                      <TableCell className="flex-1 p-0">
-                        <div
-                          className="flex overflow-x-auto"
-                          style={{ scrollbarWidth: 'thin', scrollbarColor: '#cbd5e1 transparent' }}
-                        >
-                          <div className="w-[180px] flex-shrink-0 px-4 py-3">
-                            <LocationPreview property={property} />
-                          </div>
-                          <div className="w-[120px] flex-shrink-0 px-4 py-3 font-semibold">
-                            ${property.price.toLocaleString()}
-                          </div>
-                          <div className="w-[150px] flex-shrink-0 px-4 py-3 text-sm text-muted-foreground">
-                            <div>
-                              {property.bedrooms} beds • {property.bathrooms} baths
-                            </div>
-                            <div className="text-xs mt-1">
-                              {property.area}m² • Built {property.buildYear}
-                            </div>
-                          </div>
-                          <div className="w-[150px] flex-shrink-0 px-4 py-3">
-                            <div className="flex flex-wrap gap-1 max-w-[140px]">
-                              {property.features.slice(0, MAX_VISIBLE_FEATURES).map((feature, index) => (
-                                <Badge key={index} variant="secondary" className="text-xs">
-                                  {feature}
-                                </Badge>
-                              ))}
-                              {property.features.length > MAX_VISIBLE_FEATURES && (
-                                <Badge variant="outline" className="text-xs">
-                                  +{property.features.length - MAX_VISIBLE_FEATURES}
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                          <div className="w-[150px] flex-shrink-0 px-4 py-3">
-                            <div className="flex flex-wrap gap-1 max-w-[130px]">
-                              {property.amenities?.slice(0, MAX_VISIBLE_AMENITIES).map((amenity, index) => (
-                                <div key={index} className="flex items-center gap-1 text-xs bg-muted px-2 py-1 rounded">
-                                  <DynamicIcon name={amenity.icon} className="h-3 w-3" />
-                                  <span className="truncate max-w-[60px]">{amenity.name}</span>
-                                </div>
-                              ))}
-                              {(property.amenities?.length || 0) > MAX_VISIBLE_AMENITIES && (
-                                <Badge variant="outline" className="text-xs">
-                                  +{(property.amenities?.length || 0) - MAX_VISIBLE_AMENITIES}
-                                </Badge>
-                              )}
-                              {(!property.amenities || property.amenities.length === 0) && (
-                                <span className="text-xs text-muted-foreground">None</span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="w-[120px] flex-shrink-0 px-4 py-3">
-                            <PropertyImagesTableCell images={property.imageFiles || []} propertyName={property.name} />
-                          </div>
-                          <div className="w-[120px] flex-shrink-0 px-4 py-3">{property.ownerName}</div>
-                          <div className="w-[100px] flex-shrink-0 px-4 py-3">{getStatusBadge(property.status)}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="w-[100px] sticky right-0 z-10 bg-background/95 shadow-[-2px_0_4px_rgba(0,0,0,0.1)] text-right">
-                        <div className="flex justify-end gap-1">
-                          <Button variant="ghost" size="icon" onClick={() => handleEdit(property)}>
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(property.id)}>
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
+                    <PropertyTableRow
+                      key={property.id}
+                      property={property}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      maxVisibleFeatures={MAX_VISIBLE_FEATURES}
+                      maxVisibleAmenities={MAX_VISIBLE_AMENITIES}
+                    />
                   ))}
                 </TableBody>
               </Table>
