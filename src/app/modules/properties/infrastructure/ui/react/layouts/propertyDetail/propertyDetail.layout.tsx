@@ -89,6 +89,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
   const property = propertyData[1];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [showVirtualTour, setShowVirtualTour] = useState(false);
 
   if (!property) {
     return (
@@ -349,15 +350,28 @@ export const PropertyDetailLayout = (): React.ReactElement => {
               <TabsContent value="virtual-tour">
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="aspect-video bg-secondary rounded-lg flex items-center justify-center">
-                      <div className="text-center">
-                        <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                        <p className="text-lg font-semibold mb-2">360° Virtual Tour</p>
-                        <p className="text-muted-foreground mb-4">
-                          Explore this property from the comfort of your home
-                        </p>
-                        <Button>Start Virtual Tour</Button>
-                      </div>
+                    <div className="aspect-video bg-secondary rounded-lg overflow-hidden">
+                      {showVirtualTour ? (
+                        <iframe
+                          src="https://my.matterport.com/show/?m=RsKKA9cRJnj&play=1&ts=0"
+                          width="100%"
+                          height="100%"
+                          frameBorder="0"
+                          allowFullScreen
+                          title="Virtual Tour"
+                        />
+                      ) : (
+                        <div className="size-full flex items-center justify-center">
+                          <div className="text-center">
+                            <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                            <p className="text-lg font-semibold mb-2">360° Virtual Tour</p>
+                            <p className="text-muted-foreground mb-4">
+                              Explore this property from the comfort of your home
+                            </p>
+                            <Button onClick={() => setShowVirtualTour(true)}>Start Virtual Tour</Button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
