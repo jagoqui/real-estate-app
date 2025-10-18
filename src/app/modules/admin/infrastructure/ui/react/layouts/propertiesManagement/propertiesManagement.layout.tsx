@@ -21,12 +21,8 @@ import {
   PropertyImagesTableCell,
   type PropertyImage,
 } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
-import {
-  Scene360Editor,
-  type View360,
-} from '@/modules/shared/infrastructure/ui/react/components/scene360Editor/scene360Editor';
 import 'leaflet/dist/leaflet.css';
-import { MapPin, Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { MapPin, Maximize, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
@@ -48,8 +44,7 @@ export interface Property {
   features: Array<string>;
   amenities?: Array<Amenity>;
   images: Array<string>;
-  // 360 views: multiple views with scenes and hotspots
-  views360?: Array<View360>;
+  views380Url: Array<string>;
   imageFiles?: Array<{ id: string; file: File; preview: string; name: string; size: number }>;
   ownerId: string;
   ownerName: string;
@@ -96,7 +91,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: 'Spectacular modern villa with panoramic views',
       features: ['Pool', 'Gym', 'Cinema'],
       images: ['/luxury-villa-sunset.png'],
-      views360: [],
+      views380Url: [],
       ownerId: '1',
       ownerName: 'John Smith',
       status: 'available',
@@ -120,7 +115,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       description: 'Luxury penthouse in the heart of Manhattan',
       features: ['Terrace', 'Panoramic view', '24/7 Concierge'],
       images: ['/luxury-penthouse-with-ocean-view-modern-interior.jpg'],
-      views360: [],
+      views380Url: [],
       ownerId: '2',
       ownerName: 'Sarah Johnson',
       status: 'sold',
@@ -147,7 +142,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     ownerId: string;
     ownerName: string;
     status: Property['status'];
-    views360: Property['views360'];
+    views380Url: Property['views380Url'];
   }>({
     name: '',
     city: '',
@@ -163,7 +158,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     features: '',
     amenities: [],
     images: [],
-    views360: [],
+    views380Url: [],
     ownerId: '',
     ownerName: '',
     status: 'available',
@@ -203,6 +198,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       amenities: formData.amenities,
       images: finalImages.map(img => img.preview), // Convert File objects to URLs for display
       imageFiles: finalImages, // Store the actual File objects
+      views380Url: formData.views380Url,
       ownerId: formData.ownerId,
       ownerName: formData.ownerName,
       status: formData.status,
@@ -251,7 +247,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       ownerId: property.ownerId,
       ownerName: property.ownerName,
       status: property.status,
-      views360: property.views360 || [],
+      views380Url: property.views380Url || [],
     });
     setIsDialogOpen(true);
   };
@@ -284,7 +280,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       ownerId: '',
       ownerName: '',
       status: 'available',
-      views360: [],
+      views380Url: [],
     });
   };
 
@@ -643,12 +639,76 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                     }}
                     className="space-y-2 sm:col-span-2"
                   />
-                  <div className="space-y-2 sm:col-span-2">
-                    <Label>360° Views</Label>
-                    <Scene360Editor
-                      value={formData.views360 || []}
-                      onChange={views360 => setFormData({ ...formData, views360 })}
-                    />
+                  <div className="space-y-4 sm:col-span-2">
+                    <Label>360° Virtual Tours</Label>
+                    <div className="space-y-4">
+                      {formData.views380Url.map((url, index) => (
+                        <div key={index} className="flex gap-2 items-start">
+                          <div className="flex-1">
+                            <div className="mb-2">
+                              <Label className="text-sm text-muted-foreground">Tour URL {index + 1}</Label>
+                            </div>
+                            <div className="flex gap-2">
+                              <Input
+                                value={url}
+                                onChange={(e) => {
+                                  const newUrls = [...formData.views380Url];
+                                  newUrls[index] = e.target.value;
+                                  setFormData({ ...formData, views380Url: newUrls });
+                                }}
+                                placeholder="https://my.matterport.com/show/?m=..."
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  const newUrls = formData.views380Url.filter((_, i) => i !== index);
+                                  setFormData({ ...formData, views380Url: newUrls });
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  // Preview in new tab
+                                  window.open(url, '_blank', 'noopener,noreferrer');
+                                }}
+                              >
+                                <Maximize className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            <div className="mt-2 aspect-video rounded-lg overflow-hidden border">
+                              <iframe
+                                src={url}
+                                width="100%"
+                                height="100%"
+                                frameBorder="0"
+                                allowFullScreen
+                                title={`Virtual Tour ${index + 1}`}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          setFormData({
+                            ...formData,
+                            views380Url: [...formData.views380Url, '']
+                          });
+                        }}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add 360° Virtual Tour
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </form>
