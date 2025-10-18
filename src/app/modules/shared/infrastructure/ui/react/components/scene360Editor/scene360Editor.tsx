@@ -4,7 +4,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
+import {
+  DynamicIcon,
+  type LucideIconName,
+} from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
 import { ChevronLeft, ChevronRight, Plus, RotateCcw, Trash2, Upload } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
@@ -15,7 +18,7 @@ export interface Hotspot {
   v: number; // 0..1
   title?: string;
   description?: string;
-  icon?: string;
+  icon?: LucideIconName;
 }
 
 export interface Scene360 {
