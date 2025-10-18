@@ -33,8 +33,10 @@ export interface Property {
   city: string;
   state: string;
   country: string;
-  lat?: string;
-  lon?: string;
+  location?: {
+    lat: string;
+    lon: string;
+  };
   price: number;
   bedrooms: number;
   bathrooms: number;
@@ -81,8 +83,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       city: 'Beverly Hills',
       state: 'CA',
       country: 'USA',
-      lat: '34.0736',
-      lon: '-118.4004',
+      location: {
+        lat: '34.0736',
+        lon: '-118.4004',
+      },
       price: 8500000,
       bedrooms: 6,
       bathrooms: 7,
@@ -105,8 +109,10 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       city: 'New York',
       state: 'NY',
       country: 'USA',
-      lat: '40.7589',
-      lon: '-73.9441',
+      location: {
+        lat: '40.7589',
+        lon: '-73.9441',
+      },
       price: 12000000,
       bedrooms: 4,
       bathrooms: 5,
@@ -186,8 +192,12 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       city: formData.city,
       state: formData.state,
       country: formData.country,
-      lat: formData.location?.lat,
-      lon: formData.location?.lon,
+      location: formData.location
+        ? {
+            lat: formData.location.lat,
+            lon: formData.location.lon,
+          }
+        : undefined,
       price: Number(formData.price),
       bedrooms: Number(formData.bedrooms),
       bathrooms: Number(formData.bathrooms),
@@ -224,8 +234,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       property.lat && property.lon
         ? {
             display_name: property.address || `${property.city}, ${property.state}, ${property.country}`,
-            lat: property.lat,
-            lon: property.lon,
+            lat: property.location?.lat || '',
+            lon: property.location?.lon || '',
           }
         : null;
 
@@ -338,9 +348,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     });
   };
 
-  // eslint-disable-next-line max-lines-per-function
   const LocationPreview = ({ property }: { property: Property }): React.ReactElement => {
-    if (!property.lat || !property.lon) {
+    if (!property.location?.lat || !property.location?.lon) {
       return (
         <div className="flex items-start gap-2 max-w-[200px]">
           <div className="shrink-0">
@@ -368,7 +377,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
               <div
                 className="w-12 h-8 rounded border bg-muted bg-cover bg-center relative overflow-hidden"
                 style={{
-                  backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.lon},${property.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
+                  backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${property.location.lon},${property.location.lat},14,0/96x64@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw)`,
                 }}
               >
                 {/* Overlay with click indicator */}
@@ -401,7 +410,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
           </div>
           <div className="h-48 relative">
             <MapContainer
-              center={[parseFloat(property.lat), parseFloat(property.lon)]}
+              center={[parseFloat(property.location?.lat || '0'), parseFloat(property.location?.lon || '0')]}
               zoom={15}
               style={{ height: '100%', width: '100%' }}
               zoomControl={false}
@@ -413,7 +422,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[parseFloat(property.lat), parseFloat(property.lon)]}>
+              <Marker position={[parseFloat(property.location?.lat || '0'), parseFloat(property.location?.lon || '0')]}>
                 <Popup>
                   <div className="text-sm">
                     <strong>{property.name}</strong>
@@ -428,7 +437,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
             <button
               className="text-xs text-primary hover:underline"
               onClick={() => {
-                const googleMapsUrl = `https://www.google.com/maps?q=${property.lat},${property.lon}&z=15`;
+                const googleMapsUrl = `https://www.google.com/maps?q=${property.location?.lat},${property.location?.lon}&z=15`;
                 window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
               }}
             >
@@ -651,7 +660,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                             <div className="flex gap-2">
                               <Input
                                 value={url}
-                                onChange={(e) => {
+                                onChange={e => {
                                   const newUrls = [...formData.views380Url];
                                   newUrls[index] = e.target.value;
                                   setFormData({ ...formData, views380Url: newUrls });
@@ -701,7 +710,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                         onClick={() => {
                           setFormData({
                             ...formData,
-                            views380Url: [...formData.views380Url, '']
+                            views380Url: [...formData.views380Url, ''],
                           });
                         }}
                       >
