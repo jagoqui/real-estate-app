@@ -62,13 +62,15 @@ export const Header = (): React.ReactElement => {
                 </>
               )}
               {!user && (
-                <Button
-                  variant="outline"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground mt-4"
-                >
-                  <Link to={PATHNAME_ROUTES.AUTH_LOGIN}>Login</Link>
-                </Button>
+                <Link to={PATHNAME_ROUTES.AUTH_LOGIN}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground mt-4"
+                  >
+                    Login
+                  </Button>
+                </Link>
               )}
             </nav>
           </div>
@@ -93,12 +95,15 @@ export const Header = (): React.ReactElement => {
                 <UserProfileMenu />
               </>
             ) : (
-              <Button
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                <Link to={PATHNAME_ROUTES.AUTH_LOGIN}>Login</Link>
-              </Button>
+              <Link to={PATHNAME_ROUTES.AUTH_LOGIN}>
+                {' '}
+                <Button
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                >
+                  Login{' '}
+                </Button>
+              </Link>
             )}
           </div>
           <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
