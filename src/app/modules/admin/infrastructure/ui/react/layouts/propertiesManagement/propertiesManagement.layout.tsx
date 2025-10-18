@@ -231,7 +231,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
 
     // Convertir la propiedad guardada a SearchSuggestion si tiene coordenadas
     const locationSuggestion: SearchSuggestion | null =
-      property.lat && property.lon
+      property.location?.lat && property.location?.lon
         ? {
             display_name: property.address || `${property.city}, ${property.state}, ${property.country}`,
             lat: property.location?.lat || '',
