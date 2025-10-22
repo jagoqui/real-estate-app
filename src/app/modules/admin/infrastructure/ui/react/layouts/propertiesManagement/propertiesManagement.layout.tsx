@@ -1,27 +1,21 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
-import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
-import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
-import {
-  LocationPicker,
-  type SearchSuggestion,
-} from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
-import {
-  PropertyImageManager,
-  type PropertyImage,
-} from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
-import { Maximize, Plus, Trash2 } from 'lucide-react';
+import { type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import { type SearchSuggestion } from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
+import { type PropertyImage } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { PropertyHeader } from '../../components/propertyList/propertyHeader';
 import { PropertyTableHeader } from '../../components/propertyList/propertyTableHeader';
 import { PropertyTableRow } from '../../components/propertyList/propertyTableRow';
+import { BasicInfoTab } from './components/BasicInfoTab';
+import { FeaturesTab } from './components/FeaturesTab';
+import { ImagesTab } from './components/ImagesTab';
+import { LocationTab } from './components/LocationTab';
+import { VirtualToursTab } from './components/VirtualToursTab';
 
 export interface Property {
   id: string;
@@ -299,35 +293,8 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       p.city.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleLocationChange = (location: SearchSuggestion | undefined): void => {
-    setFormData(prev => {
-      if (!location) {
-        return { ...prev, location: null };
-      }
-
-      // Intentar extraer ciudad, estado y país del display_name
-      const parts = location.display_name.split(',').map(part => part.trim());
-      const updates: Partial<typeof prev> = { location };
-
-      // Si hay suficientes partes, intentar mapear
-      const MIN_PARTS = 3;
-      const CITY_OFFSET = 3;
-      const STATE_OFFSET = 2;
-      const COUNTRY_OFFSET = 1;
-
-      if (parts.length >= MIN_PARTS) {
-        // Típicamente: "Street, City, State, Country" o similar
-        const possibleCity = parts[parts.length - CITY_OFFSET] || prev.city;
-        const possibleState = parts[parts.length - STATE_OFFSET] || prev.state;
-        const possibleCountry = parts[parts.length - COUNTRY_OFFSET] || prev.country;
-
-        updates.city = possibleCity;
-        updates.state = possibleState;
-        updates.country = possibleCountry;
-      }
-
-      return { ...prev, ...updates };
-    });
+  const handleFormChange = (updates: Partial<typeof formData>): void => {
+    setFormData(prev => ({ ...prev, ...updates }));
   };
 
   return (
@@ -400,272 +367,71 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
                   </TabsList>
 
                   <TabsContent value="basic">
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="space-y-2 sm:col-span-2">
-                        <Label htmlFor="name">Property Name</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={e => setFormData({ ...formData, name: e.target.value })}
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="price">Price (USD)</Label>
-                        <FormattedInput
-                          id="price"
-                          formatType="currency"
-                          value={formData.price}
-                          onChange={(value: string) => setFormData({ ...formData, price: value })}
-                          placeholder="$0"
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="area">Area (m²)</Label>
-                        <FormattedInput
-                          id="area"
-                          formatType="number"
-                          value={formData.area}
-                          onChange={(value: string) => setFormData({ ...formData, area: value })}
-                          placeholder="0"
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="buildYear">Build Year</Label>
-                        <FormattedInput
-                          id="buildYear"
-                          formatType="year"
-                          value={formData.buildYear}
-                          onChange={(value: string) => setFormData({ ...formData, buildYear: value })}
-                          placeholder="2024"
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="status">Status</Label>
-                        <Select
-                          value={formData.status}
-                          onValueChange={(value: Property['status']) => setFormData({ ...formData, status: value })}
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="available">Available</SelectItem>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="sold">Sold</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="ownerName">Owner</Label>
-                        <Input id="ownerName" value={formData.ownerName} disabled required />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="ownerId">Owner ID</Label>
-                        <Input
-                          id="ownerId"
-                          value={formData.ownerId}
-                          onChange={e => setFormData({ ...formData, ownerId: e.target.value })}
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2 sm:col-span-2">
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea
-                          id="description"
-                          value={formData.description}
-                          onChange={e => setFormData({ ...formData, description: e.target.value })}
-                          rows={3}
-                          required
-                        />
-                      </div>
-                    </div>
+                    <BasicInfoTab
+                      formData={{
+                        name: formData.name,
+                        price: formData.price,
+                        area: formData.area,
+                        buildYear: formData.buildYear,
+                        status: formData.status,
+                        ownerName: formData.ownerName,
+                        ownerId: formData.ownerId,
+                        description: formData.description,
+                      }}
+                      onChange={handleFormChange}
+                    />
                   </TabsContent>
 
                   <TabsContent value="features">
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="space-y-2 sm:col-span-2">
-                        <Label htmlFor="features">Features (comma separated)</Label>
-                        <Input
-                          id="features"
-                          value={formData.features}
-                          onChange={e => setFormData({ ...formData, features: e.target.value })}
-                          placeholder="Pool, Gym, Garden"
-                        />
-                      </div>
-
-                      <AmenityForm
-                        value={formData.amenities}
-                        onValueChange={amenities => setFormData({ ...formData, amenities })}
-                        onValidationChange={setIsAmenityFormValid}
-                        className="space-y-2 sm:col-span-2"
-                      />
-
-                      <div className="space-y-2">
-                        <Label htmlFor="bedrooms">Bedrooms</Label>
-                        <FormattedInput
-                          id="bedrooms"
-                          formatType="number"
-                          value={formData.bedrooms}
-                          onChange={(value: string) => setFormData({ ...formData, bedrooms: value })}
-                          placeholder="0"
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="bathrooms">Bathrooms</Label>
-                        <FormattedInput
-                          id="bathrooms"
-                          formatType="number"
-                          value={formData.bathrooms}
-                          onChange={(value: string) => setFormData({ ...formData, bathrooms: value })}
-                          placeholder="0"
-                          required
-                        />
-                      </div>
-                    </div>
+                    <FeaturesTab
+                      formData={{
+                        features: formData.features,
+                        amenities: formData.amenities,
+                        bedrooms: formData.bedrooms,
+                        bathrooms: formData.bathrooms,
+                      }}
+                      onChange={handleFormChange}
+                    />
                   </TabsContent>
 
                   <TabsContent value="location">
-                    <div className="space-y-4">
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="space-y-2">
-                          <Label htmlFor="city">City</Label>
-                          <Input
-                            id="city"
-                            value={formData.city}
-                            onChange={e => setFormData({ ...formData, city: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="state">State/Province</Label>
-                          <Input
-                            id="state"
-                            value={formData.state}
-                            onChange={e => setFormData({ ...formData, state: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="country">Country</Label>
-                          <Input
-                            id="country"
-                            value={formData.country}
-                            onChange={e => setFormData({ ...formData, country: e.target.value })}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="location">Location Picker</Label>
-                        <LocationPicker
-                          value={formData.location || undefined}
-                          onValueChange={handleLocationChange}
-                          placeholder="Search for a location..."
-                        />
-                      </div>
-                    </div>
+                    <LocationTab
+                      formData={{
+                        city: formData.city,
+                        state: formData.state,
+                        country: formData.country,
+                        location: {
+                          lat: formData.location ? parseFloat(formData.location.lat) : 0,
+                          lng: formData.location ? parseFloat(formData.location.lon) : 0,
+                        },
+                      }}
+                      onChange={updates => {
+                        // Convert location back to SearchSuggestion if it exists
+                        const locationUpdate: Partial<typeof formData> = {};
+                        if (updates.city) locationUpdate.city = updates.city;
+                        if (updates.state) locationUpdate.state = updates.state;
+                        if (updates.country) locationUpdate.country = updates.country;
+                        if (updates.location) {
+                          locationUpdate.location = {
+                            lat: updates.location.lat.toString(),
+                            lon: updates.location.lng.toString(),
+                            display_name: `${updates.city || formData.city}, ${updates.state || formData.state}, ${updates.country || formData.country}`,
+                          };
+                        }
+                        handleFormChange(locationUpdate);
+                      }}
+                    />
                   </TabsContent>
 
                   <TabsContent value="images">
-                    <div className="space-y-4">
-                      <PropertyImageManager
-                        value={formData.images}
-                        onValueChange={(images, pendingDeletions) => {
-                          setFormData({ ...formData, images });
-                          if (pendingDeletions) {
-                            setPendingImageDeletions(pendingDeletions);
-                          }
-                        }}
-                        className="space-y-2"
-                      />
-                    </div>
+                    <ImagesTab formData={{ images: formData.images }} onChange={handleFormChange} />
                   </TabsContent>
 
                   <TabsContent value="virtual-tours">
-                    <div className="space-y-4">
-                      <Label>360° Virtual Tours</Label>
-                      <div className="space-y-4">
-                        {formData.views380Url.map((url, index) => (
-                          <div key={index} className="flex gap-2 items-start">
-                            <div className="flex-1">
-                              <div className="mb-2">
-                                <Label className="text-sm text-muted-foreground">Tour URL {index + 1}</Label>
-                              </div>
-                              <div className="flex gap-2">
-                                <Input
-                                  value={url}
-                                  onChange={e => {
-                                    const newUrls = [...formData.views380Url];
-                                    newUrls[index] = e.target.value;
-                                    setFormData({ ...formData, views380Url: newUrls });
-                                  }}
-                                  placeholder="https://my.matterport.com/show/?m=..."
-                                />
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="icon"
-                                  onClick={() => {
-                                    const newUrls = formData.views380Url.filter((_, i) => i !== index);
-                                    setFormData({ ...formData, views380Url: newUrls });
-                                  }}
-                                >
-                                  <Trash2 className="h-4 w-4 text-destructive" />
-                                </Button>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="icon"
-                                  onClick={() => {
-                                    // Preview in new tab
-                                    window.open(url, '_blank', 'noopener,noreferrer');
-                                  }}
-                                >
-                                  <Maximize className="h-4 w-4" />
-                                </Button>
-                              </div>
-                              <div className="mt-2 aspect-video rounded-lg overflow-hidden border">
-                                <iframe
-                                  src={url}
-                                  width="100%"
-                                  height="100%"
-                                  frameBorder="0"
-                                  allowFullScreen
-                                  title={`Virtual Tour ${index + 1}`}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="w-full"
-                          onClick={() => {
-                            setFormData({
-                              ...formData,
-                              views380Url: [...formData.views380Url, ''],
-                            });
-                          }}
-                        >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Add 360° Virtual Tour
-                        </Button>
-                      </div>
-                    </div>
+                    <VirtualToursTab
+                      formData={{ virtualTours: formData.views380Url }}
+                      onChange={updates => handleFormChange({ views380Url: updates.virtualTours })}
+                    />
                   </TabsContent>
                 </Tabs>
               </form>
