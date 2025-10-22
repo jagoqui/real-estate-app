@@ -1,4 +1,5 @@
 import { useAuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/authRequests/authRequests.context';
+import { useAuthResponseContext } from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -7,7 +8,7 @@ type LogoutRequestReturn = ReturnType<typeof useAuthRequestsContext>['logoutRequ
 type LogoutRequestReturnValue = Awaited<ReturnType<LogoutRequestReturn>>;
 
 interface UseLogoutRequestReturn {
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
   isPending: boolean;
   error: Error | null;
   data?: LogoutRequestReturnValue;
@@ -15,8 +16,9 @@ interface UseLogoutRequestReturn {
 
 export const useLogoutRequest = (): UseLogoutRequestReturn => {
   const { logoutRequest } = useAuthRequestsContext();
+  const { setIsLoggingOut } = useAuthResponseContext();
 
-  const { mutate, isPending, error, data } = useMutation({
+  const { mutateAsync, isPending, error, data } = useMutation({
     mutationKey: ['logout'],
     mutationFn: logoutRequest,
     onError: error => {
@@ -29,5 +31,14 @@ export const useLogoutRequest = (): UseLogoutRequestReturn => {
     },
   });
 
-  return { onLogout: mutate, isPending, error, data };
+  const onLogout = async (): Promise<void> => {
+    setIsLoggingOut(true);
+    try {
+      await mutateAsync();
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
+  return { onLogout, isPending, error, data };
 };
