@@ -24,13 +24,12 @@ export const useAuthRequests = (): AuthRequests => {
   const navigate = useNavigate();
   const router = useRouter();
 
+  //FIXME: El rederict to llega bien pero no esta navegando correctamente
   const onSuccessRegister = (args: Parameters<typeof setAuthResponse>[number]): void => {
     setAuthResponse(args);
 
     const searchParams = router.state.location.search as { redirectTo?: string };
     const redirectTo = searchParams?.redirectTo || PATHNAME_ROUTES.HOME;
-
-    console.info('[useAuthRequests] Redirecting to:', redirectTo);
 
     void navigate({ to: redirectTo, from: '' });
   };
