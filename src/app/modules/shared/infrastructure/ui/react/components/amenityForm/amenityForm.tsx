@@ -24,15 +24,15 @@ type AmenityFormProps = {
 
 // eslint-disable-next-line max-lines-per-function
 export const AmenityForm = ({
-  value = [],
+  value,
   onValueChange,
   onSave,
   initialAmenities = [],
   onValidationChange,
   ...props
 }: AmenityFormProps): React.ReactElement => {
-  // Use controlled value if provided, otherwise use internal state
-  const amenities = value.length > 0 ? value : initialAmenities;
+  // Use controlled value if provided (even if empty), otherwise use internal state
+  const amenities = value ?? initialAmenities;
   const [currentName, setCurrentName] = useState('');
   const [currentIcon, setCurrentIcon] = useState<LucideIconName>();
 
