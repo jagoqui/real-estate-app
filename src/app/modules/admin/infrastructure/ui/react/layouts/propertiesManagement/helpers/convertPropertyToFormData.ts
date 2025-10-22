@@ -14,6 +14,7 @@ export const convertPropertyToFormData = (property: Property): PropertyFormSchem
     ownerId: property.ownerId,
     ownerName: property.ownerName,
     status: property.status,
+    address: property.address,
     city: property.city,
     state: property.state,
     country: property.country,
