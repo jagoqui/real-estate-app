@@ -1,18 +1,22 @@
+import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import React from 'react';
-import { type PropertyFormData } from '../hooks/usePropertyForm';
+import { type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { propertyFormSchema, type PropertyFormSchema } from '../schemas/propertyForm.schema';
 import { BasicInfoTab } from './BasicInfoTab';
 import { FeaturesTab } from './FeaturesTab';
 import { ImagesTab } from './ImagesTab';
 import { LocationTab } from './LocationTab';
 import { VirtualToursTab } from './VirtualToursTab';
 
-interface PropertyFormProps {
-  formData: PropertyFormData;
+interface PropertyFormWithHookFormProps {
+  defaultValues?: Partial<PropertyFormSchema>;
   activeTab: string;
   onTabChange: (value: string) => void;
-  onFormChange: (updates: Partial<PropertyFormData>) => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (data: PropertyFormSchema) => void;
+  onOwnerChange?: (ownerId: string, ownerName: string) => void;
 }
 
 const FormTabsList = React.memo(() => (
@@ -52,93 +56,168 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
-interface FormTabsContentProps {
-  formData: PropertyFormData;
-  onFormChange: (updates: Partial<PropertyFormData>) => void;
-}
+// Sub-component for Features Tab Content
+const FeaturesTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
+  const features = form.watch('features');
+  const amenities = form.watch('amenities') as Array<Amenity>;
+  const bedrooms = form.watch('bedrooms');
+  const bathrooms = form.watch('bathrooms');
 
-const FormTabsContent = React.memo(({ formData, onFormChange }: FormTabsContentProps) => (
-  <>
-    <TabsContent value="basic">
-      <BasicInfoTab
-        formData={{
-          name: formData.name,
-          price: formData.price,
-          area: formData.area,
-          buildYear: formData.buildYear,
-          status: formData.status,
-          ownerName: formData.ownerName,
-          ownerId: formData.ownerId,
-          description: formData.description,
-        }}
-        onChange={onFormChange}
-      />
-    </TabsContent>
-
+  return (
     <TabsContent value="features">
       <FeaturesTab
         formData={{
-          features: formData.features,
-          amenities: formData.amenities,
-          bedrooms: formData.bedrooms,
-          bathrooms: formData.bathrooms,
+          features,
+          amenities,
+          bedrooms,
+          bathrooms,
         }}
-        onChange={onFormChange}
+        onChange={updates => {
+          if (updates.features !== undefined) form.setValue('features', updates.features);
+          if (updates.amenities !== undefined)
+            form.setValue('amenities', updates.amenities as PropertyFormSchema['amenities']);
+          if (updates.bedrooms !== undefined) form.setValue('bedrooms', updates.bedrooms);
+          if (updates.bathrooms !== undefined) form.setValue('bathrooms', updates.bathrooms);
+        }}
       />
     </TabsContent>
+  );
+};
 
+FeaturesTabContent.displayName = 'FeaturesTabContent';
+
+// Sub-component for Location Tab Content
+const LocationTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
+  const city = form.watch('city');
+  const state = form.watch('state');
+  const country = form.watch('country');
+  const location = form.watch('location') || { lat: 0, lng: 0 };
+
+  return (
     <TabsContent value="location">
       <LocationTab
         formData={{
-          city: formData.city,
-          state: formData.state,
-          country: formData.country,
-          location: {
-            lat: formData.location ? parseFloat(formData.location.lat) : 0,
-            lng: formData.location ? parseFloat(formData.location.lon) : 0,
-          },
+          city,
+          state,
+          country,
+          location,
         }}
         onChange={updates => {
-          const locationUpdate: Partial<PropertyFormData> = {};
-          if (updates.city) locationUpdate.city = updates.city;
-          if (updates.state) locationUpdate.state = updates.state;
-          if (updates.country) locationUpdate.country = updates.country;
-          if (updates.location) {
-            locationUpdate.location = {
-              lat: updates.location.lat.toString(),
-              lon: updates.location.lng.toString(),
-              display_name: `${updates.city || formData.city}, ${updates.state || formData.state}, ${updates.country || formData.country}`,
-            };
-          }
-          onFormChange(locationUpdate);
+          if (updates.city !== undefined) form.setValue('city', updates.city);
+          if (updates.state !== undefined) form.setValue('state', updates.state);
+          if (updates.country !== undefined) form.setValue('country', updates.country);
+          if (updates.location !== undefined) form.setValue('location', updates.location);
         }}
       />
     </TabsContent>
+  );
+};
 
+LocationTabContent.displayName = 'LocationTabContent';
+
+// Sub-component for Images Tab Content
+const ImagesTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
+  const images = form.watch('images');
+
+  return (
     <TabsContent value="images">
-      <ImagesTab formData={{ images: formData.images }} onChange={onFormChange} />
-    </TabsContent>
-
-    <TabsContent value="virtual-tours">
-      <VirtualToursTab
-        formData={{ virtualTours: formData.views380Url }}
-        onChange={updates => onFormChange({ views380Url: updates.virtualTours })}
+      <ImagesTab
+        formData={{
+          images,
+        }}
+        onChange={updates => {
+          if (updates.images !== undefined) form.setValue('images', updates.images);
+        }}
       />
     </TabsContent>
-  </>
-));
+  );
+};
 
-FormTabsContent.displayName = 'FormTabsContent';
+ImagesTabContent.displayName = 'ImagesTabContent';
+
+// Sub-component for Virtual Tours Tab Content
+const VirtualToursTabContent = ({
+  form,
+}: {
+  form: ReturnType<typeof useForm<PropertyFormSchema>>;
+}): React.ReactElement => {
+  const virtualTours = form.watch('virtualTours');
+
+  return (
+    <TabsContent value="virtual-tours">
+      <VirtualToursTab
+        formData={{
+          virtualTours,
+        }}
+        onChange={updates => {
+          if (updates.virtualTours !== undefined) form.setValue('virtualTours', updates.virtualTours);
+        }}
+      />
+    </TabsContent>
+  );
+};
+
+VirtualToursTabContent.displayName = 'VirtualToursTabContent';
 
 export const PropertyForm = React.memo(
-  ({ formData, activeTab, onTabChange, onFormChange, onSubmit }: PropertyFormProps) => (
-    <form onSubmit={onSubmit} className="space-y-4" id="property-form">
-      <Tabs value={activeTab} onValueChange={onTabChange} className="w-full min-h-0">
-        <FormTabsList />
-        <FormTabsContent formData={formData} onFormChange={onFormChange} />
-      </Tabs>
-    </form>
-  )
+  ({ defaultValues, activeTab, onTabChange, onSubmit, onOwnerChange }: PropertyFormWithHookFormProps) => {
+    const form = useForm<PropertyFormSchema>({
+      resolver: zodResolver(propertyFormSchema),
+      defaultValues: {
+        name: '',
+        price: '',
+        area: '',
+        buildYear: '',
+        bedrooms: '',
+        bathrooms: '',
+        description: '',
+        features: '',
+        ownerId: '',
+        ownerName: '',
+        status: 'available',
+        city: '',
+        state: '',
+        country: '',
+        amenities: [],
+        images: [],
+        location: undefined,
+        virtualTours: [],
+        ...defaultValues,
+      },
+    });
+
+    // Update form when defaultValues change (for edit mode)
+    useEffect(() => {
+      if (defaultValues) {
+        form.reset(defaultValues);
+      }
+    }, [defaultValues, form]);
+
+    return (
+      <Form {...form}>
+        <form
+          onSubmit={e => {
+            void form.handleSubmit(onSubmit)(e);
+          }}
+          className="space-y-4"
+          id="property-form"
+        >
+          <Tabs value={activeTab} onValueChange={onTabChange} className="w-full min-h-0">
+            <FormTabsList />
+
+            <TabsContent value="basic">
+              <BasicInfoTab control={form.control} onOwnerChange={onOwnerChange} />
+            </TabsContent>
+
+            <FeaturesTabContent form={form} />
+            <LocationTabContent form={form} />
+            <ImagesTabContent form={form} />
+            <VirtualToursTabContent form={form} />
+          </Tabs>
+        </form>
+      </Form>
+    );
+  }
 );
 
 PropertyForm.displayName = 'PropertyForm';
