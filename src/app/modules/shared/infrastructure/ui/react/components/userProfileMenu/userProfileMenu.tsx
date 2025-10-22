@@ -34,13 +34,17 @@ export const UserProfileMenu = (): React.ReactElement => {
   const [favoritesDialogOpen, setFavoritesDialogOpen] = useState(false);
   const [propertiesDialogOpen, setPropertiesDialogOpen] = useState(false);
 
-  const { authResponse } = useAuthResponseContext();
-  const { onLogout, isPending } = useLogoutRequest();
+  const { authResponse, isLoggingOut } = useAuthResponseContext();
+  const { onLogout } = useLogoutRequest();
 
   const user = authResponse!.user;
 
-  if (isPending) {
-    return <div>Signing out...</div>;
+  if (isLoggingOut) {
+    return (
+      <Button variant="ghost" disabled className="gap-2 h-auto p-2">
+        <span className="text-sm">Signing out...</span>
+      </Button>
+    );
   }
 
   return (

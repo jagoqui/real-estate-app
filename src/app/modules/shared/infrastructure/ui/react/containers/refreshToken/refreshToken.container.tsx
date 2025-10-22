@@ -1,25 +1,39 @@
+import { getAuthTokenBL } from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
 import { useRefreshTokenRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
-import { Navigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { PATHNAME_ROUTES } from '../../constants/main.constants';
+import { useEffect, useRef } from 'react';
+import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 
-//TODO: Refactor to use a more elegant solution (maybe with react-router loaders)
 export const RefreshTokenContainer = ({ children }: { children: React.ReactNode }): React.ReactElement => {
-  const [isFirstRender, setIsFirstRender] = useState(true);
-  const { onRefreshToken, isPending, error } = useRefreshTokenRequest();
+  const { onRefreshToken } = useRefreshTokenRequest();
+  const { setIsAuthLoading, authResponse } = useAuthResponseContext();
+  const hasInitialized = useRef(false);
 
-  if (isFirstRender) {
-    void onRefreshToken();
-    setIsFirstRender(false);
-  }
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
 
-  if (isPending) {
-    <div>Signing in...</div>;
-  }
+    const { refreshToken } = getAuthTokenBL() || {};
 
-  if (error) {
-    return <Navigate to={PATHNAME_ROUTES.HOME} />;
-  }
+    console.info('[RefreshTokenContainer] Initializing...', {
+      hasToken: !!refreshToken,
+      hasAuthResponse: !!authResponse,
+    });
+
+    if (refreshToken) {
+      console.info('[RefreshTokenContainer] Token found, starting refresh...');
+      setIsAuthLoading(true);
+      onRefreshToken()
+        .then(() => {
+          setIsAuthLoading(false);
+        })
+        .catch(error => {
+          console.error('[RefreshTokenContainer] Refresh failed:', error);
+          setIsAuthLoading(false);
+        });
+    } else {
+      setIsAuthLoading(false);
+    }
+  }, [onRefreshToken, setIsAuthLoading, authResponse]);
 
   return <>{children}</>;
 };

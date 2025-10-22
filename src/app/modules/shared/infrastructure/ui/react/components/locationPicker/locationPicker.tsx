@@ -217,25 +217,86 @@ export const LocationPicker = ({
   );
 
   // Handle current location button
-  const handleGetCurrentLocation = useCallback((): void => {
-    if (navigator.geolocation) {
-      setIsGettingLocation(true);
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          setMapCenter([lat, lon]);
-          setMapZoom(SEARCH_ZOOM);
-          void reverseGeocode(lat, lon);
-          setIsGettingLocation(false);
-        },
-        error => {
-          console.error('Could not get current location:', error);
-          setIsGettingLocation(false);
-        }
-      );
+  const [showPermissionError, setShowPermissionError] = useState(false);
+
+  const requestGeolocationPermission = useCallback(async (): Promise<GeolocationPosition> => {
+    try {
+      await navigator.permissions.query({ name: 'geolocation' });
+
+      return await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setShowPermissionError(false);
+            resolve(position);
+          },
+          error => {
+            if (error.code === 1) {
+              // PERMISSION_DENIED
+              setShowPermissionError(true);
+              reject(new Error('Location permission denied. Please enable location access in your browser settings.'));
+            } else {
+              reject(new Error(error.message));
+            }
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
+          }
+        );
+      });
+    } catch {
+      setShowPermissionError(true);
+      throw new Error('Failed to request location permission');
     }
-  }, [reverseGeocode]);
+  }, []);
+
+  const handleGetCurrentLocation = useCallback(async (): Promise<void> => {
+    if (!navigator.geolocation) {
+      console.error('Geolocation is not supported by your browser');
+      return;
+    }
+
+    try {
+      setIsGettingLocation(true);
+      const position = await requestGeolocationPermission();
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      // Update map immediately
+      setMapCenter([lat, lon]);
+      setMapZoom(SEARCH_ZOOM);
+
+      // Reverse geocode the coordinates
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch address details');
+      }
+
+      const data = (await response.json()) as NominatimResult;
+
+      if (data?.display_name) {
+        const location: SearchSuggestion = {
+          display_name: data.display_name,
+          lat: lat.toString(),
+          lon: lon.toString(),
+        };
+
+        // Update all relevant state
+        setCurrentLocation(location);
+        setSearchQuery(data.display_name);
+        setShowSuggestions(false);
+        onValueChange?.(location);
+      }
+    } catch (error) {
+      console.error('Error getting location:', error);
+    } finally {
+      setIsGettingLocation(false);
+    }
+  }, [onValueChange, SEARCH_ZOOM, requestGeolocationPermission]);
 
   // Clear selection
   const handleClear = useCallback((): void => {
@@ -326,12 +387,48 @@ export const LocationPicker = ({
             variant="ghost"
             size="sm"
             className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0"
-            onClick={handleGetCurrentLocation}
+            onClick={() => {
+              void handleGetCurrentLocation();
+            }}
             disabled={isGettingLocation}
             title="Use current location"
           >
             {isGettingLocation ? <Loader2 className="h-3 w-3 animate-spin" /> : <Navigation className="h-3 w-3" />}
           </Button>
+          {showPermissionError && (
+            <div className="mt-2 text-sm text-destructive flex items-center gap-2">
+              <span>
+                Location access was denied. Please enable location access in your browser settings and try again.
+              </span>
+              <Button
+                type="button"
+                variant="link"
+                className="p-0 h-auto font-medium hover:underline"
+                onClick={() => {
+                  // Detect browser and show specific instructions
+                  const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
+                  const isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+
+                  let instructions = '';
+                  if (isChrome) {
+                    instructions =
+                      '1. Click the lock icon 🔒 in the address bar\n2. Click "Site settings"\n3. Allow location access\n4. Reload the page';
+                  } else if (isFirefox) {
+                    instructions =
+                      '1. Click the lock icon 🔒 in the address bar\n2. Clear the "Block" setting for Location\n3. Reload the page';
+                  } else {
+                    instructions =
+                      'Please enable location access in your browser settings:\n1. Look for the lock icon 🔒 in the address bar\n2. Check location permissions\n3. Reload the page after enabling';
+                  }
+
+                  alert(instructions);
+                  setShowPermissionError(false);
+                }}
+              >
+                How to enable?
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 

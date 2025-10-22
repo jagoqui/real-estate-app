@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronLeft, ChevronRight, ImageIcon, Trash2, Upload, X, ZoomIn } from 'lucide-react';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 // Constants
 const DEFAULT_MAX_VISIBLE = 3;
@@ -112,13 +112,14 @@ export const ImagePreview = ({
 // Main component for managing property images with inline carousel
 // eslint-disable-next-line max-lines-per-function
 export const PropertyImageManager = ({
-  value = [],
+  value,
   onValueChange,
   maxImages = DEFAULT_MAX_IMAGES,
   maxFileSize = DEFAULT_MAX_FILE_SIZE, // 5MB
   acceptedTypes = ['image/jpeg', 'image/png', 'image/webp'],
   className,
 }: PropertyImageManagerProps): React.ReactElement => {
+  const images = useMemo(() => value ?? [], [value]);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showCarousel, setShowCarousel] = useState(false);
@@ -135,13 +136,13 @@ export const PropertyImageManager = ({
         return `File size must be less than ${maxFileSize}MB.`;
       }
 
-      if (value.length >= maxImages) {
+      if (images.length >= maxImages) {
         return `Maximum ${maxImages} images allowed.`;
       }
 
       return null;
     },
-    [acceptedTypes, maxFileSize, maxImages, value.length]
+    [acceptedTypes, maxFileSize, maxImages, images.length]
   );
 
   const createImageObject = useCallback((file: File): PropertyImage => {
@@ -173,11 +174,11 @@ export const PropertyImageManager = ({
       }
 
       if (newImages.length > 0) {
-        const updatedImages = [...value, ...newImages].slice(0, maxImages);
+        const updatedImages = [...images, ...newImages].slice(0, maxImages);
         onValueChange?.(updatedImages, pendingDeletions);
       }
     },
-    [value, validateFile, createImageObject, maxImages, onValueChange, pendingDeletions]
+    [images, validateFile, createImageObject, maxImages, onValueChange, pendingDeletions]
   );
 
   const handleFileInput = useCallback(
@@ -231,16 +232,16 @@ export const PropertyImageManager = ({
         }
 
         // Notify parent component about the changes
-        onValueChange?.(value, newSet);
+        onValueChange?.(images, newSet);
 
         return newSet;
       });
     },
-    [value, onValueChange]
+    [images, onValueChange]
   );
 
   // Get images that are not marked for deletion (for display)
-  const visibleImages = value.filter(img => !pendingDeletions.has(img.id));
+  const visibleImages = images.filter(img => !pendingDeletions.has(img.id));
 
   const openFileDialog = useCallback(() => {
     fileInputRef.current?.click();
@@ -256,12 +257,12 @@ export const PropertyImageManager = ({
           className={`
             border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer
             ${isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
-            ${value.length >= maxImages ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary hover:bg-primary/5'}
+            ${images.length >= maxImages ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary hover:bg-primary/5'}
           `}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onClick={value.length < maxImages ? openFileDialog : undefined}
+          onClick={images.length < maxImages ? openFileDialog : undefined}
         >
           <div className="flex flex-col items-center gap-2">
             <Upload className="h-8 w-8 text-muted-foreground" />
@@ -269,7 +270,7 @@ export const PropertyImageManager = ({
               <span className="font-medium">Click to upload</span> or drag and drop
             </div>
             <div className="text-xs text-muted-foreground">
-              PNG, JPG, WebP up to {maxFileSize}MB ({value.length}/{maxImages})
+              PNG, JPG, WebP up to {maxFileSize}MB ({images.length}/{maxImages})
             </div>
           </div>
         </div>
@@ -284,7 +285,7 @@ export const PropertyImageManager = ({
         />
 
         {/* Inline Image Carousel */}
-        {value.length > 0 && (
+        {images.length > 0 && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label className="text-sm">
@@ -328,14 +329,14 @@ export const PropertyImageManager = ({
                 <div className="relative bg-background rounded-lg overflow-hidden border">
                   <div className="aspect-video relative flex items-center justify-center bg-muted/30">
                     <img
-                      src={value[selectedImageIndex]?.preview}
-                      alt={value[selectedImageIndex]?.name}
+                      src={images[selectedImageIndex]?.preview}
+                      alt={images[selectedImageIndex]?.name}
                       className={`max-h-full max-w-full object-contain transition-all ${
-                        pendingDeletions.has(value[selectedImageIndex]?.id || '') ? 'opacity-40 grayscale' : ''
+                        pendingDeletions.has(images[selectedImageIndex]?.id || '') ? 'opacity-40 grayscale' : ''
                       }`}
                     />
                     {/* Deletion overlay */}
-                    {pendingDeletions.has(value[selectedImageIndex]?.id || '') && (
+                    {pendingDeletions.has(images[selectedImageIndex]?.id || '') && (
                       <div className="absolute inset-0 flex items-center justify-center bg-red-500/20">
                         <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                           Marked for Deletion
@@ -344,7 +345,7 @@ export const PropertyImageManager = ({
                     )}
 
                     {/* Navigation Controls */}
-                    {value.length > 1 && (
+                    {images.length > 1 && (
                       <>
                         <button
                           onClick={e => {
@@ -362,10 +363,10 @@ export const PropertyImageManager = ({
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
-                            setSelectedImageIndex(Math.min(value.length - 1, selectedImageIndex + 1));
+                            setSelectedImageIndex(Math.min(images.length - 1, selectedImageIndex + 1));
                           }}
                           onMouseDown={e => e.stopPropagation()}
-                          disabled={selectedImageIndex === value.length - 1}
+                          disabled={selectedImageIndex === images.length - 1}
                           className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                         >
                           <ChevronRight className="h-5 w-5" />
@@ -377,24 +378,24 @@ export const PropertyImageManager = ({
                   {/* Image Info Bar */}
                   <div className="p-3 bg-background border-t flex justify-between items-center">
                     <div>
-                      <p className="font-medium text-sm">{value[selectedImageIndex]?.name}</p>
+                      <p className="font-medium text-sm">{images[selectedImageIndex]?.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {(value[selectedImageIndex]?.size / BYTES_IN_MB).toFixed(DECIMAL_PLACES)} MB • Image{' '}
-                        {selectedImageIndex + 1} of {value.length}
+                        {(images[selectedImageIndex]?.size / BYTES_IN_MB).toFixed(DECIMAL_PLACES)} MB • Image{' '}
+                        {selectedImageIndex + 1} of {images.length}
                       </p>
                     </div>
                     <Button
-                      variant={pendingDeletions.has(value[selectedImageIndex]?.id || '') ? 'secondary' : 'destructive'}
+                      variant={pendingDeletions.has(images[selectedImageIndex]?.id || '') ? 'secondary' : 'destructive'}
                       size="sm"
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
-                        const imageToRemove = value[selectedImageIndex];
+                        const imageToRemove = images[selectedImageIndex];
                         markImageForDeletion(imageToRemove.id);
                       }}
                       onMouseDown={e => e.stopPropagation()}
                     >
-                      {pendingDeletions.has(value[selectedImageIndex]?.id || '') ? (
+                      {pendingDeletions.has(images[selectedImageIndex]?.id || '') ? (
                         <>
                           <Upload className="h-4 w-4 mr-1" />
                           Restore
@@ -410,9 +411,9 @@ export const PropertyImageManager = ({
                 </div>
 
                 {/* Thumbnail Navigation */}
-                {value.length > 1 && (
+                {images.length > 1 && (
                   <div className="flex gap-2 overflow-x-auto pb-2">
-                    {value.map((image, index) => (
+                    {images.map((image, index) => (
                       <button
                         key={image.id}
                         onClick={e => {
@@ -468,7 +469,7 @@ export const PropertyImageManager = ({
               /* Compact Grid View */
               <ScrollArea className="h-32">
                 <div className="grid grid-cols-6 gap-2 pr-4">
-                  {value.map((image, index) => (
+                  {images.map((image, index) => (
                     <div key={image.id} className="relative group">
                       <img
                         src={image.preview}

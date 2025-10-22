@@ -81,8 +81,34 @@ const propertyData = {
       email: 'maria@luxeestates.com',
       image: '/professional-woman-realtor.jpg',
     },
+    virtualTourUrl: 'https://my.matterport.com/show/?m=RsKKA9cRJnj&play=1&ts=0',
   },
-};
+  id: 2,
+  name: 'Modern Apartment Downtown',
+  location: 'New York, USA',
+  price: 3200000,
+  type: 'Apartment',
+  bedrooms: 3,
+  bathrooms: 2,
+  area: 150,
+  parking: 1,
+  yearBuilt: 2018,
+  status: 'available',
+  featured: false,
+  description:
+    'Stunning modern apartment located in the heart of downtown New York. This property offers an open-concept living space with floor-to-ceiling windows that provide breathtaking city views. The apartment features high-end finishes and state-of-the-art appliances, making it the perfect urban retreat.',
+  features: ['Open-concept living and dining area', 'Gourmet kitchen with quartz countertops'],
+  amenities: [
+    { icon: Wifi, label: 'High-speed WiFi' },
+    { icon: Shield, label: '24/7 security' },
+  ],
+  images: ['/modern-apartment-downtown.jpg', '/modern-apartment-living-room.jpg'],
+  agent: {
+    name: 'John Smith',
+    phone: '+1 212 555 7890',
+    email: 'john@modernliving.com',
+  },
+} as const;
 
 // eslint-disable-next-line max-lines-per-function
 export const PropertyDetailLayout = (): React.ReactElement => {
@@ -353,7 +379,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     <div className="aspect-video bg-secondary rounded-lg overflow-hidden">
                       {showVirtualTour ? (
                         <iframe
-                          src="https://my.matterport.com/show/?m=RsKKA9cRJnj&play=1&ts=0"
+                          src={property.virtualTourUrl}
                           width="100%"
                           height="100%"
                           frameBorder="0"

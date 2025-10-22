@@ -8,7 +8,7 @@ type RefreshTokenRequestReturn = ReturnType<typeof useAuthRequestsContext>['refr
 type RefreshTokenRequestReturnValue = Awaited<ReturnType<RefreshTokenRequestReturn>>;
 
 interface UseRefreshTokenRequestReturn {
-  onRefreshToken: () => void;
+  onRefreshToken: () => Promise<RefreshTokenRequestReturnValue>;
   isPending: boolean;
   error: Error | null;
   data?: RefreshTokenRequestReturnValue;
@@ -17,11 +17,11 @@ interface UseRefreshTokenRequestReturn {
 export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
   const { refreshTokenRequest } = useAuthRequestsContext();
 
-  const { mutate, isPending, error, data } = useMutation({
+  const { mutateAsync, isPending, error, data } = useMutation({
     mutationKey: ['refresh-token'],
     mutationFn: refreshTokenRequest,
     onError: error => {
-      console.error('Refresh token failed:', error);
+      console.error('[useRefreshTokenRequest] Mutation onError:', error);
       toast.error('Refresh token failed. Please try again.', {
         duration: Infinity,
         description: error.message || 'An unexpected error occurred.',
@@ -30,12 +30,15 @@ export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
     },
   });
 
-  const onRefreshToken = (): void => {
+  const onRefreshToken = async (): Promise<RefreshTokenRequestReturnValue> => {
     const { refreshToken } = getAuthTokenBL() || {};
 
-    if (!refreshToken) return;
+    if (!refreshToken) {
+      throw new Error('No refresh token found');
+    }
 
-    mutate({ refreshToken });
+    const result = await mutateAsync({ refreshToken });
+    return result;
   };
 
   return { onRefreshToken, isPending, error, data };
