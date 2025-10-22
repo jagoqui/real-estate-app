@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import type { Property } from '@/modules/admin/infrastructure/ui/react/layouts/propertiesManagement/propertiesManagement.layout';
 
 interface PropertyFeaturesProps {
-  features: Property['features'];
+  features: Property['highlightedfeatures'];
   maxVisible: number;
 }
 

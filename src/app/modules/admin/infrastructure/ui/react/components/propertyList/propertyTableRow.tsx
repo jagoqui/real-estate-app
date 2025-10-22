@@ -47,7 +47,7 @@ export const PropertyTableRow = ({
             />
           </div>
           <div className="w-[150px] flex-shrink-0 px-4 py-3">
-            <PropertyFeatures features={property.features} maxVisible={maxVisibleFeatures} />
+            <PropertyFeatures features={property.highlightedFeatures} maxVisible={maxVisibleFeatures} />
           </div>
           <div className="w-[150px] flex-shrink-0 px-4 py-3">
             <PropertyAmenities amenities={property.amenities} maxVisible={maxVisibleAmenities} />

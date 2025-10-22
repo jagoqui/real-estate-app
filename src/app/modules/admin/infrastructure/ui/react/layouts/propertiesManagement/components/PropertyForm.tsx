@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, type UseFormReturn } from 'react-hook-form';
 import { propertyFormSchema, type PropertyFormSchema } from '../schemas/propertyForm.schema';
 import { BasicInfoTab } from './BasicInfoTab';
 import { FeaturesTab } from './FeaturesTab';
@@ -57,8 +57,9 @@ const FormTabsList = React.memo(() => (
 FormTabsList.displayName = 'FormTabsList';
 
 // Sub-component for Features Tab Content
-const FeaturesTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
-  const features = form.watch('features');
+// Sub-component for Features Tab Content
+const FeaturesTabContent = ({ form }: { form: UseFormReturn<PropertyFormSchema> }): React.ReactElement => {
+  const features = form.watch('highlightedFeatures');
   const amenities = form.watch('amenities') as Array<Amenity>;
   const bedrooms = form.watch('bedrooms');
   const bathrooms = form.watch('bathrooms');
@@ -73,7 +74,7 @@ const FeaturesTabContent = ({ form }: { form: ReturnType<typeof useForm<Property
           bathrooms,
         }}
         onChange={updates => {
-          if (updates.features !== undefined) form.setValue('features', updates.features);
+          if (updates.features !== undefined) form.setValue('highlightedFeatures', updates.features);
           if (updates.amenities !== undefined)
             form.setValue('amenities', updates.amenities as PropertyFormSchema['amenities']);
           if (updates.bedrooms !== undefined) form.setValue('bedrooms', updates.bedrooms);
@@ -173,13 +174,15 @@ export const PropertyForm = React.memo(
         bedrooms: '',
         bathrooms: '',
         description: '',
-        features: '',
+        highlightedFeatures: '',
         ownerId: '',
         ownerName: '',
         status: 'available',
+        type: 'house',
         city: '',
         state: '',
         country: '',
+        featured: false,
         amenities: [],
         images: [],
         location: undefined,

@@ -17,7 +17,7 @@ export interface Property {
   area: number;
   buildYear: number;
   description: string;
-  features: Array<string>;
+  highlightedFeatures: Array<string>;
   amenities?: Array<Amenity>;
   images: Array<string>;
   views380Url: Array<string>;

@@ -10,7 +10,7 @@ export const convertPropertyToFormData = (property: Property): PropertyFormSchem
     bedrooms: property.bedrooms.toString(),
     bathrooms: property.bathrooms.toString(),
     description: property.description,
-    features: property.features.join(', '),
+    highlightedFeatures: property.highlightedFeatures.join(', '),
     ownerId: property.ownerId,
     ownerName: property.ownerName,
     status: property.status,

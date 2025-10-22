@@ -26,15 +26,14 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
       area: Number(data.area),
       buildYear: Number(data.buildYear),
       description: data.description,
-      features: data.features.split(',').map(f => f.trim()),
+      highlightedFeatures: data.highlightedFeatures.split(',').map(f => f.trim()),
       amenities: [],
       images: [],
       views380Url: [],
       ownerId: data.ownerId,
       ownerName: data.ownerName || '',
       status: data.status,
-      createdAt: editingProperty?.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      type: data.type,
     };
 
     if (editingProperty) {
