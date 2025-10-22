@@ -40,6 +40,7 @@ export const PropertyDialog = React.memo(
         <DialogContent
           className="max-h-[90vh] sm:max-w-[600px] min-h-[60vh] overflow-hidden h-auto p-0 flex flex-col"
           onInteractOutside={e => e.preventDefault()}
+          onEscapeKeyDown={e => e.preventDefault()}
         >
           <DialogHeader className="flex-shrink-0 bg-background border-b px-6 py-4 rounded-t-lg">
             <DialogTitle className="font-serif text-2xl">
