@@ -84,6 +84,38 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
       <div className="space-y-2">
         <FormField
           control={control}
+          name="bedrooms"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bedrooms</FormLabel>
+              <FormControl>
+                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <FormField
+          control={control}
+          name="bathrooms"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bathrooms</FormLabel>
+              <FormControl>
+                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <FormField
+          control={control}
           name="status"
           render={({ field }) => (
             <FormItem>
