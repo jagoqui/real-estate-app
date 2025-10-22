@@ -16,7 +16,7 @@ export const PropertiesManagementLayout = (): React.ReactElement => {
     const newProperty: Property = {
       id: editingProperty?.id || Date.now().toString(),
       name: data.name,
-      address: '', // Will be set by location
+      address: data.address,
       city: data.city,
       state: data.state,
       country: data.country,
