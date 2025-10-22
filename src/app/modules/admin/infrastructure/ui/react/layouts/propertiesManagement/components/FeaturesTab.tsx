@@ -1,8 +1,10 @@
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
-import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
 import React from 'react';
+
+import { useFeatureChips } from '../hooks/useFeatureChips';
+import { FeatureChipInput } from './FeatureChipInput';
+import { RoomCountFields } from './RoomCountFields';
 
 interface FeaturesTabProps {
   formData: {
@@ -15,17 +17,22 @@ interface FeaturesTabProps {
 }
 
 export const FeaturesTab = ({ formData, onChange }: FeaturesTabProps): React.ReactElement => {
+  const { newFeature, setNewFeature, featuresList, handleAddFeature, handleRemoveFeature, handleKeyDown } =
+    useFeatureChips({
+      features: formData.features,
+      onChange: (features: string) => onChange({ features }),
+    });
+
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor="features">Features</Label>
-        <Input
-          id="features"
-          value={formData.features}
-          onChange={e => onChange({ features: e.target.value })}
-          placeholder="e.g., Pool, Garden, Garage"
-        />
-      </div>
+      <FeatureChipInput
+        newFeature={newFeature}
+        setNewFeature={setNewFeature}
+        featuresList={featuresList}
+        handleAddFeature={handleAddFeature}
+        handleRemoveFeature={handleRemoveFeature}
+        handleKeyDown={handleKeyDown}
+      />
 
       <div className="space-y-2 sm:col-span-2">
         <Label>Amenities</Label>
@@ -35,29 +42,7 @@ export const FeaturesTab = ({ formData, onChange }: FeaturesTabProps): React.Rea
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="bedrooms">Bedrooms</Label>
-        <FormattedInput
-          id="bedrooms"
-          formatType="number"
-          value={formData.bedrooms}
-          onChange={(value: string) => onChange({ bedrooms: value })}
-          placeholder="0"
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="bathrooms">Bathrooms</Label>
-        <FormattedInput
-          id="bathrooms"
-          formatType="number"
-          value={formData.bathrooms}
-          onChange={(value: string) => onChange({ bathrooms: value })}
-          placeholder="0"
-          required
-        />
-      </div>
+      <RoomCountFields bedrooms={formData.bedrooms} bathrooms={formData.bathrooms} onChange={onChange} />
     </div>
   );
 };
