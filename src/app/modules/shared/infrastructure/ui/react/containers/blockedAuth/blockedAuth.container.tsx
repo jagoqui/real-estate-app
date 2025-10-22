@@ -3,7 +3,11 @@ import { Navigate } from '@tanstack/react-router';
 import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 
 export const BlockedAuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { authResponse } = useAuthResponseContext();
+  const { authResponse, isAuthLoading } = useAuthResponseContext();
+
+  if (isAuthLoading) {
+    return <>{children}</>;
+  }
 
   if (authResponse?.accessToken) {
     return <Navigate to={PATHNAME_ROUTES.HOME} replace />;

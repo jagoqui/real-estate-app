@@ -4,6 +4,8 @@ import { createContext, useContext } from 'react';
 interface AuthResponseContextValue {
   authResponse: AuthResponse | null;
   setAuthResponse: React.Dispatch<React.SetStateAction<AuthResponse | null>>;
+  isAuthLoading: boolean;
+  setIsAuthLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthResponseContext = createContext<AuthResponseContextValue | undefined>(undefined);
