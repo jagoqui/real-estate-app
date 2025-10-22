@@ -278,7 +278,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-between h-10 px-3 bg-background hover:bg-accent">
           {value ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 truncate">
               <DynamicIcon name={value} className="h-4 w-4" />
               <span className="text-sm truncate min-w-0">{value}</span>
             </div>
