@@ -88,6 +88,7 @@ FeaturesTabContent.displayName = 'FeaturesTabContent';
 
 // Sub-component for Location Tab Content
 const LocationTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
+  const address = form.watch('address');
   const city = form.watch('city');
   const state = form.watch('state');
   const country = form.watch('country');
@@ -97,6 +98,7 @@ const LocationTabContent = ({ form }: { form: ReturnType<typeof useForm<Property
     <TabsContent value="location">
       <LocationTab
         formData={{
+          address,
           city,
           state,
           country,

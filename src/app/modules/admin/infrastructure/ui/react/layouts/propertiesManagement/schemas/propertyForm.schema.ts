@@ -77,10 +77,10 @@ export const propertyFormSchema = z.object({
   ownerId: z.string().min(1, 'Owner is required'),
   ownerName: z.string().optional(),
   status: z.enum(['available', 'sold', 'pending']),
+  address: z.string().min(1, 'Address is required'),
   city: z.string().min(1, 'City is required'),
   state: z.string().min(1, 'State is required'),
   country: z.string().min(1, 'Country is required'),
-  // Additional fields for amenities, images, location, and virtual tours
   amenities: z.array(amenitySchema),
   images: z.array(propertyImageSchema),
   location: locationSchema.optional(),

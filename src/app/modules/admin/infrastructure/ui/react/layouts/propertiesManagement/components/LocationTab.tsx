@@ -4,14 +4,17 @@ import {
 } from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
 import React from 'react';
 
+interface LocationFormData {
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  location: { lat: number; lng: number };
+}
+
 interface LocationTabProps {
-  formData: {
-    city: string;
-    state: string;
-    country: string;
-    location: { lat: number; lng: number };
-  };
-  onChange: (updates: Partial<LocationTabProps['formData']>) => void;
+  formData: LocationFormData;
+  onChange: (updates: Partial<LocationFormData>) => void;
 }
 
 export const LocationTab = ({ formData, onChange }: LocationTabProps): React.ReactElement => {
@@ -22,6 +25,7 @@ export const LocationTab = ({ formData, onChange }: LocationTabProps): React.Rea
     const parts = location.display_name.split(',').map(part => part.trim());
     onChange({
       location: { lat: parseFloat(location.lat), lng: parseFloat(location.lon) },
+      address: location.display_name,
       city: parts[0] || '',
       state: parts[1] || '',
       country: parts[parts.length - 1] || '',
