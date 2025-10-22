@@ -14,13 +14,7 @@ export const RefreshTokenContainer = ({ children }: { children: React.ReactNode 
 
     const { refreshToken } = getAuthTokenBL() || {};
 
-    console.info('[RefreshTokenContainer] Initializing...', {
-      hasToken: !!refreshToken,
-      hasAuthResponse: !!authResponse,
-    });
-
     if (refreshToken) {
-      console.info('[RefreshTokenContainer] Token found, starting refresh...');
       setIsAuthLoading(true);
       onRefreshToken()
         .then(() => {
