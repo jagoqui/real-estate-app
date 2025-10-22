@@ -199,7 +199,19 @@ export const PropertyForm = React.memo(
       <Form {...form}>
         <form
           onSubmit={e => {
-            void form.handleSubmit(onSubmit)(e);
+            e.preventDefault();
+            console.info('Form submit triggered');
+            console.info('Form errors:', form.formState.errors);
+            console.info('Form values:', form.getValues());
+            void form.handleSubmit(
+              data => {
+                console.info('Form validation passed, calling onSubmit with:', data);
+                onSubmit(data);
+              },
+              errors => {
+                console.error('Form validation failed:', errors);
+              }
+            )(e);
           }}
           className="space-y-4"
           id="property-form"
