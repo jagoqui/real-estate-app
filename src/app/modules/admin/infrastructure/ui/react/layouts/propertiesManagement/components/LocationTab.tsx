@@ -14,7 +14,7 @@ interface LocationTabProps {
   onChange: (updates: Partial<LocationTabProps['formData']>) => void;
 }
 
-export const LocationTab = React.memo(({ formData, onChange }: LocationTabProps) => {
+export const LocationTab = ({ formData, onChange }: LocationTabProps): React.ReactElement => {
   const handleLocationChange = (location: SearchSuggestion | undefined): void => {
     if (!location) return;
 
@@ -42,6 +42,6 @@ export const LocationTab = React.memo(({ formData, onChange }: LocationTabProps)
       <LocationPicker value={currentValue} onValueChange={handleLocationChange} />
     </div>
   );
-});
+};
 
 LocationTab.displayName = 'LocationTab';

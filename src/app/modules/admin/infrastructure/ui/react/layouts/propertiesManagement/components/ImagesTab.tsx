@@ -11,7 +11,7 @@ interface ImagesTabProps {
   onChange: (updates: Partial<ImagesTabProps['formData']>) => void;
 }
 
-export const ImagesTab = React.memo(({ formData, onChange }: ImagesTabProps) => {
+export const ImagesTab = ({ formData, onChange }: ImagesTabProps): React.ReactElement => {
   const handleImagesChange = (images: Array<PropertyImage>): void => {
     onChange({ images });
   };
@@ -21,6 +21,6 @@ export const ImagesTab = React.memo(({ formData, onChange }: ImagesTabProps) => 
       <PropertyImageManager value={formData.images} onValueChange={handleImagesChange} />
     </div>
   );
-});
+};
 
 ImagesTab.displayName = 'ImagesTab';

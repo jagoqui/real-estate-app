@@ -12,7 +12,7 @@ interface VirtualToursTabProps {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const VirtualToursTab = React.memo(({ formData, onChange }: VirtualToursTabProps) => {
+export const VirtualToursTab = ({ formData, onChange }: VirtualToursTabProps): React.ReactElement => {
   const [loadedIframes, setLoadedIframes] = useState<Record<number, boolean>>({});
 
   const handleAddTour = useCallback((): void => {
@@ -110,6 +110,6 @@ export const VirtualToursTab = React.memo(({ formData, onChange }: VirtualToursT
       </div>
     </div>
   );
-});
+};
 
 VirtualToursTab.displayName = 'VirtualToursTab';

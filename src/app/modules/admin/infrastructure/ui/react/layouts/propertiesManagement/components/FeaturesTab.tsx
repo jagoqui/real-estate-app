@@ -14,7 +14,7 @@ interface FeaturesTabProps {
   onChange: (updates: Partial<FeaturesTabProps['formData']>) => void;
 }
 
-export const FeaturesTab = React.memo(({ formData, onChange }: FeaturesTabProps) => {
+export const FeaturesTab = ({ formData, onChange }: FeaturesTabProps): React.ReactElement => {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div className="space-y-2 sm:col-span-2">
@@ -60,6 +60,6 @@ export const FeaturesTab = React.memo(({ formData, onChange }: FeaturesTabProps)
       </div>
     </div>
   );
-});
+};
 
 FeaturesTab.displayName = 'FeaturesTab';
