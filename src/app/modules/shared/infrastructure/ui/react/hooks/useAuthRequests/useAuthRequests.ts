@@ -19,7 +19,6 @@ const AUTH_REQUESTS: AuthRequests = {
   logoutRequest,
 };
 
-//FIXME: No esta funcionando el redirect
 export const useAuthRequests = (): AuthRequests => {
   const { setAuthResponse } = useAuthResponseContext();
   const navigate = useNavigate();
@@ -27,12 +26,15 @@ export const useAuthRequests = (): AuthRequests => {
 
   const onSuccessRegister = (args: Parameters<typeof setAuthResponse>[number]): void => {
     setAuthResponse(args);
-    const redirectTo = (router.state.location.search as Record<string, string>)?.redirect || PATHNAME_ROUTES.HOME;
+
+    const searchParams = router.state.location.search as { redirectTo?: string };
+    const redirectTo = searchParams?.redirectTo || PATHNAME_ROUTES.HOME;
 
     void navigate({ to: redirectTo, replace: true });
   };
 
   const onSuccessRefreshToken = (args: Parameters<typeof setAuthResponse>[number]): void => {
+    console.info('[useAuthRequests] onSuccessRefreshToken called with:', args);
     setAuthResponse(args);
   };
 
@@ -43,6 +45,7 @@ export const useAuthRequests = (): AuthRequests => {
   };
 
   const onError = (): void => {
+    console.error('[useAuthRequests] onError called');
     setAuthResponse(null);
   };
 
