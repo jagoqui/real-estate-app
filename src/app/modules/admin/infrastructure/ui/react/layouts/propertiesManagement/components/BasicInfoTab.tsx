@@ -1,11 +1,14 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
+import { Sparkle } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
 import { type PropertyFormSchema } from '../schemas/propertyForm.schema';
+import { PROPERTY_TYPES } from '../types/property.types';
 import { OwnerSelect } from './OwnerSelect';
 
 interface BasicInfoTabProps {
@@ -107,7 +110,84 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
       </div>
 
       <div className="space-y-2">
+        <FormField
+          control={control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Property Type</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select property type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {PROPERTY_TYPES.map(type => (
+                    <SelectItem key={type} value={type}>
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <FormField
+          control={control}
+          name="bedrooms"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bedrooms</FormLabel>
+              <FormControl>
+                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <FormField
+          control={control}
+          name="bathrooms"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bathrooms</FormLabel>
+              <FormControl>
+                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="space-y-2">
         <OwnerSelect control={control} onOwnerChange={onOwnerChange} />
+      </div>
+
+      <div className="space-y-2 flex items-center gap-3">
+        <FormField
+          control={control}
+          name="featured"
+          render={({ field }) => (
+            <FormItem className="flex items-center gap-2 space-y-0">
+              <FormControl>
+                <Switch checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <FormLabel className="cursor-pointer">
+                Featured Property <Sparkle />
+              </FormLabel>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       <div className="space-y-2 sm:col-span-2">

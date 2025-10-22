@@ -1,5 +1,6 @@
 import type { LucideIconName } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
 import { z } from 'zod';
+import { PROPERTY_TYPES, type Property } from '../types/property.types';
 
 const MIN_NAME_LENGTH = 3;
 const MAX_NAME_LENGTH = 100;
@@ -22,7 +23,7 @@ const amenitySchema = z.object({
 const propertyImageSchema = z.object({
   id: z.string(),
   file: z.file(), // File object - validated by PropertyImageManager component
-  preview: z.string().url('Invalid preview URL'),
+  preview: z.url('Invalid preview URL'),
   name: z.string().min(1, 'Image name is required'),
   size: z.number().positive('Image size must be positive'),
   markedForDeletion: z.boolean().optional(),

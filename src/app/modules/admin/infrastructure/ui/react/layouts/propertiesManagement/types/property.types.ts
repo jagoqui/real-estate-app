@@ -1,5 +1,7 @@
 import { type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
 
+export const PROPERTY_TYPES = ['house', 'apartment', 'condo', 'townhouse', 'land', 'commercial', 'other'] as const;
+
 export interface Property {
   id: string;
   name: string;
@@ -25,8 +27,10 @@ export interface Property {
   ownerId: string;
   ownerName: string;
   status: 'available' | 'sold' | 'pending';
-  createdAt: string;
-  updatedAt: string;
+  type: (typeof PROPERTY_TYPES)[number];
+  featured?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Owner {
