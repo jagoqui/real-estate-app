@@ -33,10 +33,10 @@ const NavLinks = ({ onClick, className = '' }: { onClick?: () => void; className
   );
 };
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, complexity
 export const Header = (): React.ReactElement => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { authResponse, isAuthLoading } = useAuthResponseContext();
+  const { authResponse, isAuthLoading, isLoggingOut } = useAuthResponseContext();
   const user = authResponse?.user;
 
   return (
@@ -46,12 +46,12 @@ export const Header = (): React.ReactElement => {
           <div className="md:hidden py-6 border-t border-border">
             <nav className="flex flex-col gap-4">
               <NavLinks onClick={() => setMobileMenuOpen(false)} />
-              {isAuthLoading && (
+              {(isAuthLoading || isLoggingOut) && (
                 <Button variant="ghost" disabled className="gap-2 mt-4">
-                  <span className="text-sm">Loading...</span>
+                  <span className="text-sm">{isLoggingOut ? 'Signing out...' : 'Loading...'}</span>
                 </Button>
               )}
-              {!isAuthLoading && authResponse && (
+              {!isAuthLoading && !isLoggingOut && authResponse && (
                 <>
                   <Link
                     to={PATHNAME_ROUTES.ADMIN}
@@ -66,7 +66,7 @@ export const Header = (): React.ReactElement => {
                   </div>
                 </>
               )}
-              {!isAuthLoading && !user && (
+              {!isAuthLoading && !isLoggingOut && !user && (
                 <Link to={PATHNAME_ROUTES.AUTH_LOGIN}>
                   <Button
                     variant="outline"
@@ -87,12 +87,12 @@ export const Header = (): React.ReactElement => {
             <NavLinks />
           </nav>
           <div className="hidden md:flex items-center">
-            {isAuthLoading && (
+            {(isAuthLoading || isLoggingOut) && (
               <Button variant="ghost" disabled className="gap-2">
-                <span className="text-sm">Loading...</span>
+                <span className="text-sm">{isLoggingOut ? 'Signing out...' : 'Loading...'}</span>
               </Button>
             )}
-            {!isAuthLoading && user && (
+            {!isAuthLoading && !isLoggingOut && user && (
               <>
                 {user.isAdmin && (
                   <Link to={PATHNAME_ROUTES.ADMIN}>
@@ -105,7 +105,7 @@ export const Header = (): React.ReactElement => {
                 <UserProfileMenu />
               </>
             )}
-            {!isAuthLoading && !user && (
+            {!isAuthLoading && !isLoggingOut && !user && (
               <Link to={PATHNAME_ROUTES.AUTH_LOGIN}>
                 <Button
                   variant="outline"
