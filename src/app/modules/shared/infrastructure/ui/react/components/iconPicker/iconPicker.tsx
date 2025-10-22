@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -122,6 +119,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
   const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
   const [isIconsLoaded, setIsIconsLoaded] = useState(false);
   const parentRef = useRef<HTMLDivElement | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -136,6 +134,38 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
       return (): void => clearTimeout(timer);
     }
   }, [open]);
+
+  // Handle horizontal scroll with wheel for category tabs
+  useEffect(() => {
+    const scrollArea = scrollAreaRef.current;
+    if (!scrollArea || search || !open) return;
+
+    const handleWheel = (e: WheelEvent): void => {
+      const container = scrollArea.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
+      if (container) {
+        e.preventDefault();
+
+        // Determine scroll direction and amount
+        const baseScrollAmount = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        const SCROLL_MULTIPLIER = 2.2;
+        const scrollAmount = baseScrollAmount * SCROLL_MULTIPLIER;
+        const targetScrollLeft = container.scrollLeft + scrollAmount;
+
+        // Apply smooth scroll
+        container.style.scrollBehavior = 'smooth';
+        container.scrollTo({
+          left: targetScrollLeft,
+          behavior: 'smooth',
+        });
+      }
+    };
+
+    scrollArea.addEventListener('wheel', handleWheel, { passive: false });
+
+    return (): void => {
+      scrollArea.removeEventListener('wheel', handleWheel);
+    };
+  }, [search, open]);
 
   const iconNames = useMemo(() => {
     if (!isIconsLoaded) return [];
@@ -279,28 +309,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
           </div>
 
           {!search && (
-            <ScrollArea
-              className="w-full border-b"
-              onWheel={e => {
-                const container = e.currentTarget.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
-                if (container) {
-                  e.preventDefault();
-
-                  // Determine scroll direction and amount
-                  const baseScrollAmount = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-                  const SCROLL_MULTIPLIER = 2.2;
-                  const scrollAmount = baseScrollAmount * SCROLL_MULTIPLIER; // increase scroll distance
-                  const targetScrollLeft = container.scrollLeft + scrollAmount;
-
-                  // Apply smooth scroll
-                  container.style.scrollBehavior = 'smooth';
-                  container.scrollTo({
-                    left: targetScrollLeft,
-                    behavior: 'smooth',
-                  });
-                }
-              }}
-            >
+            <ScrollArea ref={scrollAreaRef} className="w-full border-b">
               <div className="flex gap-1 px-2 py-2">
                 <Button
                   variant={activeCategory === 'all' ? 'secondary' : 'ghost'}
