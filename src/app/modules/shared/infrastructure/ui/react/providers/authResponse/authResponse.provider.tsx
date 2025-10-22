@@ -5,9 +5,19 @@ import { useAuthResponseStorage } from '../../hooks/useAuthResponseStorage/useAu
 export const AuthResponseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { authResponse, setAuthResponse } = useAuthResponseStorage();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   return (
-    <AuthResponseContext.Provider value={{ authResponse, setAuthResponse, isAuthLoading, setIsAuthLoading }}>
+    <AuthResponseContext.Provider
+      value={{
+        authResponse,
+        setAuthResponse,
+        isAuthLoading,
+        setIsAuthLoading,
+        isLoggingOut,
+        setIsLoggingOut,
+      }}
+    >
       {children}
     </AuthResponseContext.Provider>
   );
