@@ -14,6 +14,15 @@
     "bradlc.vscode-tailwindcss",
     "meganrogge.template-string-converter",
     "wayou.vscode-todo-highlight",
-    "DavidAnson.vscode-markdownlint"
+    "DavidAnson.vscode-markdownlint",
+    "bradlc.vscode-tailwindcss",
+    "Gruntfuggly.todo-tree",
+    "wayou.vscode-todo-highlight",
+    "YoavBls.pretty-ts-errors",
+    "esbenp.prettier-vscode",
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "usernamehw.errorlens",
+    "steoates.autoimport"
   ]
 }

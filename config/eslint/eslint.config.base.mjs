@@ -95,6 +95,7 @@ export default defineConfig([
         },
       ],
       '@typescript-eslint/consistent-indexed-object-style': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/no-duplicate-enum-values': 'error',
       '@typescript-eslint/no-for-in-array': 'error',
