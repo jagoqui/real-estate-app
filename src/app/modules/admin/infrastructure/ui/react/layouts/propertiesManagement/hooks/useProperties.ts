@@ -1,5 +1,5 @@
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { useState } from 'react';
-import { type Property } from '../types/property.types';
 
 const INITIAL_PROPERTIES: Array<Property> = [
   {
@@ -20,6 +20,29 @@ const INITIAL_PROPERTIES: Array<Property> = [
     buildYear: 2020,
     description: 'Spectacular modern villa with panoramic views',
     highlightedFeatures: ['Pool', 'Gym', 'Cinema'],
+    amenities: [
+      {
+        id: '1',
+        name: 'Infinite Pool',
+        icon: 'infinity',
+      },
+      {
+        id: '2',
+        name: 'Home Gym',
+        icon: 'dumbbell',
+      },
+      {
+        id: '3',
+        name: 'Private Cinema',
+        icon: 'film',
+      },
+      {
+        id: '4',
+        name: 'Smart Home System',
+        icon: 'sparkles',
+      },
+    ],
+    featured: true,
     images: ['/luxury-villa-sunset.png'],
     views380Url: [],
     ownerId: '1',
@@ -27,7 +50,7 @@ const INITIAL_PROPERTIES: Array<Property> = [
     status: 'available',
     type: 'house',
     createdAt: '2024-01-15',
-    updatedAt: '2024-01-15',
+    updatedAt: '2024-03-10',
   },
   {
     id: '2',
@@ -47,6 +70,34 @@ const INITIAL_PROPERTIES: Array<Property> = [
     buildYear: 2018,
     description: 'Luxury penthouse in the heart of Manhattan',
     highlightedFeatures: ['Terrace', 'Panoramic view', '24/7 Concierge'],
+    amenities: [
+      {
+        id: '5',
+        name: 'Terrace',
+        icon: 'home',
+      },
+      {
+        id: '6',
+        name: 'Concierge',
+        icon: 'users',
+      },
+      {
+        id: '7',
+        name: 'Elevator',
+        icon: 'arrow-up',
+      },
+      {
+        id: '8',
+        name: 'Security',
+        icon: 'shield',
+      },
+      {
+        id: '9',
+        name: 'Parking',
+        icon: 'car',
+      },
+    ],
+    featured: false,
     images: ['/luxury-penthouse-with-ocean-view-modern-interior.jpg'],
     views380Url: [],
     ownerId: '2',

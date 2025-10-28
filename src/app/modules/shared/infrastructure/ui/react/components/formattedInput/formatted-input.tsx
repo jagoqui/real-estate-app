@@ -4,8 +4,8 @@ import { Input } from '@/components/ui/input';
 import { forwardRef } from 'react';
 
 interface FormattedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
-  value: string;
-  onChange: (value: string) => void;
+  value: string | number;
+  onChange: (value: string | number) => void;
   formatType: 'currency' | 'number' | 'year';
   placeholder?: string;
 }
@@ -62,13 +62,13 @@ export const FormattedInput = forwardRef<HTMLInputElement, FormattedInputProps>(
     };
 
     const getDisplayValue = (): string => {
-      if (!value) return '';
+      if (!String(value)) return '';
 
       if (formatType === 'year') {
-        return value;
+        return String(value);
       }
 
-      return formatValue(value);
+      return formatValue(String(value));
     };
 
     return (

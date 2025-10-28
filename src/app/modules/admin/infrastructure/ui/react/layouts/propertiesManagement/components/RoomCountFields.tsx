@@ -1,14 +1,14 @@
 import { Label } from '@/components/ui/label';
+import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
-interface RoomCountFieldsProps {
-  bedrooms: string;
-  bathrooms: string;
-  onChange: (updates: { bedrooms?: string; bathrooms?: string }) => void;
-}
+export const RoomCountFields = (): React.ReactElement => {
+  const form = useFormContext<PropertyFormValues>();
+  const bedrooms = form.watch('bedrooms');
+  const bathrooms = form.watch('bathrooms');
 
-export const RoomCountFields = ({ bedrooms, bathrooms, onChange }: RoomCountFieldsProps): React.ReactElement => {
   return (
     <>
       <div className="space-y-2">
@@ -17,7 +17,7 @@ export const RoomCountFields = ({ bedrooms, bathrooms, onChange }: RoomCountFiel
           id="bedrooms"
           formatType="number"
           value={bedrooms}
-          onChange={(value: string) => onChange({ bedrooms: value })}
+          onChange={form.setValue.bind(null, 'bedrooms')}
           placeholder="0"
           required
         />
@@ -29,7 +29,7 @@ export const RoomCountFields = ({ bedrooms, bathrooms, onChange }: RoomCountFiel
           id="bathrooms"
           formatType="number"
           value={bathrooms}
-          onChange={(value: string) => onChange({ bathrooms: value })}
+          onChange={form.setValue.bind(null, 'bathrooms')}
           placeholder="0"
           required
         />

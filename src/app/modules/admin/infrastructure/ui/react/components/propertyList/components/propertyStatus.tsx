@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import type { Property } from '@/modules/admin/infrastructure/ui/react/layouts/propertiesManagement/propertiesManagement.layout';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 
 const variants = {
   available: 'default',

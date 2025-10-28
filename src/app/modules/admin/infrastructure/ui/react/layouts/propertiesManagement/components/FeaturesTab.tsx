@@ -1,27 +1,22 @@
 import { Label } from '@/components/ui/label';
-import { AmenityForm, type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import { AmenityForm } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
 import React from 'react';
 
 import { useFeatureChips } from '../hooks/useFeatureChips';
 import { FeatureChipInput } from './FeatureChipInput';
 import { RoomCountFields } from './RoomCountFields';
 
-interface FeaturesTabProps {
-  formData: {
-    features: string;
-    amenities: Array<Amenity>;
-    bedrooms: string;
-    bathrooms: string;
-  };
-  onChange: (updates: Partial<FeaturesTabProps['formData']>) => void;
-}
-
-export const FeaturesTab = ({ formData, onChange }: FeaturesTabProps): React.ReactElement => {
-  const { newFeature, setNewFeature, featuresList, handleAddFeature, handleRemoveFeature, handleKeyDown } =
-    useFeatureChips({
-      features: formData.features,
-      onChange: (features: string) => onChange({ features }),
-    });
+export const FeaturesTab = (): React.ReactElement => {
+  const {
+    newFeature,
+    setNewFeature,
+    featuresList,
+    handleAddFeature,
+    handleRemoveFeature,
+    handleKeyDown,
+    errorMessage,
+    clearError,
+  } = useFeatureChips();
 
   return (
     <div className="grid gap-4 sm:grid-cols-2">
@@ -32,17 +27,16 @@ export const FeaturesTab = ({ formData, onChange }: FeaturesTabProps): React.Rea
         handleAddFeature={handleAddFeature}
         handleRemoveFeature={handleRemoveFeature}
         handleKeyDown={handleKeyDown}
+        errorMessage={errorMessage}
+        clearError={clearError}
       />
 
       <div className="space-y-2 sm:col-span-2">
         <Label>Amenities</Label>
-        <AmenityForm
-          value={formData.amenities}
-          onValueChange={(amenities: Array<Amenity>) => onChange({ amenities })}
-        />
+        <AmenityForm />
       </div>
 
-      <RoomCountFields bedrooms={formData.bedrooms} bathrooms={formData.bathrooms} onChange={onChange} />
+      <RoomCountFields />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-import type { Property } from '@/modules/admin/infrastructure/ui/react/layouts/propertiesManagement/propertiesManagement.layout';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { PropertyImagesTableCell } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
 import { Pencil, Trash2 } from 'lucide-react';
 import { LocationPreview } from '../locationPreview/locationPreview';
@@ -53,7 +53,7 @@ export const PropertyTableRow = ({
             <PropertyAmenities amenities={property.amenities} maxVisible={maxVisibleAmenities} />
           </div>
           <div className="w-[120px] flex-shrink-0 px-4 py-3">
-            <PropertyImagesTableCell images={property.imageFiles || []} propertyName={property.name} />
+            <PropertyImagesTableCell images={property.images} propertyName={property.name} />
           </div>
           <div className="w-[120px] flex-shrink-0 px-4 py-3">{property.ownerName}</div>
           <div className="w-[100px] flex-shrink-0 px-4 py-3">

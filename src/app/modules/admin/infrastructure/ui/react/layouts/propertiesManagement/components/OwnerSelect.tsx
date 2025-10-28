@@ -5,10 +5,10 @@ import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/ho
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
-import { type PropertyFormSchema } from '../schemas/propertyForm.schema';
+import { type PropertyFormValues } from '../../../../../../../shared/domain/schemas/propertyForm.schema';
 
 interface OwnerSelectProps {
-  control: Control<PropertyFormSchema>;
+  control: Control<PropertyFormValues>;
   onOwnerChange?: (ownerId: string, ownerName: string) => void;
 }
 

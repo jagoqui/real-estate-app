@@ -1,15 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { convertPropertyToFormData } from '../helpers/convertPropertyToFormData';
-import { type PropertyFormSchema } from '../schemas/propertyForm.schema';
-import { type Property } from '../types/property.types';
 import { PropertyForm } from './PropertyForm';
 
 interface PropertyDialogProps {
   editingProperty?: Property | null;
-  onSubmit: (data: PropertyFormSchema) => void;
+  onSubmit: (data: PropertyFormValues) => void;
   onReset: () => void;
 }
 
@@ -32,19 +32,18 @@ export const PropertyDialog = React.memo(({ editingProperty, onSubmit, onReset }
     }
   };
 
-  const handleSubmit = (data: PropertyFormSchema): void => {
+  const handleSubmit = (data: PropertyFormValues): void => {
     onSubmit(data);
     setIsDialogOpen(false);
     setActiveTab('basic');
   };
 
   const handleOwnerChange = (ownerId: string, ownerName: string): void => {
-    // Owner change handler - can be used to update form state if needed
     void ownerId;
     void ownerName;
   };
 
-  const defaultValues: Partial<PropertyFormSchema> | undefined = editingProperty
+  const defaultValues: Partial<PropertyFormValues> | undefined = editingProperty
     ? convertPropertyToFormData(editingProperty)
     : undefined;
 
@@ -79,10 +78,10 @@ PropertyDialog.displayName = 'PropertyDialog';
 // Extracted dialog content component
 interface PropertyDialogContentProps {
   editingProperty?: Property | null;
-  defaultValues: Partial<PropertyFormSchema> | undefined;
+  defaultValues: Partial<PropertyFormValues> | undefined;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  onSubmit: (data: PropertyFormSchema) => void;
+  onSubmit: (data: PropertyFormValues) => void;
   onOwnerChange: (ownerId: string, ownerName: string) => void;
   onCancel: () => void;
 }

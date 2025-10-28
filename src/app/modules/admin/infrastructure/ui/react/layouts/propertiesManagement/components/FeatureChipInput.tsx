@@ -12,6 +12,8 @@ interface FeatureChipInputProps {
   handleAddFeature: () => void;
   handleRemoveFeature: (index: number) => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  errorMessage: string;
+  clearError: () => void;
 }
 
 export const FeatureChipInput = ({
@@ -21,6 +23,8 @@ export const FeatureChipInput = ({
   handleAddFeature,
   handleRemoveFeature,
   handleKeyDown,
+  errorMessage,
+  clearError,
 }: FeatureChipInputProps): React.ReactElement => {
   return (
     <div className="space-y-2 sm:col-span-2">
@@ -28,13 +32,20 @@ export const FeatureChipInput = ({
         Highlighted Features <Sparkles className="inline w-4 h-4" />
       </Label>
       <div className="flex gap-2">
-        <Input
-          id="highlightedFeatures"
-          value={newFeature}
-          onChange={e => setNewFeature(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="e.g., Pool, Garden, Garage"
-        />
+        <div className="flex-1">
+          <Input
+            id="highlightedFeatures"
+            value={newFeature}
+            onChange={e => {
+              setNewFeature(e.target.value);
+              if (errorMessage) clearError();
+            }}
+            onKeyDown={handleKeyDown}
+            placeholder="e.g., Pool, Garden, Garage"
+            className={errorMessage ? 'border-red-500' : ''}
+          />
+          {errorMessage && <p className="text-sm text-red-500 mt-1">{errorMessage}</p>}
+        </div>
         <Button type="button" onClick={handleAddFeature} size="icon" variant="outline">
           <Plus className="w-4 h-4" />
         </Button>

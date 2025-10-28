@@ -1,39 +1,41 @@
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import React, { useState } from 'react';
 import { PropertyDialog } from './components/PropertyDialog';
 import { PropertyList } from './components/PropertyList';
 import { useProperties } from './hooks/useProperties';
-import { type PropertyFormSchema } from './schemas/propertyForm.schema';
-import { type Property } from './types/property.types';
-
-export { type Owner, type Property } from './types/property.types';
 
 export const PropertiesManagementLayout = (): React.ReactElement => {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const { properties, addProperty, updateProperty, deleteProperty } = useProperties();
 
-  const handleSubmit = (data: PropertyFormSchema): void => {
+  const handleSubmit = (data: PropertyFormValues): void => {
     const newProperty: Property = {
-      id: editingProperty?.id || Date.now().toString(),
+      id: data.id,
       name: data.name,
       address: data.address,
       city: data.city,
       state: data.state,
       country: data.country,
+      location: { lat: '', lon: '' },
       price: Number(data.price),
       bedrooms: Number(data.bedrooms),
       bathrooms: Number(data.bathrooms),
       area: Number(data.area),
       buildYear: Number(data.buildYear),
       description: data.description,
-      highlightedFeatures: data.highlightedFeatures.split(',').map(f => f.trim()),
-      amenities: [],
-      images: [],
-      views380Url: [],
+      highlightedFeatures: data.highlightedFeatures,
+      amenities: data.amenities,
+      images: 'images' in data ? data.images : [],
+      views380Url: data.views380Url,
       ownerId: data.ownerId,
-      ownerName: data.ownerName || '',
+      ownerName: data.ownerName,
       status: data.status,
       type: data.type,
+      featured: false,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
     };
 
     if (editingProperty) {

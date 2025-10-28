@@ -1,8 +1,7 @@
+import type { LucideIconName } from '@/modules/shared/domain/schemas/lucideIcon.schema';
 import { type LucideProps, Loader2 } from 'lucide-react';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { lazy, Suspense, useMemo } from 'react';
-
-export type LucideIconName = keyof typeof dynamicIconImports;
 
 interface DynamicIconProps extends Omit<LucideProps, 'ref'> {
   name: LucideIconName;

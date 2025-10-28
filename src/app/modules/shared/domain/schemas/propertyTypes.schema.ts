@@ -1,0 +1,15 @@
+import z from 'zod';
+
+export const PROPERTIES_TYPES = {
+  HOUSE: 'house',
+  APARTMENT: 'apartment',
+  CONDO: 'condo',
+  TOWNHOUSE: 'townhouse',
+  LAND: 'land',
+  COMMERCIAL: 'commercial',
+  OTHER: 'other',
+} as const satisfies Record<string, string>;
+
+export type PropertyTypes = (typeof PROPERTIES_TYPES)[keyof typeof PROPERTIES_TYPES];
+
+export const propertyTypesSchema = z.custom<PropertyTypes>();

@@ -3,8 +3,8 @@ import { Table, TableBody } from '@/components/ui/table';
 import { PropertyHeader } from '@/modules/admin/infrastructure/ui/react/components/propertyList/propertyHeader';
 import { PropertyTableHeader } from '@/modules/admin/infrastructure/ui/react/components/propertyList/propertyTableHeader';
 import { PropertyTableRow } from '@/modules/admin/infrastructure/ui/react/components/propertyList/propertyTableRow';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import React from 'react';
-import { type Property } from '../types/property.types';
 
 interface PropertyListProps {
   properties: Array<Property>;

@@ -1,10 +1,9 @@
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import { propertyFormValuesSchema, type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect } from 'react';
-import { useForm, type UseFormReturn } from 'react-hook-form';
-import { propertyFormSchema, type PropertyFormSchema } from '../schemas/propertyForm.schema';
+import { useForm, type DefaultValues } from 'react-hook-form';
 import { BasicInfoTab } from './BasicInfoTab';
 import { FeaturesTab } from './FeaturesTab';
 import { ImagesTab } from './ImagesTab';
@@ -12,10 +11,10 @@ import { LocationTab } from './LocationTab';
 import { VirtualToursTab } from './VirtualToursTab';
 
 interface PropertyFormWithHookFormProps {
-  defaultValues?: Partial<PropertyFormSchema>;
+  defaultValues?: DefaultValues<PropertyFormValues>;
   activeTab: string;
   onTabChange: (value: string) => void;
-  onSubmit: (data: PropertyFormSchema) => void;
+  onSubmit: (data: PropertyFormValues) => void;
   onOwnerChange?: (ownerId: string, ownerName: string) => void;
 }
 
@@ -56,141 +55,17 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
-// Sub-component for Features Tab Content
-// Sub-component for Features Tab Content
-const FeaturesTabContent = ({ form }: { form: UseFormReturn<PropertyFormSchema> }): React.ReactElement => {
-  const features = form.watch('highlightedFeatures');
-  const amenities = form.watch('amenities') as Array<Amenity>;
-  const bedrooms = form.watch('bedrooms');
-  const bathrooms = form.watch('bathrooms');
-
-  return (
-    <TabsContent value="features">
-      <FeaturesTab
-        formData={{
-          features,
-          amenities,
-          bedrooms,
-          bathrooms,
-        }}
-        onChange={updates => {
-          if (updates.features !== undefined) form.setValue('highlightedFeatures', updates.features);
-          if (updates.amenities !== undefined)
-            form.setValue('amenities', updates.amenities as PropertyFormSchema['amenities']);
-          if (updates.bedrooms !== undefined) form.setValue('bedrooms', updates.bedrooms);
-          if (updates.bathrooms !== undefined) form.setValue('bathrooms', updates.bathrooms);
-        }}
-      />
-    </TabsContent>
-  );
-};
-
-FeaturesTabContent.displayName = 'FeaturesTabContent';
-
-// Sub-component for Location Tab Content
-const LocationTabContent = ({ form }: { form: UseFormReturn<PropertyFormSchema> }): React.ReactElement => {
-  const address = form.watch('address');
-  const city = form.watch('city');
-  const state = form.watch('state');
-  const country = form.watch('country');
-  const location = form.watch('location') || { lat: 0, lng: 0 };
-
-  return (
-    <TabsContent value="location">
-      <LocationTab
-        formData={{
-          address,
-          city,
-          state,
-          country,
-          location,
-        }}
-        onChange={updates => {
-          if (updates.city !== undefined) form.setValue('city', updates.city);
-          if (updates.state !== undefined) form.setValue('state', updates.state);
-          if (updates.country !== undefined) form.setValue('country', updates.country);
-          if (updates.location !== undefined) form.setValue('location', updates.location);
-        }}
-      />
-    </TabsContent>
-  );
-};
-
-LocationTabContent.displayName = 'LocationTabContent';
-
-// Sub-component for Images Tab Content
-const ImagesTabContent = ({ form }: { form: UseFormReturn<PropertyFormSchema> }): React.ReactElement => {
-  const images = form.watch('images');
-
-  return (
-    <TabsContent value="images">
-      <ImagesTab
-        formData={{
-          images,
-        }}
-        onChange={updates => {
-          if (updates.images !== undefined) form.setValue('images', updates.images);
-        }}
-      />
-    </TabsContent>
-  );
-};
-
-ImagesTabContent.displayName = 'ImagesTabContent';
-
-// Sub-component for Virtual Tours Tab Content
-const VirtualToursTabContent = ({ form }: { form: UseFormReturn<PropertyFormSchema> }): React.ReactElement => {
-  const virtualTours = form.watch('virtualTours');
-
-  return (
-    <TabsContent value="virtual-tours">
-      <VirtualToursTab
-        formData={{
-          virtualTours,
-        }}
-        onChange={updates => {
-          if (updates.virtualTours !== undefined) form.setValue('virtualTours', updates.virtualTours);
-        }}
-      />
-    </TabsContent>
-  );
-};
-
-VirtualToursTabContent.displayName = 'VirtualToursTabContent';
-
 export const PropertyForm = React.memo(
   // eslint-disable-next-line max-lines-per-function
   ({ defaultValues, activeTab, onTabChange, onSubmit, onOwnerChange }: PropertyFormWithHookFormProps) => {
     // TypeScript has issues with react-hook-form generic type inference - suppressing false positives
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore - TFieldValues type inference issue with react-hook-form generics
-    const form = useForm<PropertyFormSchema>({
+    const form = useForm<PropertyFormValues>({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore - Resolver type mismatch (false positive from duplicate react-hook-form types)
-      resolver: zodResolver(propertyFormSchema),
-      defaultValues: {
-        name: '',
-        price: '',
-        area: '',
-        buildYear: '',
-        bedrooms: '',
-        bathrooms: '',
-        description: '',
-        highlightedFeatures: '',
-        ownerId: '',
-        ownerName: '',
-        status: 'available',
-        type: 'house',
-        city: '',
-        state: '',
-        country: '',
-        featured: false,
-        amenities: [],
-        images: [],
-        location: undefined,
-        virtualTours: [],
-        ...defaultValues,
-      },
+      resolver: zodResolver(propertyFormValuesSchema),
+      defaultValues,
     });
 
     // Update form when defaultValues change (for edit mode)
@@ -211,8 +86,6 @@ export const PropertyForm = React.memo(
             void form.handleSubmit(
               data => {
                 console.info('Form validation passed, calling onSubmit with:', data);
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore - TFieldValues type inference issue
                 onSubmit(data);
               },
               errors => {
@@ -227,23 +100,21 @@ export const PropertyForm = React.memo(
             <FormTabsList />
 
             <TabsContent value="basic">
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-              {/* @ts-ignore - Control type inference issue */}
-              <BasicInfoTab control={form.control} onOwnerChange={onOwnerChange} />
+              <BasicInfoTab onOwnerChange={onOwnerChange} />
             </TabsContent>
 
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore - UseFormReturn type inference issue */}
-            <FeaturesTabContent form={form} />
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore - UseFormReturn type inference issue */}
-            <LocationTabContent form={form} />
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore - UseFormReturn type inference issue */}
-            <ImagesTabContent form={form} />
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore - UseFormReturn type inference issue */}
-            <VirtualToursTabContent form={form} />
+            <TabsContent value="features">
+              <FeaturesTab />
+            </TabsContent>
+            <TabsContent value="location">
+              <LocationTab />
+            </TabsContent>
+            <TabsContent value="images">
+              <ImagesTab />
+            </TabsContent>
+            <TabsContent value="virtual-tours">
+              <VirtualToursTab />
+            </TabsContent>
           </Tabs>
         </form>
       </Form>

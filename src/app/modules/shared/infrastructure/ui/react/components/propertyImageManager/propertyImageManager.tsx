@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { ChevronLeft, ChevronRight, ImageIcon, Trash2, Upload, X, ZoomIn } from 'lucide-react';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -35,7 +36,7 @@ interface PropertyImageManagerProps {
 }
 
 interface ImagePreviewProps {
-  images: Array<PropertyImage>;
+  images: Property['images'];
   onRemove?: (id: string) => void;
   onViewAll?: () => void;
   maxVisible?: number;
@@ -66,14 +67,10 @@ export const ImagePreview = ({
     return (
       <div className="flex items-center gap-2">
         <div className="relative">
-          <img
-            src={visibleImages[0].preview}
-            alt={visibleImages[0].name}
-            className="h-8 w-12 object-cover rounded border"
-          />
+          <img src={visibleImages[0]} alt={visibleImages[0]} className="h-8 w-12 object-cover rounded border" />
         </div>
         {showActions && onRemove && (
-          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onRemove(visibleImages[0].id)}>
+          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onRemove(visibleImages[0])}>
             <Trash2 className="h-3 w-3" />
           </Button>
         )}
@@ -85,10 +82,10 @@ export const ImagePreview = ({
     <div className="flex items-center gap-1">
       <div className="flex -space-x-1">
         {visibleImages.map((image, index) => (
-          <div key={image.id} className="relative">
+          <div key={image} className="relative">
             <img
-              src={image.preview}
-              alt={image.name}
+              src={image}
+              alt={image}
               className="h-8 w-8 object-cover rounded border-2 border-background"
               style={{ zIndex: maxVisible - index }}
             />
@@ -518,7 +515,7 @@ export const PropertyImageManager = ({
 
 // Table cell component with popover
 interface PropertyImagesTableCellProps {
-  images: Array<PropertyImage>;
+  images: Property['images'];
   onImagesChange?: (images: Array<PropertyImage>) => void;
   propertyName: string;
 }
@@ -542,8 +539,8 @@ export const PropertyImagesTableCell = ({
           {images.length > 0 ? (
             <div className="grid grid-cols-3 gap-2">
               {images.map(image => (
-                <div key={image.id} className="relative group">
-                  <img src={image.preview} alt={image.name} className="w-full h-16 object-cover rounded border" />
+                <div key={image} className="relative group">
+                  <img src={image} alt={image} className="w-full h-16 object-cover rounded border" />
                 </div>
               ))}
             </div>

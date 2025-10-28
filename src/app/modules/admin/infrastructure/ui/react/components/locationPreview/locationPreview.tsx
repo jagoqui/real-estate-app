@@ -1,8 +1,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { MapPin } from 'lucide-react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import type { Property } from '../../layouts/propertiesManagement/propertiesManagement.layout';
-
 interface LocationPreviewProps {
   property: Property;
 }

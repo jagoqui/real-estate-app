@@ -3,21 +3,22 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import { PROPERTIES_TYPES } from '@/modules/shared/domain/schemas/propertyTypes.schema';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
 import { Sparkle } from 'lucide-react';
 import React from 'react';
-import { type Control } from 'react-hook-form';
-import { type PropertyFormSchema } from '../schemas/propertyForm.schema';
-import { PROPERTY_TYPES } from '../types/property.types';
+import { useFormContext } from 'react-hook-form';
 import { OwnerSelect } from './OwnerSelect';
 
 interface BasicInfoTabProps {
-  control: Control<PropertyFormSchema>;
   onOwnerChange?: (ownerId: string, ownerName: string) => void;
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTabProps) => {
+export const BasicInfoTab = React.memo(({ onOwnerChange }: BasicInfoTabProps) => {
+  const { control } = useFormContext<PropertyFormValues>();
+
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div className="space-y-2 sm:col-span-2">
@@ -123,7 +124,7 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {PROPERTY_TYPES.map(type => (
+                  {Object.values(PROPERTIES_TYPES).map(type => (
                     <SelectItem key={type} value={type}>
                       {type.charAt(0).toUpperCase() + type.slice(1)}
                     </SelectItem>

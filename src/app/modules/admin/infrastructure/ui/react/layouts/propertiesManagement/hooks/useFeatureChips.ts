@@ -1,9 +1,6 @@
+import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { useState } from 'react';
-
-interface UseFeatureChipsProps {
-  features: string;
-  onChange: (features: string) => void;
-}
+import { useFormContext } from 'react-hook-form';
 
 interface UseFeatureChipsReturn {
   newFeature: string;
@@ -12,30 +9,46 @@ interface UseFeatureChipsReturn {
   handleAddFeature: () => void;
   handleRemoveFeature: (index: number) => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  errorMessage: string;
+  clearError: () => void;
 }
 
-export const useFeatureChips = ({ features, onChange }: UseFeatureChipsProps): UseFeatureChipsReturn => {
+export const useFeatureChips = (): UseFeatureChipsReturn => {
   const [newFeature, setNewFeature] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Parse features from comma-separated string
-  const featuresList = features
-    ? features
-        .split(',')
-        .map(f => f.trim())
-        .filter(Boolean)
-    : [];
+  const form = useFormContext<PropertyFormValues>();
+
+  const features = form.watch('highlightedFeatures');
+
+  const clearError = (): void => {
+    setErrorMessage('');
+  };
 
   const handleAddFeature = (): void => {
-    if (!newFeature.trim()) return;
+    if (!newFeature.trim()) {
+      setErrorMessage('Please enter a feature');
+      return;
+    }
 
-    const updatedFeatures = [...featuresList, newFeature.trim()];
-    onChange(updatedFeatures.join(', '));
+    // Check for duplicates (case-insensitive)
+    const normalizedNewFeature = newFeature.trim().toLowerCase();
+    const isDuplicate = features.some(feature => feature.toLowerCase() === normalizedNewFeature);
+
+    if (isDuplicate) {
+      setErrorMessage('This feature already exists');
+      return;
+    }
+
+    const updatedFeatures = [...features, newFeature.trim()];
+    form.setValue('highlightedFeatures', updatedFeatures);
     setNewFeature('');
+    setErrorMessage('');
   };
 
   const handleRemoveFeature = (index: number): void => {
-    const updatedFeatures = featuresList.filter((_, i) => i !== index);
-    onChange(updatedFeatures.join(', '));
+    const updatedFeatures = features.filter((_, i) => i !== index);
+    form.setValue('highlightedFeatures', updatedFeatures);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -48,9 +61,11 @@ export const useFeatureChips = ({ features, onChange }: UseFeatureChipsProps): U
   return {
     newFeature,
     setNewFeature,
-    featuresList,
+    featuresList: features,
     handleAddFeature,
     handleRemoveFeature,
     handleKeyDown,
+    errorMessage,
+    clearError,
   };
 };

@@ -1,29 +1,27 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { ExternalLink, Plus, Trash2 } from 'lucide-react';
 import React, { useCallback, useState } from 'react';
-
-interface VirtualToursTabProps {
-  formData: {
-    virtualTours: Array<string>;
-  };
-  onChange: (updates: Partial<VirtualToursTabProps['formData']>) => void;
-}
+import { useFormContext } from 'react-hook-form';
 
 // eslint-disable-next-line max-lines-per-function
-export const VirtualToursTab = ({ formData, onChange }: VirtualToursTabProps): React.ReactElement => {
+export const VirtualToursTab = (): React.ReactElement => {
   const [loadedIframes, setLoadedIframes] = useState<Record<number, boolean>>({});
 
+  const form = useFormContext<PropertyFormValues>();
+  const views380Url = form.watch('views380Url');
+
   const handleAddTour = useCallback((): void => {
-    onChange({ virtualTours: [...formData.virtualTours, ''] });
-  }, [formData.virtualTours, onChange]);
+    form.setValue('views380Url', [...views380Url, '']);
+  }, [views380Url, form]);
 
   const handleRemoveTour = useCallback(
     (index: number): void => {
-      const tours = [...formData.virtualTours];
+      const tours = [...views380Url];
       tours.splice(index, 1);
-      onChange({ virtualTours: tours });
+      form.setValue('views380Url', tours);
       // Limpiar el estado de carga del iframe eliminado
       setLoadedIframes(prev => {
         const newState = { ...prev };
@@ -31,21 +29,21 @@ export const VirtualToursTab = ({ formData, onChange }: VirtualToursTabProps): R
         return newState;
       });
     },
-    [formData.virtualTours, onChange]
+    [views380Url, form]
   );
 
   const handleTourChange = useCallback(
     (index: number, value: string): void => {
-      const tours = [...formData.virtualTours];
+      const tours = [...views380Url];
       tours[index] = value;
-      onChange({ virtualTours: tours });
+      form.setValue('views380Url', tours);
       // Resetear el estado de carga cuando cambia la URL
       setLoadedIframes(prev => ({
         ...prev,
         [index]: false,
       }));
     },
-    [formData.virtualTours, onChange]
+    [views380Url, form]
   );
 
   const handlePreviewTour = useCallback((url: string): void => {
@@ -63,7 +61,7 @@ export const VirtualToursTab = ({ formData, onChange }: VirtualToursTabProps): R
     <div className="space-y-4">
       <Label>360° Virtual Tours</Label>
       <div className="space-y-4">
-        {formData.virtualTours.map((url, index) => (
+        {views380Url.map((url, index) => (
           <div key={index} className="flex gap-2 items-start">
             <div className="flex-1">
               <div className="mb-2">
