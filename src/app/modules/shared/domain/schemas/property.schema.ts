@@ -78,9 +78,9 @@ export const propertySchema = z.object({
     .array(z.string().min(1).max(PropertySchemaValidations.HIGHLIGHTED_FEATURES.MAX_LENGTH))
     .max(PropertySchemaValidations.HIGHLIGHTED_FEATURES.MAX_ITEMS)
     .default([]),
-  amenities: amenitySchema.array(),
-  images: z.array(z.url()).max(PropertySchemaValidations.IMAGES.MAX_ITEMS),
-  views380Url: z.array(z.url()).max(PropertySchemaValidations.VIEWS_380_URL.MAX_ITEMS),
+  amenities: amenitySchema.array().default([]),
+  images: z.array(z.url()).max(PropertySchemaValidations.IMAGES.MAX_ITEMS).default([]),
+  views380Url: z.array(z.url()).max(PropertySchemaValidations.VIEWS_380_URL.MAX_ITEMS).default([]),
   ownerId: z.uuid(),
   ownerName: z.string().optional(),
   status: propertyStatutesSchema,
