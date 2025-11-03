@@ -17,7 +17,7 @@ export const PropertyDialog = React.memo(({ editingProperty, onSubmit, onReset }
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>('basic');
 
-  // Open dialog when editingProperty changes
+  // TODO: Temporal solution to open dialog when editingProperty is set
   useEffect(() => {
     if (editingProperty) {
       setIsDialogOpen(true);
