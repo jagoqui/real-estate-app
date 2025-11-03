@@ -8,7 +8,7 @@ import type { LucideIconName } from '@/modules/shared/domain/schemas/lucideIcon.
 import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { DynamicIcon } from '../dynamicIcon/dynamicIcon';
 import { IconPicker } from '../iconPicker/iconPicker';
 
@@ -18,8 +18,8 @@ type AmenityFormProps = {
 
 // eslint-disable-next-line max-lines-per-function
 export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps): React.ReactElement => {
-  const form = useFormContext<PropertyFormValues>();
-  const amenities = form.watch('amenities');
+  const { control, setValue } = useFormContext<PropertyFormValues>();
+  const amenities = useWatch({ control, name: 'amenities', defaultValue: [] });
 
   const [currentName, setCurrentName] = useState('');
   const [currentIcon, setCurrentIcon] = useState<LucideIconName>();
@@ -39,9 +39,9 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
 
   const updateAmenities = useCallback(
     (updatedAmenities: Array<Amenity>): void => {
-      form.setValue('amenities', updatedAmenities);
+      setValue('amenities', updatedAmenities);
     },
-    [form]
+    [setValue]
   );
 
   const handleAdd = useCallback((): void => {
@@ -130,7 +130,7 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
         </div>
       </div>
 
-      {amenities.length && (
+      {amenities.length > 0 && (
         <div className="space-y-2">
           <div className="flex flex-wrap gap-2">
             {amenities.map(amenity => (
