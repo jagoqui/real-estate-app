@@ -55,17 +55,19 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
+const formDefaultValues: DefaultValues<PropertyFormValues> = {
+  action: 'create',
+  amenities: [],
+  highlightedFeatures: [],
+  imagesFiles: [],
+  views380Url: [],
+};
+
 export const PropertyForm = React.memo(
-  // eslint-disable-next-line max-lines-per-function
   ({ defaultValues, activeTab, onTabChange, onSubmit, onOwnerChange }: PropertyFormWithHookFormProps) => {
-    // TypeScript has issues with react-hook-form generic type inference - suppressing false positives
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - TFieldValues type inference issue with react-hook-form generics
     const form = useForm<PropertyFormValues>({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore - Resolver type mismatch (false positive from duplicate react-hook-form types)
       resolver: zodResolver(propertyFormValuesSchema),
-      defaultValues,
+      defaultValues: defaultValues ?? formDefaultValues,
     });
 
     // Update form when defaultValues change (for edit mode)
