@@ -12,6 +12,8 @@ interface FormattedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputEl
 
 export const FormattedInput = forwardRef<HTMLInputElement, FormattedInputProps>(
   ({ value, onChange, formatType, placeholder, ...props }, ref) => {
+    if (!value?.toString()) value = '';
+
     const formatValue = (val: string): string => {
       const numericValue = val.replace(/\D/g, '');
 
