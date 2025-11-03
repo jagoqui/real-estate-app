@@ -13,7 +13,7 @@ const allowedTypes: Record<string, boolean> = {
 
 export const filesUploadSchema = z.object({
   imagesFiles: z
-    .instanceof(FileList)
+    .array(z.instanceof(File))
     .refine(list => list.length > 0, 'No files selected')
     .refine(list => list.length <= fileCountLimit, `Maximum ${fileCountLimit} files allowed`)
     .transform(list => Array.from(list))
@@ -30,7 +30,8 @@ export const filesUploadSchema = z.object({
       {
         message: 'File size should not exceed 5MB',
       }
-    ),
+    )
+    .default([]),
 });
 
 const propertyCreateFormValuesSchema = propertySchema
@@ -38,7 +39,7 @@ const propertyCreateFormValuesSchema = propertySchema
     images: true,
   })
   .extend({
-    action: z.literal('create'),
+    action: z.literal('create').default('create'),
     ...filesUploadSchema.shape,
   });
 
