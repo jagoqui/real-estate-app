@@ -130,7 +130,7 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
         </div>
       </div>
 
-      {amenities.length > 0 && (
+      {amenities.length && (
         <div className="space-y-2">
           <div className="flex flex-wrap gap-2">
             {amenities.map(amenity => (

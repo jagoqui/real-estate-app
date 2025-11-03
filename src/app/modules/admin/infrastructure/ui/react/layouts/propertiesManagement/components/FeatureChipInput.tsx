@@ -50,7 +50,7 @@ export const FeatureChipInput = ({
           <Plus className="w-4 h-4" />
         </Button>
       </div>
-      {featuresList.length > 0 && (
+      {featuresList.length && (
         <div className="flex flex-wrap gap-2 mt-2">
           {featuresList.map((feature, index) => (
             <Badge key={index} variant="secondary" className="flex items-center gap-1 pr-1">
