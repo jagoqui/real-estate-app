@@ -52,7 +52,7 @@ export const PropertySchemaValidations = {
 } as const;
 
 export const propertySchema = z.object({
-  id: z.uuid().readonly(),
+  id: z.string().readonly(),
   name: z.string().min(PropertySchemaValidations.NAME.MIN_LENGTH).max(PropertySchemaValidations.NAME.MAX_LENGTH),
   address: z
     .string()
@@ -79,9 +79,9 @@ export const propertySchema = z.object({
     .max(PropertySchemaValidations.HIGHLIGHTED_FEATURES.MAX_ITEMS)
     .default([]),
   amenities: amenitySchema.array().default([]),
-  images: z.array(z.url()).max(PropertySchemaValidations.IMAGES.MAX_ITEMS).default([]),
-  views380Url: z.array(z.url()).max(PropertySchemaValidations.VIEWS_380_URL.MAX_ITEMS).default([]),
-  ownerId: z.uuid(),
+  images: z.array(z.string()).max(PropertySchemaValidations.IMAGES.MAX_ITEMS).default([]),
+  views380Url: z.array(z.string()).max(PropertySchemaValidations.VIEWS_380_URL.MAX_ITEMS).default([]),
+  ownerId: z.string(),
   ownerName: z.string().optional(),
   status: propertyStatutesSchema,
   type: propertyTypesSchema,
