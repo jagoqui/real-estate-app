@@ -1,5 +1,7 @@
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { useState } from 'react';
+import { convertPropertyFormDataToProperty } from '../helpers/convertPropertyToFormData';
 
 const INITIAL_PROPERTIES: Array<Property> = [
   {
@@ -111,11 +113,14 @@ const INITIAL_PROPERTIES: Array<Property> = [
 
 export const useProperties = (): {
   properties: Array<Property>;
-  addProperty: (property: Property) => void;
-  updateProperty: (property: Property) => void;
+  editingProperty: Property | null;
   deleteProperty: (id: string) => void;
+  handleSubmit: (data: PropertyFormValues) => void;
+  handleEdit: (property: Property) => void;
+  handleReset: () => void;
 } => {
   const [properties, setProperties] = useState<Array<Property>>(INITIAL_PROPERTIES);
+  const [editingProperty, setEditingProperty] = useState<Property | null>(null);
 
   const addProperty = (property: Property): void => {
     setProperties([...properties, property]);
@@ -131,10 +136,30 @@ export const useProperties = (): {
     }
   };
 
+  const handleSubmit = (data: PropertyFormValues): void => {
+    if (editingProperty) {
+      updateProperty(convertPropertyFormDataToProperty(data));
+    } else {
+      addProperty(convertPropertyFormDataToProperty(data));
+    }
+
+    setEditingProperty(null);
+  };
+
+  const handleEdit = (property: Property): void => {
+    setEditingProperty(property);
+  };
+
+  const handleReset = (): void => {
+    setEditingProperty(null);
+  };
+
   return {
     properties,
-    addProperty,
-    updateProperty,
+    editingProperty,
     deleteProperty,
+    handleSubmit,
+    handleEdit,
+    handleReset,
   };
 };
