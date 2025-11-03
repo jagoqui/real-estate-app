@@ -13,7 +13,6 @@ export default defineConfig(
         reactScan({
           enable: true,
           autoDisplayNames: true,
-          scanOptions: {},
         }),
       ],
     }) satisfies UserConfig
