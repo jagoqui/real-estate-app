@@ -3,12 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { useVirtualizer, Virtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer, type Virtualizer } from '@tanstack/react-virtual';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { DynamicIcon, type LucideIconName } from '../dynamicIcon/dynamicIcon';
+import { DynamicIcon } from '../dynamicIcon/dynamicIcon';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import type { LucideIconName } from '@/modules/shared/domain/schemas/lucideIcon.schema';
 import { Check, Loader2, Search } from 'lucide-react';
 
 interface IconPickerProps {
