@@ -60,7 +60,6 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
     }
 
     const newAmenity: Amenity = {
-      id: crypto.randomUUID(),
       name: currentName.trim(),
       icon: currentIcon,
     };
@@ -73,8 +72,8 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
   }, [currentName, currentIcon, amenities, updateAmenities]);
 
   const handleRemove = useCallback(
-    (id: string): void => {
-      const updatedAmenities = amenities.filter(a => a.id !== id);
+    (icon: string): void => {
+      const updatedAmenities = amenities.filter(a => a.icon !== icon);
       updateAmenities(updatedAmenities);
     },
     [amenities, updateAmenities]
@@ -134,7 +133,7 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
         <div className="space-y-2">
           <div className="flex flex-wrap gap-2">
             {amenities.map(amenity => (
-              <div key={amenity.id} className="flex items-center gap-1 px-2 py-1 bg-secondary rounded-md text-sm">
+              <div key={amenity.icon} className="flex items-center gap-1 px-2 py-1 bg-secondary rounded-md text-sm">
                 <DynamicIcon name={amenity.icon} className="h-4 w-4" />
                 <span>{amenity.name}</span>
                 <Button
@@ -142,7 +141,7 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
                   variant="ghost"
                   size="icon"
                   className="h-4 w-4 ml-1 hover:bg-destructive hover:text-destructive-foreground"
-                  onClick={() => handleRemove(amenity.id)}
+                  onClick={() => handleRemove(amenity.icon)}
                 >
                   <X className="h-3 w-3" />
                 </Button>
