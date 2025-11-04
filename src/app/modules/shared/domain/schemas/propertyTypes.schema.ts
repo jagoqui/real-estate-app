@@ -10,6 +10,6 @@ export const PROPERTIES_TYPES = {
   OTHER: 'other',
 } as const satisfies Record<string, string>;
 
-export type PropertyTypes = (typeof PROPERTIES_TYPES)[keyof typeof PROPERTIES_TYPES];
-
 export const propertyTypesSchema = z.custom<PropertyTypes>();
+
+export type PropertyTypes = (typeof PROPERTIES_TYPES)[keyof typeof PROPERTIES_TYPES] | (string & {});

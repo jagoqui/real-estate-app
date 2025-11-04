@@ -13,7 +13,7 @@ const allowedTypes: Record<string, boolean> = {
 
 export const filesUploadSchema = z.object({
   imagesFiles: z
-    .array(z.instanceof(File))
+    .array(z.file())
     .refine(list => list.length > 0, 'No files selected')
     .refine(list => list.length <= fileCountLimit, `Maximum ${fileCountLimit} files allowed`)
     .transform(list => Array.from(list))
@@ -54,3 +54,11 @@ export const propertyFormValuesSchema = z.discriminatedUnion('action', [
 ]);
 
 export type PropertyFormValues = z.infer<typeof propertyFormValuesSchema>;
+
+export const createPropertyFormValuesSchema = propertyCreateFormValuesSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type CreatePropertyFormValues = z.infer<typeof createPropertyFormValuesSchema>;
