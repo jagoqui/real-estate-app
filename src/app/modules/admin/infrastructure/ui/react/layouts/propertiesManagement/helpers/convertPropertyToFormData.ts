@@ -27,7 +27,7 @@ export const convertPropertyFormDataToProperty = (data: PropertyFormValues): Pro
     highlightedFeatures: data.highlightedFeatures,
     amenities: data.amenities,
     images: 'images' in data ? data.images : [],
-    views380Url: data.views380Url,
+    views360Url: data.views360Url,
     ownerId: data.ownerId,
     ownerName: data.ownerName,
     status: data.status,

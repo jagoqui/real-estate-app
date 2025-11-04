@@ -11,17 +11,17 @@ export const VirtualToursTab = (): React.ReactElement => {
   const [loadedIframes, setLoadedIframes] = useState<Record<number, boolean>>({});
 
   const form = useFormContext<PropertyFormValues>();
-  const views380Url = form.watch('views380Url');
+  const views360Url = form.watch('views360Url');
 
   const handleAddTour = useCallback((): void => {
-    form.setValue('views380Url', [...views380Url, '']);
-  }, [views380Url, form]);
+    form.setValue('views360Url', [...views360Url, '']);
+  }, [views360Url, form]);
 
   const handleRemoveTour = useCallback(
     (index: number): void => {
-      const tours = [...views380Url];
+      const tours = [...views360Url];
       tours.splice(index, 1);
-      form.setValue('views380Url', tours);
+      form.setValue('views360Url', tours);
       // Limpiar el estado de carga del iframe eliminado
       setLoadedIframes(prev => {
         const newState = { ...prev };
@@ -29,21 +29,21 @@ export const VirtualToursTab = (): React.ReactElement => {
         return newState;
       });
     },
-    [views380Url, form]
+    [views360Url, form]
   );
 
   const handleTourChange = useCallback(
     (index: number, value: string): void => {
-      const tours = [...views380Url];
+      const tours = [...views360Url];
       tours[index] = value;
-      form.setValue('views380Url', tours);
+      form.setValue('views360Url', tours);
       // Resetear el estado de carga cuando cambia la URL
       setLoadedIframes(prev => ({
         ...prev,
         [index]: false,
       }));
     },
-    [views380Url, form]
+    [views360Url, form]
   );
 
   const handlePreviewTour = useCallback((url: string): void => {
@@ -61,7 +61,7 @@ export const VirtualToursTab = (): React.ReactElement => {
     <div className="space-y-4">
       <Label>360° Virtual Tours</Label>
       <div className="space-y-4">
-        {views380Url.map((url, index) => (
+        {views360Url.map((url, index) => (
           <div key={index} className="flex gap-2 items-start">
             <div className="flex-1">
               <div className="mb-2">

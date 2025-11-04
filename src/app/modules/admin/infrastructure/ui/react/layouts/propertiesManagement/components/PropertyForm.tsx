@@ -60,7 +60,7 @@ const formDefaultValues: DefaultValues<PropertyFormValues> = {
   amenities: [],
   highlightedFeatures: [],
   imagesFiles: [],
-  views380Url: [],
+  views360Url: [],
 };
 
 export const PropertyForm = React.memo(
