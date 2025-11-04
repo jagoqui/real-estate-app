@@ -55,7 +55,7 @@ export const PropertyTableRow = ({
           <div className="w-[120px] flex-shrink-0 px-4 py-3">
             <PropertyImagesTableCell images={property.images} propertyName={property.name} />
           </div>
-          <div className="w-[120px] flex-shrink-0 px-4 py-3">{property.ownerName}</div>
+          <div className="w-[120px] flex-shrink-0 px-4 py-3">{property.ownerId}</div>
           <div className="w-[100px] flex-shrink-0 px-4 py-3">
             <PropertyStatus status={property.status} />
           </div>
