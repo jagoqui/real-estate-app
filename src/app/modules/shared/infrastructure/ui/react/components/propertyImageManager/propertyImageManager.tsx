@@ -10,7 +10,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 // Constants
 const DEFAULT_MAX_VISIBLE = 3;
-const DEFAULT_MAX_IMAGES = 10;
+const DEFAULT_MAX_IMAGES = 20;
 const DEFAULT_MAX_FILE_SIZE = 5; // MB
 const KB_SIZE = 1024;
 const BYTES_IN_MB = KB_SIZE * KB_SIZE;
@@ -156,6 +156,11 @@ export const PropertyImageManager = ({
     (files: FileList) => {
       const newImages: Array<PropertyImage> = [];
       const errors: Array<string> = [];
+      const availableSlots = maxImages - images.length;
+
+      if (availableSlots <= 0) {
+        return; // No slots available
+      }
 
       Array.from(files).forEach(file => {
         const error = validateFile(file);
@@ -244,30 +249,51 @@ export const PropertyImageManager = ({
     fileInputRef.current?.click();
   }, []);
 
+  const isUploadDisabled = images.length >= maxImages;
+  const remainingSlots = maxImages - images.length;
+
   return (
     <div className={className}>
       <div className="space-y-4">
-        <Label>Property Images</Label>
+        <div className="flex items-center justify-between">
+          <Label>Property Images</Label>
+          <span className="text-xs text-muted-foreground">
+            {images.length} / {maxImages} images
+            {remainingSlots > 0 && ` • ${remainingSlots} slot${remainingSlots !== 1 ? 's' : ''} available`}
+          </span>
+        </div>
 
         {/* Upload Area */}
         <div
           className={`
-            border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer
-            ${isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
-            ${images.length >= maxImages ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary hover:bg-primary/5'}
+            border-2 border-dashed rounded-lg p-6 text-center transition-colors
+            ${isDragging && !isUploadDisabled ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
+            ${isUploadDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-primary hover:bg-primary/5'}
           `}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onClick={images.length < maxImages ? openFileDialog : undefined}
+          onDrop={isUploadDisabled ? undefined : handleDrop}
+          onDragOver={isUploadDisabled ? undefined : handleDragOver}
+          onDragLeave={isUploadDisabled ? undefined : handleDragLeave}
+          onClick={isUploadDisabled ? undefined : openFileDialog}
         >
           <div className="flex flex-col items-center gap-2">
             <Upload className="h-8 w-8 text-muted-foreground" />
             <div className="text-sm">
-              <span className="font-medium">Click to upload</span> or drag and drop
+              {isUploadDisabled ? (
+                <span className="font-medium">Maximum images reached</span>
+              ) : (
+                <>
+                  <span className="font-medium">Click to upload</span> or drag and drop
+                </>
+              )}
             </div>
             <div className="text-xs text-muted-foreground">
-              PNG, JPG, WebP up to {maxFileSize}MB ({images.length}/{maxImages})
+              {isUploadDisabled ? (
+                `Remove some images to upload more`
+              ) : (
+                <>
+                  PNG, JPG, WebP up to {maxFileSize}MB • {remainingSlots} remaining
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -465,7 +491,7 @@ export const PropertyImageManager = ({
             ) : (
               /* Compact Grid View */
               <ScrollArea className="h-32">
-                <div className="grid grid-cols-6 gap-2 pr-4">
+                <div className="grid grid-cols-6 gap-2 pr-4 pt-5 pb-2">
                   {images.map((image, index) => (
                     <div key={image.id} className="relative group">
                       <img
