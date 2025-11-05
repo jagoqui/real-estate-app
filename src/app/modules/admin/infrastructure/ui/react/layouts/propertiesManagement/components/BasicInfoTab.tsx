@@ -41,7 +41,13 @@ export const BasicInfoTab = React.memo(() => {
             <FormItem>
               <FormLabel>Price (USD)</FormLabel>
               <FormControl>
-                <FormattedInput formatType="currency" value={field.value} onChange={field.onChange} placeholder="$0" />
+                <FormattedInput
+                  formatType="currency"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="$0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -57,7 +63,13 @@ export const BasicInfoTab = React.memo(() => {
             <FormItem>
               <FormLabel>Area (m²)</FormLabel>
               <FormControl>
-                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+                <FormattedInput
+                  formatType="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +85,13 @@ export const BasicInfoTab = React.memo(() => {
             <FormItem>
               <FormLabel>Build Year</FormLabel>
               <FormControl>
-                <FormattedInput formatType="year" value={field.value} onChange={field.onChange} placeholder="2024" />
+                <FormattedInput
+                  formatType="year"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="2025"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,7 +115,13 @@ export const BasicInfoTab = React.memo(() => {
             <FormItem>
               <FormLabel>Bedrooms</FormLabel>
               <FormControl>
-                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+                <FormattedInput
+                  formatType="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -113,7 +137,13 @@ export const BasicInfoTab = React.memo(() => {
             <FormItem>
               <FormLabel>Bathrooms</FormLabel>
               <FormControl>
-                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+                <FormattedInput
+                  formatType="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
