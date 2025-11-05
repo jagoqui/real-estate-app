@@ -22,6 +22,17 @@ export const ImagesTab = (): React.ReactElement => {
   const images = form.watch('images');
   const imagesFiles = form.watch('imagesFiles');
 
+  // Sync propertyImages with imagesFiles for create mode
+  useEffect(() => {
+    if (action !== 'create') {
+      return;
+    }
+
+    const newPropertyImages = imagesFiles.map((file, index) => createPropertyImage(file, index));
+    setPropertyImages(newPropertyImages);
+  }, [imagesFiles, action]);
+
+  // Load images from URLs for update mode
   useEffect(() => {
     if (action !== 'update') {
       return;
@@ -52,7 +63,6 @@ export const ImagesTab = (): React.ReactElement => {
         'imagesFiles',
         images.map(({ file }) => file)
       );
-      setPropertyImages(imagesFiles.map((file, index) => createPropertyImage(file, index)));
     }
   };
 
