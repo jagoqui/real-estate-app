@@ -2,6 +2,37 @@ import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propert
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+const ERROR_DISPLAY_DURATION = 3000;
+const MAX_FEATURES = 12;
+
+const processFeaturesInput = (
+  input: string,
+  existingFeatures: Array<string>
+): { unique: Array<string>; duplicates: Array<string> } => {
+  const newFeatures = input
+    .split(',')
+    .map(f => f.trim())
+    .filter(Boolean);
+
+  const normalizedExisting = existingFeatures.map(f => f.toLowerCase());
+  const duplicates: Array<string> = [];
+  const unique: Array<string> = [];
+
+  newFeatures.forEach(feature => {
+    const normalized = feature.toLowerCase();
+    const isDuplicate =
+      normalizedExisting.includes(normalized) || unique.map(f => f.toLowerCase()).includes(normalized);
+
+    if (isDuplicate) {
+      duplicates.push(feature);
+    } else {
+      unique.push(feature);
+    }
+  });
+
+  return { unique, duplicates };
+};
+
 interface UseFeatureChipsReturn {
   newFeature: string;
   setNewFeature: (value: string) => void;
@@ -31,19 +62,38 @@ export const useFeatureChips = (): UseFeatureChipsReturn => {
       return;
     }
 
-    // Check for duplicates (case-insensitive)
-    const normalizedNewFeature = newFeature.trim().toLowerCase();
-    const isDuplicate = features.some(feature => feature.toLowerCase() === normalizedNewFeature);
+    const { unique, duplicates } = processFeaturesInput(newFeature, features);
 
-    if (isDuplicate) {
-      setErrorMessage('This feature already exists');
+    if (unique.length === 0 && duplicates.length === 0) {
+      setErrorMessage('Please enter at least one valid feature');
       return;
     }
 
-    const updatedFeatures = [...features, newFeature.trim()];
-    form.setValue('highlightedFeatures', updatedFeatures);
+    if (duplicates.length > 0 && unique.length === 0) {
+      const pluralFeatures = duplicates.length > 1 ? 's' : '';
+      const pluralVerb = duplicates.length === 1 ? 's' : '';
+      setErrorMessage(`Feature${pluralFeatures} already exist${pluralVerb}: ${duplicates.join(', ')}`);
+      return;
+    }
+
+    // Check max features limit
+    const totalFeatures = features.length + unique.length;
+    if (totalFeatures > MAX_FEATURES) {
+      const remaining = MAX_FEATURES - features.length;
+      setErrorMessage(`Maximum ${MAX_FEATURES} features allowed. You can add ${remaining} more feature${remaining !== 1 ? 's' : ''}.`);
+      return;
+    }
+
+    form.setValue('highlightedFeatures', [...features, ...unique]);
     setNewFeature('');
-    setErrorMessage('');
+
+    if (duplicates.length > 0) {
+      const plural = unique.length > 1 ? 's' : '';
+      setErrorMessage(`Added ${unique.length} feature${plural}. Skipped duplicates: ${duplicates.join(', ')}`);
+      setTimeout(() => setErrorMessage(''), ERROR_DISPLAY_DURATION);
+    } else {
+      setErrorMessage('');
+    }
   };
 
   const handleRemoveFeature = (index: number): void => {

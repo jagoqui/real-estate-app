@@ -4,7 +4,6 @@ import React from 'react';
 
 import { useFeatureChips } from '../hooks/useFeatureChips';
 import { FeatureChipInput } from './FeatureChipInput';
-import { RoomCountFields } from './RoomCountFields';
 
 export const FeaturesTab = (): React.ReactElement => {
   const {
@@ -35,8 +34,6 @@ export const FeaturesTab = (): React.ReactElement => {
         <Label>Amenities</Label>
         <AmenityForm />
       </div>
-
-      <RoomCountFields />
     </div>
   );
 };
