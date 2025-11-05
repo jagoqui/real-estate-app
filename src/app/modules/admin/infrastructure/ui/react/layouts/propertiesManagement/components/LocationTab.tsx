@@ -20,7 +20,7 @@ export const LocationTab = (): React.ReactElement => {
   const handleLocationChange = (location: SearchSuggestion | undefined): void => {
     if (!location) return;
     const parts = location.display_name.split(',').map(part => part.trim());
-    form.setValue('location', { lat: parseFloat(location.lat), lng: parseFloat(location.lon) });
+    form.setValue('location', { lat: parseFloat(location.lat), lon: parseFloat(location.lon) });
     form.setValue('address', location.display_name);
     form.setValue('city', parts[0] || '');
     form.setValue('state', parts[1] || '');

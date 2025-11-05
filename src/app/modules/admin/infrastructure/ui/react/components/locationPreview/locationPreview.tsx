@@ -68,7 +68,7 @@ export const LocationPreview = ({ property }: LocationPreviewProps): React.React
         </div>
         <div className="h-48 relative">
           <MapContainer
-            center={[parseFloat(property.location?.lat || '0'), parseFloat(property.location?.lon || '0')]}
+            center={[property.location?.lat ?? 0, property.location?.lon ?? 0]}
             zoom={15}
             style={{ height: '100%', width: '100%' }}
             zoomControl={false}
@@ -80,7 +80,7 @@ export const LocationPreview = ({ property }: LocationPreviewProps): React.React
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[parseFloat(property.location?.lat || '0'), parseFloat(property.location?.lon || '0')]}>
+            <Marker position={[property.location?.lat ?? 0, property.location?.lon ?? 0]}>
               <Popup>
                 <div className="text-sm">
                   <strong>{property.name}</strong>
