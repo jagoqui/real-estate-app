@@ -12,4 +12,4 @@ export const PROPERTIES_TYPES = {
 
 export const propertyTypesSchema = z.custom<PropertyTypes>();
 
-export type PropertyTypes = (typeof PROPERTIES_TYPES)[keyof typeof PROPERTIES_TYPES] | (string & {});
+export type PropertyTypes = keyof typeof PROPERTIES_TYPES | (string & {});

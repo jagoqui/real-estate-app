@@ -8,4 +8,4 @@ export const PROPERTY_STATUSES = {
 
 export const propertyStatutesSchema = z.custom<PropertyStatutes>();
 
-export type PropertyStatutes = (typeof PROPERTY_STATUSES)[keyof typeof PROPERTY_STATUSES] | (string & {});
+export type PropertyStatutes = keyof typeof PROPERTY_STATUSES | (string & {});
