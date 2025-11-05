@@ -1,15 +1,15 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
-import { PROPERTIES_TYPES } from '@/modules/shared/domain/schemas/propertyTypes.schema';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
 import { Sparkle } from 'lucide-react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OwnerSelect } from './OwnerSelect';
+import { StatusSelect } from './StatusSelect';
+import { TypeSelect } from './TypeSelect';
 
 interface BasicInfoTabProps {
   onOwnerChange?: (ownerId: string, ownerName: string) => void;
@@ -86,55 +86,11 @@ export const BasicInfoTab = React.memo(({ onOwnerChange }: BasicInfoTabProps) =>
       </div>
 
       <div className="space-y-2">
-        <FormField
-          control={control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Status</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="available">Available</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="sold">Sold</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <StatusSelect control={control} />
       </div>
 
       <div className="space-y-2">
-        <FormField
-          control={control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Property Type</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select property type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.values(PROPERTIES_TYPES).map(type => (
-                    <SelectItem key={type} value={type}>
-                      {type.charAt(0).toUpperCase() + type.slice(1)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <TypeSelect control={control} />
       </div>
 
       <div className="space-y-2">
