@@ -9,7 +9,6 @@ import { type Control } from 'react-hook-form';
 
 interface OwnerSelectProps {
   control: Control<PropertyFormValues>;
-  onOwnerChange?: (ownerId: string, ownerName: string) => void;
 }
 
 // Warning message component for non-existent owner
@@ -28,7 +27,7 @@ const OwnerNotFoundWarning = React.memo(() => (
 
 OwnerNotFoundWarning.displayName = 'OwnerNotFoundWarning';
 
-export const OwnerSelect = React.memo(({ control, onOwnerChange }: OwnerSelectProps) => {
+export const OwnerSelect = React.memo(({ control }: OwnerSelectProps) => {
   const { data: owners, isPending, error } = useGetOwnersRequest();
 
   if (isPending) {
@@ -59,10 +58,9 @@ export const OwnerSelect = React.memo(({ control, onOwnerChange }: OwnerSelectPr
             <FormLabel>Owner</FormLabel>
             <Select
               onValueChange={value => {
-                field.onChange(value);
                 const selectedOwner = owners?.find(owner => owner.id === value);
-                if (selectedOwner && onOwnerChange) {
-                  onOwnerChange(value, selectedOwner.name);
+                if (selectedOwner) {
+                  field.onChange(value);
                 }
               }}
               value={selectValue}

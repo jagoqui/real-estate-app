@@ -11,12 +11,8 @@ import { OwnerSelect } from './OwnerSelect';
 import { StatusSelect } from './StatusSelect';
 import { TypeSelect } from './TypeSelect';
 
-interface BasicInfoTabProps {
-  onOwnerChange?: (ownerId: string, ownerName: string) => void;
-}
-
 // eslint-disable-next-line max-lines-per-function
-export const BasicInfoTab = React.memo(({ onOwnerChange }: BasicInfoTabProps) => {
+export const BasicInfoTab = React.memo(() => {
   const { control } = useFormContext<PropertyFormValues>();
 
   return (
@@ -126,7 +122,7 @@ export const BasicInfoTab = React.memo(({ onOwnerChange }: BasicInfoTabProps) =>
       </div>
 
       <div className="space-y-2">
-        <OwnerSelect control={control} onOwnerChange={onOwnerChange} />
+        <OwnerSelect control={control} />
       </div>
 
       <div className="space-y-2 flex items-center gap-3">
