@@ -109,6 +109,8 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
     defaultValues: defaultValues ?? formDefaultValues,
   });
 
+  console.log(form.getValues());
+
   const [formErrors, setFormErrors] = useState<typeof form.formState.errors>();
 
   const {
