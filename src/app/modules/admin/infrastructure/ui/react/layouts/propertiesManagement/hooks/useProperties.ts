@@ -13,6 +13,7 @@ export const useProperties = (): {
 
   const handleEdit = (property: Property): void => {
     setEditingProperty(property);
+    setIsDialogOpen(true);
   };
 
   const handleReset = (): void => {
