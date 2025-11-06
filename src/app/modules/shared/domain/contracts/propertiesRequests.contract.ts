@@ -1,5 +1,5 @@
 import type { Property } from '../schemas/property.schema';
-import type { CreatePropertyFormValues } from '../schemas/propertyForm.schema';
+import type { CreatePropertyFormValues, UpdatePropertyFormValues } from '../schemas/propertyForm.schema';
 import type { PropertyStatutes } from '../schemas/propertyStatutes.schema';
 import type { PropertyTypes } from '../schemas/propertyTypes.schema';
 
@@ -24,7 +24,7 @@ export type GetPropertiesByFilterRequest = (args: {
   type?: string;
 }) => Promise<Array<Property>>;
 
-export type UpdatePropertyRequest = (args: { propertyId: string; data: CreatePropertyFormValues }) => Promise<Property>;
+export type UpdatePropertyRequest = (args: { propertyId: string; data: UpdatePropertyFormValues }) => Promise<Property>;
 
 export type UpdatePropertyStatusRequest = (args: {
   propertyId: string;
