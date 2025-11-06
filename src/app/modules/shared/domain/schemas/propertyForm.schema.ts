@@ -59,6 +59,7 @@ export const createPropertyFormValuesSchema = propertyCreateFormValuesSchema.omi
   id: true,
   createdAt: true,
   updatedAt: true,
+  internalCode: true,
 });
 
 export type CreatePropertyFormValues = z.infer<typeof createPropertyFormValuesSchema>;
