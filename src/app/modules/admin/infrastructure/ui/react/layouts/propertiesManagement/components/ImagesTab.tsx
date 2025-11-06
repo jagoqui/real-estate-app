@@ -1,74 +1,55 @@
 import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
-import {
-  PropertyImageManager,
-  type PropertyImage,
-} from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
-import React, { useEffect, useState } from 'react';
+import { PropertyImageManager } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
+import React, { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-const createPropertyImage = (file: File, index: number, preview?: string): PropertyImage => ({
-  id: `image-${index}`,
-  file,
-  preview: preview ?? URL.createObjectURL(file),
-  name: file.name,
-  size: file.size,
-});
-
+/**
+ * ImagesTab - Manages property images in both create and update modes
+ *
+ * Flow:
+ * 1. If images[] exists (update mode or after adding images), pass to PropertyImageManager as initialUrls
+ * 2. PropertyImageManager converts URLs to Files and creates previews
+ * 3. User adds/removes images -> updates images[] with URLs (blob or server URLs)
+ * 4. Before submit, convert all images[] URLs to Files and store in imagesFiles[]
+ */
 export const ImagesTab = (): React.ReactElement => {
   const form = useFormContext<PropertyFormValues>();
-  const [propertyImages, setPropertyImages] = useState<Array<PropertyImage>>([]);
+  const watchedImages = form.watch('images');
+  const images = useMemo(() => watchedImages || [], [watchedImages]);
 
-  const action = form.watch('action');
-  const images = form.watch('images');
-  const imagesFiles = form.watch('imagesFiles');
-
-  // Sync propertyImages with imagesFiles for create mode
-  useEffect(() => {
-    if (action !== 'create') {
+  const convertImagesToFiles = async (): Promise<void> => {
+    if (!images.length) {
+      form.setValue('imagesFiles', []);
       return;
     }
 
-    const newPropertyImages = imagesFiles.map((file, index) => createPropertyImage(file, index));
-    setPropertyImages(newPropertyImages);
-  }, [imagesFiles, action]);
-
-  // Load images from URLs for update mode
-  useEffect(() => {
-    if (action !== 'update') {
-      return;
-    }
-
-    const loadImages = async (): Promise<void> => {
-      const loadedImages = await Promise.all(
-        images.map(async (url, index) => {
-          const filename = url.substring(url.lastIndexOf('/') + 1);
-          const file = await urlToFile({ url, fileName: filename });
-          return createPropertyImage(file, index, url);
+    try {
+      const files = await Promise.all(
+        images.map(async url => {
+          const filename = url.substring(url.lastIndexOf('/') + 1) || 'image.jpg';
+          return await urlToFile({ url, fileName: filename });
         })
       );
-      setPropertyImages(loadedImages);
-    };
 
-    void loadImages();
-  }, [images, action]);
-
-  const handleImagesChange = (images: Array<PropertyImage>): void => {
-    if (action === 'update') {
-      form.setValue(
-        'images',
-        images.map(({ preview }) => preview)
-      );
-    } else {
-      form.setValue(
-        'imagesFiles',
-        images.map(({ file }) => file)
-      );
+      form.setValue('imagesFiles', files);
+    } catch (error) {
+      console.error('Error converting images to files:', error);
     }
+  };
+
+  // Handle image changes from PropertyImageManager
+  const handleImagesChange = async (imageUrls: Array<string>): Promise<void> => {
+    // Update images array with URLs (blob URLs for new images, server URLs for existing)
+    form.setValue('images', imageUrls);
+    await convertImagesToFiles();
   };
 
   return (
     <div className="space-y-4">
-      <PropertyImageManager value={propertyImages} onValueChange={handleImagesChange} />
+      <PropertyImageManager
+        initialUrls={images.length > 0 ? images : undefined}
+        onImagesChange={imageUrls => void handleImagesChange(imageUrls)}
+      />
     </div>
   );
 };
