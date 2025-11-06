@@ -34,8 +34,12 @@ export const filesUploadSchema = z.object({
     .default([]),
 });
 
-const propertyCreateFormValuesSchema = propertySchema
+export const createPropertyFormValuesSchema = propertySchema
   .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+    internalCode: true,
     images: true,
   })
   .extend({
@@ -43,23 +47,16 @@ const propertyCreateFormValuesSchema = propertySchema
     ...filesUploadSchema.shape,
   });
 
-const propertyUpdateFormValuesSchema = propertySchema.extend({
+export const updatePropertyFormValuesSchema = propertySchema.extend({
   action: z.literal('update'),
   ...filesUploadSchema.shape,
 });
 
 export const propertyFormValuesSchema = z.discriminatedUnion('action', [
-  propertyCreateFormValuesSchema,
-  propertyUpdateFormValuesSchema,
+  createPropertyFormValuesSchema,
+  updatePropertyFormValuesSchema,
 ]);
 
 export type PropertyFormValues = z.infer<typeof propertyFormValuesSchema>;
-
-export const createPropertyFormValuesSchema = propertyCreateFormValuesSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  internalCode: true,
-});
 
 export type CreatePropertyFormValues = z.infer<typeof createPropertyFormValuesSchema>;

@@ -2,6 +2,7 @@ import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   createPropertyFormValuesSchema,
+  updatePropertyFormValuesSchema,
   type PropertyFormValues,
 } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { useCreatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreatePropertyRequest/useCreatePropertyRequest';
@@ -101,8 +102,10 @@ const flattenErrors = (
 export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyFormWithHookFormProps) => {
   const [activeTab, setActiveTab] = useState<string>('basic');
 
+  const schema = defaultValues ? updatePropertyFormValuesSchema : createPropertyFormValuesSchema;
+
   const form = useForm<PropertyFormValues>({
-    resolver: zodResolver(createPropertyFormValuesSchema),
+    resolver: zodResolver(schema),
     defaultValues: defaultValues ?? formDefaultValues,
   });
 
