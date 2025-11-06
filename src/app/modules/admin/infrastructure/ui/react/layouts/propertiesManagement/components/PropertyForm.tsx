@@ -136,11 +136,10 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
       return;
     }
 
-    // TODO: Revisar ya que action debe ser es update
     onUpdateProperty({
       data: {
         ...data,
-        action: 'create',
+        action: 'update',
       },
       propertyId: data.id,
     });
@@ -159,10 +158,6 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
         onSubmit(data);
       },
       errors => {
-        console.info('Form validation failed with errors:', {
-          errors,
-          formValues: form.getValues(),
-        });
         setFormErrors(errors);
       }
     )(e);
