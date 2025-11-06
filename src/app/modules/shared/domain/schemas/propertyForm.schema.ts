@@ -52,11 +52,13 @@ export const updatePropertyFormValuesSchema = propertySchema.extend({
   ...filesUploadSchema.shape,
 });
 
-export const propertyFormValuesSchema = z.discriminatedUnion('action', [
+const _propertyFormValuesSchema = z.discriminatedUnion('action', [
   createPropertyFormValuesSchema,
   updatePropertyFormValuesSchema,
 ]);
 
-export type PropertyFormValues = z.infer<typeof propertyFormValuesSchema>;
-
 export type CreatePropertyFormValues = z.infer<typeof createPropertyFormValuesSchema>;
+
+export type UpdatePropertyFormValues = z.infer<typeof updatePropertyFormValuesSchema>;
+
+export type PropertyFormValues = z.infer<typeof _propertyFormValuesSchema>;
