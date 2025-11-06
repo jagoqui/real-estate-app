@@ -149,10 +149,6 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div className="text-destructive">An error occurred: {error.message}</div>;
-  }
-
   const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     void form.handleSubmit(
       data => {
@@ -205,6 +201,12 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
           </div>
         )}
       </form>
+      {error && (
+        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-md mt-4">
+          <h3 className="font-semibold">Submission Error:</h3>
+          <p>{error.message}</p>
+        </div>
+      )}
     </Form>
   );
 });
