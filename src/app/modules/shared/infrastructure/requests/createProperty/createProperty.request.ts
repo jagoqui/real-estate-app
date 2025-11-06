@@ -2,7 +2,7 @@ import { createPropertyFormValueDtoAdapter } from '@/modules/shared/application/
 import { propertyAdapter } from '@/modules/shared/application/adapters/property/property.dto';
 import type { PropertyResponseDto } from '@/modules/shared/application/dtos/propertyResponse.dto';
 import type { CreatePropertyRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import { dataToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
+import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
 import { propertySchema } from '@/modules/shared/domain/schemas/property.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
@@ -11,11 +11,11 @@ const CREATE_PROPERTY_REQUEST_URL = `${VARIABLES.VITE_API_BASE_URL}/properties`;
 
 export const createPropertyRequest: CreatePropertyRequest = async propertyData => {
   const propertyDto = createPropertyFormValueDtoAdapter(propertyData);
-  const body = dataToFormDataHelper(propertyDto);
+  const body = objectToFormDataHelper(propertyDto);
 
   const propertyResponseDto = await api
     .post<PropertyResponseDto>(CREATE_PROPERTY_REQUEST_URL, {
-      json: body,
+      body,
     })
     .json();
 

@@ -2,7 +2,7 @@ import { userAdapter } from '@/modules/shared/application/adapters/user/user.ada
 import { userDtoAdapter } from '@/modules/shared/application/adapters/userDto/userDto.adapter';
 import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
-import { dataToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
+import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
 import { userSchema, type User } from '@/modules/shared/domain/schemas/user.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
@@ -11,7 +11,7 @@ export const UPDATE_USER_REQUEST_URL = (userId: string): string => `${VARIABLES.
 
 export const updateUserRequest: UpdateUserRequest = async (args): Promise<User> => {
   const userDto = userDtoAdapter(args.user);
-  const body = dataToFormDataHelper({
+  const body = objectToFormDataHelper({
     ...userDto,
     photoFile: args.photoFile,
   });
