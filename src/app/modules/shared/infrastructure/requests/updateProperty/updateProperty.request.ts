@@ -1,5 +1,5 @@
-import { createPropertyFormValueDtoAdapter } from '@/modules/shared/application/adapters/createPropertyFormValueDto/createPropertyFormValueDto.adapter';
 import { propertyAdapter } from '@/modules/shared/application/adapters/property/property.dto';
+import { propertyFormValueDtoAdapter } from '@/modules/shared/application/adapters/propertyFormValueDto/propertyFormValueDto.adapter';
 import type { PropertyResponseDto } from '@/modules/shared/application/dtos/propertyResponse.dto';
 import type { UpdatePropertyRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
@@ -11,7 +11,7 @@ export const UPDATE_PROPERTY_REQUEST_URL = (propertyId: string): string =>
   `${VARIABLES.VITE_API_BASE_URL}/properties/${propertyId}`;
 
 export const updatePropertyRequest: UpdatePropertyRequest = async (args): Promise<Property> => {
-  const propertyDto = createPropertyFormValueDtoAdapter(args.data);
+  const propertyDto = propertyFormValueDtoAdapter(args.data);
   const body = objectToFormDataHelper(propertyDto);
 
   const propertyResponseDto = await api
