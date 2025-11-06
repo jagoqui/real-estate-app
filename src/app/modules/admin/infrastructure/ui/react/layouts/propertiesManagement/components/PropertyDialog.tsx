@@ -47,7 +47,7 @@ interface PropertyDialogContentProps {
 }
 
 const PropertyDialogContent = React.memo(({ editingProperty, onReset }: PropertyDialogContentProps) => {
-  const defaultValues: Partial<PropertyFormValues> | undefined = editingProperty
+  const defaultValues: PropertyFormValues | undefined = editingProperty
     ? convertPropertyToFormData(editingProperty)
     : undefined;
 

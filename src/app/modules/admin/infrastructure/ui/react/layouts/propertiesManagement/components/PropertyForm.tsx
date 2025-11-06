@@ -64,9 +64,8 @@ const formDefaultValues: DefaultValues<PropertyFormValues> = {
   highlightedFeatures: [],
   imagesFiles: [],
   views360Url: [],
-};
+} as const;
 
-// Helper function to flatten nested errors
 interface ErrorWithMessage {
   message?: string;
   [key: string]: unknown;
@@ -105,7 +104,8 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
   const schema = defaultValues ? updatePropertyFormValuesSchema : createPropertyFormValuesSchema;
 
   const form = useForm<PropertyFormValues>({
-    resolver: zodResolver(schema),
+    //Use never to bypass type issues with zod discriminations types and react-hook-form
+    resolver: zodResolver(schema) as never,
     defaultValues: defaultValues ?? formDefaultValues,
   });
 
