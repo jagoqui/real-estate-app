@@ -130,7 +130,6 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
   const onSubmit = (data: PropertyFormValues): void => {
     if (data.action === 'create') {
       onCreateProperty(data);
-      onReset();
       return;
     }
 
