@@ -22,19 +22,15 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-export interface SearchSuggestion extends Location {
-  display_name: string;
-}
-
 interface LocationPickerProps {
-  value?: SearchSuggestion;
-  onValueChange?: (location: SearchSuggestion | undefined) => void;
+  value?: Location;
+  onValueChange?: (location: Location | undefined) => void;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
 }
 
-interface NominatimResult extends SearchSuggestion {
+interface NominatimResult extends Omit<Location, 'displayName'> {
   place_id: string;
   osm_type: string;
   osm_id: string;
@@ -42,6 +38,7 @@ interface NominatimResult extends SearchSuggestion {
   class: string;
   type: string;
   importance: number;
+  display_name: string;
 }
 
 // Component to handle map clicks
@@ -85,7 +82,7 @@ export const LocationPicker = ({
   const [suggestions, setSuggestions] = useState<Array<NominatimResult>>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<SearchSuggestion | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
   const [mapCenter, setMapCenter] = useState<[number, number]>([40.7128, -74.006]); // Default: NYC
   const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
@@ -102,8 +99,8 @@ export const LocationPicker = ({
         const data = (await response.json()) as NominatimResult;
 
         if (data?.display_name) {
-          const location: SearchSuggestion = {
-            display_name: data.display_name,
+          const location: Location = {
+            displayName: data.display_name,
             lat: lat.toString(),
             lon: lon.toString(),
           };
@@ -190,8 +187,8 @@ export const LocationPicker = ({
   // Handle suggestion selection
   const handleSuggestionSelect = useCallback(
     (suggestion: NominatimResult): void => {
-      const location: SearchSuggestion = {
-        display_name: suggestion.display_name,
+      const location: Location = {
+        displayName: suggestion.display_name,
         lat: suggestion.lat,
         lon: suggestion.lon,
       };
@@ -278,8 +275,8 @@ export const LocationPicker = ({
       const data = (await response.json()) as NominatimResult;
 
       if (data?.display_name) {
-        const location: SearchSuggestion = {
-          display_name: data.display_name,
+        const location: Location = {
+          displayName: data.display_name,
           lat: lat.toString(),
           lon: lon.toString(),
         };
@@ -376,7 +373,7 @@ export const LocationPicker = ({
         <Label>Selected Location</Label>
         <div className="relative">
           <Input
-            value={currentLocation?.display_name || ''}
+            value={currentLocation?.displayName || ''}
             readOnly
             placeholder="No location selected"
             className="pr-10"
@@ -448,7 +445,7 @@ export const LocationPicker = ({
                   <div className="text-sm max-w-xs">
                     <strong>Selected Location:</strong>
                     <br />
-                    {currentLocation.display_name}
+                    {currentLocation.displayName}
                     <br />
                     <small className="text-muted-foreground">
                       {currentLocation.lat}, {currentLocation.lon}
