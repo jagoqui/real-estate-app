@@ -342,7 +342,7 @@ export const LocationPicker = ({
 
           {/* Suggestions Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute w-full mt-1 bg-popover border rounded-md shadow-md" style={{ zIndex: 1000 }}>
+            <div className="absolute w-full mt-1 bg-popover border rounded-md shadow-md" style={{ zIndex: 2000 }}>
               <ScrollArea className="max-h-48">
                 <div className="p-1">
                   {suggestions.map(suggestion => (
