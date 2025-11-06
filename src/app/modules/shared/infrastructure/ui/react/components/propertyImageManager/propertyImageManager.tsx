@@ -6,7 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { ChevronLeft, ChevronRight, ImageIcon, Trash2, Upload, X, ZoomIn } from 'lucide-react';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 // Constants
 const DEFAULT_MAX_VISIBLE = 3;
@@ -16,6 +16,18 @@ const KB_SIZE = 1024;
 const BYTES_IN_MB = KB_SIZE * KB_SIZE;
 
 const DECIMAL_PLACES = 2;
+
+// Helper function to convert URL to File
+const urlToFile = async (url: string, fileName: string): Promise<File> => {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], fileName, { type: blob.type });
+  } catch (error) {
+    console.error('Error converting URL to File:', error);
+    throw error;
+  }
+};
 
 export interface PropertyImage {
   id: string;
@@ -29,6 +41,8 @@ export interface PropertyImage {
 interface PropertyImageManagerProps {
   value?: Array<PropertyImage>;
   onValueChange?: (images: Array<PropertyImage>, pendingDeletions?: Set<string>) => void;
+  initialUrls?: Array<string>; // URLs from server for update mode
+  onImagesChange?: (imageUrls: Array<string>) => void; // Callback with just URLs
   maxImages?: number;
   maxFileSize?: number; // in MB
   acceptedTypes?: Array<string>;
@@ -111,17 +125,70 @@ export const ImagePreview = ({
 export const PropertyImageManager = ({
   value,
   onValueChange,
+  initialUrls,
+  onImagesChange,
   maxImages = DEFAULT_MAX_IMAGES,
   maxFileSize = DEFAULT_MAX_FILE_SIZE, // 5MB
   acceptedTypes = ['image/jpeg', 'image/png', 'image/webp'],
   className,
 }: PropertyImageManagerProps): React.ReactElement => {
-  const images = useMemo(() => value ?? [], [value]);
+  const [images, setImages] = React.useState<Array<PropertyImage>>(value ?? []);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showCarousel, setShowCarousel] = useState(false);
-  const [pendingDeletions, setPendingDeletions] = useState<Set<string>>(new Set());
+  const [isLoadingInitial, setIsLoadingInitial] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load initial images from URLs (for update mode)
+  React.useEffect(() => {
+    if (!initialUrls || initialUrls.length === 0) return;
+
+    const loadInitialImages = async (): Promise<void> => {
+      setIsLoadingInitial(true);
+      try {
+        const loadedImages = await Promise.all(
+          initialUrls.map(async (url, index) => {
+            const filename = url.substring(url.lastIndexOf('/') + 1) || 'image.jpg';
+            const file = await urlToFile(url, filename);
+            return {
+              id: `initial-${index}-${Date.now()}`,
+              file,
+              preview: url, // Use server URL as preview
+              name: file.name,
+              size: file.size,
+            };
+          })
+        );
+        setImages(loadedImages);
+      } catch (error) {
+        console.error('Failed to load initial images:', error);
+      } finally {
+        setIsLoadingInitial(false);
+      }
+    };
+
+    void loadInitialImages();
+  }, [initialUrls]);
+
+  // Sync with external value changes
+  React.useEffect(() => {
+    if (value) {
+      setImages(value);
+    }
+  }, [value]);
+
+  // Notify parent when images change (send only URLs)
+  const notifyImagesChange = React.useCallback(
+    (updatedImages: Array<PropertyImage>) => {
+      if (onImagesChange) {
+        onImagesChange(updatedImages.map(img => img.preview));
+      }
+      if (onValueChange) {
+        onValueChange(updatedImages, new Set()); // Empty set since we remove directly
+      }
+    },
+    [onImagesChange, onValueChange]
+  );
 
   const validateFile = useCallback(
     (file: File): string | null => {
@@ -177,10 +244,11 @@ export const PropertyImageManager = ({
 
       if (newImages.length > 0) {
         const updatedImages = [...images, ...newImages].slice(0, maxImages);
-        onValueChange?.(updatedImages, pendingDeletions);
+        setImages(updatedImages);
+        notifyImagesChange(updatedImages);
       }
     },
-    [images, validateFile, createImageObject, maxImages, onValueChange, pendingDeletions]
+    [images, validateFile, createImageObject, maxImages, notifyImagesChange]
   );
 
   const handleFileInput = useCallback(
@@ -219,31 +287,25 @@ export const PropertyImageManager = ({
     setIsDragging(false);
   }, []);
 
-  const markImageForDeletion = useCallback(
+  const removeImage = useCallback(
     (id: string) => {
-      setPendingDeletions(prev => {
-        const newSet = new Set(prev);
-        if (newSet.has(id)) {
-          // If already marked for deletion, unmark it (undo delete)
-          newSet.delete(id);
-          console.info('Restored image:', id);
-        } else {
-          // Mark for deletion
-          newSet.add(id);
-          console.info('Marked for deletion:', id);
-        }
+      const updatedImages = images.filter(img => img.id !== id);
+      setImages(updatedImages);
+      notifyImagesChange(updatedImages);
 
-        // Notify parent component about the changes
-        onValueChange?.(images, newSet);
+      // Revoke blob URL if it exists
+      const imageToRemove = images.find(img => img.id === id);
+      if (imageToRemove?.preview.startsWith('blob:')) {
+        URL.revokeObjectURL(imageToRemove.preview);
+      }
 
-        return newSet;
-      });
+      // Adjust selected index if needed
+      if (selectedImageIndex >= updatedImages.length && updatedImages.length > 0) {
+        setSelectedImageIndex(updatedImages.length - 1);
+      }
     },
-    [images, onValueChange]
+    [images, notifyImagesChange, selectedImageIndex]
   );
-
-  // Get images that are not marked for deletion (for display)
-  const visibleImages = images.filter(img => !pendingDeletions.has(img.id));
 
   const openFileDialog = useCallback(() => {
     fileInputRef.current?.click();
@@ -251,6 +313,14 @@ export const PropertyImageManager = ({
 
   const isUploadDisabled = images.length >= maxImages;
   const remainingSlots = maxImages - images.length;
+
+  if (isLoadingInitial) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-sm text-muted-foreground">Loading images...</div>
+      </div>
+    );
+  }
 
   return (
     <div className={className}>
@@ -311,10 +381,7 @@ export const PropertyImageManager = ({
         {images.length > 0 && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <Label className="text-sm">
-                Property Images ({visibleImages.length}
-                {pendingDeletions.size > 0 && ` • ${pendingDeletions.size} marked for deletion`})
-              </Label>
+              <Label className="text-sm">Property Images ({images.length})</Label>
               <Button
                 variant="outline"
                 size="sm"
@@ -354,18 +421,8 @@ export const PropertyImageManager = ({
                     <img
                       src={images[selectedImageIndex]?.preview}
                       alt={images[selectedImageIndex]?.name}
-                      className={`max-h-full max-w-full object-contain transition-all ${
-                        pendingDeletions.has(images[selectedImageIndex]?.id || '') ? 'opacity-40 grayscale' : ''
-                      }`}
+                      className="max-h-full max-w-full object-contain"
                     />
-                    {/* Deletion overlay */}
-                    {pendingDeletions.has(images[selectedImageIndex]?.id || '') && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-red-500/20">
-                        <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                          Marked for Deletion
-                        </div>
-                      </div>
-                    )}
 
                     {/* Navigation Controls */}
                     {images.length > 1 && (
@@ -408,27 +465,18 @@ export const PropertyImageManager = ({
                       </p>
                     </div>
                     <Button
-                      variant={pendingDeletions.has(images[selectedImageIndex]?.id || '') ? 'secondary' : 'destructive'}
+                      variant="destructive"
                       size="sm"
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
                         const imageToRemove = images[selectedImageIndex];
-                        markImageForDeletion(imageToRemove.id);
+                        removeImage(imageToRemove.id);
                       }}
                       onMouseDown={e => e.stopPropagation()}
                     >
-                      {pendingDeletions.has(images[selectedImageIndex]?.id || '') ? (
-                        <>
-                          <Upload className="h-4 w-4 mr-1" />
-                          Restore
-                        </>
-                      ) : (
-                        <>
-                          <Trash2 className="h-4 w-4 mr-1" />
-                          Delete
-                        </>
-                      )}
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Delete
                     </Button>
                   </div>
                 </div>
@@ -449,39 +497,20 @@ export const PropertyImageManager = ({
                           index === selectedImageIndex
                             ? 'border-primary ring-2 ring-primary/20'
                             : 'border-muted hover:border-primary/50'
-                        } ${pendingDeletions.has(image.id) ? 'opacity-60' : ''}`}
+                        }`}
                       >
-                        <img
-                          src={image.preview}
-                          alt={image.name}
-                          className={`w-16 h-12 object-cover transition-all ${
-                            pendingDeletions.has(image.id) ? 'grayscale' : ''
-                          }`}
-                        />
-                        {pendingDeletions.has(image.id) && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-red-500/30">
-                            <X className="h-3 w-3 text-white" />
-                          </div>
-                        )}
-                        {/* Delete/Restore button for thumbnail */}
+                        <img src={image.preview} alt={image.name} className="w-16 h-12 object-cover" />
+                        {/* Delete button for thumbnail */}
                         <div
-                          className={`absolute -top-1 -right-1 h-5 w-5 rounded-full flex items-center justify-center cursor-pointer transition-all opacity-0 group-hover:opacity-100 ${
-                            pendingDeletions.has(image.id)
-                              ? 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
-                              : 'bg-destructive hover:bg-destructive/80 text-destructive-foreground'
-                          }`}
+                          className="absolute -top-1 -right-1 h-5 w-5 rounded-full flex items-center justify-center cursor-pointer transition-all opacity-0 group-hover:opacity-100 bg-destructive hover:bg-destructive/80 text-destructive-foreground"
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
-                            markImageForDeletion(image.id);
+                            removeImage(image.id);
                           }}
                           onMouseDown={e => e.stopPropagation()}
                         >
-                          {pendingDeletions.has(image.id) ? (
-                            <Upload className="h-3 w-3" />
-                          ) : (
-                            <Trash2 className="h-3 w-3" />
-                          )}
+                          <Trash2 className="h-3 w-3" />
                         </div>
                       </button>
                     ))}
@@ -497,9 +526,7 @@ export const PropertyImageManager = ({
                       <img
                         src={image.preview}
                         alt={image.name}
-                        className={`w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80 transition-all ${
-                          pendingDeletions.has(image.id) ? 'opacity-40 grayscale' : ''
-                        }`}
+                        className="w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80 transition-all"
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -509,24 +536,18 @@ export const PropertyImageManager = ({
                         onMouseDown={e => e.stopPropagation()}
                       />
                       <Button
-                        variant={pendingDeletions.has(image.id) ? 'secondary' : 'destructive'}
+                        variant="destructive"
                         size="icon"
                         className="absolute -top-1 -right-1 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity z-10"
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
-                          markImageForDeletion(image.id);
+                          removeImage(image.id);
                         }}
                         onMouseDown={e => e.stopPropagation()}
                       >
-                        {pendingDeletions.has(image.id) ? <Upload className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        <X className="h-3 w-3" />
                       </Button>
-                      {/* Deletion overlay for grid view */}
-                      {pendingDeletions.has(image.id) && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-red-500/30 rounded pointer-events-none">
-                          <div className="bg-red-500 text-white px-1 py-0.5 rounded text-xs font-medium">Marked</div>
-                        </div>
-                      )}
                     </div>
                   ))}
                 </div>
