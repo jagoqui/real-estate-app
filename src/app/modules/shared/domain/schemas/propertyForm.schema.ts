@@ -43,7 +43,7 @@ export const createPropertyFormValuesSchema = propertySchema
     images: true,
   })
   .extend({
-    action: z.literal('create').default('create'),
+    action: z.literal('create'),
     ...filesUploadSchema.shape,
   });
 
