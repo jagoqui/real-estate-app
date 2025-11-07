@@ -11,8 +11,8 @@ export const convertPropertyToFormData = async (property: Property): Promise<Upd
 
   const formData: UpdatePropertyFormValues = {
     ...property,
-    imagesFiles,
     coverImageFile: imagesFiles[0],
+    imagesFiles: [...imagesFiles.slice(1)],
     action: 'update',
   };
   return updatePropertyFormValuesSchema.parse(formData);
