@@ -14,7 +14,6 @@ const allowedTypes: Record<string, boolean> = {
 export const filesUploadSchema = z.object({
   imagesFiles: z
     .array(z.file())
-    .refine(list => list.length > 0, 'No files selected')
     .refine(list => list.length <= fileCountLimit, `Maximum ${fileCountLimit} files allowed`)
     .transform(list => Array.from(list))
     .refine(
