@@ -14,6 +14,7 @@ export const propertyFormValueDtoAdapter = (formValues: PropertyFormValues): Cre
   amenities: formValues.amenities,
   featured: formValues.featured,
   images: formValues.imagesFiles,
+  coverImage: formValues.coverImageFile,
   views360Url: formValues.views360Url,
   city: formValues.city,
   state: formValues.state,

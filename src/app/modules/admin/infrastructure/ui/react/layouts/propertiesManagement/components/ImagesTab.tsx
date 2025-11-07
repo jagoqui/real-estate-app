@@ -11,6 +11,8 @@ export const ImagesTab = (): React.ReactElement => {
     (files: Array<File>, previewUrls: Array<string>): void => {
       form.setValue('imagesFiles', files);
       form.setValue('images', previewUrls);
+      form.setValue('coverImage', previewUrls[0]);
+      form.setValue('coverImageFile', files[0]);
     },
     [form]
   );

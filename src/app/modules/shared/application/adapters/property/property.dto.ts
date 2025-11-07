@@ -14,6 +14,7 @@ export const propertyAdapter = (propertyDto: PropertyResponseDto): Property => (
   amenities: propertyDto.amenities,
   featured: propertyDto.featured,
   images: propertyDto.images,
+  coverImage: propertyDto.coverImage,
   views360Url: propertyDto.views360Url,
   city: propertyDto.city,
   state: propertyDto.state,

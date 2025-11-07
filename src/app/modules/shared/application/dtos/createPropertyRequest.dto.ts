@@ -16,6 +16,7 @@ export interface CreatePropertyRequestDto {
   amenities: Array<Amenity>;
   featured: boolean;
   images: Array<File>;
+  coverImage: File;
   views360Url: Array<string>;
   city: string;
   state: string;

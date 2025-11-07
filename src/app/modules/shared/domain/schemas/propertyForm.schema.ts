@@ -31,6 +31,22 @@ export const filesUploadSchema = z.object({
       }
     )
     .default([]),
+  coverImageFile: z
+    .file()
+    .refine(
+      file => {
+        return allowedTypes[file.type];
+      },
+      { message: 'Invalid file type. Allowed types: JPG, PNG, WEBP' }
+    )
+    .refine(
+      file => {
+        return file.size <= fileSizeLimit;
+      },
+      {
+        message: 'File size should not exceed 5MB',
+      }
+    ),
 });
 
 export const createPropertyFormValuesSchema = propertySchema

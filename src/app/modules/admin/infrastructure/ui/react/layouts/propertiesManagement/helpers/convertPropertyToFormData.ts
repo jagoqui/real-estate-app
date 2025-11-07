@@ -6,10 +6,13 @@ import {
 } from '@/modules/shared/domain/schemas/propertyForm.schema';
 
 export const convertPropertyToFormData = async (property: Property): Promise<UpdatePropertyFormValues> => {
-  const imagesFiles = await urlsToFiles(property.images);
+  const imageUrls = [property.coverImage, ...property.images].filter((url): url is string => url !== null);
+  const imagesFiles = await urlsToFiles(imageUrls);
+
   const formData: UpdatePropertyFormValues = {
     ...property,
     imagesFiles,
+    coverImageFile: imagesFiles[0],
     action: 'update',
   };
   return updatePropertyFormValuesSchema.parse(formData);

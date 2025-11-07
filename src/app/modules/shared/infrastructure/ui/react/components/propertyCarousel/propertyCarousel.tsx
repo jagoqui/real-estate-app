@@ -109,7 +109,7 @@ export const PropertyCarousel = (): React.ReactElement => {
                 <div className="grid md:grid-cols-2 gap-0">
                   <div className="relative h-[400px] md:h-[600px] overflow-hidden">
                     <img
-                      src={currentProperty.images[0] || '/placeholder.svg'}
+                      src={currentProperty?.coverImage || '/placeholder.svg'}
                       alt={currentProperty.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
