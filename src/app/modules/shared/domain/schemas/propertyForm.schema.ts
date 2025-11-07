@@ -40,6 +40,7 @@ export const createPropertyFormValuesSchema = propertySchema
     createdAt: true,
     updatedAt: true,
     internalCode: true,
+    images: true,
   })
   .extend({
     action: z.literal('create'),
