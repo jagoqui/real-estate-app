@@ -145,8 +145,6 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
       },
       propertyId: data.id,
     });
-
-    onReset();
   };
 
   if (isLoading) {
