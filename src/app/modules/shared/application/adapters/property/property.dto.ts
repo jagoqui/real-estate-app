@@ -1,0 +1,30 @@
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { PropertyResponseDto } from '../../dtos/propertyResponse.dto';
+
+export const propertyAdapter = (propertyDto: PropertyResponseDto): Property => ({
+  name: propertyDto.name,
+  address: propertyDto.address,
+  price: propertyDto.price,
+  buildYear: propertyDto.year,
+  description: propertyDto.description,
+  bathrooms: propertyDto.bathrooms,
+  bedrooms: propertyDto.bedrooms,
+  area: propertyDto.areaSqm,
+  highlightedFeatures: propertyDto.highlightedFeatures,
+  amenities: propertyDto.amenities,
+  featured: propertyDto.featured,
+  images: propertyDto.images,
+  coverImage: propertyDto.coverImage,
+  views360Url: propertyDto.views360Url,
+  city: propertyDto.city,
+  state: propertyDto.state,
+  country: propertyDto.country,
+  location: propertyDto.location,
+  ownerId: propertyDto.idOwner,
+  status: propertyDto.status,
+  type: propertyDto.type,
+  id: propertyDto.id,
+  internalCode: propertyDto.codeInternal,
+  createdAt: propertyDto.createdAt,
+  updatedAt: propertyDto.updatedAt,
+});

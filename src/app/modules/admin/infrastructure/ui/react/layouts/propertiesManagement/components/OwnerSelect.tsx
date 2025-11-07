@@ -1,15 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetOwnersRequest/useGetOwnersRequest';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
-import { type PropertyFormSchema } from '../schemas/propertyForm.schema';
 
 interface OwnerSelectProps {
-  control: Control<PropertyFormSchema>;
-  onOwnerChange?: (ownerId: string, ownerName: string) => void;
+  control: Control<PropertyFormValues>;
 }
 
 // Warning message component for non-existent owner
@@ -28,7 +27,7 @@ const OwnerNotFoundWarning = React.memo(() => (
 
 OwnerNotFoundWarning.displayName = 'OwnerNotFoundWarning';
 
-export const OwnerSelect = React.memo(({ control, onOwnerChange }: OwnerSelectProps) => {
+export const OwnerSelect = React.memo(({ control }: OwnerSelectProps) => {
   const { data: owners, isPending, error } = useGetOwnersRequest();
 
   if (isPending) {
@@ -59,10 +58,9 @@ export const OwnerSelect = React.memo(({ control, onOwnerChange }: OwnerSelectPr
             <FormLabel>Owner</FormLabel>
             <Select
               onValueChange={value => {
-                field.onChange(value);
                 const selectedOwner = owners?.find(owner => owner.id === value);
-                if (selectedOwner && onOwnerChange) {
-                  onOwnerChange(value, selectedOwner.name);
+                if (selectedOwner) {
+                  field.onChange(value);
                 }
               }}
               value={selectValue}

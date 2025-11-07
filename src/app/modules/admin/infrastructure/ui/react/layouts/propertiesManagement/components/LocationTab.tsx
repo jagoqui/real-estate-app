@@ -1,45 +1,24 @@
-import {
-  LocationPicker,
-  type SearchSuggestion,
-} from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
+import type { Location } from '@/modules/shared/domain/schemas/location.schema';
+import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import { LocationPicker } from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
-interface LocationFormData {
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  location: { lat: number; lng: number };
-}
+export const LocationTab = (): React.ReactElement => {
+  const form = useFormContext<PropertyFormValues>();
+  const location = form.watch('location') || { lat: '0', lng: '0' };
 
-interface LocationTabProps {
-  formData: LocationFormData;
-  onChange: (updates: Partial<LocationFormData>) => void;
-}
-
-export const LocationTab = ({ formData, onChange }: LocationTabProps): React.ReactElement => {
-  const handleLocationChange = (location: SearchSuggestion | undefined): void => {
+  const handleLocationChange = (location: Location | undefined): void => {
     if (!location) return;
-
-    // Parse address parts from display_name
-    const parts = location.display_name.split(',').map(part => part.trim());
-    onChange({
-      location: { lat: parseFloat(location.lat), lng: parseFloat(location.lon) },
-      address: location.display_name,
-      city: parts[0] || '',
-      state: parts[1] || '',
-      country: parts[parts.length - 1] || '',
-    });
+    const parts = location.displayName.split(',').map(part => part.trim());
+    form.setValue('location', location);
+    form.setValue('address', location.displayName);
+    form.setValue('city', parts[0] || '');
+    form.setValue('state', parts[1] || '');
+    form.setValue('country', parts[parts.length - 1] || '');
   };
 
-  const currentValue: SearchSuggestion | undefined =
-    formData.location.lat && formData.location.lng
-      ? {
-          lat: formData.location.lat.toString(),
-          lon: formData.location.lng.toString(),
-          display_name: `${formData.city}, ${formData.state}, ${formData.country}`,
-        }
-      : undefined;
+  const currentValue: Location | undefined = location.lat && location.lon ? location : undefined;
 
   return (
     <div className="space-y-4">

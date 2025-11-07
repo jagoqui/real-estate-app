@@ -1,26 +1,37 @@
-import {
-  PropertyImageManager,
-  type PropertyImage,
-} from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
-import React from 'react';
+import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import { PropertyImageManager } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
+import React, { useCallback } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-interface ImagesTabProps {
-  formData: {
-    images: Array<PropertyImage>;
-  };
-  onChange: (updates: Partial<ImagesTabProps['formData']>) => void;
-}
+export const ImagesTab = (): React.ReactElement => {
+  const form = useFormContext<PropertyFormValues>();
+  const images = form.watch('images');
+  const coverImage = form.watch('coverImage');
 
-export const ImagesTab = ({ formData, onChange }: ImagesTabProps): React.ReactElement => {
-  const handleImagesChange = (images: Array<PropertyImage>): void => {
-    onChange({ images });
-  };
+  const handleFilesChange = useCallback(
+    (files: Array<File>, previewUrls: Array<string>): void => {
+      form.setValue('imagesFiles', files);
+      form.setValue('images', previewUrls);
+    },
+    [form]
+  );
+
+  const handleCoverImageChange = useCallback(
+    (file: File | null, previewUrl?: string | null): void => {
+      form.setValue('coverImageFile', file as File);
+      form.setValue('coverImage', previewUrl ?? undefined);
+    },
+    [form]
+  );
 
   return (
     <div className="space-y-4">
-      <PropertyImageManager value={formData.images} onValueChange={handleImagesChange} />
+      <PropertyImageManager
+        initialUrls={images}
+        initialCoverUrl={coverImage}
+        onFilesChange={handleFilesChange}
+        onCoverImageChange={handleCoverImageChange}
+      />
     </div>
   );
 };
-
-ImagesTab.displayName = 'ImagesTab';

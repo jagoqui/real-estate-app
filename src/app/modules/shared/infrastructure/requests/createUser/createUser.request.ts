@@ -1,4 +1,4 @@
-import { createUserAdapter } from '@/modules/shared/application/adapters/createUseDto/createUseDto.adapter';
+import { createUserAdapter } from '@/modules/shared/application/adapters/createUserDto/createUserDto.adapter';
 import { userAdapter } from '@/modules/shared/application/adapters/user/user.adapter';
 import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import type { CreateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';

@@ -360,10 +360,10 @@ export const PropertyDetailLayout = (): React.ReactElement => {
                     </ul>
                     <h3 className="text-xl font-semibold mb-4 mt-8">Amenities</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {property.amenities.map((amenity, index) => {
+                      {property.amenities.map(amenity => {
                         const Icon = amenity.icon;
                         return (
-                          <div key={index} className="flex items-center gap-3 p-3 bg-secondary rounded-lg">
+                          <div key={amenity.label} className="flex items-center gap-3 p-3 bg-secondary rounded-lg">
                             <Icon className="h-5 w-5 text-foreground" />
                             <span className="text-sm">{amenity.label}</span>
                           </div>

@@ -1,10 +1,15 @@
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { type Amenity } from '@/modules/shared/infrastructure/ui/react/components/amenityForm/amenityForm';
+import {
+  createPropertyFormValuesSchema,
+  updatePropertyFormValuesSchema,
+  type PropertyFormValues,
+} from '@/modules/shared/domain/schemas/propertyForm.schema';
+import { useCreatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreatePropertyRequest/useCreatePropertyRequest';
+import { useUpdatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdatePropertyRequest/useUpdatePropertyRequest';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { propertyFormSchema, type PropertyFormSchema } from '../schemas/propertyForm.schema';
+import React, { useState } from 'react';
+import { useForm, type DefaultValues } from 'react-hook-form';
 import { BasicInfoTab } from './BasicInfoTab';
 import { FeaturesTab } from './FeaturesTab';
 import { ImagesTab } from './ImagesTab';
@@ -12,11 +17,9 @@ import { LocationTab } from './LocationTab';
 import { VirtualToursTab } from './VirtualToursTab';
 
 interface PropertyFormWithHookFormProps {
-  defaultValues?: Partial<PropertyFormSchema>;
-  activeTab: string;
-  onTabChange: (value: string) => void;
-  onSubmit: (data: PropertyFormSchema) => void;
-  onOwnerChange?: (ownerId: string, ownerName: string) => void;
+  defaultValues?: DefaultValues<PropertyFormValues>;
+  onReset: () => void;
+  onLoadingChange?: (isLoading: boolean) => void;
 }
 
 const FormTabsList = React.memo(() => (
@@ -56,182 +59,156 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
-// Sub-component for Features Tab Content
-const FeaturesTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
-  const features = form.watch('features');
-  const amenities = form.watch('amenities') as Array<Amenity>;
-  const bedrooms = form.watch('bedrooms');
-  const bathrooms = form.watch('bathrooms');
+const formDefaultValues: DefaultValues<PropertyFormValues> = {
+  action: 'create',
+  amenities: [],
+  highlightedFeatures: [],
+  imagesFiles: [],
+  views360Url: [],
+} as const;
 
-  return (
-    <TabsContent value="features">
-      <FeaturesTab
-        formData={{
-          features,
-          amenities,
-          bedrooms,
-          bathrooms,
-        }}
-        onChange={updates => {
-          if (updates.features !== undefined) form.setValue('features', updates.features);
-          if (updates.amenities !== undefined)
-            form.setValue('amenities', updates.amenities as PropertyFormSchema['amenities']);
-          if (updates.bedrooms !== undefined) form.setValue('bedrooms', updates.bedrooms);
-          if (updates.bathrooms !== undefined) form.setValue('bathrooms', updates.bathrooms);
-        }}
-      />
-    </TabsContent>
-  );
+interface ErrorWithMessage {
+  message?: string;
+  [key: string]: unknown;
+}
+
+const flattenErrors = (
+  errors: Record<string, ErrorWithMessage>,
+  parentKey = ''
+): Array<{ field: string; message: string }> => {
+  const result: Array<{ field: string; message: string }> = [];
+
+  Object.entries(errors).forEach(([key, value]) => {
+    const fieldPath = parentKey ? `${parentKey}.${key}` : key;
+
+    // If the error has a message property, it's a leaf error
+    if (value?.message && typeof value.message === 'string') {
+      result.push({
+        field: fieldPath,
+        message: value.message,
+      });
+    }
+    // If it's an object without a message, it might have nested errors
+    else if (value && typeof value === 'object' && !Array.isArray(value)) {
+      // Recursively flatten nested errors
+      result.push(...flattenErrors(value as Record<string, ErrorWithMessage>, fieldPath));
+    }
+  });
+
+  return result;
 };
 
-FeaturesTabContent.displayName = 'FeaturesTabContent';
+// eslint-disable-next-line max-lines-per-function
+export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChange }: PropertyFormWithHookFormProps) => {
+  const [activeTab, setActiveTab] = useState<string>('basic');
 
-// Sub-component for Location Tab Content
-const LocationTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
-  const address = form.watch('address');
-  const city = form.watch('city');
-  const state = form.watch('state');
-  const country = form.watch('country');
-  const location = form.watch('location') || { lat: 0, lng: 0 };
+  const schema = defaultValues ? updatePropertyFormValuesSchema : createPropertyFormValuesSchema;
 
-  return (
-    <TabsContent value="location">
-      <LocationTab
-        formData={{
-          address,
-          city,
-          state,
-          country,
-          location,
-        }}
-        onChange={updates => {
-          if (updates.city !== undefined) form.setValue('city', updates.city);
-          if (updates.state !== undefined) form.setValue('state', updates.state);
-          if (updates.country !== undefined) form.setValue('country', updates.country);
-          if (updates.location !== undefined) form.setValue('location', updates.location);
-        }}
-      />
-    </TabsContent>
-  );
-};
+  const form = useForm<PropertyFormValues>({
+    //Use never to bypass type issues with zod discriminations types and react-hook-form
+    resolver: zodResolver(schema) as never,
+    defaultValues: defaultValues ?? formDefaultValues,
+  });
 
-LocationTabContent.displayName = 'LocationTabContent';
+  const [formErrors, setFormErrors] = useState<typeof form.formState.errors>();
 
-// Sub-component for Images Tab Content
-const ImagesTabContent = ({ form }: { form: ReturnType<typeof useForm<PropertyFormSchema>> }): React.ReactElement => {
-  const images = form.watch('images');
+  const {
+    onCreateProperty,
+    isPending: isCreating,
+    error: createError,
+  } = useCreatePropertyRequest({
+    onSuccess: onReset,
+  });
 
-  return (
-    <TabsContent value="images">
-      <ImagesTab
-        formData={{
-          images,
-        }}
-        onChange={updates => {
-          if (updates.images !== undefined) form.setValue('images', updates.images);
-        }}
-      />
-    </TabsContent>
-  );
-};
+  const {
+    onUpdateProperty,
+    isPending: isUpdating,
+    error: updateError,
+  } = useUpdatePropertyRequest({
+    onSuccess: onReset,
+  });
 
-ImagesTabContent.displayName = 'ImagesTabContent';
+  const isLoading = isCreating || isUpdating;
+  const error = createError || updateError;
 
-// Sub-component for Virtual Tours Tab Content
-const VirtualToursTabContent = ({
-  form,
-}: {
-  form: ReturnType<typeof useForm<PropertyFormSchema>>;
-}): React.ReactElement => {
-  const virtualTours = form.watch('virtualTours');
+  React.useEffect(() => {
+    onLoadingChange?.(isLoading);
+  }, [isLoading, onLoadingChange]);
 
-  return (
-    <TabsContent value="virtual-tours">
-      <VirtualToursTab
-        formData={{
-          virtualTours,
-        }}
-        onChange={updates => {
-          if (updates.virtualTours !== undefined) form.setValue('virtualTours', updates.virtualTours);
-        }}
-      />
-    </TabsContent>
-  );
-};
+  const onSubmit = (data: PropertyFormValues): void => {
+    if (data.action === 'create') {
+      onCreateProperty(data);
+      return;
+    }
 
-VirtualToursTabContent.displayName = 'VirtualToursTabContent';
-
-export const PropertyForm = React.memo(
-  ({ defaultValues, activeTab, onTabChange, onSubmit, onOwnerChange }: PropertyFormWithHookFormProps) => {
-    const form = useForm<PropertyFormSchema>({
-      resolver: zodResolver(propertyFormSchema),
-      defaultValues: {
-        name: '',
-        price: '',
-        area: '',
-        buildYear: '',
-        bedrooms: '',
-        bathrooms: '',
-        description: '',
-        features: '',
-        ownerId: '',
-        ownerName: '',
-        status: 'available',
-        city: '',
-        state: '',
-        country: '',
-        amenities: [],
-        images: [],
-        location: undefined,
-        virtualTours: [],
-        ...defaultValues,
+    onUpdateProperty({
+      data: {
+        ...data,
+        action: 'update',
       },
+      propertyId: data.id,
     });
+  };
 
-    // Update form when defaultValues change (for edit mode)
-    useEffect(() => {
-      if (defaultValues) {
-        form.reset(defaultValues);
-      }
-    }, [defaultValues, form]);
-
-    return (
-      <Form {...form}>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            console.info('Form submit triggered');
-            console.info('Form errors:', form.formState.errors);
-            console.info('Form values:', form.getValues());
-            void form.handleSubmit(
-              data => {
-                console.info('Form validation passed, calling onSubmit with:', data);
-                onSubmit(data);
-              },
-              errors => {
-                console.error('Form validation failed:', errors);
-              }
-            )(e);
-          }}
-          className="space-y-4"
-          id="property-form"
-        >
-          <Tabs value={activeTab} onValueChange={onTabChange} className="w-full min-h-0">
-            <FormTabsList />
-
-            <TabsContent value="basic">
-              <BasicInfoTab control={form.control} onOwnerChange={onOwnerChange} />
-            </TabsContent>
-
-            <FeaturesTabContent form={form} />
-            <LocationTabContent form={form} />
-            <ImagesTabContent form={form} />
-            <VirtualToursTabContent form={form} />
-          </Tabs>
-        </form>
-      </Form>
-    );
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-);
+
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    void form.handleSubmit(
+      data => {
+        onSubmit(data);
+      },
+      errors => {
+        setFormErrors(errors);
+      }
+    )(e);
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={handlerSubmit} className="space-y-4" id="property-form">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full min-h-0">
+          <FormTabsList />
+
+          <TabsContent value="basic">
+            <BasicInfoTab />
+          </TabsContent>
+
+          <TabsContent value="features">
+            <FeaturesTab />
+          </TabsContent>
+          <TabsContent value="location">
+            <LocationTab />
+          </TabsContent>
+          <TabsContent value="images">
+            <ImagesTab />
+          </TabsContent>
+          <TabsContent value="virtual-tours">
+            <VirtualToursTab />
+          </TabsContent>
+        </Tabs>
+        {formErrors && Object.keys(formErrors).length > 0 && (
+          <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+            <h3 className="font-semibold mb-2">Please fix the following errors:</h3>
+            <ul className="list-disc list-inside space-y-1">
+              {flattenErrors(formErrors as Record<string, ErrorWithMessage>).map(({ field, message }) => (
+                <li key={field}>
+                  <span className="font-medium">{field}</span>: {message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </form>
+      {error && (
+        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-md mt-4">
+          <h3 className="font-semibold">Submission Error:</h3>
+          <p>{error.message}</p>
+        </div>
+      )}
+    </Form>
+  );
+});
 
 PropertyForm.displayName = 'PropertyForm';

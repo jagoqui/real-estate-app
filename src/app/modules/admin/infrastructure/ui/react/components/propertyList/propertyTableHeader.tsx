@@ -13,6 +13,7 @@ export const PropertyTableHeader = (): React.ReactElement => {
             style={{ scrollbarWidth: 'thin', scrollbarColor: '#cbd5e1 transparent' }}
           >
             <div className="w-[180px] flex-shrink-0">Location</div>
+            <div className="w-[150px] flex-shrink-0">Type</div>
             <div className="w-[120px] flex-shrink-0">Price</div>
             <div className="w-[150px] flex-shrink-0">Details</div>
             <div className="w-[150px] flex-shrink-0">Features</div>

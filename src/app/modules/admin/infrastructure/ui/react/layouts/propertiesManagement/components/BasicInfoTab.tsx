@@ -1,20 +1,20 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
+import { Sparkle } from 'lucide-react';
 import React from 'react';
-import { type Control } from 'react-hook-form';
-import { type PropertyFormSchema } from '../schemas/propertyForm.schema';
+import { useFormContext } from 'react-hook-form';
 import { OwnerSelect } from './OwnerSelect';
-
-interface BasicInfoTabProps {
-  control: Control<PropertyFormSchema>;
-  onOwnerChange?: (ownerId: string, ownerName: string) => void;
-}
+import { StatusSelect } from './StatusSelect';
+import { TypeSelect } from './TypeSelect';
 
 // eslint-disable-next-line max-lines-per-function
-export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTabProps) => {
+export const BasicInfoTab = React.memo(() => {
+  const { control } = useFormContext<PropertyFormValues>();
+
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div className="space-y-2 sm:col-span-2">
@@ -41,7 +41,13 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
             <FormItem>
               <FormLabel>Price (USD)</FormLabel>
               <FormControl>
-                <FormattedInput formatType="currency" value={field.value} onChange={field.onChange} placeholder="$0" />
+                <FormattedInput
+                  formatType="currency"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="$0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -57,7 +63,13 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
             <FormItem>
               <FormLabel>Area (m²)</FormLabel>
               <FormControl>
-                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+                <FormattedInput
+                  formatType="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,12 +85,26 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
             <FormItem>
               <FormLabel>Build Year</FormLabel>
               <FormControl>
-                <FormattedInput formatType="year" value={field.value} onChange={field.onChange} placeholder="2024" />
+                <FormattedInput
+                  formatType="year"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="2025"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+      </div>
+
+      <div className="space-y-2">
+        <StatusSelect control={control} />
+      </div>
+
+      <div className="space-y-2">
+        <TypeSelect control={control} />
       </div>
 
       <div className="space-y-2">
@@ -89,7 +115,13 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
             <FormItem>
               <FormLabel>Bedrooms</FormLabel>
               <FormControl>
-                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+                <FormattedInput
+                  formatType="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +137,13 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
             <FormItem>
               <FormLabel>Bathrooms</FormLabel>
               <FormControl>
-                <FormattedInput formatType="number" value={field.value} onChange={field.onChange} placeholder="0" />
+                <FormattedInput
+                  formatType="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="0"
+                  valueType="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,32 +152,25 @@ export const BasicInfoTab = React.memo(({ control, onOwnerChange }: BasicInfoTab
       </div>
 
       <div className="space-y-2">
+        <OwnerSelect control={control} />
+      </div>
+
+      <div className="space-y-2 flex items-center gap-3">
         <FormField
           control={control}
-          name="status"
+          name="featured"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Status</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="available">Available</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="sold">Sold</SelectItem>
-                </SelectContent>
-              </Select>
+            <FormItem className="flex items-center gap-2 space-y-0">
+              <FormControl>
+                <Switch checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <FormLabel className="cursor-pointer">
+                Featured Property <Sparkle />
+              </FormLabel>
               <FormMessage />
             </FormItem>
           )}
         />
-      </div>
-
-      <div className="space-y-2">
-        <OwnerSelect control={control} onOwnerChange={onOwnerChange} />
       </div>
 
       <div className="space-y-2 sm:col-span-2">

@@ -1,4 +1,4 @@
-import type { Property } from '@/modules/admin/infrastructure/ui/react/layouts/propertiesManagement/propertiesManagement.layout';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 
 interface PropertyDetailsProps {
   bedrooms: Property['bedrooms'];

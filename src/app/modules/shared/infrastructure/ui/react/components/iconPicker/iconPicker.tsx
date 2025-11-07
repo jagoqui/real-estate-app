@@ -3,12 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { useVirtualizer, Virtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer, type Virtualizer } from '@tanstack/react-virtual';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { DynamicIcon, type LucideIconName } from '../dynamicIcon/dynamicIcon';
+import { DynamicIcon } from '../dynamicIcon/dynamicIcon';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import type { LucideIconName } from '@/modules/shared/domain/schemas/lucideIcon.schema';
 import { Check, Loader2, Search } from 'lucide-react';
 
 interface IconPickerProps {
@@ -278,7 +279,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-between h-10 px-3 bg-background hover:bg-accent">
           {value ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 truncate">
               <DynamicIcon name={value} className="h-4 w-4" />
               <span className="text-sm truncate min-w-0">{value}</span>
             </div>
