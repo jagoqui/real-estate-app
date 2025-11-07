@@ -63,6 +63,9 @@ export const PropertyTableRow = ({
             <div className="w-[180px] flex-shrink-0 px-4 py-3">
               <LocationPreview property={property} />
             </div>
+            <div className="w-[150px] flex-shrink-0 px-4 py-3">
+              <b>{property.type}</b>
+            </div>
             <div className="w-[120px] flex-shrink-0 px-4 py-3 font-semibold">${property.price.toLocaleString()}</div>
             <div className="w-[150px] flex-shrink-0 px-4 py-3 text-sm text-muted-foreground">
               <PropertyDetails
