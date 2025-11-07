@@ -13,11 +13,19 @@ export const ImageManagerHeader = ({
   remainingSlots,
 }: ImageManagerHeaderProps): React.ReactElement => {
   return (
-    <div className="flex items-center justify-between">
-      <Label>Property Images</Label>
-      <span className="text-xs text-muted-foreground">
-        {currentCount} / {maxImages} images
-        {remainingSlots > 0 && ` • ${remainingSlots} slot${remainingSlots !== 1 ? 's' : ''} available`}
+    <div className="flex items-center justify-between gap-2">
+      <Label className="text-sm sm:text-base">Property Images</Label>
+      <span className="text-[10px] sm:text-xs text-muted-foreground shrink-0">
+        {currentCount} / {maxImages}
+        <span className="hidden sm:inline"> images</span>
+        {remainingSlots > 0 && (
+          <>
+            <span className="hidden xs:inline">
+              {' '}
+              • {remainingSlots} slot{remainingSlots !== 1 ? 's' : ''}
+            </span>
+          </>
+        )}
       </span>
     </div>
   );

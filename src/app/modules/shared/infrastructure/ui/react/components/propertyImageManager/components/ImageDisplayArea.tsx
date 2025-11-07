@@ -30,18 +30,24 @@ export const ImageDisplayArea = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <Label className="text-sm">Property Images ({images.length})</Label>
-        <Button type="button" variant="outline" size="sm" onClick={onToggleCarousel} className="gap-2">
+      <div className="flex items-center justify-between gap-2">
+        <Label className="text-xs sm:text-sm truncate">Property Images ({images.length})</Label>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={onToggleCarousel}
+          className="gap-1 sm:gap-2 shrink-0"
+        >
           {showCarousel ? (
             <>
-              <X className="h-4 w-4" />
-              Hide Preview
+              <X className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Hide</span>
             </>
           ) : (
             <>
-              <ZoomIn className="h-4 w-4" />
-              Show Preview
+              <ZoomIn className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Preview</span>
             </>
           )}
         </Button>

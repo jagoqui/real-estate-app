@@ -40,50 +40,56 @@ export const ImageCarouselView = ({
           {images.length > 1 && (
             <>
               <button
+                type="button"
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
                   onSelectImage(Math.max(0, selectedImageIndex - 1));
                 }}
                 disabled={selectedImageIndex === 0}
-                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all touch-manipulation"
+                aria-label="Previous image"
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
               <button
+                type="button"
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
                   onSelectImage(Math.min(images.length - 1, selectedImageIndex + 1));
                 }}
                 disabled={selectedImageIndex === images.length - 1}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all touch-manipulation"
+                aria-label="Next image"
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
             </>
           )}
         </div>
-        <div className="p-3 bg-background border-t flex justify-between items-center">
-          <div>
-            <p className="font-medium text-sm">{images[selectedImageIndex]?.name}</p>
+        <div className="p-3 bg-background border-t flex justify-between items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="font-medium text-sm truncate">{images[selectedImageIndex]?.name}</p>
             <p className="text-xs text-muted-foreground">
               {(images[selectedImageIndex]?.size / BYTES_IN_MB).toFixed(DECIMAL_PLACES)} MB • Image{' '}
               {selectedImageIndex + 1} of {images.length}
-              {selectedImageIndex === 0 && ' • Cover Image'}
+              {selectedImageIndex === 0 && ' • Cover'}
             </p>
           </div>
           <Button
+            type="button"
             variant="destructive"
             size="sm"
+            className="shrink-0"
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
               onRemoveImage(images[selectedImageIndex].id);
             }}
           >
-            <Trash2 className="h-4 w-4 mr-1" />
-            Delete
+            <Trash2 className="h-4 w-4 sm:mr-1" />
+            <span className="hidden sm:inline">Delete</span>
           </Button>
         </div>
       </div>
