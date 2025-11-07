@@ -13,7 +13,11 @@ interface UseGetPropertiesReturn {
   data?: GetPropertiesReturnValue;
 }
 
-export const useGetPropertiesRequest = (): UseGetPropertiesReturn => {
+export const useGetPropertiesRequest = ({
+  filterByFeatured,
+}: {
+  filterByFeatured?: boolean;
+} = {}): UseGetPropertiesReturn => {
   const { getPropertiesRequest } = usePropertiesRequestsContext();
 
   const onGetProperties = (): void => {
@@ -25,10 +29,12 @@ export const useGetPropertiesRequest = (): UseGetPropertiesReturn => {
     queryFn: getPropertiesRequest,
   });
 
+  const filterData = filterByFeatured ? data?.filter(property => property.featured) : data;
+
   return {
     onGetProperties,
     isPending,
     error,
-    data,
+    data: filterData,
   };
 };

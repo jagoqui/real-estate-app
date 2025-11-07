@@ -3,7 +3,7 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { ConfirmAlert } from '@/modules/shared/infrastructure/ui/react/components/confirmAlert/confirmAlert';
 import { PropertyImagesTableCell } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Award, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { LocationPreview } from '../locationPreview/locationPreview';
 import { PropertyAmenities } from './components/propertyAmenities';
@@ -54,6 +54,14 @@ export const PropertyTableRow = ({
           <div className="text-xs text-muted-foreground mt-1 truncate">
             {property.city}, {property.state}
           </div>
+          {property.featured && (
+            <div className="group relative inline-block mt-1">
+              <Award size={20} fill="#FFD700" />
+              <span className="invisible group-hover:visible absolute left-0 top-full mt-1 whitespace-nowrap rounded bg-gray-900 px-2 py-1 text-xs text-white shadow-lg">
+                Featured Property
+              </span>
+            </div>
+          )}
         </TableCell>
         <TableCell className="flex-1 p-0">
           <div
