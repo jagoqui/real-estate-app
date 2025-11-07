@@ -89,6 +89,7 @@ export const PropertyImageManager = ({
           onToggleCarousel={() => manager.setShowCarousel(!manager.showCarousel)}
           onSelectImage={manager.setSelectedImageIndex}
           onRemoveImage={manager.removeImage}
+          onSetAsCover={manager.setAsCover}
         />
       </div>
     </div>

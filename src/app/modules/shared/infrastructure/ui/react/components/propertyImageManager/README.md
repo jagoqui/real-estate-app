@@ -15,6 +15,7 @@ propertyImageManager/
 │   ├── useInitialImages.ts (65 líneas) - Conversión URL → File
 │   ├── useImageInteractions.ts (96 líneas) - Drag & drop, file input
 │   ├── useRemoveImage.ts (35 líneas) - Lógica de eliminación
+│   ├── useSetAsCover.ts (31 líneas) - Establecer imagen de portada
 │   └── imageHelpers.ts (65 líneas) - Funciones puras
 └── components/
     ├── ImageUploadArea.tsx (59 líneas)
@@ -26,6 +27,7 @@ propertyImageManager/
     ├── ImageLoadingState.tsx (7 líneas)
     ├── ImageManagerHeader.tsx (21 líneas)
     ├── ImageDisplayArea.tsx (79 líneas)
+    ├── CoverImageBadge.tsx (41 líneas) - Badge de portada
     └── index.ts (barrel export)
 ```
 
@@ -67,6 +69,15 @@ propertyImageManager/
 - ✅ Ajuste de índice seleccionado
 - ✅ Notificación de cambios
 
+### `useSetAsCover` (Portada - 31 líneas) ⭐ NUEVO
+
+**Responsabilidad**: Establecer imagen de portada
+
+- ✅ Mueve imagen seleccionada a la primera posición
+- ✅ Resetea índice seleccionado a 0
+- ✅ Notifica cambios al padre
+- ✅ La primera imagen siempre es la portada
+
 ### `imageHelpers` (Utilidades Puras - 65 líneas)
 
 **Responsabilidad**: Funciones puras sin side effects
@@ -74,6 +85,7 @@ propertyImageManager/
 - ✅ `validateFile()` - Validación de tipo, tamaño, límites
 - ✅ `createImageObject()` - Crea objeto PropertyImage desde File
 - ✅ `processFiles()` - Procesa FileList y retorna válidos + errores
+- ✅ `setImageAsCover()` - Reordena array moviendo imagen al inicio ⭐
 
 ## 🎨 Capa de Presentación (Componentes)
 
@@ -123,6 +135,17 @@ interface PropertyImageManagerProps {
 - ✅ Toggle entre carousel y grid
 - ✅ Compone ImageCarouselView + ImageThumbnails
 - ✅ Compone ImageGridView
+- ✅ Pasa función `setAsCover` a todos los componentes hijos
+
+### `CoverImageBadge` (41 líneas) ⭐ NUEVO
+
+**Responsabilidad**: Badge visual de imagen de portada
+
+- ✅ Muestra badge "Cover" con estrella dorada en primera imagen (modo preview)
+- ✅ Muestra botón "Set as Cover" en hover en demás imágenes (modo preview)
+- ✅ Maneja clicks para establecer como portada
+- ✅ Solo se usa en ImageCarouselView y ImageGridView
+- ✅ **NO se usa en thumbnails** - thumbnails solo muestran icono pequeño
 
 ---
 
@@ -181,6 +204,8 @@ interface ImageCarouselViewProps {
 - ✅ Indicador de imagen seleccionada
 - ✅ Botones de eliminación en hover
 - ✅ Scroll horizontal para muchas imágenes
+- ✅ **Icono pequeño de estrella** en la primera imagen (portada) ⭐
+- ✅ **NO usa CoverImageBadge** - solo muestra icono compacto
 
 **Props**:
 
@@ -190,6 +215,7 @@ interface ImageThumbnailsProps {
   selectedImageIndex: number;
   onSelectImage: (index: number) => void;
   onRemoveImage: (id: string) => void;
+  // ❌ NO tiene onSetAsCover - solo muestra indicador visual
 }
 ```
 

@@ -3,6 +3,7 @@ import type { PropertyImage } from '../propertyImageManager';
 import { useImageInteractions } from './useImageInteractions';
 import { useInitialImages } from './useInitialImages';
 import { useRemoveImage } from './useRemoveImage';
+import { useSetAsCover } from './useSetAsCover';
 
 interface UseImageManagerProps {
   value?: Array<PropertyImage>;
@@ -29,6 +30,7 @@ interface UseImageManagerReturn {
   handleDragLeave: (e: React.DragEvent) => void;
   removeImage: (id: string) => void;
   openFileDialog: () => void;
+  setAsCover: (imageId: string) => void;
 }
 
 export const useImageManager = ({
@@ -48,14 +50,12 @@ export const useImageManager = ({
     onFilesChange,
   });
 
-  // Sync with external value changes
   React.useEffect(() => {
     if (value) {
       setImages(value);
     }
   }, [value, setImages]);
 
-  // Notify parent when images change
   const notifyImagesChange = useCallback(
     (updatedImages: Array<PropertyImage>) => {
       if (onFilesChange) {
@@ -87,6 +87,13 @@ export const useImageManager = ({
     setSelectedImageIndex,
   });
 
+  const setAsCover = useSetAsCover({
+    images,
+    setImages,
+    notifyChange: notifyImagesChange,
+    setSelectedImageIndex,
+  });
+
   return {
     images,
     isDragging: interactions.isDragging,
@@ -102,5 +109,6 @@ export const useImageManager = ({
     handleDragLeave: interactions.handleDragLeave,
     removeImage,
     openFileDialog: interactions.openFileDialog,
+    setAsCover,
   };
 };

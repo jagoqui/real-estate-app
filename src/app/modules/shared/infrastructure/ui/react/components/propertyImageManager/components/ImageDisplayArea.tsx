@@ -12,6 +12,7 @@ interface ImageDisplayAreaProps {
   onToggleCarousel: () => void;
   onSelectImage: (index: number) => void;
   onRemoveImage: (id: string) => void;
+  onSetAsCover: (id: string) => void;
 }
 
 export const ImageDisplayArea = ({
@@ -21,6 +22,7 @@ export const ImageDisplayArea = ({
   onToggleCarousel,
   onSelectImage,
   onRemoveImage,
+  onSetAsCover,
 }: ImageDisplayAreaProps): React.ReactElement | null => {
   if (images.length === 0) {
     return null;
@@ -30,18 +32,7 @@ export const ImageDisplayArea = ({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Label className="text-sm">Property Images ({images.length})</Label>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            onToggleCarousel();
-          }}
-          onMouseDown={e => e.stopPropagation()}
-          onMouseUp={e => e.stopPropagation()}
-          className="gap-2"
-        >
+        <Button type="button" variant="outline" size="sm" onClick={onToggleCarousel} className="gap-2">
           {showCarousel ? (
             <>
               <X className="h-4 w-4" />
@@ -63,6 +54,7 @@ export const ImageDisplayArea = ({
             selectedImageIndex={selectedImageIndex}
             onSelectImage={onSelectImage}
             onRemoveImage={onRemoveImage}
+            onSetAsCover={onSetAsCover}
           />
           <ImageThumbnails
             images={images}
@@ -76,6 +68,7 @@ export const ImageDisplayArea = ({
           images={images}
           onSelectImage={onSelectImage}
           onRemoveImage={onRemoveImage}
+          onSetAsCover={onSetAsCover}
           onShowCarousel={onToggleCarousel}
         />
       )}

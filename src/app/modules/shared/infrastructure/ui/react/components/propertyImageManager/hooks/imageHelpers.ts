@@ -61,3 +61,20 @@ export const processFiles = (
 
   return { newImages, errors };
 };
+
+/**
+ * Sets an image as cover by moving it to the first position
+ */
+export const setImageAsCover = (images: Array<PropertyImage>, imageId: string): Array<PropertyImage> => {
+  const imageIndex = images.findIndex(img => img.id === imageId);
+
+  if (imageIndex === -1 || imageIndex === 0) {
+    return images; // Image not found or already is cover
+  }
+
+  const newImages = [...images];
+  const [imageToMove] = newImages.splice(imageIndex, 1);
+  newImages.unshift(imageToMove);
+
+  return newImages;
+};
