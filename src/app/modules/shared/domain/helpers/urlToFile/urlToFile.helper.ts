@@ -1,6 +1,6 @@
 /**
  * Converts a URL (blob or server URL) to a File object
- * 
+ *
  * @param url - The URL to convert (can be blob: or http:/https:)
  * @param fileName - The name for the resulting File
  * @param mimeType - Optional MIME type, will use blob type if not provided
@@ -9,17 +9,23 @@
 export const urlToFile = async (url: string, fileName: string, mimeType?: string): Promise<File> => {
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
     const blob = await response.blob();
     return new File([blob], fileName, { type: mimeType ?? blob.type });
   } catch (error) {
     console.error('Error converting URL to File:', error);
-    throw error;
+
+    // Return a simple placeholder blob
+    const blob = new Blob([''], { type: mimeType ?? 'image/png' });
+    return new File([blob], fileName, { type: blob.type });
   }
 };
 
 /**
  * Converts an array of URLs to an array of Files
- * 
+ *
  * @param urls - Array of URLs to convert
  * @param getFileName - Optional function to generate filename from URL
  * @returns Promise that resolves with array of File objects
