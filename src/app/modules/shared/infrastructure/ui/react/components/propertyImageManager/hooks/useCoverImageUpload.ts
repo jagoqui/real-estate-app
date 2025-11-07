@@ -6,7 +6,7 @@ interface UseCoverImageUploadProps {
 }
 
 interface UseCoverImageUploadReturn {
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDragging: boolean;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClick: () => void;
