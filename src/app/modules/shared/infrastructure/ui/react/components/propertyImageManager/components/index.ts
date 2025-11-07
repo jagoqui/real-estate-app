@@ -1,5 +1,7 @@
 export { CoverImageBadge } from './CoverImageBadge';
 
+export { CoverImageSection } from './CoverImageSection';
+
 export { ImageCarouselView } from './ImageCarouselView';
 
 export { ImageDisplayArea } from './ImageDisplayArea';

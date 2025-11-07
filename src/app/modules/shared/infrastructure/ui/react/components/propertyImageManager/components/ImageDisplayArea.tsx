@@ -12,7 +12,7 @@ interface ImageDisplayAreaProps {
   onToggleCarousel: () => void;
   onSelectImage: (index: number) => void;
   onRemoveImage: (id: string) => void;
-  onSetAsCover: (id: string) => void;
+  onReorderImages: (startIndex: number, endIndex: number) => void;
 }
 
 export const ImageDisplayArea = ({
@@ -22,7 +22,7 @@ export const ImageDisplayArea = ({
   onToggleCarousel,
   onSelectImage,
   onRemoveImage,
-  onSetAsCover,
+  onReorderImages,
 }: ImageDisplayAreaProps): React.ReactElement | null => {
   if (images.length === 0) {
     return null;
@@ -60,13 +60,13 @@ export const ImageDisplayArea = ({
             selectedImageIndex={selectedImageIndex}
             onSelectImage={onSelectImage}
             onRemoveImage={onRemoveImage}
-            onSetAsCover={onSetAsCover}
           />
           <ImageThumbnails
             images={images}
             selectedImageIndex={selectedImageIndex}
             onSelectImage={onSelectImage}
             onRemoveImage={onRemoveImage}
+            onReorderImages={onReorderImages}
           />
         </>
       ) : (
@@ -74,8 +74,8 @@ export const ImageDisplayArea = ({
           images={images}
           onSelectImage={onSelectImage}
           onRemoveImage={onRemoveImage}
-          onSetAsCover={onSetAsCover}
           onShowCarousel={onToggleCarousel}
+          onReorderImages={onReorderImages}
         />
       )}
     </div>

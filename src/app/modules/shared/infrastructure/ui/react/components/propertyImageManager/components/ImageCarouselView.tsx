@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import React from 'react';
 import type { PropertyImage } from '../propertyImageManager';
-import { CoverImageBadge } from './CoverImageBadge';
 
 const KB_SIZE = 1024;
 const BYTES_IN_MB = KB_SIZE * KB_SIZE;
@@ -13,7 +12,6 @@ interface ImageCarouselViewProps {
   selectedImageIndex: number;
   onSelectImage: (index: number) => void;
   onRemoveImage: (id: string) => void;
-  onSetAsCover: (id: string) => void;
 }
 
 export const ImageCarouselView = ({
@@ -21,17 +19,11 @@ export const ImageCarouselView = ({
   selectedImageIndex,
   onSelectImage,
   onRemoveImage,
-  onSetAsCover,
 }: ImageCarouselViewProps): React.ReactElement => {
   return (
     <div className="space-y-3 p-4 border rounded-lg bg-muted/20" onClick={e => e.stopPropagation()}>
       <div className="relative bg-background rounded-lg overflow-hidden border">
         <div className="group aspect-video relative flex items-center justify-center bg-muted/30">
-          <CoverImageBadge
-            isCover={selectedImageIndex === 0}
-            onSetAsCover={() => onSetAsCover(images[selectedImageIndex].id)}
-            showSetButton={selectedImageIndex !== 0}
-          />
           <img
             src={images[selectedImageIndex]?.preview}
             alt={images[selectedImageIndex]?.name}
@@ -74,7 +66,6 @@ export const ImageCarouselView = ({
             <p className="text-xs text-muted-foreground">
               {(images[selectedImageIndex]?.size / BYTES_IN_MB).toFixed(DECIMAL_PLACES)} MB • Image{' '}
               {selectedImageIndex + 1} of {images.length}
-              {selectedImageIndex === 0 && ' • Cover'}
             </p>
           </div>
           <Button

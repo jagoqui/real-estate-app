@@ -81,7 +81,7 @@ export const propertySchema = z.object({
     .default([]),
   amenities: amenitySchema.array().default([]),
   images: z.array(z.string()).max(PropertySchemaValidations.IMAGES.MAX_ITEMS).default([]),
-  coverImage: z.string().optional().nullable().default(null),
+  coverImage: z.string().optional(),
   views360Url: z.array(z.string()).max(PropertySchemaValidations.VIEWS_380_URL.MAX_ITEMS).default([]),
   ownerId: z.string(),
   status: propertyStatutesSchema,

@@ -1,35 +1,74 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { X } from 'lucide-react';
-import React from 'react';
+import { GripVertical, X } from 'lucide-react';
+import React, { useState } from 'react';
 import type { PropertyImage } from '../propertyImageManager';
-import { CoverImageBadge } from './CoverImageBadge';
 
 interface ImageGridViewProps {
   images: Array<PropertyImage>;
   onSelectImage: (index: number) => void;
   onRemoveImage: (id: string) => void;
-  onSetAsCover: (id: string) => void;
   onShowCarousel: () => void;
+  onReorderImages: (startIndex: number, endIndex: number) => void;
 }
 
 export const ImageGridView = ({
   images,
   onSelectImage,
   onRemoveImage,
-  onSetAsCover,
   onShowCarousel,
+  onReorderImages,
 }: ImageGridViewProps): React.ReactElement => {
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, index: number): void => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>, index: number): void => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = (): void => {
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, dropIndex: number): void => {
+    e.preventDefault();
+    if (draggedIndex !== null && draggedIndex !== dropIndex) {
+      onReorderImages(draggedIndex, dropIndex);
+    }
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = (): void => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
   return (
     <ScrollArea className="h-32">
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 pr-4 pt-5 pb-2">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 pr-4 pt-2 pb-2">
         {images.map((image, index) => (
-          <div key={image.id} className="relative group">
-            <CoverImageBadge
-              isCover={index === 0}
-              onSetAsCover={() => onSetAsCover(image.id)}
-              showSetButton={index !== 0}
-            />
+          <div
+            key={image.id}
+            draggable
+            onDragStart={e => handleDragStart(e, index)}
+            onDragOver={e => handleDragOver(e, index)}
+            onDragLeave={handleDragLeave}
+            onDrop={e => handleDrop(e, index)}
+            onDragEnd={handleDragEnd}
+            className={`relative group cursor-move ${draggedIndex === index ? 'opacity-50' : ''} ${dragOverIndex === index ? 'ring-2 ring-primary rounded' : ''}`}
+          >
+            {/* Drag Handle */}
+            <div className="absolute top-0.5 left-0.5 bg-black/60 text-white rounded p-0.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <GripVertical className="h-3 w-3" />
+            </div>
+
             <img
               src={image.preview}
               alt={image.name}
