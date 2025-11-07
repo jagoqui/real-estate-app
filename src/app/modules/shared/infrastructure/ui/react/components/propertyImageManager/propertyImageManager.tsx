@@ -1,22 +1,15 @@
-/* eslint-disable complexity */
 import { Button } from '@/components/ui/button';
-
 import { Label } from '@/components/ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { urlToFile } from '@/modules/shared/domain/helpers/urlToFile/urlToFile.helper';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
-import { ChevronLeft, ChevronRight, ImageIcon, Trash2, Upload, X, ZoomIn } from 'lucide-react';
+import { X, ZoomIn } from 'lucide-react';
 import React, { useCallback, useRef, useState } from 'react';
+import { ImageCarouselView, ImageGridView, ImageThumbnails, ImageUploadArea } from './components';
 
 // Constants
-const DEFAULT_MAX_VISIBLE = 3;
 const DEFAULT_MAX_IMAGES = 20;
 const DEFAULT_MAX_FILE_SIZE = 5; // MB
 const KB_SIZE = 1024;
 const BYTES_IN_MB = KB_SIZE * KB_SIZE;
-
-const DECIMAL_PLACES = 2;
 
 export interface PropertyImage {
   id: string;
@@ -37,76 +30,6 @@ interface PropertyImageManagerProps {
   acceptedTypes?: Array<string>;
   className?: string;
 }
-
-interface ImagePreviewProps {
-  images: Property['images'];
-  onRemove?: (id: string) => void;
-  onViewAll?: () => void;
-  maxVisible?: number;
-  showActions?: boolean;
-}
-
-export const ImagePreview = ({
-  images = [],
-  onRemove,
-  onViewAll,
-  maxVisible = DEFAULT_MAX_VISIBLE,
-  showActions = false,
-}: ImagePreviewProps): React.ReactElement => {
-  if (images.length === 0) {
-    return (
-      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-        <ImageIcon className="h-3 w-3" />
-        <span>No images</span>
-      </div>
-    );
-  }
-
-  const visibleImages = images.slice(0, maxVisible);
-  const remainingCount = Math.max(0, images.length - maxVisible);
-
-  if (images.length === 1) {
-    return (
-      <div className="flex items-center gap-2">
-        <div className="relative">
-          <img src={visibleImages[0]} alt={visibleImages[0]} className="h-8 w-12 object-cover rounded border" />
-        </div>
-        {showActions && onRemove && (
-          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onRemove(visibleImages[0])}>
-            <Trash2 className="h-3 w-3" />
-          </Button>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-1">
-      <div className="flex -space-x-1">
-        {visibleImages.map((image, index) => (
-          <div key={image} className="relative">
-            <img
-              src={image}
-              alt={image}
-              className="h-8 w-8 object-cover rounded border-2 border-background"
-              style={{ zIndex: maxVisible - index }}
-            />
-          </div>
-        ))}
-      </div>
-      {remainingCount > 0 && (
-        <div className="flex items-center justify-center h-8 w-8 bg-muted border-2 border-background rounded text-xs font-medium">
-          +{remainingCount}
-        </div>
-      )}
-      {onViewAll && (
-        <Button variant="ghost" size="icon" className="h-6 w-6 ml-1" onClick={onViewAll}>
-          <ZoomIn className="h-3 w-3" />
-        </Button>
-      )}
-    </div>
-  );
-};
 
 // Main component for managing property images with inline carousel
 // eslint-disable-next-line max-lines-per-function
@@ -332,40 +255,16 @@ export const PropertyImageManager = ({
           </span>
         </div>
 
-        {/* Upload Area */}
-        <div
-          className={`
-            border-2 border-dashed rounded-lg p-6 text-center transition-colors
-            ${isDragging && !isUploadDisabled ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
-            ${isUploadDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-primary hover:bg-primary/5'}
-          `}
-          onDrop={isUploadDisabled ? undefined : handleDrop}
-          onDragOver={isUploadDisabled ? undefined : handleDragOver}
-          onDragLeave={isUploadDisabled ? undefined : handleDragLeave}
-          onClick={isUploadDisabled ? undefined : openFileDialog}
-        >
-          <div className="flex flex-col items-center gap-2">
-            <Upload className="h-8 w-8 text-muted-foreground" />
-            <div className="text-sm">
-              {isUploadDisabled ? (
-                <span className="font-medium">Maximum images reached</span>
-              ) : (
-                <>
-                  <span className="font-medium">Click to upload</span> or drag and drop
-                </>
-              )}
-            </div>
-            <div className="text-xs text-muted-foreground">
-              {isUploadDisabled ? (
-                `Remove some images to upload more`
-              ) : (
-                <>
-                  PNG, JPG, WebP up to {maxFileSize}MB • {remainingSlots} remaining
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+        <ImageUploadArea
+          isUploadDisabled={isUploadDisabled}
+          isDragging={isDragging}
+          maxFileSize={maxFileSize}
+          remainingSlots={remainingSlots}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onClick={openFileDialog}
+        />
 
         <input
           ref={fileInputRef}
@@ -407,194 +306,32 @@ export const PropertyImageManager = ({
               </Button>
             </div>
 
-            {/* Carousel View */}
             {showCarousel ? (
-              <div
-                className="space-y-3 p-4 border rounded-lg bg-muted/20"
-                onClick={e => e.stopPropagation()}
-                onMouseDown={e => e.stopPropagation()}
-              >
-                {/* Main Image Display */}
-                <div className="relative bg-background rounded-lg overflow-hidden border">
-                  <div className="aspect-video relative flex items-center justify-center bg-muted/30">
-                    <img
-                      src={images[selectedImageIndex]?.preview}
-                      alt={images[selectedImageIndex]?.name}
-                      className="max-h-full max-w-full object-contain"
-                    />
-
-                    {/* Navigation Controls */}
-                    {images.length > 1 && (
-                      <>
-                        <button
-                          onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setSelectedImageIndex(Math.max(0, selectedImageIndex - 1));
-                          }}
-                          onMouseDown={e => e.stopPropagation()}
-                          disabled={selectedImageIndex === 0}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                        >
-                          <ChevronLeft className="h-5 w-5" />
-                        </button>
-                        <button
-                          onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setSelectedImageIndex(Math.min(images.length - 1, selectedImageIndex + 1));
-                          }}
-                          onMouseDown={e => e.stopPropagation()}
-                          disabled={selectedImageIndex === images.length - 1}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                        >
-                          <ChevronRight className="h-5 w-5" />
-                        </button>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Image Info Bar */}
-                  <div className="p-3 bg-background border-t flex justify-between items-center">
-                    <div>
-                      <p className="font-medium text-sm">{images[selectedImageIndex]?.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {(images[selectedImageIndex]?.size / BYTES_IN_MB).toFixed(DECIMAL_PLACES)} MB • Image{' '}
-                        {selectedImageIndex + 1} of {images.length}
-                      </p>
-                    </div>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const imageToRemove = images[selectedImageIndex];
-                        removeImage(imageToRemove.id);
-                      }}
-                      onMouseDown={e => e.stopPropagation()}
-                    >
-                      <Trash2 className="h-4 w-4 mr-1" />
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Thumbnail Navigation */}
-                {images.length > 1 && (
-                  <div className="flex gap-2 overflow-x-auto pb-2">
-                    {images.map((image, index) => (
-                      <button
-                        key={image.id}
-                        onClick={e => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setSelectedImageIndex(index);
-                        }}
-                        onMouseDown={e => e.stopPropagation()}
-                        className={`group flex-shrink-0 border-2 rounded overflow-hidden transition-all hover:scale-105 relative ${
-                          index === selectedImageIndex
-                            ? 'border-primary ring-2 ring-primary/20'
-                            : 'border-muted hover:border-primary/50'
-                        }`}
-                      >
-                        <img src={image.preview} alt={image.name} className="w-16 h-12 object-cover" />
-                        {/* Delete button for thumbnail */}
-                        <div
-                          className="absolute -top-1 -right-1 h-5 w-5 rounded-full flex items-center justify-center cursor-pointer transition-all opacity-0 group-hover:opacity-100 bg-destructive hover:bg-destructive/80 text-destructive-foreground"
-                          onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            removeImage(image.id);
-                          }}
-                          onMouseDown={e => e.stopPropagation()}
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <>
+                <ImageCarouselView
+                  images={images}
+                  selectedImageIndex={selectedImageIndex}
+                  onSelectImage={setSelectedImageIndex}
+                  onRemoveImage={removeImage}
+                />
+                <ImageThumbnails
+                  images={images}
+                  selectedImageIndex={selectedImageIndex}
+                  onSelectImage={setSelectedImageIndex}
+                  onRemoveImage={removeImage}
+                />
+              </>
             ) : (
-              /* Compact Grid View */
-              <ScrollArea className="h-32">
-                <div className="grid grid-cols-6 gap-2 pr-4 pt-5 pb-2">
-                  {images.map((image, index) => (
-                    <div key={image.id} className="relative group">
-                      <img
-                        src={image.preview}
-                        alt={image.name}
-                        className="w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80 transition-all"
-                        onClick={e => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setSelectedImageIndex(index);
-                          setShowCarousel(true);
-                        }}
-                        onMouseDown={e => e.stopPropagation()}
-                      />
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        className="absolute -top-1 -right-1 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                        onClick={e => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          removeImage(image.id);
-                        }}
-                        onMouseDown={e => e.stopPropagation()}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
+              <ImageGridView
+                images={images}
+                onSelectImage={setSelectedImageIndex}
+                onRemoveImage={removeImage}
+                onShowCarousel={() => setShowCarousel(true)}
+              />
             )}
           </div>
         )}
       </div>
     </div>
-  );
-};
-
-// Table cell component with popover
-interface PropertyImagesTableCellProps {
-  images: Property['images'];
-  onImagesChange?: (images: Array<PropertyImage>) => void;
-  propertyName: string;
-}
-
-export const PropertyImagesTableCell = ({
-  images,
-  propertyName,
-}: Omit<PropertyImagesTableCellProps, 'onImagesChange'>): React.ReactElement => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-  return (
-    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTrigger asChild>
-        <div className="cursor-pointer">
-          <ImagePreview images={images} maxVisible={DEFAULT_MAX_VISIBLE} onViewAll={() => setIsPopoverOpen(true)} />
-        </div>
-      </PopoverTrigger>
-      <PopoverContent className="w-80 p-4" align="start">
-        <div className="space-y-3">
-          <div className="font-semibold text-sm">{propertyName} - Images</div>
-          {images.length > 0 ? (
-            <div className="grid grid-cols-3 gap-2">
-              {images.map(image => (
-                <div key={image} className="relative group">
-                  <img src={image} alt={image} className="w-full h-16 object-cover rounded border" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-4 text-muted-foreground text-sm">No images uploaded</div>
-          )}
-        </div>
-      </PopoverContent>
-    </Popover>
   );
 };
