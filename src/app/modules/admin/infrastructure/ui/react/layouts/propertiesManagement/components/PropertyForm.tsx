@@ -152,7 +152,6 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
   const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     void form.handleSubmit(
       data => {
-        console.info('Form validation passed, calling onSubmit with:', data);
         onSubmit(data);
       },
       errors => {
