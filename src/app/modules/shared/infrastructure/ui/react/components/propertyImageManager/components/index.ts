@@ -1,6 +1,10 @@
 export { CoverImageBadge } from './CoverImageBadge';
 
+export { CoverImagePreview } from './CoverImagePreview';
+
 export { CoverImageSection } from './CoverImageSection';
+
+export { CoverImageUploadArea } from './CoverImageUploadArea';
 
 export { ImageCarouselView } from './ImageCarouselView';
 
