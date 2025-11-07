@@ -19,6 +19,7 @@ import { VirtualToursTab } from './VirtualToursTab';
 interface PropertyFormWithHookFormProps {
   defaultValues?: DefaultValues<PropertyFormValues>;
   onReset: () => void;
+  onLoadingChange?: (isLoading: boolean) => void;
 }
 
 const FormTabsList = React.memo(() => (
@@ -98,7 +99,7 @@ const flattenErrors = (
 };
 
 // eslint-disable-next-line max-lines-per-function
-export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyFormWithHookFormProps) => {
+export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChange }: PropertyFormWithHookFormProps) => {
   const [activeTab, setActiveTab] = useState<string>('basic');
 
   const schema = defaultValues ? updatePropertyFormValuesSchema : createPropertyFormValuesSchema;
@@ -129,6 +130,10 @@ export const PropertyForm = React.memo(({ defaultValues, onReset }: PropertyForm
 
   const isLoading = isCreating || isUpdating;
   const error = createError || updateError;
+
+  React.useEffect(() => {
+    onLoadingChange?.(isLoading);
+  }, [isLoading, onLoadingChange]);
 
   const onSubmit = (data: PropertyFormValues): void => {
     if (data.action === 'create') {
