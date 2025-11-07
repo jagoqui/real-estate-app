@@ -7,10 +7,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { Plus } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { convertPropertyToFormData } from '../helpers/convertPropertyToFormData';
 import { PropertyForm } from './PropertyForm';
 
@@ -54,9 +55,42 @@ interface PropertyDialogContentProps {
 }
 
 const PropertyDialogContent = React.memo(({ editingProperty, onReset }: PropertyDialogContentProps) => {
-  const defaultValues: PropertyFormValues | undefined = editingProperty
-    ? convertPropertyToFormData(editingProperty)
-    : undefined;
+  const [defaultValues, setDefaultValues] = useState<PropertyFormValues | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(!!editingProperty);
+
+  useEffect(() => {
+    const loadDefaultValues = async (): Promise<void> => {
+      if (editingProperty) {
+        setIsLoading(true);
+        const values = await convertPropertyToFormData(editingProperty);
+        setDefaultValues(values);
+        setIsLoading(false);
+      } else {
+        setDefaultValues(undefined);
+        setIsLoading(false);
+      }
+    };
+
+    void loadDefaultValues();
+  }, [editingProperty]);
+
+  if (isLoading) {
+    return (
+      <DialogContent className="max-h-[90vh] sm:max-w-[600px] min-h-[60vh] overflow-hidden h-auto p-0 flex flex-col">
+        <DialogHeader className="flex-shrink-0 bg-background border-b px-6 py-4 rounded-t-lg">
+          <DialogTitle className="font-serif text-2xl"> Loading...</DialogTitle>
+          <DialogDescription>Loading property details...</DialogDescription>
+        </DialogHeader>
+        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-20 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-32 w-full" />
+        </div>
+      </DialogContent>
+    );
+  }
 
   return (
     <DialogContent
