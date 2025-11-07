@@ -1,5 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
 import { Plus } from 'lucide-react';
@@ -58,6 +65,9 @@ const PropertyDialogContent = React.memo(({ editingProperty, onReset }: Property
     >
       <DialogHeader className="flex-shrink-0 bg-background border-b px-6 py-4 rounded-t-lg">
         <DialogTitle className="font-serif text-2xl">{editingProperty ? 'Edit Property' : 'New Property'}</DialogTitle>
+        <DialogDescription>
+          {editingProperty ? 'Update the property information below.' : 'Fill in the details to add a new property.'}
+        </DialogDescription>
       </DialogHeader>
 
       <div className="flex-1 overflow-y-auto px-6 py-4">
