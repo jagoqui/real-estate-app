@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { GripVertical, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React from 'react';
+
+import { useDragAndDrop } from '../hooks/useDragAndDrop';
+
 import type { PropertyImage } from '../propertyImageManager';
 
 interface ImageGridViewProps {
@@ -19,37 +22,9 @@ export const ImageGridView = ({
   onShowCarousel,
   onReorderImages,
 }: ImageGridViewProps): React.ReactElement => {
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const { draggedIndex, dragOverIndex, handleDragStart, handleDragOver, handleDragLeave, handleDrop, handleDragEnd } =
+    useDragAndDrop({ onReorder: onReorderImages });
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, index: number): void => {
-    setDraggedIndex(index);
-    e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>, index: number): void => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDragOverIndex(index);
-  };
-
-  const handleDragLeave = (): void => {
-    setDragOverIndex(null);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, dropIndex: number): void => {
-    e.preventDefault();
-    if (draggedIndex !== null && draggedIndex !== dropIndex) {
-      onReorderImages(draggedIndex, dropIndex);
-    }
-    setDraggedIndex(null);
-    setDragOverIndex(null);
-  };
-
-  const handleDragEnd = (): void => {
-    setDraggedIndex(null);
-    setDragOverIndex(null);
-  };
   return (
     <ScrollArea className="h-32">
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 pr-4 pt-2 pb-2">
