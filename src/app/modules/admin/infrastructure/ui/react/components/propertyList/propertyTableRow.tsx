@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { ConfirmAlert } from '@/modules/shared/infrastructure/ui/react/components/confirmAlert/confirmAlert';
-import { PropertyImagesTableCell } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager/propertyImageManager';
+import { PropertyImagesTableCell } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { LocationPreview } from '../locationPreview/locationPreview';
