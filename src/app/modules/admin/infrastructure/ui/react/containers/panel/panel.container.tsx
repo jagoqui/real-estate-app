@@ -32,7 +32,7 @@ export const PanelContainer = ({ mobileMenuOpen, setMobileMenuOpen }: SidebarCon
           <UserProfileMenu />
         </div>
       </header>
-      <main className="p-4 lg:p-8">
+      <main className="p-4 lg:p-8 max-h-[calc(100vh-64px)] overflow-y-auto">
         <PanelBodyContainer />
       </main>
     </div>

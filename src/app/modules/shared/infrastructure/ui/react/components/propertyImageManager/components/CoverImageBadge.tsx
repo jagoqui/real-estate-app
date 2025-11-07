@@ -16,7 +16,7 @@ export const CoverImageBadge = ({
     return (
       <div className="absolute top-1 left-1 bg-primary text-primary-foreground px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-semibold flex items-center gap-0.5 sm:gap-1 shadow-md z-10">
         <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-current" />
-        <span className="hidden xs:inline">Cover</span>
+        <span className="xs:inline">Cover</span>
       </div>
     );
   }

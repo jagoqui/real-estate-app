@@ -20,11 +20,11 @@ export const PropertyImagesTableCell = ({ images, propertyName }: PropertyImages
           <ImagePreview images={images} maxVisible={DEFAULT_MAX_VISIBLE} onViewAll={() => setIsPopoverOpen(true)} />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-4" align="start">
+      <PopoverContent className="w-[calc(100vw-2rem)] sm:w-80 p-4 max-h-[70vh] overflow-y-auto" align="start">
         <div className="space-y-3">
           <div className="font-semibold text-sm">{propertyName} - Images</div>
           {images.length > 0 ? (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {images.map(image => (
                 <div key={image} className="relative group">
                   <img src={image} alt={image} className="w-full h-16 object-cover rounded border" />

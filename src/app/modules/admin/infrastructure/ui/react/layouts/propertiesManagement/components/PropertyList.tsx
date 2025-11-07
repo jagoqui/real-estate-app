@@ -64,11 +64,11 @@ export const PropertyList = React.memo(({ onEdit }: PropertyListProps) => {
   };
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="w-fit grid place-items-center mx-auto px-5">
+      <CardHeader className="w-full px-5">
         <PropertyHeader value={searchTerm} onValueChange={setSearchTerm} />
       </CardHeader>
-      <CardContent className="px-0">
+      <CardContent className="px-5">
         <div className="w-full overflow-hidden">
           <div className="max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-20rem)]">
             <Table className="w-full">
