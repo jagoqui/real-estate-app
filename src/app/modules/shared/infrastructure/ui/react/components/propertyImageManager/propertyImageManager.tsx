@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { urlToFile } from '@/modules/shared/domain/helpers/urlToFile/urlToFile.helper';
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 import { ChevronLeft, ChevronRight, ImageIcon, Trash2, Upload, X, ZoomIn } from 'lucide-react';
 import React, { useCallback, useRef, useState } from 'react';
@@ -16,18 +17,6 @@ const KB_SIZE = 1024;
 const BYTES_IN_MB = KB_SIZE * KB_SIZE;
 
 const DECIMAL_PLACES = 2;
-
-// Helper function to convert URL to File
-const urlToFile = async (url: string, fileName: string): Promise<File> => {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    return new File([blob], fileName, { type: blob.type });
-  } catch (error) {
-    console.error('Error converting URL to File:', error);
-    throw error;
-  }
-};
 
 export interface PropertyImage {
   id: string;
@@ -42,7 +31,7 @@ interface PropertyImageManagerProps {
   value?: Array<PropertyImage>;
   onValueChange?: (images: Array<PropertyImage>, pendingDeletions?: Set<string>) => void;
   initialUrls?: Array<string>; // URLs from server for update mode
-  onImagesChange?: (imageUrls: Array<string>) => void; // Callback with just URLs
+  onFilesChange?: (files: Array<File>) => void; // Callback with Files only
   maxImages?: number;
   maxFileSize?: number; // in MB
   acceptedTypes?: Array<string>;
@@ -57,9 +46,8 @@ interface ImagePreviewProps {
   showActions?: boolean;
 }
 
-// Component to show images in table (mini slider/preview)
 export const ImagePreview = ({
-  images,
+  images = [],
   onRemove,
   onViewAll,
   maxVisible = DEFAULT_MAX_VISIBLE,
@@ -126,7 +114,7 @@ export const PropertyImageManager = ({
   value,
   onValueChange,
   initialUrls,
-  onImagesChange,
+  onFilesChange,
   maxImages = DEFAULT_MAX_IMAGES,
   maxFileSize = DEFAULT_MAX_FILE_SIZE, // 5MB
   acceptedTypes = ['image/jpeg', 'image/png', 'image/webp'],
@@ -137,11 +125,12 @@ export const PropertyImageManager = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showCarousel, setShowCarousel] = useState(false);
   const [isLoadingInitial, setIsLoadingInitial] = useState(false);
+  const [hasLoadedInitial, setHasLoadedInitial] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load initial images from URLs (for update mode)
+  // Load initial images from URLs ONLY ONCE (for update mode)
   React.useEffect(() => {
-    if (!initialUrls || initialUrls.length === 0) return;
+    if (!initialUrls || initialUrls.length === 0 || hasLoadedInitial) return;
 
     const loadInitialImages = async (): Promise<void> => {
       setIsLoadingInitial(true);
@@ -160,6 +149,12 @@ export const PropertyImageManager = ({
           })
         );
         setImages(loadedImages);
+        setHasLoadedInitial(true); // Mark as loaded, won't load again
+
+        // Notify parent with Files
+        if (onFilesChange) {
+          onFilesChange(loadedImages.map(img => img.file));
+        }
       } catch (error) {
         console.error('Failed to load initial images:', error);
       } finally {
@@ -168,7 +163,7 @@ export const PropertyImageManager = ({
     };
 
     void loadInitialImages();
-  }, [initialUrls]);
+  }, [initialUrls, hasLoadedInitial, onFilesChange]);
 
   // Sync with external value changes
   React.useEffect(() => {
@@ -177,17 +172,17 @@ export const PropertyImageManager = ({
     }
   }, [value]);
 
-  // Notify parent when images change (send only URLs)
+  // Notify parent when images change (send Files only)
   const notifyImagesChange = React.useCallback(
     (updatedImages: Array<PropertyImage>) => {
-      if (onImagesChange) {
-        onImagesChange(updatedImages.map(img => img.preview));
+      if (onFilesChange) {
+        onFilesChange(updatedImages.map(img => img.file));
       }
       if (onValueChange) {
         onValueChange(updatedImages, new Set()); // Empty set since we remove directly
       }
     },
-    [onImagesChange, onValueChange]
+    [onFilesChange, onValueChange]
   );
 
   const validateFile = useCallback(
