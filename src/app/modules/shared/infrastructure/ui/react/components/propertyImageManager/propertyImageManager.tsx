@@ -31,7 +31,7 @@ interface PropertyImageManagerProps {
   value?: Array<PropertyImage>;
   onValueChange?: (images: Array<PropertyImage>, pendingDeletions?: Set<string>) => void;
   initialUrls?: Array<string>; // URLs from server for update mode
-  onFilesChange?: (files: Array<File>) => void; // Callback with Files only
+  onFilesChange?: (files: Array<File>, previewUrls: Array<string>) => void; // Callback with Files and their preview URLs
   maxImages?: number;
   maxFileSize?: number; // in MB
   acceptedTypes?: Array<string>;
@@ -151,9 +151,11 @@ export const PropertyImageManager = ({
         setImages(loadedImages);
         setHasLoadedInitial(true); // Mark as loaded, won't load again
 
-        // Notify parent with Files
+        // Notify parent with Files and preview URLs
         if (onFilesChange) {
-          onFilesChange(loadedImages.map(img => img.file));
+          const files = loadedImages.map(img => img.file);
+          const previewUrls = loadedImages.map(img => img.preview);
+          onFilesChange(files, previewUrls);
         }
       } catch (error) {
         console.error('Failed to load initial images:', error);
@@ -172,11 +174,13 @@ export const PropertyImageManager = ({
     }
   }, [value]);
 
-  // Notify parent when images change (send Files only)
+  // Notify parent when images change (send Files and preview URLs)
   const notifyImagesChange = React.useCallback(
     (updatedImages: Array<PropertyImage>) => {
       if (onFilesChange) {
-        onFilesChange(updatedImages.map(img => img.file));
+        const files = updatedImages.map(img => img.file);
+        const previewUrls = updatedImages.map(img => img.preview);
+        onFilesChange(files, previewUrls);
       }
       if (onValueChange) {
         onValueChange(updatedImages, new Set()); // Empty set since we remove directly

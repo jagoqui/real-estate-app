@@ -8,8 +8,9 @@ export const ImagesTab = (): React.ReactElement => {
   const images = form.watch('images');
 
   const handleFilesChange = useCallback(
-    (files: Array<File>): void => {
-      form.setValue('imagesFiles', files, { shouldValidate: false });
+    (files: Array<File>, previewUrls: Array<string>): void => {
+      form.setValue('imagesFiles', files);
+      form.setValue('images', previewUrls);
     },
     [form]
   );
