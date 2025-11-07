@@ -6,7 +6,7 @@ export const ownerSchema = z.object({
   userId: objectIdSchema,
   name: z.string().min(COMMONS_VALIDATIONS.NAME.min).max(COMMONS_VALIDATIONS.NAME.max),
   address: z.string().max(COMMONS_VALIDATIONS.ADDRESS.max).optional(),
-  phone: z.string().regex(COMMONS_VALIDATIONS.PHONE.pattern).optional(),
+  phone: z.string().regex(COMMONS_VALIDATIONS.PHONE.pattern).or(z.literal('')).optional(),
   email: z.email().min(COMMONS_VALIDATIONS.EMAIL.min).max(COMMONS_VALIDATIONS.EMAIL.max).optional(),
   photoUrl: z.string().optional(),
   birthday: z.string().optional(),

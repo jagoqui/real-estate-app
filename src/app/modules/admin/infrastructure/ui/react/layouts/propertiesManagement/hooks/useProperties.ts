@@ -1,4 +1,5 @@
 import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetProperties/useGetPropertiesRequest';
 import { useState } from 'react';
 
 export const useProperties = (): {
@@ -11,6 +12,8 @@ export const useProperties = (): {
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const { onGetProperties } = useGetPropertiesRequest();
+
   const handleEdit = (property: Property): void => {
     setEditingProperty(property);
     setIsDialogOpen(true);
@@ -19,6 +22,7 @@ export const useProperties = (): {
   const handleReset = (): void => {
     setEditingProperty(null);
     setIsDialogOpen(false);
+    onGetProperties();
   };
 
   const handleDialogOpen = (): void => {

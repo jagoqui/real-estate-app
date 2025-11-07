@@ -29,9 +29,9 @@ const appendBinaryValue = (formData: FormData, key: string, value: File | Blob):
  * Handles arrays of Files/Blobs by appending each with indexed keys.
  */
 const appendBinaryArray = (formData: FormData, key: string, values: Array<File | Blob>): void => {
-  values.forEach((file, index) => {
+  values.forEach(file => {
     if (isBinaryValue(file)) {
-      appendBinaryValue(formData, `${key}[${index}]`, file);
+      appendBinaryValue(formData, `${key}`, file);
     }
   });
 };
