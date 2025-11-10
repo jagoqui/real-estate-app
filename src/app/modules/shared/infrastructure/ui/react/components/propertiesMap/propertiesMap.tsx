@@ -86,7 +86,7 @@ export const PropertiesMap = (): React.ReactElement => {
     data.length > 0 ? [parseFloat(data[0].location.lat), parseFloat(data[0].location.lon)] : DEFAULT_CENTER;
 
   return (
-    <div className="relative w-full h-[600px] rounded-lg overflow-hidden border border-border shadow-lg">
+    <div className="relative w-full h-[600px] rounded-lg overflow-hidden border border-border shadow-lg z-[1]">
       <FilterToggleButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
 
       {showFilters && (
