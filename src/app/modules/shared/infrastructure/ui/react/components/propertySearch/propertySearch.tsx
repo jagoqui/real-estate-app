@@ -556,8 +556,18 @@ const SearchInput = ({
       placeholder="City, address, or property name..."
       value={searchQuery}
       onChange={e => onSearchChange(e.target.value)}
-      className="h-12 text-base"
+      className="h-12 text-base pr-10"
     />
+    {searchQuery && (
+      <button
+        type="button"
+        onClick={() => onSearchChange('')}
+        className="absolute right-3 top-1/2 -translate-y-1/2 hover:bg-muted rounded-full p-1 transition-colors"
+        aria-label="Clear search"
+      >
+        <X className="w-4 h-4 text-muted-foreground" />
+      </button>
+    )}
     {showAutocomplete && (
       <AutocompleteResults
         properties={properties}
