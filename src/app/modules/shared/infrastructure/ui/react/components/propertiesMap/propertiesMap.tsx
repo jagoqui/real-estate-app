@@ -62,6 +62,13 @@ export const PropertiesMap = (): React.ReactElement => {
     return Math.max(...data.map(p => p.price));
   }, [data]);
 
+  const handleResetFilters = (): void => {
+    setFilters({
+      search: '',
+      priceRange: [0, maxPrice],
+    });
+  };
+
   const filteredProperties = useMemo(() => {
     if (!data) return [];
 
@@ -96,6 +103,7 @@ export const PropertiesMap = (): React.ReactElement => {
           totalProperties={data.length}
           filteredCount={filteredProperties.length}
           onFiltersChange={setFilters}
+          onResetFilters={handleResetFilters}
         />
       )}
 
