@@ -4,7 +4,6 @@
   from = "/*"
   to = "/"
   status = 200
-[install]
-  command = "bun i"
 [build]
-  command = "bun run build"
+  command = "bun install && bun run build"
+  publish = "dist"
