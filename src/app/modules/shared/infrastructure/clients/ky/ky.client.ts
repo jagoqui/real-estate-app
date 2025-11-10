@@ -1,6 +1,9 @@
 import { getAuthTokenBL } from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
 import ky from 'ky';
 
+const HTTP_STATUS_UNAUTHORIZED = 401;
+const HTTP_STATUS_FORBIDDEN = 403;
+
 export const API_HEADERS = (token: string): HeadersInit => ({
   Authorization: `Bearer ${token}`,
 });
@@ -17,6 +20,14 @@ export const api = ky.create({
             request.headers.set(key, String(value));
           });
         }
+      },
+    ],
+    afterResponse: [
+      (_request, _options, response): Response => {
+        if (response.status === HTTP_STATUS_UNAUTHORIZED || response.status === HTTP_STATUS_FORBIDDEN) {
+          throw new Error(`${response.statusText}. Please try reloading the site.`);
+        }
+        return response;
       },
     ],
   },
