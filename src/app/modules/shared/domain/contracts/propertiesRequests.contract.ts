@@ -1,4 +1,5 @@
 import type { Property } from '../schemas/property.schema';
+import type { PropertyFilters } from '../schemas/propertyFilters.schema';
 import type { CreatePropertyFormValues, UpdatePropertyFormValues } from '../schemas/propertyForm.schema';
 import type { PropertyStatutes } from '../schemas/propertyStatutes.schema';
 import type { PropertyTypes } from '../schemas/propertyTypes.schema';
@@ -15,14 +16,7 @@ export type GetPropertiesTypesRequest = () => Promise<Array<PropertyTypes>>;
 
 export type GetPropertiesStatusesRequest = () => Promise<Array<PropertyStatutes>>;
 
-export type GetPropertiesByFilterRequest = (args: {
-  name?: string;
-  address?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  status?: string;
-  type?: string;
-}) => Promise<Array<Property>>;
+export type GetPropertiesByFilterRequest = (args: PropertyFilters) => Promise<Array<Property>>;
 
 export type UpdatePropertyRequest = (args: { propertyId: string; data: UpdatePropertyFormValues }) => Promise<Property>;
 

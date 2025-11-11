@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { usePropertiesRequestsContext } from '../../contexts/propertiesRequests/propertiesRequests.context';
 
 type GetPropertyByIdReturn = ReturnType<typeof usePropertiesRequestsContext>['getPropertyByIdRequest'];
@@ -18,10 +19,15 @@ export const useGetPropertyByIdRequest = ({ propertyId }: OnGetPropertyByIdArgs)
 
   const onGetPropertyById = getPropertyByIdRequest.bind(null, { propertyId });
 
+  const { isLoading, error, data } = useQuery<GetPropertyByIdReturnValue, Error>({
+    queryKey: ['get-property-by-id', propertyId],
+    queryFn: onGetPropertyById,
+  });
+
   return {
     onGetPropertyById,
-    isPending: false,
-    error: null,
-    data: undefined,
+    isPending: isLoading,
+    error,
+    data,
   };
 };
