@@ -11,6 +11,7 @@ import { Link } from '@tanstack/react-router';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
+import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 
 const MAX_PRICE = 10000000;
 const MAX_BEDROOMS = 10;
@@ -21,8 +22,20 @@ const MIN_YEAR = 1800;
 const DEBOUNCE_DELAY = 500;
 const MIN_SEARCH_LENGTH = 2;
 
+interface PropertySearchProps {
+  mode?: 'autocomplete' | 'emit';
+  title?: string;
+  subtitle?: string;
+  onResultsChange?: (properties: Array<Property>, isPending: boolean) => void;
+}
+
 // eslint-disable-next-line max-lines-per-function
-export const PropertySearch = (): React.ReactElement => {
+export const PropertySearch = ({
+  mode = 'autocomplete',
+  title = 'Find your ideal property',
+  subtitle,
+  onResultsChange,
+}: PropertySearchProps = {}): React.ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState([0, MAX_PRICE]);
@@ -119,6 +132,14 @@ export const PropertySearch = (): React.ReactElement => {
     document.addEventListener('mousedown', handleClickOutside);
     return (): void => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Emit results to parent when in 'emit' mode
+  useEffect(() => {
+    if (mode === 'emit' && onResultsChange) {
+      onResultsChange(properties || [], isPending);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, properties, isPending]);
 
   const handleSearchChange = (value: string): void => {
     setSearchQuery(value);
@@ -244,6 +265,9 @@ export const PropertySearch = (): React.ReactElement => {
       onRemoveFilter={handleRemoveFilter}
       onCloseAutocomplete={() => setShowAutocomplete(false)}
       formatPrice={formatPrice}
+      mode={mode}
+      title={title}
+      subtitle={subtitle}
     />
   );
 };
@@ -284,6 +308,9 @@ interface PropertySearchViewProps {
   onRemoveFilter: (filterType: string) => void;
   onCloseAutocomplete: () => void;
   formatPrice: (price: number) => string;
+  mode: 'autocomplete' | 'emit';
+  title: string;
+  subtitle?: string;
 }
 
 const PropertySearchView = (props: PropertySearchViewProps): React.ReactElement => {
@@ -291,7 +318,12 @@ const PropertySearchView = (props: PropertySearchViewProps): React.ReactElement 
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif text-center mb-8 text-balance">Find your ideal property</h2>
+          <h2 className="text-3xl md:text-4xl font-serif text-center mb-8 text-balance">{props.title}</h2>
+          {props.subtitle && (
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto text-center mb-8">
+              {props.subtitle}
+            </p>
+          )}
           <SearchCard {...props} />
         </div>
       </div>
@@ -329,6 +361,7 @@ const SearchCard = (props: PropertySearchViewProps): React.ReactElement => {
         onClearFilters={props.onClearFilters}
         onApplyFilters={props.onApplyFilters}
         formatPrice={props.formatPrice}
+        mode={props.mode}
       />
 
       {props.filtersApplied && (
@@ -375,6 +408,7 @@ interface SearchAndFiltersBarProps {
   onClearFilters: () => void;
   onApplyFilters: () => void;
   formatPrice: (price: number) => string;
+  mode: 'autocomplete' | 'emit';
 }
 
 const SearchAndFiltersBar = ({
@@ -404,6 +438,7 @@ const SearchAndFiltersBar = ({
   onClearFilters,
   onApplyFilters,
   formatPrice,
+  mode,
 }: SearchAndFiltersBarProps): React.ReactElement => {
   return (
     <div className="flex flex-col md:flex-row gap-4">
@@ -416,6 +451,7 @@ const SearchAndFiltersBar = ({
         onSearchChange={onSearchChange}
         onCloseAutocomplete={onCloseAutocomplete}
         formatPrice={formatPrice}
+        mode={mode}
       />
 
       <FiltersSheet
@@ -540,6 +576,7 @@ const SearchInput = ({
   onSearchChange,
   onCloseAutocomplete,
   formatPrice,
+  mode,
 }: {
   searchQuery: string;
   showAutocomplete: boolean;
@@ -549,6 +586,7 @@ const SearchInput = ({
   onSearchChange: (value: string) => void;
   onCloseAutocomplete: () => void;
   formatPrice: (price: number) => string;
+  mode: 'autocomplete' | 'emit';
 }): React.ReactElement => (
   <div className="flex-1 relative" ref={autocompleteRef}>
     <Input
@@ -568,7 +606,7 @@ const SearchInput = ({
         <X className="w-4 h-4 text-muted-foreground" />
       </button>
     )}
-    {showAutocomplete && (
+    {mode === 'autocomplete' && showAutocomplete && (
       <AutocompleteResults
         properties={properties}
         isPending={isPending}
