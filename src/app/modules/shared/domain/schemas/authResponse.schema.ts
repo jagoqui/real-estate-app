@@ -1,5 +1,5 @@
 import { tokenSchema } from '@/modules/shared/domain/schemas/token.schema';
-import z from 'zod';
+import type z from 'zod';
 import { userSchema } from './user.schema';
 
 export const authResponseSchema = tokenSchema.extend({
