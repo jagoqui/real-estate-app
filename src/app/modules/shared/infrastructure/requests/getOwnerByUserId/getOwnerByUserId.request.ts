@@ -1,8 +1,8 @@
 import { ownerDtoAdapter } from '@/modules/shared/application/adapters/ownerDto/ownerDto.adapter';
 import type { OwnerResponseDto } from '@/modules/shared/application/dtos/owner.dto';
 import type { GetOwnerByUserIdRequest } from '@/modules/shared/domain/contracts/ownersRequest.contract';
-import { type Owner, ownerSchema } from '@/modules/shared/domain/schemas/owner.schema';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { type Owner, ownerSchema } from '@/modules/shared/infrastructure/schemas/owner.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 
 export const GET_OWNER_BY_USER_ID_REQUEST_URL = (userId: string): string =>

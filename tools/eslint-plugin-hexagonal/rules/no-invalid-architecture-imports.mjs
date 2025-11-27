@@ -23,15 +23,12 @@ function mergeConfig(options) {
   return {
     ...defaultConfig,
     ...userConfig,
-    layers: {...defaultConfig.layers, ...userConfig.layers},
+    layers: { ...defaultConfig.layers, ...userConfig.layers },
     allowedImports: {
       ...defaultConfig.allowedImports,
       ...userConfig.allowedImports,
     },
-    whiteListPatterns: [
-      ...(defaultConfig.whiteListPatterns || []),
-      ...(userConfig.whiteListPatterns || []),
-    ],
+    whiteListPatterns: [...(defaultConfig.whiteListPatterns || []), ...(userConfig.whiteListPatterns || [])],
     appRouterFileRegex: userConfig.appRouterFileRegex || defaultConfig.appRouterFileRegex,
     routeFileRegex: userConfig.routeFileRegex || defaultConfig.routeFileRegex,
     documentationInfoPath: userConfig.documentationInfoPath || defaultConfig.documentationInfoPath,
@@ -62,13 +59,13 @@ export default {
       {
         type: 'object',
         properties: {
-          sharedModule: {type: 'string'},
-          layers: {type: 'object'},
+          sharedModule: { type: 'string' },
+          layers: { type: 'object' },
           whiteListPatterns: {
             type: 'array',
-            items: {type: 'string'},
+            items: { type: 'string' },
           },
-          allowedImports: {type: 'object'},
+          allowedImports: { type: 'object' },
         },
         additionalProperties: false,
       },
@@ -77,13 +74,14 @@ export default {
       crossModule: `Hexagonal architecture violation: {{currentFileModule}} module cannot import from {{importFileModule}} module. ℹ️ Cross-module imports must go through the shared module. {{documentationInfoPath}}`,
       dependencyViolation: `Hexagonal architecture violation: {{currentLayer}} layer cannot import from {{importedLayer}} layer. ℹ️ Dependencies must flow from {{layersOrder}}.
       {{documentationInfoPath}}`,
+      domainExternalImport: `Hexagonal architecture violation: Domain layer cannot have external imports. ℹ️ Domain must only import from its own local domain files, no external dependencies allowed. {{documentationInfoPath}}`,
     },
   },
 
   create(context) {
     const config = mergeConfig(context.options);
     const layersOrder = Object.values(config.layers).join(' → ');
-    const {appRouterFileRegex, routeFileRegex, documentationInfoPath} = config;
+    const { appRouterFileRegex, routeFileRegex, documentationInfoPath } = config;
 
     return {
       ImportDeclaration(node) {
@@ -101,16 +99,26 @@ export default {
 
         const localLayerOrExternalFile = 'local';
 
-        const layerCurrentFile =
-          getLayer(currentFilename, config.layers) ?? localLayerOrExternalFile;
-        const layerImportedFile =
-          getLayer(importFilename, config.layers) ?? localLayerOrExternalFile;
+        const layerCurrentFile = getLayer(currentFilename, config.layers) ?? localLayerOrExternalFile;
+        const layerImportedFile = getLayer(importFilename, config.layers) ?? localLayerOrExternalFile;
+
+        // Check if domain is importing external packages (non-relative imports)
+        const isDomainFile = layerCurrentFile === config.layers.domain;
+        const isRelativeImport = importFilename.startsWith('.') || importFilename.startsWith('/');
+
+        if (isDomainFile && !isRelativeImport) {
+          context.report({
+            node,
+            messageId: 'domainExternalImport',
+            data: {
+              documentationInfoPath,
+            },
+          });
+          return;
+        }
 
         // Skip files not in layers for performance
-        if (
-          layerCurrentFile === localLayerOrExternalFile ||
-          layerImportedFile === localLayerOrExternalFile
-        ) {
+        if (layerCurrentFile === localLayerOrExternalFile || layerImportedFile === localLayerOrExternalFile) {
           return;
         }
 

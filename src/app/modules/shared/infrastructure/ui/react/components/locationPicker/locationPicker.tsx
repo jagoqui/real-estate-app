@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 
 // Import Leaflet CSS
-import type { Location } from '@/modules/shared/domain/schemas/location.schema';
+import type { Location } from '@/modules/shared/infrastructure/schemas/location.schema';
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default markers in React Leaflet

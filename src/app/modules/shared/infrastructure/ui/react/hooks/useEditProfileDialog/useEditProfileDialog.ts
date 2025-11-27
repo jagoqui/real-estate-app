@@ -1,4 +1,4 @@
-import type { UpdateUser, User } from '@/modules/shared/domain/schemas/user.schema';
+import type { UpdateUser, User } from '@/modules/shared/infrastructure/schemas/user.schema';
 import { useState } from 'react';
 import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 import { fileToBase64Helper } from '../../helpers/fileToBase64/fileToBase64.helper';

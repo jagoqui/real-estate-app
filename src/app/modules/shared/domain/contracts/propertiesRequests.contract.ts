@@ -1,8 +1,11 @@
-import type { Property } from '../schemas/property.schema';
-import type { PropertyFilters } from '../schemas/propertyFilters.schema';
-import type { CreatePropertyFormValues, UpdatePropertyFormValues } from '../schemas/propertyForm.schema';
-import type { PropertyStatutes } from '../schemas/propertyStatutes.schema';
-import type { PropertyTypes } from '../schemas/propertyTypes.schema';
+import type { Property } from '../../infrastructure/schemas/property.schema';
+import type { PropertyFilters } from '../../infrastructure/schemas/propertyFilters.schema';
+import type {
+  CreatePropertyFormValues,
+  UpdatePropertyFormValues,
+} from '../../infrastructure/schemas/propertyForm.schema';
+import type { PropertyStatutes } from '../../infrastructure/schemas/propertyStatutes.schema';
+import type { PropertyTypes } from '../../infrastructure/schemas/propertyTypes.schema';
 
 export type CreatePropertyRequest = (args: CreatePropertyFormValues) => Promise<Property>;
 

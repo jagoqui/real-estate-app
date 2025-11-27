@@ -1,7 +1,7 @@
 import { userAdapter } from '@/modules/shared/application/adapters/user/user.adapter';
 import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import type { GetUsersRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
-import { userSchema, type User } from '@/modules/shared/domain/schemas/user.schema';
+import { userSchema, type User } from '@/modules/shared/infrastructure/schemas/user.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

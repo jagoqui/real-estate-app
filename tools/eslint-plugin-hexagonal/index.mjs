@@ -8,6 +8,7 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
  * ## Purpose
  * Enforces dependency rules between layers (`domain`, `application`, `infrastructure`)
  * and prevents direct cross-module imports that bypass the `shared` module.
+ * Additionally, ensures the domain layer remains pure by preventing external package imports.
  *
  * ## Default Configuration
  * - sharedModule: 'shared'
@@ -76,6 +77,14 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
  * import { Order } from "@/modules/orders/domain/order";
  * ```
  *
+ * ❌ **Incorrect**
+ * ```ts
+ * // Domain layer importing external packages (not allowed)
+ * // File: modules/users/domain/user.entity.ts
+ * import { v4 as uuid } from "uuid";
+ * import _ from "lodash";
+ * ```
+ *
  * ✅ **Correct**
  * ```ts
  * // Allowed: application → domain
@@ -92,6 +101,14 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
  * ```ts
  * // Allowed: router importing route file
  * import { route } from "@/modules/orders/route.orders";
+ * ```
+ *
+ * ✅ **Correct**
+ * ```ts
+ * // Allowed: domain importing local domain files
+ * // File: modules/users/domain/user.service.ts
+ * import { User } from "./user.entity";
+ * import { UserRepository } from "@/modules/users/domain/user.repository";
  * ```
  *
  * 📄 See full documentation at: `documentation/shared/hexagonal-architecture.md`

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import L from 'leaflet';
 
 export const createPropertyMarker = (property: Property): L.DivIcon => {

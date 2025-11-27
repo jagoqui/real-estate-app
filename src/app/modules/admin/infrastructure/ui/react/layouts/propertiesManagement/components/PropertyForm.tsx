@@ -4,7 +4,7 @@ import {
   createPropertyFormValuesSchema,
   updatePropertyFormValuesSchema,
   type PropertyFormValues,
-} from '@/modules/shared/domain/schemas/propertyForm.schema';
+} from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 import { useCreatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreatePropertyRequest/useCreatePropertyRequest';
 import { useUpdatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdatePropertyRequest/useUpdatePropertyRequest';
 import { zodResolver } from '@hookform/resolvers/zod';

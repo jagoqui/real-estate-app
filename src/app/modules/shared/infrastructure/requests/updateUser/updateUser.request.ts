@@ -3,7 +3,7 @@ import { userDtoAdapter } from '@/modules/shared/application/adapters/userDto/us
 import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
-import { userSchema, type User } from '@/modules/shared/domain/schemas/user.schema';
+import { userSchema, type User } from '@/modules/shared/infrastructure/schemas/user.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { type PropertyStatutes } from '@/modules/shared/domain/schemas/propertyStatutes.schema';
+import { type PropertyStatutes } from '@/modules/shared/infrastructure/schemas/propertyStatutes.schema';
 
 const variants: Readonly<Record<PropertyStatutes, Parameters<typeof Badge>[0]['variant']>> = {
   AVAILABLE: 'default',

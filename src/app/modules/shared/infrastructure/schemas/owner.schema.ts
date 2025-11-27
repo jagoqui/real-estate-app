@@ -1,4 +1,4 @@
-import { COMMONS_VALIDATIONS, objectIdSchema } from '@/modules/shared/domain/schemas/commonsValidations.schema';
+import { COMMONS_VALIDATIONS, objectIdSchema } from '@/modules/shared/infrastructure/schemas/commonsValidations.schema';
 import z from 'zod';
 
 export const ownerSchema = z.object({

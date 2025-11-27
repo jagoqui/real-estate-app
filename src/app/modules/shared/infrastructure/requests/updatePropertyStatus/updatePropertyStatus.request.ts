@@ -1,7 +1,7 @@
 import { propertyAdapter } from '@/modules/shared/application/adapters/property/property.dto';
 import type { PropertyResponseDto } from '@/modules/shared/application/dtos/propertyResponse.dto';
 import type { UpdatePropertyStatusRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import { propertySchema } from '@/modules/shared/domain/schemas/property.schema';
+import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

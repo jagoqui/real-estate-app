@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import {
   registerFormValuesSchema,
   type RegisterFormValues,
-} from '@/modules/auth/domain/schemas/registerFormValues.schema';
+} from '@/modules/auth/infrastructure/schemas/registerFormValues.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react';
@@ -23,48 +23,48 @@ export const RegisterForm = ({ onSubmit, isPending }: RegisterFormProps): JSX.El
 
   return (
     <Form {...form}>
-      <form onSubmit={e => void form.handleSubmit(onSubmit)(e)} className='space-y-4'>
+      <form onSubmit={e => void form.handleSubmit(onSubmit)(e)} className="space-y-4">
         <div>
-          <Label htmlFor='name'>Name</Label>
-          <Input {...form.register('name')} id='name' placeholder='Name' className='mt-2' />
+          <Label htmlFor="name">Name</Label>
+          <Input {...form.register('name')} id="name" placeholder="Name" className="mt-2" />
           {form.formState.errors.name && (
-            <p className='text-xs text-red-500 mt-1'>{form.formState.errors.name.message}</p>
+            <p className="text-xs text-red-500 mt-1">{form.formState.errors.name.message}</p>
           )}
         </div>
 
         <div>
-          <Label htmlFor='email'>Email</Label>
-          <Input {...form.register('email')} id='email' placeholder='ephraim@blocks.so' className='mt-2' />
+          <Label htmlFor="email">Email</Label>
+          <Input {...form.register('email')} id="email" placeholder="ephraim@blocks.so" className="mt-2" />
           {form.formState.errors.email && (
-            <p className='text-xs text-red-500 mt-1'>{form.formState.errors.email.message}</p>
+            <p className="text-xs text-red-500 mt-1">{form.formState.errors.email.message}</p>
           )}
         </div>
 
         <div>
-          <Label htmlFor='password'>Password</Label>
-          <Input {...form.register('password')} type='password' id='password' placeholder='Password' className='mt-2' />
+          <Label htmlFor="password">Password</Label>
+          <Input {...form.register('password')} type="password" id="password" placeholder="Password" className="mt-2" />
           {form.formState.errors.password && (
-            <p className='text-xs text-red-500 mt-1'>{form.formState.errors.password.message}</p>
+            <p className="text-xs text-red-500 mt-1">{form.formState.errors.password.message}</p>
           )}
         </div>
 
         <div>
-          <Label htmlFor='confirmPassword'>Confirm Password</Label>
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
           <Input
             {...form.register('confirmPassword')}
-            type='password'
-            id='confirmPassword'
-            placeholder='Password'
-            className='mt-2'
+            type="password"
+            id="confirmPassword"
+            placeholder="Password"
+            className="mt-2"
           />
           {form.formState.errors.confirmPassword && (
-            <p className='text-xs text-red-500 mt-1'>{form.formState.errors.confirmPassword.message}</p>
+            <p className="text-xs text-red-500 mt-1">{form.formState.errors.confirmPassword.message}</p>
           )}
         </div>
 
         <Button
-          type='submit'
-          className='mt-4 w-full py-2 font-medium'
+          type="submit"
+          className="mt-4 w-full py-2 font-medium"
           disabled={form.formState.isSubmitting || isPending}
         >
           Create account

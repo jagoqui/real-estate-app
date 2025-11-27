@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { Owner } from '@/modules/shared/domain/schemas/owner.schema';
+import type { Owner } from '@/modules/shared/infrastructure/schemas/owner.schema';
 import { ConfirmAlert } from '@/modules/shared/infrastructure/ui/react/components/confirmAlert/confirmAlert';
 import { useDeleteOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useDeleteOwnerRequest/useDeleteOwnerRequest';
 import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetOwnersRequest/useGetOwnersRequest';

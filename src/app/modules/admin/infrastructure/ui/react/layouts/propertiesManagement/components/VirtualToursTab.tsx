@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import type { PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 import { ExternalLink, Plus, Trash2 } from 'lucide-react';
 import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';

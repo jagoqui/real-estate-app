@@ -1,4 +1,4 @@
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useMemo, useState } from 'react';

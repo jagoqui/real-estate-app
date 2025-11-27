@@ -1,9 +1,9 @@
 import { urlsToFiles } from '@/modules/shared/domain/helpers/urlToFile';
-import { type Property } from '@/modules/shared/domain/schemas/property.schema';
+import { type Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import {
   updatePropertyFormValuesSchema,
   type UpdatePropertyFormValues,
-} from '@/modules/shared/domain/schemas/propertyForm.schema';
+} from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 
 export const convertPropertyToFormData = async (property: Property): Promise<UpdatePropertyFormValues> => {
   const imageUrls = [property.coverImage, ...property.images].filter((url): url is string => url !== null);

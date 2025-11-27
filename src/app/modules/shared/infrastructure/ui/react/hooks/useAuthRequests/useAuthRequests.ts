@@ -1,11 +1,11 @@
 import type { AuthRequests } from '@/modules/shared/domain/contracts/authRequests.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
-import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
 import { loginWithEmailAndPasswordRequest } from '@/modules/shared/infrastructure/requests/loginWithEmailAndPassword/loginWithEmailAndPassword.request';
 import { loginWithGoogleRequest } from '@/modules/shared/infrastructure/requests/loginWithGoogle/loginWithGoogle.request';
 import { logoutRequest } from '@/modules/shared/infrastructure/requests/logout/logout.request';
 import { refreshTokenRequest } from '@/modules/shared/infrastructure/requests/refreshToken/refreshToken.request';
 import { registerRequest } from '@/modules/shared/infrastructure/requests/register/register.request';
+import type { AuthResponse } from '@/modules/shared/infrastructure/schemas/authResponse.schema';
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { useAuthResponseContext } from '@/modules/shared/infrastructure/ui/react/contexts/authResponse/authResponse.context';
 import { googleLogout } from '@react-oauth/google';

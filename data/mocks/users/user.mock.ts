@@ -1,5 +1,5 @@
-import type { User } from '@/modules/shared/domain/schemas/user.schema';
-import { USER_ROLES } from '@/modules/shared/domain/schemas/userRole.schema';
+import type { User } from '@/modules/shared/infrastructure/schemas/user.schema';
+import { USER_ROLES } from '@/modules/shared/infrastructure/schemas/userRole.schema';
 
 export const USER_MOCK: User = {
   id: '64b64c8f8f8f8f8f8f8f8f8f',

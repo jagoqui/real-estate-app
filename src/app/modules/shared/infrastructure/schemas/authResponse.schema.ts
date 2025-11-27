@@ -1,4 +1,4 @@
-import { tokenSchema } from '@/modules/shared/domain/schemas/token.schema';
+import { tokenSchema } from '@/modules/shared/infrastructure/schemas/token.schema';
 import type z from 'zod';
 import { userSchema } from './user.schema';
 

@@ -1,4 +1,4 @@
-import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
+import type { AuthResponse } from '@/modules/shared/infrastructure/schemas/authResponse.schema';
 import { createContext, useContext } from 'react';
 
 interface AuthResponseContextValue {

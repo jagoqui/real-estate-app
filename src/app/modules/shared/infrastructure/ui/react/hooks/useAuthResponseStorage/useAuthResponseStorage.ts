@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/localStorageKeys.constants';
-import type { AuthResponse } from '@/modules/shared/domain/schemas/authResponse.schema';
+import type { AuthResponse } from '@/modules/shared/infrastructure/schemas/authResponse.schema';
 import { useEffect, useState } from 'react';
 
 interface UseAuthResponseStorageReturn {

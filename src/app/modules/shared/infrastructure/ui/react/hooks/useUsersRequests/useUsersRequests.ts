@@ -1,6 +1,5 @@
 import type { UsersRequests } from '@/modules/shared/domain/contracts/usersRequests.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/asyncFunctionValidationWrapper/asyncFunctionValidationWrapper.helper';
-import type { User } from '@/modules/shared/domain/schemas/user.schema';
 import { changeUserPasswordRequest } from '@/modules/shared/infrastructure/requests/changeUserPassword/changeUserPassword';
 import { createUserRequest } from '@/modules/shared/infrastructure/requests/createUser/createUser.request';
 import { deleteUserRequest } from '@/modules/shared/infrastructure/requests/deleteUser/deleteUser.request';
@@ -8,6 +7,7 @@ import { getUserByIdRequest } from '@/modules/shared/infrastructure/requests/get
 import { getUsersRequest } from '@/modules/shared/infrastructure/requests/getUsers/getUsers.request';
 import { getUsersWithoutOwnerRequest } from '@/modules/shared/infrastructure/requests/getUsersWithoutOwner/getUsersWithoutOwner.request';
 import { updateUserRequest } from '@/modules/shared/infrastructure/requests/updateUser/updateUser.request';
+import type { User } from '@/modules/shared/infrastructure/schemas/user.schema';
 import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
 
 const USER_REQUESTS: UsersRequests = {

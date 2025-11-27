@@ -1,4 +1,4 @@
-import { type Env } from '@/variables/domain/schemas/env.schema';
+import { type Env } from '@/variables/infrastructure/schemas/env.schema';
 
 import { getEnvs } from '../../application/adapters/env.adapter';
 

@@ -1,4 +1,4 @@
-import type { ChangeUserPassword, CreateUser, UpdateUser, User } from '../schemas/user.schema';
+import type { ChangeUserPassword, CreateUser, UpdateUser, User } from '../../infrastructure/schemas/user.schema';
 
 interface UpdateUserRequestArgs {
   user: UpdateUser;

@@ -1,7 +1,7 @@
-import type { Amenity } from '../../domain/schemas/amenity.schema';
-import type { Location } from '../../domain/schemas/location.schema';
-import type { PropertyStatutes } from '../../domain/schemas/propertyStatutes.schema';
-import type { PropertyTypes } from '../../domain/schemas/propertyTypes.schema';
+import type { Amenity } from '../../domain/models/amenity.model';
+import type { Location } from '../../infrastructure/schemas/location.schema';
+import type { PropertyStatutes } from '../../infrastructure/schemas/propertyStatutes.schema';
+import type { PropertyTypes } from '../../infrastructure/schemas/propertyTypes.schema';
 
 export interface CreatePropertyRequestDto {
   name: string;

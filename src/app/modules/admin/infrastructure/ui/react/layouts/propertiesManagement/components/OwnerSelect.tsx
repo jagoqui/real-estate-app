@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { type PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import { type PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetOwnersRequest/useGetOwnersRequest';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';

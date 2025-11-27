@@ -1,4 +1,4 @@
-import { propertySchema, PropertySchemaValidations } from '@/modules/shared/domain/schemas/property.schema';
+import { propertySchema, PropertySchemaValidations } from '@/modules/shared/infrastructure/schemas/property.schema';
 import z from 'zod';
 
 const fileCountLimit = PropertySchemaValidations.IMAGES.MAX_ITEMS;

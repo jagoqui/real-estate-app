@@ -1,4 +1,4 @@
-import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import type { PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -80,7 +80,9 @@ export const useFeatureChips = (): UseFeatureChipsReturn => {
     const totalFeatures = features.length + unique.length;
     if (totalFeatures > MAX_FEATURES) {
       const remaining = MAX_FEATURES - features.length;
-      setErrorMessage(`Maximum ${MAX_FEATURES} features allowed. You can add ${remaining} more feature${remaining !== 1 ? 's' : ''}.`);
+      setErrorMessage(
+        `Maximum ${MAX_FEATURES} features allowed. You can add ${remaining} more feature${remaining !== 1 ? 's' : ''}.`
+      );
       return;
     }
 

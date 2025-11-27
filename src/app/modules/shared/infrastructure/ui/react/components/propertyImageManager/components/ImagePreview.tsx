@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { ImageIcon, Trash2, ZoomIn } from 'lucide-react';
 import React from 'react';
 

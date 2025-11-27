@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { ConfirmAlert } from '@/modules/shared/infrastructure/ui/react/components/confirmAlert/confirmAlert';
 import { PropertyImagesTableCell } from '@/modules/shared/infrastructure/ui/react/components/propertyImageManager';
 import { Award, Pencil, Trash2 } from 'lucide-react';

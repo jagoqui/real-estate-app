@@ -1,8 +1,8 @@
 import { ownerDtoAdapter } from '@/modules/shared/application/adapters/ownerDto/ownerDto.adapter';
 import type { OwnerResponseDto } from '@/modules/shared/application/dtos/owner.dto';
 import type { CreateOwnerRequest } from '@/modules/shared/domain/contracts/ownersRequest.contract';
-import { createOwnerSchema, type Owner, ownerSchema } from '@/modules/shared/domain/schemas/owner.schema';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { createOwnerSchema, type Owner, ownerSchema } from '@/modules/shared/infrastructure/schemas/owner.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 
 export const CREATE_OWNER_REQUEST_URL = `${VARIABLES.VITE_API_BASE_URL}/owners`;

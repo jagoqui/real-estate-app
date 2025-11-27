@@ -1,5 +1,5 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import React, { useState } from 'react';
 import { ImagePreview } from './ImagePreview';
 

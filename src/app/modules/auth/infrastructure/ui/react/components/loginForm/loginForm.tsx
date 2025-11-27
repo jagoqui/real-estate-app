@@ -1,7 +1,7 @@
 import {
   loginWithEmailAndPasswordFormValuesSchema,
   type LoginWithEmailAndPasswordFormValues,
-} from '@/modules/auth/domain/schemas/loginWithEmailAndPasswordFormValues.schema';
+} from '@/modules/auth/infrastructure/schemas/loginWithEmailAndPasswordFormValues.schema';
 import { Button } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/button';
 import {
   Form,
@@ -32,15 +32,15 @@ export const LoginWithEmailAndPasswordForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={e => void form.handleSubmit(onSubmit)(e)} className='space-y-4'>
+      <form onSubmit={e => void form.handleSubmit(onSubmit)(e)} className="space-y-4">
         <FormField
           control={form.control}
-          name='email'
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='ephraim@blocks.so' disabled={isLoading} {...field} />
+                <Input placeholder="ephraim@blocks.so" disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -49,20 +49,20 @@ export const LoginWithEmailAndPasswordForm = ({
 
         <FormField
           control={form.control}
-          name='password'
+          name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='**************' disabled={isLoading} {...field} />
+                <Input type="password" placeholder="**************" disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type='submit' className='w-full py-2 font-medium' disabled={isLoading}>
-          {isLoading && <Loader2 className='w-4 h-4 mr-2 animate-spin' />}
+        <Button type="submit" className="w-full py-2 font-medium" disabled={isLoading}>
+          {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
           Sign in
         </Button>
       </form>

@@ -1,4 +1,4 @@
-import { createUserSchema } from '@/modules/shared/domain/schemas/user.schema';
+import { createUserSchema } from '@/modules/shared/infrastructure/schemas/user.schema';
 import z from 'zod';
 
 export const loginWithEmailAndPasswordFormValuesSchema = createUserSchema

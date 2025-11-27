@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { useGetPropertiesByFilterRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesByFilterRequest/useGetPropertiesByFilterRequest';
 import { useGetPropertiesStatusesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesStatusesRequest/useGetPropertiesStatusesRequest';
 import { useGetPropertiesTypesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesTypesRequest/useGetPropertiesTypesRequest';
@@ -11,7 +12,6 @@ import { Link } from '@tanstack/react-router';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
 
 const MAX_PRICE = 10000000;
 const MAX_BEDROOMS = 10;

@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamicIcon/dynamicIcon';
 
 interface PropertyAmenitiesProps {

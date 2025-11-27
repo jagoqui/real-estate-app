@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/localStorageKeys.constants';
-import type { AuthResponse } from '../../schemas/authResponse.schema';
+import type { AuthResponse } from '../../../infrastructure/schemas/authResponse.schema';
 
 type GetAuthTokenBL = () => {
   accessToken: string;

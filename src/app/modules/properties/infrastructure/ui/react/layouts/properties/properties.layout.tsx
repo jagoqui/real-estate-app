@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { PropertySearch } from '@/modules/shared/infrastructure/ui/react/components/propertySearch/propertySearch';
 import { Link } from '@tanstack/react-router';
 import { Bath, Bed, Heart, Mail, MapPin, Maximize } from 'lucide-react';

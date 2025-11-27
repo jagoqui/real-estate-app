@@ -3,9 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { Amenity } from '@/modules/shared/domain/schemas/amenity.schema';
-import type { LucideIconName } from '@/modules/shared/domain/schemas/lucideIcon.schema';
-import type { PropertyFormValues } from '@/modules/shared/domain/schemas/propertyForm.schema';
+import type { Amenity } from '@/modules/shared/domain/models/amenity.model';
+import type { LucideIconName } from '@/modules/shared/domain/models/lucideIconName.model';
+import type { PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 import { X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';

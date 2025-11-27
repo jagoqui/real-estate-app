@@ -3,7 +3,7 @@ import { Table, TableBody } from '@/components/ui/table';
 import { PropertyHeader } from '@/modules/admin/infrastructure/ui/react/components/propertyList/propertyHeader';
 import { PropertyTableHeader } from '@/modules/admin/infrastructure/ui/react/components/propertyList/propertyTableHeader';
 import { PropertyTableRow } from '@/modules/admin/infrastructure/ui/react/components/propertyList/propertyTableRow';
-import type { Property } from '@/modules/shared/domain/schemas/property.schema';
+import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { useDeletePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useDeletePropertyRequest/useDeletePropertyRequest';
 import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetProperties/useGetPropertiesRequest';
 import React, { useState } from 'react';

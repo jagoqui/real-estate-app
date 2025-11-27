@@ -1,6 +1,6 @@
 import { removeNullishOrUndefinedProperties } from '@/modules/shared/domain/helpers/objects/objects.helper';
 import z from 'zod';
-import { envSchema, type Env } from '../../domain/schemas/env.schema';
+import { envSchema, type Env } from '../../infrastructure/schemas/env.schema';
 
 export const getEnvs = (): Env => {
   const rawEnvs = pickEnvVars();
