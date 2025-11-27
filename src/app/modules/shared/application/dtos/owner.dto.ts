@@ -1,4 +1,4 @@
-export interface OwnerDto {
+export interface OwnerResponseDto {
   idOwner: string;
   userId: string;
   name: string;

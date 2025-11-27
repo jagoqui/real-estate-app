@@ -1,7 +1,7 @@
-import type { OwnerDto } from '@/modules/shared/application/dtos/owner.dto';
+import type { OwnerResponseDto } from '@/modules/shared/application/dtos/owner.dto';
 import type { Owner } from '@/modules/shared/domain/schemas/owner.schema';
 
-export const ownerAdapter = (owner: Owner): OwnerDto => ({
+export const ownerAdapter = (owner: Owner): OwnerResponseDto => ({
   idOwner: owner.id,
   userId: owner.userId,
   name: owner.name,
