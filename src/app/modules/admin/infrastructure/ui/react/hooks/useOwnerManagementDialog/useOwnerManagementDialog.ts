@@ -1,4 +1,4 @@
-import type { CreateOwner, Owner } from '@/modules/shared/infrastructure/schemas/owner.schema';
+import type { CreateOwner, Owner } from '@/modules/shared/domain/models/owner.model';
 import { useCreateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreateOwnerRequest/useCreateOwnerRequest';
 import { useUpdateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdateOwnerRequest/useUpdateOwnerRequest';
 import { useState } from 'react';

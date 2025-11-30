@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { Property } from '../../domain/models/property.model';
 import { amenitySchema } from './amenity.schema';
 import { locationSchema } from './location.schema';
 import { propertyStatutesSchema } from './propertyStatutes.schema';
@@ -95,6 +96,4 @@ export const propertySchema = z.object({
     .string()
     .refine(date => !isNaN(Date.parse(date)))
     .readonly(),
-});
-
-export type Property = z.infer<typeof propertySchema>;
+}) satisfies z.ZodType<Property>;

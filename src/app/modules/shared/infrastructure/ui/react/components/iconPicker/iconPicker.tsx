@@ -9,13 +9,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { DynamicIcon } from '../dynamicIcon/dynamicIcon';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import type { LucideIconName } from '@/modules/shared/domain/models/lucideIconName.model';
 import { Check, Loader2, Search } from 'lucide-react';
 
 interface IconPickerProps {
-  value?: LucideIconName;
-  onSelect: (iconName: LucideIconName) => void;
-  excludedIcons?: Array<LucideIconName>;
+  value?: keyof typeof dynamicIconImports;
+  onSelect: (iconName: keyof typeof dynamicIconImports) => void;
+  excludedIcons?: Array<keyof typeof dynamicIconImports>;
 }
 
 const ICON_CATEGORIES = {
@@ -170,7 +169,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
 
   const iconNames = useMemo(() => {
     if (!isIconsLoaded) return [];
-    const allIcons = Object.keys(dynamicIconImports) as Array<LucideIconName>;
+    const allIcons = Object.keys(dynamicIconImports) as Array<keyof typeof dynamicIconImports>;
     return allIcons.filter(icon => !excludedIcons.includes(icon));
   }, [isIconsLoaded, excludedIcons]);
 
@@ -189,9 +188,9 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
         files: [],
         ui: [],
         other: [],
-      } as Record<CategoryKey, Array<LucideIconName>>;
+      } as Record<CategoryKey, Array<keyof typeof dynamicIconImports>>;
 
-    const categories: Record<CategoryKey, Array<LucideIconName>> = {
+    const categories: Record<CategoryKey, Array<keyof typeof dynamicIconImports>> = {
       home: [],
       amenities: [],
       nature: [],
@@ -215,7 +214,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
   }, [iconNames, isIconsLoaded]);
 
   const filteredIcons = useMemo(() => {
-    let icons: Array<LucideIconName> = [];
+    let icons: Array<keyof typeof dynamicIconImports> = [];
 
     if (search) {
       icons = iconNames.filter(name => name.toLowerCase().includes(search.toLowerCase()));
@@ -232,7 +231,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
   const ITEM_HEIGHT = 80;
 
   const rows = useMemo(() => {
-    const result: Array<Array<LucideIconName>> = [];
+    const result: Array<Array<keyof typeof dynamicIconImports>> = [];
     for (let i = 0; i < filteredIcons.length; i += COLUMNS) {
       result.push(filteredIcons.slice(i, i + COLUMNS));
     }
@@ -264,7 +263,7 @@ export const IconPicker = ({ value, onSelect, excludedIcons = [] }: IconPickerPr
     }
   }, [filteredIcons.length, containerElement, open, rowVirtualizer]);
 
-  const handleSelect = (iconName: LucideIconName): void => {
+  const handleSelect = (iconName: keyof typeof dynamicIconImports): void => {
     onSelect(iconName);
     setOpen(false);
   };

@@ -1,5 +1,6 @@
 import { COMMONS_VALIDATIONS, objectIdSchema } from '@/modules/shared/infrastructure/schemas/commonsValidations.schema';
 import z from 'zod';
+import type { CreateOwner, Owner } from '../../domain/models/owner.model';
 
 export const ownerSchema = z.object({
   id: objectIdSchema,
@@ -11,10 +12,8 @@ export const ownerSchema = z.object({
   photoUrl: z.string().optional(),
   birthday: z.string().optional(),
   createdAt: z.iso.datetime().optional(),
-});
+}) satisfies z.ZodType<Owner>;
 
-export type Owner = z.infer<typeof ownerSchema>;
-
-export const createOwnerSchema = ownerSchema.omit({ id: true, createdAt: true });
-
-export type CreateOwner = z.infer<typeof createOwnerSchema>;
+export const createOwnerSchema = ownerSchema.omit({ id: true, createdAt: true }) satisfies z.ZodType<
+  Omit<Owner, 'id' | 'createdAt'>
+> satisfies z.ZodType<CreateOwner>;

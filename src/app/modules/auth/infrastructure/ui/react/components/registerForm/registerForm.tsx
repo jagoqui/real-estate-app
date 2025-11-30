@@ -2,10 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  registerFormValuesSchema,
-  type RegisterFormValues,
-} from '@/modules/auth/infrastructure/schemas/registerFormValues.schema';
+import { type RegisterFormValues } from '@/modules/auth/domain/models/registerFormValues.model';
+import { registerFormValuesSchema } from '@/modules/auth/infrastructure/schemas/registerFormValues.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react';

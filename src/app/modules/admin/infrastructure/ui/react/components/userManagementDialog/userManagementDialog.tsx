@@ -4,8 +4,8 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import type { CreateUser, User } from '@/modules/shared/infrastructure/schemas/user.schema';
-import { USER_ROLES } from '@/modules/shared/infrastructure/schemas/userRole.schema';
+import type { CreateUser, User } from '@/modules/shared/domain/models/user.model';
+import { USER_ROLES } from '@/modules/shared/domain/models/userRole.model';
 import { useCreateUserRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreateUserRequest/useCreateUserRequest';
 import { useUpdateUserRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdateUserRequest/useUpdateUserRequest';
 import { Camera, Loader2, Plus } from 'lucide-react';

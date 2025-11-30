@@ -2,7 +2,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { type PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
+import { type PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
 import { FormattedInput } from '@/modules/shared/infrastructure/ui/react/components/formattedInput/formatted-input';
 import { Sparkle } from 'lucide-react';
 import React from 'react';

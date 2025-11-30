@@ -1,7 +1,7 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { type PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
-import { PROPERTIES_TYPES } from '@/modules/shared/infrastructure/schemas/propertyTypes.schema';
+import { type PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
+import { PROPERTIES_TYPES } from '@/modules/shared/domain/models/propertyTypes.model';
 import { useGetPropertiesTypesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesTypesRequest/useGetPropertiesTypesRequest';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';

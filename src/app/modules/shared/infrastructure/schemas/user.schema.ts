@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { CreateUser, LoginUserWithEmailAndPassword, User } from '../../domain/models/user.model';
 import { COMMONS_VALIDATIONS, objectIdSchema } from './commonsValidations.schema';
 import { userRoleSchema } from './userRole.schema';
 
@@ -12,7 +13,7 @@ export const userSchema = z.object({
   isAdmin: z.boolean(),
   phone: z.string().regex(COMMONS_VALIDATIONS.PHONE.pattern).optional(),
   bio: z.string().min(COMMONS_VALIDATIONS.BIO.min).max(COMMONS_VALIDATIONS.BIO.max).optional(),
-});
+}) satisfies z.ZodType<User>;
 
 export const createUserSchema = userSchema
   .pick({
@@ -25,19 +26,9 @@ export const createUserSchema = userSchema
       message:
         'Password must include uppercase, lowercase, number, and special character and be between 6 and 18 characters long.',
     }),
-  });
+  }) satisfies z.ZodType<CreateUser>;
 
 export const loginUserWithEmailAndPasswordSchema = createUserSchema.pick({
   email: true,
   password: true,
-});
-
-export type User = z.infer<typeof userSchema>;
-
-export type UpdateUser = Omit<User, 'photoUrl'>;
-
-export type CreateUser = z.infer<typeof createUserSchema>;
-
-export type LoginUserWithEmailAndPassword = z.infer<typeof loginUserWithEmailAndPasswordSchema>;
-
-export type ChangeUserPassword = Pick<User, 'id'> & { newPassword: string };
+}) satisfies z.ZodType<LoginUserWithEmailAndPassword>;

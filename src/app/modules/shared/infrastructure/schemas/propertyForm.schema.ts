@@ -1,5 +1,11 @@
 import { propertySchema, PropertySchemaValidations } from '@/modules/shared/infrastructure/schemas/property.schema';
 import z from 'zod';
+import type {
+  CreatePropertyFormValues,
+  FilesUpload,
+  PropertyFormValues,
+  UpdatePropertyFormValues,
+} from '../../domain/models/propertyForm.model';
 
 const fileCountLimit = PropertySchemaValidations.IMAGES.MAX_ITEMS;
 const MAX_FILE_SIZE_MB = 5;
@@ -47,7 +53,7 @@ export const filesUploadSchema = z.object({
         message: 'File size should not exceed 5MB',
       }
     ),
-});
+}) satisfies z.ZodType<FilesUpload>;
 
 export const createPropertyFormValuesSchema = propertySchema
   .omit({
@@ -60,20 +66,14 @@ export const createPropertyFormValuesSchema = propertySchema
   .extend({
     action: z.literal('create'),
     ...filesUploadSchema.shape,
-  });
+  }) satisfies z.ZodType<CreatePropertyFormValues>;
 
 export const updatePropertyFormValuesSchema = propertySchema.extend({
   action: z.literal('update'),
   ...filesUploadSchema.shape,
-});
+}) satisfies z.ZodType<UpdatePropertyFormValues>;
 
-const _propertyFormValuesSchema = z.discriminatedUnion('action', [
+export const _propertyFormValuesSchema = z.discriminatedUnion('action', [
   createPropertyFormValuesSchema,
   updatePropertyFormValuesSchema,
-]);
-
-export type CreatePropertyFormValues = z.infer<typeof createPropertyFormValuesSchema>;
-
-export type UpdatePropertyFormValues = z.infer<typeof updatePropertyFormValuesSchema>;
-
-export type PropertyFormValues = z.infer<typeof _propertyFormValuesSchema>;
+]) satisfies z.ZodType<PropertyFormValues>;

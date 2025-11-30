@@ -1,5 +1,5 @@
-import type { CreateUser } from '@/modules/shared/infrastructure/schemas/user.schema';
-import { USER_ROLES } from '../../../src/app/modules/shared/infrastructure/schemas/userRole.schema';
+import type { CreateUser } from '@/modules/shared/domain/models/user.model';
+import { USER_ROLES } from '@/modules/shared/domain/models/userRole.model';
 
 export const CREATE_USER_MOCK: CreateUser = {
   email: 'test@example.com',

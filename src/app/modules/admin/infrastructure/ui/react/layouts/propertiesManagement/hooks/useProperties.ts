@@ -1,4 +1,4 @@
-import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
+import type { Property } from '@/modules/shared/domain/models/property.model';
 import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetProperties/useGetPropertiesRequest';
 import { useState } from 'react';
 

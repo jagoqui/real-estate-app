@@ -1,4 +1,4 @@
-import type { CreateOwner, Owner } from '../../infrastructure/schemas/owner.schema';
+import type { CreateOwner, Owner } from '../models/owner.model';
 
 export type CreateOwnerRequest = (args: CreateOwner) => Promise<Owner>;
 

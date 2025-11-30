@@ -105,8 +105,9 @@ export default {
         // Check if domain is importing external packages (non-relative imports)
         const isDomainFile = layerCurrentFile === config.layers.domain;
         const isRelativeImport = importFilename.startsWith('.') || importFilename.startsWith('/');
+        const isSharedModuleImport = importFilename.includes(`/${config.sharedModule}`);
 
-        if (isDomainFile && !isRelativeImport) {
+        if (isDomainFile && !isRelativeImport && !isSharedModuleImport) {
           context.report({
             node,
             messageId: 'domainExternalImport',

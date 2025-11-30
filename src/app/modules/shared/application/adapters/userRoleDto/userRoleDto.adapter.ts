@@ -1,5 +1,5 @@
 import type { UserRoleDto } from '@/modules/shared/application/dtos/role.dto';
-import type { UserRole } from '@/modules/shared/infrastructure/schemas/userRole.schema';
+import type { UserRole } from '@/modules/shared/domain/models/userRole.model';
 
 export const ROLE_DTO_MAP: Record<UserRole, UserRoleDto> = {
   OWNER: 0,

@@ -4,7 +4,8 @@ import { ownerDtoAdapter } from '@/modules/shared/application/adapters/ownerDto/
 
 import { type OwnerResponseDto } from '@/modules/shared/application/dtos/owner.dto';
 import type { GetOwnerByIdRequest } from '@/modules/shared/domain/contracts/ownersRequest.contract';
-import { ownerSchema, type Owner } from '@/modules/shared/infrastructure/schemas/owner.schema';
+import { type Owner } from '@/modules/shared/domain/models/owner.model';
+import { ownerSchema } from '@/modules/shared/infrastructure/schemas/owner.schema';
 
 export const OWNER_BY_ID_REQUEST_URL = (id: string): string => `${VARIABLES.VITE_API_BASE_URL}/owners/${id}`;
 

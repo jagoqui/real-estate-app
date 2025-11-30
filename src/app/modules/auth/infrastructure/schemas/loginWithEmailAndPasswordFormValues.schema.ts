@@ -1,5 +1,6 @@
 import { createUserSchema } from '@/modules/shared/infrastructure/schemas/user.schema';
 import z from 'zod';
+import type { LoginWithEmailAndPasswordFormValues } from '../../domain/models/loginWithEmailAndPasswordFormValues.model';
 
 export const loginWithEmailAndPasswordFormValuesSchema = createUserSchema
   .pick({
@@ -7,6 +8,4 @@ export const loginWithEmailAndPasswordFormValuesSchema = createUserSchema
   })
   .extend({
     password: z.string().min(1, 'Password is required'),
-  });
-
-export type LoginWithEmailAndPasswordFormValues = z.infer<typeof loginWithEmailAndPasswordFormValuesSchema>;
+  }) satisfies z.ZodType<LoginWithEmailAndPasswordFormValues>;

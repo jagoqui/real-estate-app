@@ -1,4 +1,4 @@
-import type { CreateUser } from '@/modules/shared/infrastructure/schemas/user.schema';
+import type { CreateUser } from '@/modules/shared/domain/models/user.model';
 import type { CreateUserDto } from '../../dtos/user.dto';
 import { userRoleDtoAdapter } from '../userRoleDto/userRoleDto.adapter';
 

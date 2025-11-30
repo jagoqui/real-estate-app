@@ -1,5 +1,5 @@
-import type { Location } from '@/modules/shared/infrastructure/schemas/location.schema';
-import type { PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
+import type { Location } from '@/modules/shared/domain/models/location.model';
+import type { PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
 import { LocationPicker } from '@/modules/shared/infrastructure/ui/react/components/locationPicker/locationPicker';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';

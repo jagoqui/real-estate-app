@@ -8,8 +8,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
-import { type PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
+import type { Property } from '@/modules/shared/domain/models/property.model';
+import { type PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
 import { Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { convertPropertyToFormData } from '../helpers/convertPropertyToFormData';

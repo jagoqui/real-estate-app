@@ -1,11 +1,4 @@
 import z from 'zod';
+import type { PropertyStatutes } from '../../domain/models/propertyStatutes.model';
 
-export const PROPERTY_STATUSES = {
-  AVAILABLE: 'available',
-  SOLD: 'sold',
-  PENDING: 'pending',
-} as const satisfies Record<string, string>;
-
-export const propertyStatutesSchema = z.custom<PropertyStatutes>();
-
-export type PropertyStatutes = keyof typeof PROPERTY_STATUSES | (string & {});
+export const propertyStatutesSchema = z.custom<PropertyStatutes>() satisfies z.ZodType<PropertyStatutes>;

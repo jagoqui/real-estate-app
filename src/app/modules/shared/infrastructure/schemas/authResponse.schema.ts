@@ -1,9 +1,8 @@
 import { tokenSchema } from '@/modules/shared/infrastructure/schemas/token.schema';
 import type z from 'zod';
+import type { AuthResponse } from '../../domain/models/authResponse.model';
 import { userSchema } from './user.schema';
 
 export const authResponseSchema = tokenSchema.extend({
   user: userSchema,
-});
-
-export type AuthResponse = z.infer<typeof authResponseSchema>;
+}) satisfies z.ZodType<AuthResponse>;

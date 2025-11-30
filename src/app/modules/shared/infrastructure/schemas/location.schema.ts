@@ -1,9 +1,8 @@
 import z from 'zod';
+import type { Location } from '../../domain/models/location.model';
 
 export const locationSchema = z.object({
   lat: z.string(),
   lon: z.string(),
   displayName: z.string(),
-});
-
-export type Location = z.infer<typeof locationSchema>;
+}) satisfies z.ZodType<Location>;

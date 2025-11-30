@@ -1,4 +1,4 @@
-import type { Token } from '@/modules/shared/infrastructure/schemas/token.schema';
+import type { Token } from '@/modules/shared/domain/models/token.model';
 
 export const TOKEN_MOCK: Token = {
   accessToken: 'mockedAccessToken',

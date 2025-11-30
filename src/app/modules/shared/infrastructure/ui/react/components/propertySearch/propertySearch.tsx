@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
-import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
+import type { Property } from '@/modules/shared/domain/models/property.model';
 import { useGetPropertiesByFilterRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesByFilterRequest/useGetPropertiesByFilterRequest';
 import { useGetPropertiesStatusesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesStatusesRequest/useGetPropertiesStatusesRequest';
 import { useGetPropertiesTypesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetPropertiesTypesRequest/useGetPropertiesTypesRequest';

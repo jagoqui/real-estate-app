@@ -1,4 +1,4 @@
-import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
+import type { Property } from '@/modules/shared/domain/models/property.model';
 
 interface PropertyDetailsProps {
   bedrooms: Property['bedrooms'];

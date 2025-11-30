@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { Owner } from '@/modules/shared/infrastructure/schemas/owner.schema';
+import type { Owner } from '@/modules/shared/domain/models/owner.model';
 
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { useGetUsersWithoutOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useGetUsersWithoutOwnerRequest/useGetUsersWithoutOwnerRequest';

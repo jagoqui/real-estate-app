@@ -1,9 +1,9 @@
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { type PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
 import {
   createPropertyFormValuesSchema,
   updatePropertyFormValuesSchema,
-  type PropertyFormValues,
 } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
 import { useCreatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useCreatePropertyRequest/useCreatePropertyRequest';
 import { useUpdatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdatePropertyRequest/useUpdatePropertyRequest';

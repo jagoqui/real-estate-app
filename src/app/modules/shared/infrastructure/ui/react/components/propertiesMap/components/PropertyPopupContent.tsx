@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import type { Property } from '@/modules/shared/infrastructure/schemas/property.schema';
+import type { Property } from '@/modules/shared/domain/models/property.model';
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
 import { Link } from '@tanstack/react-router';
 import { Bath, Bed, DollarSign, MapPin, Maximize2 } from 'lucide-react';

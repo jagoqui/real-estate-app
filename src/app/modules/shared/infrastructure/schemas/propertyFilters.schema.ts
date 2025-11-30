@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { PropertyFilters } from '../../domain/models/propertyFilters.model';
 import { propertyStatutesSchema } from './propertyStatutes.schema';
 import { propertyTypesSchema } from './propertyTypes.schema';
 
@@ -18,6 +19,4 @@ export const propertyFiltersSchema = z.object({
   maxYear: z.number().positive().optional(),
   type: propertyTypesSchema.optional(),
   status: propertyStatutesSchema.optional(),
-});
-
-export type PropertyFilters = z.infer<typeof propertyFiltersSchema>;
+}) satisfies z.ZodType<PropertyFilters>;

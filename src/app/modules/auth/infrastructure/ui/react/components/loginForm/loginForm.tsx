@@ -1,7 +1,5 @@
-import {
-  loginWithEmailAndPasswordFormValuesSchema,
-  type LoginWithEmailAndPasswordFormValues,
-} from '@/modules/auth/infrastructure/schemas/loginWithEmailAndPasswordFormValues.schema';
+import { type LoginWithEmailAndPasswordFormValues } from '@/modules/auth/domain/models/loginWithEmailAndPasswordFormValues.model';
+import { loginWithEmailAndPasswordFormValuesSchema } from '@/modules/auth/infrastructure/schemas/loginWithEmailAndPasswordFormValues.schema';
 import { Button } from '@/modules/shared/infrastructure/ui/shadcn/components/ui/button';
 import {
   Form,

@@ -1,5 +1,6 @@
 import { createUserSchema } from '@/modules/shared/infrastructure/schemas/user.schema';
 import z from 'zod';
+import type { RegisterFormValues } from '../../domain/models/registerFormValues.model';
 
 export const registerFormValuesSchema = createUserSchema
   .extend({
@@ -8,6 +9,4 @@ export const registerFormValuesSchema = createUserSchema
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ['confirmPassword'],
-  });
-
-export type RegisterFormValues = z.infer<typeof registerFormValuesSchema>;
+  }) satisfies z.ZodType<RegisterFormValues>;

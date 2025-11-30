@@ -2,7 +2,8 @@ import { createUserAdapter } from '@/modules/shared/application/adapters/createU
 import { userAdapter } from '@/modules/shared/application/adapters/user/user.adapter';
 import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import type { CreateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
-import { type User, userSchema } from '@/modules/shared/infrastructure/schemas/user.schema';
+import { type User } from '@/modules/shared/domain/models/user.model';
+import { userSchema } from '@/modules/shared/infrastructure/schemas/user.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

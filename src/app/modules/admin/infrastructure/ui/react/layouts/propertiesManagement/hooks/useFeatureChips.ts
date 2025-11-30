@@ -1,4 +1,4 @@
-import type { PropertyFormValues } from '@/modules/shared/infrastructure/schemas/propertyForm.schema';
+import type { PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 

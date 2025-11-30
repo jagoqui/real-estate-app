@@ -1,6 +1,6 @@
-import type { AuthResponse } from '@/modules/shared/infrastructure/schemas/authResponse.schema';
-import type { Token } from '@/modules/shared/infrastructure/schemas/token.schema';
-import type { CreateUser, LoginUserWithEmailAndPassword } from '@/modules/shared/infrastructure/schemas/user.schema';
+import type { AuthResponse } from '../models/authResponse.model';
+import type { Token } from '../models/token.model';
+import type { CreateUser, LoginUserWithEmailAndPassword } from '../models/user.model';
 
 export type RegisterRequest = (ars: CreateUser) => Promise<AuthResponse>;
 
