@@ -1,6 +1,6 @@
-import { authResponseAdapter } from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
-import type { AuthResponseDto } from '@/modules/shared/application/dtos/authResponse.dto';
 import type { LoginWithGoogleRequest } from '@/modules/shared/domain/contracts/authRequests.contract';
+import type { AuthResponseDto } from '@/modules/shared/infrastructure/dtos/authResponse.dto';
+import { authResponseAdapter } from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.adapter';
 
 import { type AuthResponse } from '@/modules/shared/domain/models/authResponse.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';

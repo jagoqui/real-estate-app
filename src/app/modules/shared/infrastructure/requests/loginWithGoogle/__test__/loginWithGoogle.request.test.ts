@@ -1,6 +1,6 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
-import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import * as authResponseAdapterModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.adapter';
 import { LOGIN_WITH_GOOGLE_REQUEST_URL, loginWithGoogleRequest } from '../loginWithGoogle.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({

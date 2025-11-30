@@ -1,8 +1,8 @@
-import { propertyAdapter } from '@/modules/shared/application/adapters/property/property.dto';
-import { propertyFormValueDtoAdapter } from '@/modules/shared/application/adapters/propertyFormValueDto/propertyFormValueDto.adapter';
-import type { PropertyResponseDto } from '@/modules/shared/application/dtos/propertyResponse.dto';
 import type { CreatePropertyRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
+import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/propertyResponse.dto';
+import { propertyAdapter } from '@/modules/shared/infrastructure/mappers/property/property.dto';
+import { propertyFormValueDtoAdapter } from '@/modules/shared/infrastructure/mappers/propertyFormValueDto/propertyFormValueDto.adapter';
 import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';

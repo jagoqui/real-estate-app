@@ -1,7 +1,7 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
 import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
-import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import * as authResponseAdapterModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.adapter';
 import { REFRESH_TOKEN_REQUEST_URL, refreshTokenRequest } from '../refreshToken.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({

@@ -1,5 +1,5 @@
-import type { OwnerResponseDto } from '@/modules/shared/application/dtos/owner.dto';
 import type { Owner } from '@/modules/shared/domain/models/owner.model';
+import type { OwnerResponseDto } from '@/modules/shared/infrastructure/dtos/owner.dto';
 
 export const ownerAdapter = (owner: Owner): OwnerResponseDto => ({
   idOwner: owner.id,

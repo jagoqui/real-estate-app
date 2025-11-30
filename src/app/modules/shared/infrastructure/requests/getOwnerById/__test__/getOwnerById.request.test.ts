@@ -1,7 +1,7 @@
 import { OWNER_MOCK } from '@/data/mocks/owners/owner.mock';
 import { OWNER_DTO_MOCK } from '@/data/mocks/owners/ownerDto.mock';
-import * as ownerDtoAdapterModule from '@/modules/shared/application/adapters/ownerDto/ownerDto.adapter';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import * as ownerDtoAdapterModule from '@/modules/shared/infrastructure/mappers/ownerDto/ownerDto.adapter';
 import { getOwnerByIdRequest, OWNER_BY_ID_REQUEST_URL } from '../getOwnerById.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({

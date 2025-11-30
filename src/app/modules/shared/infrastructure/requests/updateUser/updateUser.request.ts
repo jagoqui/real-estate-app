@@ -1,9 +1,9 @@
-import { userAdapter } from '@/modules/shared/application/adapters/user/user.adapter';
-import { userDtoAdapter } from '@/modules/shared/application/adapters/userDto/userDto.adapter';
-import type { UserDto } from '@/modules/shared/application/dtos/user.dto';
 import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
 import { type User } from '@/modules/shared/domain/models/user.model';
+import type { UserDto } from '@/modules/shared/infrastructure/dtos/user.dto';
+import { userAdapter } from '@/modules/shared/infrastructure/mappers/user/user.adapter';
+import { userDtoAdapter } from '@/modules/shared/infrastructure/mappers/userDto/userDto.adapter';
 import { userSchema } from '@/modules/shared/infrastructure/schemas/user.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';

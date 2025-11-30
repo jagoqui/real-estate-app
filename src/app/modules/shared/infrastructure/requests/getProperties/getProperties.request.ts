@@ -1,6 +1,6 @@
-import { propertyAdapter } from '@/modules/shared/application/adapters/property/property.dto';
-import type { PropertyResponseDto } from '@/modules/shared/application/dtos/propertyResponse.dto';
 import type { GetPropertiesRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
+import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/propertyResponse.dto';
+import { propertyAdapter } from '@/modules/shared/infrastructure/mappers/property/property.dto';
 import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';

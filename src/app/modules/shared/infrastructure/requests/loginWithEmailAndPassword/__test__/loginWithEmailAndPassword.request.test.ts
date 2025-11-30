@@ -1,7 +1,7 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
 import { LOGIN_USER_WITH_EMAIL_AND_PASSWORD_MOCK } from '@/data/mocks/loginUserWithEmailAndPassword/loginUserWithEmailAndPassword.mock';
-import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import * as authResponseAdapterModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.adapter';
 import {
   LOGIN_WITH_EMAIL_AND_PASSWORD_REQUEST_URL,
   loginWithEmailAndPasswordRequest,

@@ -1,4 +1,4 @@
-import type {TokenDto} from '@/modules/shared/application/dtos/token.dto';
+import type { TokenDto } from '@/modules/shared/infrastructure/dtos/token.dto';
 
 export const TOKEN_DTO_MOCK: TokenDto = {
   accessToken: 'mockedAccessToken',

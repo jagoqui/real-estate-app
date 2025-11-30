@@ -1,4 +1,4 @@
-import type { OwnerResponseDto } from '@/modules/shared/application/dtos/owner.dto';
+import type { OwnerResponseDto } from '@/modules/shared/infrastructure/dtos/owner.dto';
 
 export const OWNER_DTO_MOCK: OwnerResponseDto = {
   idOwner: '68cc5fc3f1022f7ba8797ad3',
