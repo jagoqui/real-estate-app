@@ -1,7 +1,7 @@
 import type { Property } from '@/modules/shared/domain/models/property.model';
-import type { PropertyResponseDto } from '../../dtos/propertyResponse.dto';
+import type { PropertyResponseDto } from '../../dtos/property-response.dto';
 
-export const propertyAdapter = (propertyDto: PropertyResponseDto): Property => ({
+export const mapPropertyToModel = (propertyDto: PropertyResponseDto): Property => ({
   name: propertyDto.name,
   address: propertyDto.address,
   price: propertyDto.price,

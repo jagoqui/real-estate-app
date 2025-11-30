@@ -1,6 +1,6 @@
 import type { GetPropertiesByFilterRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/propertyResponse.dto';
-import { propertyAdapter } from '@/modules/shared/infrastructure/mappers/property/property.dto';
+import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/property-response.dto';
+import { mapPropertyToModel } from '@/modules/shared/infrastructure/mappers/property/property.mapper';
 import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { propertyFiltersSchema } from '@/modules/shared/infrastructure/schemas/propertyFilters.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
@@ -15,7 +15,7 @@ export const getPropertiesByFilterRequest: GetPropertiesByFilterRequest = async 
     })
     .json();
 
-  const property = propertyDto.map(propertyAdapter);
+  const property = propertyDto.map(mapPropertyToModel);
 
   return propertySchema.array().parse(property);
 };

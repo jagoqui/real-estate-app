@@ -1,6 +1,6 @@
 import type { UpdatePropertyStatusRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/propertyResponse.dto';
-import { propertyAdapter } from '@/modules/shared/infrastructure/mappers/property/property.dto';
+import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/property-response.dto';
+import { mapPropertyToModel } from '@/modules/shared/infrastructure/mappers/property/property.mapper';
 import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
@@ -15,7 +15,7 @@ export const updatePropertyStatusRequest: UpdatePropertyStatusRequest = async ({
     })
     .json();
 
-  const property = propertyAdapter(propertyDto);
+  const property = mapPropertyToModel(propertyDto);
 
   return propertySchema.parse(property);
 };

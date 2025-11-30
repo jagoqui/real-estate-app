@@ -1,4 +1,4 @@
-import type { CreatePropertyRequestDto } from './createPropertyRequest.dto';
+import type { CreatePropertyRequestDto } from './create-property-request.dto';
 
 export interface PropertyResponseDto extends Omit<CreatePropertyRequestDto, 'images' | 'coverImage'> {
   id: string;

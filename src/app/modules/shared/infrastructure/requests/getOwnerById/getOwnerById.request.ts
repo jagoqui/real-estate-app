@@ -1,6 +1,6 @@
 import { api } from '@/app/modules/shared/infrastructure/clients/ky/ky.client';
 import { VARIABLES } from '@/app/variables/infrastructure/constants/variables.constants';
-import { ownerDtoAdapter } from '@/modules/shared/infrastructure/mappers/ownerDto/ownerDto.adapter';
+import { mapOwnerToModel } from '../../mappers/owner/owner.mapper';
 
 import type { GetOwnerByIdRequest } from '@/modules/shared/domain/contracts/ownersRequest.contract';
 import { type Owner } from '@/modules/shared/domain/models/owner.model';
@@ -12,7 +12,7 @@ export const OWNER_BY_ID_REQUEST_URL = (id: string): string => `${VARIABLES.VITE
 export const getOwnerByIdRequest: GetOwnerByIdRequest = async ({ id }): Promise<Owner> => {
   const ownerDTO = await api.get<OwnerResponseDto>(OWNER_BY_ID_REQUEST_URL(id)).json();
 
-  const owner = ownerDtoAdapter(ownerDTO);
+  const owner = mapOwnerToModel(ownerDTO);
 
   return ownerSchema.parse(owner);
 };

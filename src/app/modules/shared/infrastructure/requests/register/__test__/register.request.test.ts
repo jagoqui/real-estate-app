@@ -2,7 +2,7 @@ import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock'
 import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
 import { CREATE_USER_MOCK } from '@/data/mocks/createUser/createUser.mock';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import * as authResponseAdapterModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.adapter';
+import * as authResponseAdapterModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.mapper';
 import { registerRequest } from '../register.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
@@ -28,8 +28,8 @@ describe('register.request', () => {
     expect(api.post).toHaveBeenNthCalledWith(1, expect.any(String), { json: CREATE_USER_MOCK });
     expect(result).toEqual(AUTH_RESPONSE_MOCK);
 
-    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenNthCalledWith(1, AUTH_RESPONSE_DTO_MOCK);
-    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenCalledTimes(1);
+    expect(authResponseAdapterModule.mapAuthResponseToModel).toHaveBeenNthCalledWith(1, AUTH_RESPONSE_DTO_MOCK);
+    expect(authResponseAdapterModule.mapAuthResponseToModel).toHaveBeenCalledTimes(1);
   });
 
   it('should throw an error if the API call fails', async () => {
