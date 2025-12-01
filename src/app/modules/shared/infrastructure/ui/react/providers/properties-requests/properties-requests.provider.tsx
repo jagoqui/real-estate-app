@@ -1,7 +1,7 @@
 import type { PropertiesRequests } from '@/modules/shared/domain/contracts/properties-requests.contract';
 import { type ReactNode, useMemo } from 'react';
 import { PropertiesRequestsContext } from '../../contexts/properties-requests/properties-requests.context';
-import { usePropertiesRequests } from '../../hooks/usePropertiesRequests/usePropertiesRequests';
+import { usePropertiesRequests } from '../../hooks/use-properties-requests/use-properties-requests';
 
 export const PropertiesRequestsProvider = ({ children }: { children: ReactNode }): React.ReactElement => {
   const propertiesRequests = usePropertiesRequests();

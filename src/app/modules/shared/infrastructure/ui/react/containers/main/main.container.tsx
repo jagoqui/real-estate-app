@@ -2,9 +2,9 @@ import { Toaster } from '@/components/ui/sonner';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { RouterProvider } from '@tanstack/react-router';
-import { useGoogleProviderValidator } from '../../hooks/useGoogleProviderValidator/useGoogleProviderValidator';
+import { useGoogleProviderValidator } from '../../hooks/use-google-provider-validator/use-google-provider-validator';
 import { MainLayout } from '../../layouts/main/main.layout';
-import { AuthResponseProvider } from '../../providers/authResponse/authResponse.provider';
+import { AuthResponseProvider } from '../../providers/auth-response/auth-response.provider';
 import { appRouter } from '../../router/app.router';
 
 export const MainContainer = (): React.ReactElement => {

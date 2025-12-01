@@ -12,7 +12,7 @@ import { Heart, Home, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
-import { useLogoutRequest } from '../../hooks/useLogoutRequest/useLogoutRequest';
+import { useLogoutRequest } from '../../hooks/use-logout-request/use-logout-request';
 import { EditProfileDialog } from '../edit-profile-dialog/edit-profile-dialog';
 import { FavoritesDialog } from '../favorites-dialog/favorites-dialog';
 import { MyPropertiesDialog } from '../my-properties-dialog/my-properties-dialog';

@@ -1,6 +1,6 @@
 import type { CreateOwner, Owner } from '@/modules/shared/domain/models/owner.model';
 import { useCreateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-create-owner-request/use-create-owner-request';
-import { useUpdateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useUpdateOwnerRequest/useUpdateOwnerRequest';
+import { useUpdateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-update-owner-request/use-update-owner-request';
 import { useState } from 'react';
 
 const getInitialFormData = (owner?: Owner | null): CreateOwner => ({

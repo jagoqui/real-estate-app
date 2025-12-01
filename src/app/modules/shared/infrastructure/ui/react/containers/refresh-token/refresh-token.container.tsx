@@ -1,5 +1,5 @@
 import { getAuthTokenBL } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
-import { useRefreshTokenRequest } from '@/modules/shared/infrastructure/ui/react/hooks/useRefreshTokenRequest/useRefreshTokenRequest';
+import { useRefreshTokenRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-refresh-token-request/use-refresh-token-request';
 import { useEffect, useRef } from 'react';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
 
