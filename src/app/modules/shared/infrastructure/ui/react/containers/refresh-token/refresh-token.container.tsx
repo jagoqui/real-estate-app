@@ -1,4 +1,4 @@
-import { getAuthTokenBL } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
+import { getAuthToken } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
 import { useRefreshTokenRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-refresh-token-request/use-refresh-token-request';
 import { useEffect, useRef } from 'react';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
@@ -12,7 +12,7 @@ export const RefreshTokenContainer = ({ children }: { children: React.ReactNode 
     if (hasInitialized.current) return;
     hasInitialized.current = true;
 
-    const { refreshToken } = getAuthTokenBL() || {};
+    const { refreshToken } = getAuthToken() || {};
 
     if (refreshToken) {
       setIsAuthLoading(true);

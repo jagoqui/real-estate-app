@@ -1,4 +1,4 @@
-import { getAuthTokenBL } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
+import { getAuthToken } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
 import ky from 'ky';
 
 const HTTP_STATUS_UNAUTHORIZED = 401;
@@ -13,7 +13,7 @@ export const api = ky.create({
   hooks: {
     beforeRequest: [
       (request: Request): void => {
-        const { accessToken } = getAuthTokenBL() || {};
+        const { accessToken } = getAuthToken() || {};
         if (accessToken) {
           const headers = API_HEADERS(accessToken);
           Object.entries(headers).forEach(([key, value]) => {

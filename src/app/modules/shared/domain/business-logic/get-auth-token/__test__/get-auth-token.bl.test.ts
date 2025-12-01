@@ -1,7 +1,7 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock'; // Asume que este mock es un objeto AuthResponse válido
 import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/local-storage-keys.constants';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getAuthTokenBL } from '../get-auth-token.bl'; // Ajusta la ruta
+import { getAuthToken } from '../get-auth-token.bl'; // Ajusta la ruta
 
 const getItem = vi.fn();
 const setItem = vi.fn();
@@ -28,7 +28,7 @@ describe('getAuthTokenBL', () => {
   afterEach(() => vi.clearAllMocks());
 
   it('should return access and refresh tokens when they exist in localStorage', () => {
-    const tokens = getAuthTokenBL();
+    const tokens = getAuthToken();
 
     expect(getItem).toHaveBeenCalledWith(AUTH_RESPONSE_STORAGE_KEY);
     expect(tokens).toEqual({
@@ -41,7 +41,7 @@ describe('getAuthTokenBL', () => {
   it('should return null when no auth response is found in localStorage', () => {
     getItem.mockReturnValue(null);
 
-    const tokens = getAuthTokenBL();
+    const tokens = getAuthToken();
 
     expect(getItem).toHaveBeenCalledWith(AUTH_RESPONSE_STORAGE_KEY);
     expect(tokens).toBeNull();
@@ -51,7 +51,7 @@ describe('getAuthTokenBL', () => {
   it('should return null and call removeItem when the stored value is not a valid JSON', () => {
     getItem.mockReturnValue('invalid-json-string');
 
-    const tokens = getAuthTokenBL();
+    const tokens = getAuthToken();
 
     expect(getItem).toHaveBeenCalledWith(AUTH_RESPONSE_STORAGE_KEY);
     expect(removeItem).toHaveBeenCalledWith(AUTH_RESPONSE_STORAGE_KEY);
@@ -65,7 +65,7 @@ describe('getAuthTokenBL', () => {
     });
     getItem.mockReturnValue(invalidAuthWithoutAccess);
 
-    const tokens = getAuthTokenBL();
+    const tokens = getAuthToken();
 
     expect(tokens).toBeNull();
     expect(removeItem).not.toHaveBeenCalled();
@@ -78,7 +78,7 @@ describe('getAuthTokenBL', () => {
     });
     getItem.mockReturnValue(invalidAuthWithoutRefresh);
 
-    const tokens = getAuthTokenBL();
+    const tokens = getAuthToken();
 
     expect(tokens).toBeNull();
     expect(removeItem).not.toHaveBeenCalled();

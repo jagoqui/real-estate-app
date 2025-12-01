@@ -6,7 +6,9 @@ type GetAuthTokenBL = () => {
   refreshToken: string;
 } | null;
 
-export const getAuthTokenBL: GetAuthTokenBL = () => {
+//TODO: Ajustar no se puede tener dependencia de infraestructura en dominio, en este caso el DOM (localStorage)
+
+export const getAuthToken: GetAuthTokenBL = () => {
   try {
     const stored = localStorage.getItem(AUTH_RESPONSE_STORAGE_KEY);
     if (!stored) return null;

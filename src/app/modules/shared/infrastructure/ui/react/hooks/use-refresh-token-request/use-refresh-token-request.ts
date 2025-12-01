@@ -1,4 +1,4 @@
-import { getAuthTokenBL } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
+import { getAuthToken } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
 import { useAuthRequestsContext } from '@/modules/shared/infrastructure/ui/react/contexts/auth-requests/auth-requests.context';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -31,7 +31,7 @@ export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
   });
 
   const onRefreshToken = async (): Promise<RefreshTokenRequestReturnValue> => {
-    const { refreshToken } = getAuthTokenBL() || {};
+    const { refreshToken } = getAuthToken() || {};
 
     if (!refreshToken) {
       throw new Error('No refresh token found');
