@@ -1,4 +1,4 @@
-import { getAuthTokenBL } from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
+import { getAuthTokenBL } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
 import ky from 'ky';
 
 const HTTP_STATUS_UNAUTHORIZED = 401;

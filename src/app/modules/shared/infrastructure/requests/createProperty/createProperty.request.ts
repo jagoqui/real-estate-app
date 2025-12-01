@@ -1,5 +1,5 @@
-import type { CreatePropertyRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
+import type { CreatePropertyRequest } from '@/modules/shared/domain/contracts/properties-requests.contract';
+import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
 import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/property-response.dto';
 import { propertyFormValueToDto } from '@/modules/shared/infrastructure/mappers/property-form-value/property-form-value.mapper';
 import { mapPropertyToModel } from '@/modules/shared/infrastructure/mappers/property/property.mapper';

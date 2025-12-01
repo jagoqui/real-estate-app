@@ -1,7 +1,7 @@
-import { HeroSection } from '../../components/heroSection/heroSection';
-import { PropertyCarousel } from '../../components/propertyCarousel/propertyCarousel';
-import { PropertySearch } from '../../components/propertySearch/propertySearch';
-import { PropertiesMapContainer } from '../../containers/PropertiesMap/PropertiesMap.container';
+import { HeroSection } from '../../components/hero-section/hero-section';
+import { PropertyCarousel } from '../../components/property-carousel/property-carousel';
+import { PropertySearch } from '../../components/property-search/property-search';
+import { PropertiesMapContainer } from '../../containers/properties-map/properties-map.container';
 
 export const HomeLayout = (): React.ReactElement => {
   return (

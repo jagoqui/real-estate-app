@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
-import * as getAuthTokenBLModule from '@/modules/shared/domain/businessLogic/getAuthToken/getAuthToken.bl';
+import * as getAuthTokenBLModule from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
 import ky, { type NormalizedOptions, type Options } from 'ky';
 import type { MockedFunction } from 'vitest';
 

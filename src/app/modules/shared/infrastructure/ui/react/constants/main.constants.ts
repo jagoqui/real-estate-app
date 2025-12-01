@@ -1,4 +1,4 @@
-import { getLastPathSegment } from '../helpers/getLastPathSegment/getLastPathSegment.helper';
+import { getLastPathSegment } from '../helpers/get-last-path-segment/get-last-path-segment.helper';
 
 const BASE_PATH = '/real-estate-app';
 

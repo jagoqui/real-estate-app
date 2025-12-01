@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Property } from '@/modules/shared/domain/models/property.model';
-import { PropertySearch } from '@/modules/shared/infrastructure/ui/react/components/propertySearch/propertySearch';
+import { PropertySearch } from '@/modules/shared/infrastructure/ui/react/components/property-search/property-search';
 import { Link } from '@tanstack/react-router';
 import { Bath, Bed, Heart, Mail, MapPin, Maximize } from 'lucide-react';
 import React, { useCallback, useMemo, useState } from 'react';

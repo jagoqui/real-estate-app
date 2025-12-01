@@ -1,4 +1,4 @@
-import type { AuthResponse } from '@/modules/shared/domain/models/authResponse.model';
+import type { AuthResponse } from '@/modules/shared/domain/models/auth-response.model';
 import type { AuthResponseDto } from '@/modules/shared/infrastructure/dtos/auth-response.dto';
 import { mapTokenToModel } from '@/modules/shared/infrastructure/mappers/token/token.mapper';
 import { mapUserToModel } from '../user/user.mapper';

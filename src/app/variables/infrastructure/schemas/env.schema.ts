@@ -1,3 +1,4 @@
+import type { Env } from '@/variables/domain/models/env.model';
 import { z } from 'zod';
 
 const baseSchema = {
@@ -34,6 +35,4 @@ export const envSchema = z.discriminatedUnion('VITE_MODE', [
     ...baseSchema,
     VITE_MODE: z.literal('production'),
   }),
-]);
-
-export type Env = Readonly<z.infer<typeof envSchema>>;
+]) satisfies z.ZodType<Env>;

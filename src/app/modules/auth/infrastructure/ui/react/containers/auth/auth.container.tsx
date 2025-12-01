@@ -1,5 +1,5 @@
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import { BlockedAuthContainer } from '@/modules/shared/infrastructure/ui/react/containers/blockedAuth/blockedAuth.container';
+import { BlockedAuthContainer } from '@/modules/shared/infrastructure/ui/react/containers/blocked-auth/blocked-auth.container';
 import { Link, Outlet } from '@tanstack/react-router';
 
 export const AuthContainer = (): React.ReactElement => {

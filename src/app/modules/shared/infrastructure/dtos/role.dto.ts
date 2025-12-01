@@ -1,4 +1,4 @@
-import type { UserRole } from '../../domain/models/userRole.model';
+import type { UserRole } from '../../domain/models/user-role.model';
 
 export const USER_ROLES_DTO = {
   OWNER: 0,

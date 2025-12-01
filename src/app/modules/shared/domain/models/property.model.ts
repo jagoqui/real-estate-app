@@ -1,7 +1,7 @@
 import type { Amenity } from './amenity.model';
 import type { Location } from './location.model';
-import type { PropertyStatutes } from './propertyStatutes.model';
-import type { PropertyTypes } from './propertyTypes.model';
+import type { PropertyStatutes } from './property-statutes.model';
+import type { PropertyTypes } from './property-types.model';
 
 export interface Property {
   id: string;

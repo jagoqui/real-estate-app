@@ -1,4 +1,4 @@
-import type { LogoutRequest } from '@/modules/shared/domain/contracts/authRequests.contract';
+import type { LogoutRequest } from '@/modules/shared/domain/contracts/auth-requests.contract';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 

@@ -1,4 +1,4 @@
-import type { CreateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
+import type { CreateUserRequest } from '@/modules/shared/domain/contracts/users-requests.contract';
 import { type User } from '@/modules/shared/domain/models/user.model';
 import type { UserDto } from '@/modules/shared/infrastructure/dtos/user.dto';
 import { mapCreateUserToDto } from '@/modules/shared/infrastructure/mappers/create-user/create-user.mapper';

@@ -1,4 +1,4 @@
-import type { UserRole } from '@/modules/shared/domain/models/userRole.model';
+import type { UserRole } from '@/modules/shared/domain/models/user-role.model';
 import type { UserRoleDto } from '@/modules/shared/infrastructure/dtos/role.dto';
 
 export const ROLE_MAP: Record<UserRoleDto, UserRole> = {

@@ -7,7 +7,7 @@ import { contactRoute } from '@/modules/contact/infrastructure/ui/react/route/co
 import { propertiesRoute } from '@/modules/properties/infrastructure/ui/react/router/properties.route';
 import { servicesRoute } from '@/modules/services/infrastructure/ui/react/route/services.route';
 import { createRouter, type Route } from '@tanstack/react-router';
-import { NotFoundPage } from '../components/notFountPage/notFountPage';
+import { NotFoundPage } from '../components/not-fount-page/not-fount-page';
 import { appRoute } from '../route/app.route';
 
 const appRouteChildren: Array<Route> = Array.isArray(appRoute.children) ? (appRoute.children as Array<Route>) : [];

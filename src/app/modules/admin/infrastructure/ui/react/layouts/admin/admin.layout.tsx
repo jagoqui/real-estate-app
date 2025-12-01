@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AdminSidebarContainer } from '../../containers/adminSidebar/adminSidebar.container';
+import { AdminSidebarContainer } from '../../containers/admin-sidebar/admin-sidebar.container';
 import { PanelContainer } from '../../containers/panel/panel.container';
 
 export const AdminLayout = (): React.ReactElement => {

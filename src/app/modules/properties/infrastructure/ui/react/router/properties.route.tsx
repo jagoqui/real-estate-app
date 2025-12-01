@@ -5,7 +5,7 @@ import {
 import { appRoute } from '@/modules/shared/infrastructure/ui/react/route/app.route';
 import { createRoute } from '@tanstack/react-router';
 import { PropertiesContainer } from '../containers/properties/properties.container';
-import { PropertyDetailContainer } from '../containers/propertyDetail/propertyDetail.container';
+import { PropertyDetailContainer } from '../containers/property-detail/property-detail.container';
 import { PropertiesLayout } from '../layouts/properties/properties.layout';
 
 export const propertiesRoute = createRoute({

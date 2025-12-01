@@ -1,5 +1,5 @@
 import { Outlet, useRouterState } from '@tanstack/react-router';
-import { FloatingAccessibilityButton } from '../../components/floatingAccessibilityButton/floatingAccessibilityButton';
+import { FloatingAccessibilityButton } from '../../components/floating-accessibility-button/floating-accessibility-button';
 import { Header } from '../../components/header/header';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
 import { ThemeProvider } from '../../providers/theme/theme.provider';

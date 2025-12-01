@@ -1,4 +1,7 @@
-import { COMMONS_VALIDATIONS, objectIdSchema } from '@/modules/shared/infrastructure/schemas/commonsValidations.schema';
+import {
+  COMMONS_VALIDATIONS,
+  objectIdSchema,
+} from '@/modules/shared/infrastructure/schemas/commons-validations.schema';
 import z from 'zod';
 import type { CreateOwner, Owner } from '../../domain/models/owner.model';
 

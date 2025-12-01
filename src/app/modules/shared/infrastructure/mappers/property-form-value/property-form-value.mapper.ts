@@ -1,4 +1,4 @@
-import type { PropertyFormValues } from '@/modules/shared/domain/models/propertyForm.model';
+import type { PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
 import type { CreatePropertyRequestDto } from '../../dtos/create-property-request.dto';
 
 export const propertyFormValueToDto = (formValues: PropertyFormValues): CreatePropertyRequestDto => ({

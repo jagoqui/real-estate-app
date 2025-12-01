@@ -8,9 +8,9 @@ import { AdminContainer } from '../containers/admin/admin.container';
 import { AnalyticsContainer } from '../containers/analytics/analytics.container';
 import { DashboardContainer } from '../containers/dashboard/dashboard.container';
 import { LogsContainer } from '../containers/logs/logs.container';
-import { OwnersManagementContainer } from '../containers/ownersManagement/ownersManagement.container';
-import { PropertiesManagementContainer } from '../containers/propertiesManagement/propertiesManagement.container';
-import { UsersManagementContainer } from '../containers/usersManagement/usersManagement.container';
+import { OwnersManagementContainer } from '../containers/owners-management/owners-management.container';
+import { PropertiesManagementContainer } from '../containers/properties-management/properties-management.container';
+import { UsersManagementContainer } from '../containers/users-management/users-management.container';
 
 export const adminRoute = createRoute({
   getParentRoute: () => appRoute,

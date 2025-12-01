@@ -1,5 +1,5 @@
+import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 import type { User } from '@/modules/shared/domain/models/user.model';
-import { USER_ROLES } from '@/modules/shared/domain/models/userRole.model';
 
 export const USER_MOCK: User = {
   id: '64b64c8f8f8f8f8f8f8f8f8f',

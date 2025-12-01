@@ -2,8 +2,8 @@ import z from 'zod';
 import type { Property } from '../../domain/models/property.model';
 import { amenitySchema } from './amenity.schema';
 import { locationSchema } from './location.schema';
-import { propertyStatutesSchema } from './propertyStatutes.schema';
-import { propertyTypesSchema } from './propertyTypes.schema';
+import { propertyStatutesSchema } from './property-statutes.schema';
+import { propertyTypesSchema } from './property-types.schema';
 
 export const PropertySchemaValidations = {
   NAME: {

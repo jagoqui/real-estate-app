@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
-import { UserProfileMenu } from '@/modules/shared/infrastructure/ui/react/components/userProfileMenu/userProfileMenu';
+import { UserProfileMenu } from '@/modules/shared/infrastructure/ui/react/components/user-profile-menu/user-profile-menu';
 import { Menu } from 'lucide-react';
-import { AdminSidebarContent } from '../../components/adminSidebarContent/adminSidebarContent';
-import { PanelBodyContainer } from '../panelBody/panelBody.container';
+import { AdminSidebarContent } from '../../components/admin-sidebar-Content/admin-sidebar-content';
+import { PanelBodyContainer } from '../panel-dody/panel-body.container';
 
 interface SidebarContentProps {
   mobileMenuOpen: boolean;

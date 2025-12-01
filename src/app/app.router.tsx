@@ -7,7 +7,7 @@ import { calculatorRoute } from './modules/calculator/infrastructure/ui/react/ro
 import { contactRoute } from './modules/contact/infrastructure/ui/react/route/contact.route';
 import { propertiesRoute } from './modules/properties/infrastructure/ui/react/router/properties.route';
 import { servicesRoute } from './modules/services/infrastructure/ui/react/route/services.route';
-import { NotFoundPage } from './modules/shared/infrastructure/ui/react/components/notFountPage/notFountPage';
+import { NotFoundPage } from './modules/shared/infrastructure/ui/react/components/not-fount-page/not-fount-page';
 import { appRoute } from './modules/shared/infrastructure/ui/react/route/app.route';
 
 const appRouteChildren: Array<Route> = Array.isArray(appRoute.children) ? (appRoute.children as Array<Route>) : [];

@@ -1,5 +1,5 @@
-import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
-import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/dataToFormDataHelper/dataToFormDataHelper.helper';
+import type { UpdateUserRequest } from '@/modules/shared/domain/contracts/users-requests.contract';
+import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
 import { type User } from '@/modules/shared/domain/models/user.model';
 import type { UserDto } from '@/modules/shared/infrastructure/dtos/user.dto';
 import { mapUserToModel } from '@/modules/shared/infrastructure/mappers/user/user.mapper';

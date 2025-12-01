@@ -1,7 +1,7 @@
 import type { Amenity } from '../../domain/models/amenity.model';
 import type { Location } from '../../domain/models/location.model';
-import type { PropertyStatutes } from '../../domain/models/propertyStatutes.model';
-import type { PropertyTypes } from '../../domain/models/propertyTypes.model';
+import type { PropertyStatutes } from '../../domain/models/property-statutes.model';
+import type { PropertyTypes } from '../../domain/models/property-types.model';
 
 export interface CreatePropertyRequestDto {
   name: string;

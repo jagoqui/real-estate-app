@@ -1,8 +1,8 @@
-import type { GetPropertiesByFilterRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
+import type { GetPropertiesByFilterRequest } from '@/modules/shared/domain/contracts/properties-requests.contract';
 import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/property-response.dto';
 import { mapPropertyToModel } from '@/modules/shared/infrastructure/mappers/property/property.mapper';
+import { propertyFiltersSchema } from '@/modules/shared/infrastructure/schemas/property-filters.schema';
 import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
-import { propertyFiltersSchema } from '@/modules/shared/infrastructure/schemas/propertyFilters.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

@@ -1,4 +1,4 @@
-import type { GetPropertiesByOwnerIdRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
+import type { GetPropertiesByOwnerIdRequest } from '@/modules/shared/domain/contracts/properties-requests.contract';
 import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/property-response.dto';
 import { mapPropertyToModel } from '@/modules/shared/infrastructure/mappers/property/property.mapper';
 import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';

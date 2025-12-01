@@ -3,9 +3,9 @@ import { Link } from '@tanstack/react-router';
 import { LayoutDashboard, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
-import { useAuthResponseContext } from '../../contexts/authResponse/authResponse.context';
-import { HomeNavigation } from '../homeNavigation/homeNavigation';
-import { UserProfileMenu } from '../userProfileMenu/userProfileMenu';
+import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
+import { HomeNavigation } from '../home-navigation/home-navigation';
+import { UserProfileMenu } from '../user-profile-menu/user-profile-menu';
 
 const NAV_LINKS = [
   { to: PATHNAME_ROUTES.PROPERTIES, label: 'PROPERTIES' },

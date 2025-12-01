@@ -1,4 +1,4 @@
-import type { AuthResponse } from '@/modules/shared/domain/models/authResponse.model';
+import type { AuthResponse } from '@/modules/shared/domain/models/auth-response.model';
 import { TOKEN_MOCK } from '../token/token.mock';
 import { USER_MOCK } from '../users/user.mock';
 

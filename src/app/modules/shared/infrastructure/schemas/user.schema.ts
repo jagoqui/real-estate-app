@@ -1,7 +1,7 @@
 import z from 'zod';
 import type { CreateUser, LoginUserWithEmailAndPassword, User } from '../../domain/models/user.model';
-import { COMMONS_VALIDATIONS, objectIdSchema } from './commonsValidations.schema';
-import { userRoleSchema } from './userRole.schema';
+import { COMMONS_VALIDATIONS, objectIdSchema } from './commons-validations.schema';
+import { userRoleSchema } from './user-role.schema';
 
 export const userSchema = z.object({
   id: objectIdSchema,
