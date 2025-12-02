@@ -8,7 +8,7 @@ import { mapAuthResponseToModel } from '../auth-response.mapper';
 
 describe('mapAuthResponseToModel', () => {
   beforeEach(() => {
-    vi.spyOn(userMapperModule, 'mapUserToModel').mockReturnValue(USER_MOCK);
+    vi.spyOn(userMapperModule, 'mapUserResponseToModel').mockReturnValue(USER_MOCK);
     vi.spyOn(tokenMapperModule, 'mapTokenToModel').mockReturnValue(TOKEN_MOCK);
   });
 

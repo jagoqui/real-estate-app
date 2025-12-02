@@ -1,4 +1,4 @@
-import { urlsToFiles } from '@/modules/shared/domain/helpers/url-to-file';
+import { urlsToFiles } from '@/modules/shared/domain/helpers/url-to-file/url-to-file.helper';
 import { type UpdatePropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
 import { type Property } from '@/modules/shared/domain/models/property.model';
 import { updatePropertyFormValuesSchema } from '@/modules/shared/infrastructure/schemas/property-form.schema';

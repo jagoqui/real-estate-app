@@ -1,7 +1,7 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
 import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import * as authResponseAdapterModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.mapper';
+import * as authMapperModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.mapper';
 import { REFRESH_TOKEN_REQUEST_URL, refreshTokenRequest } from '../refreshToken.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
@@ -15,7 +15,7 @@ const refreshToken = 'mockRefreshToken';
 
 describe('refreshToken.request', () => {
   beforeEach(() => {
-    vi.spyOn(authResponseAdapterModule, 'authResponseAdapter').mockReturnValue(AUTH_RESPONSE_MOCK);
+    vi.spyOn(authMapperModule, 'mapAuthResponseToModel').mockReturnValue(AUTH_RESPONSE_MOCK);
   });
 
   afterEach(() => vi.clearAllMocks());
@@ -30,8 +30,8 @@ describe('refreshToken.request', () => {
     expect(api.post).toHaveBeenNthCalledWith(1, REFRESH_TOKEN_REQUEST_URL, { json: { refreshToken } });
     expect(result).toEqual(AUTH_RESPONSE_MOCK);
 
-    expect(authResponseAdapterModule.mapAuthResponseToModel).toHaveBeenNthCalledWith(1, AUTH_RESPONSE_DTO_MOCK);
-    expect(authResponseAdapterModule.mapAuthResponseToModel).toHaveBeenCalledTimes(1);
+    expect(authMapperModule.mapAuthResponseToModel).toHaveBeenNthCalledWith(1, AUTH_RESPONSE_DTO_MOCK);
+    expect(authMapperModule.mapAuthResponseToModel).toHaveBeenCalledTimes(1);
   });
 
   it('should throw an error if the API call fails', async () => {

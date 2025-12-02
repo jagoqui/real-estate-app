@@ -1,7 +1,7 @@
 import { OWNER_MOCK } from '@/data/mocks/owners/owner.mock';
 import { OWNER_DTO_MOCK } from '@/data/mocks/owners/ownerDto.mock';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
-import * as ownerDtoAdapterModule from '@/modules/shared/infrastructure/mappers/ownerDto/ownerDto.adapter';
+import * as ownerMapperModule from '@/modules/shared/infrastructure/mappers/owner/owner.mapper';
 import { getOwnerByIdRequest, OWNER_BY_ID_REQUEST_URL } from '../getOwnerById.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
@@ -14,7 +14,7 @@ const getSpy = vi.spyOn(api, 'get');
 
 describe('fetchGetOwnerById.request', () => {
   beforeEach(() => {
-    vi.spyOn(ownerDtoAdapterModule, 'ownerDtoAdapter').mockReturnValue(OWNER_MOCK);
+    vi.spyOn(ownerMapperModule, 'mapOwnerToModel').mockReturnValue(OWNER_MOCK);
   });
 
   afterEach(() => vi.clearAllMocks());

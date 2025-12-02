@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
-import * as getAuthTokenBLModule from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
+import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
 import ky, { type NormalizedOptions, type Options } from 'ky';
 import type { MockedFunction } from 'vitest';
 
@@ -16,7 +16,10 @@ const setup = async (): Promise<unknown> => await import('../ky.client');
 
 let mockKyCreate: MockedFunction<typeof ky.create>;
 let capturedConfig: Options | undefined;
-const getAuthTokenBLSpy = vi.spyOn(getAuthTokenBLModule, 'getAuthTokenBL');
+
+const authTokenRepoGetSpy = vi.spyOn(authTokenRepositoryImpl, 'get');
+// Opcional: Si quieres testear el logout en el afterResponse, espía remove también
+const authTokenRepoRemoveSpy = vi.spyOn(authTokenRepositoryImpl, 'remove');
 
 describe('API Configuration', () => {
   beforeAll(async () => {
@@ -31,9 +34,9 @@ describe('API Configuration', () => {
   });
 
   beforeEach(() => {
-    const { accessToken, refreshToken } = AUTH_RESPONSE_MOCK;
-    getAuthTokenBLSpy.mockClear();
-    getAuthTokenBLSpy.mockReturnValue({ accessToken, refreshToken });
+    authTokenRepoGetSpy.mockClear();
+    authTokenRepoRemoveSpy.mockClear();
+    authTokenRepoGetSpy.mockReturnValue(AUTH_RESPONSE_MOCK);
   });
 
   afterEach(() => vi.clearAllMocks());
@@ -43,11 +46,12 @@ describe('API Configuration', () => {
       timeout: false,
       hooks: {
         beforeRequest: expect.arrayContaining([expect.any(Function)]) as Array<unknown>,
+        afterResponse: expect.arrayContaining([expect.any(Function)]) as Array<unknown>,
       },
     });
   });
 
-  it('should call getAuthTokenBL and set the Authorization header correctly', async () => {
+  it('should call authTokenRepositoryImpl.get and set the Authorization header correctly', async () => {
     const beforeRequestHook = capturedConfig?.hooks?.beforeRequest?.[0];
     expect(beforeRequestHook).toBeInstanceOf(Function);
 
@@ -61,17 +65,16 @@ describe('API Configuration', () => {
 
     await beforeRequestHook!(mockRequest, {} as NormalizedOptions);
 
-    expect(getAuthTokenBLSpy).toHaveBeenCalledTimes(1);
+    expect(authTokenRepoGetSpy).toHaveBeenCalledTimes(1);
 
     const expectedHeaderValue = `Bearer ${AUTH_RESPONSE_MOCK.accessToken}`;
     expect(setFn).toHaveBeenNthCalledWith(1, 'Authorization', expectedHeaderValue);
   });
 
-  it('should NOT set the Authorization header if getAuthTokenBL returns null (no token)', async () => {
-    getAuthTokenBLSpy.mockReturnValue(null);
+  it('should NOT set the Authorization header if authTokenRepositoryImpl.get returns null (no token)', async () => {
+    authTokenRepoGetSpy.mockReturnValue(null);
 
     const beforeRequestHook = capturedConfig?.hooks?.beforeRequest?.[0];
-
     const setFn = vi.fn();
 
     const mockRequest = {
@@ -82,8 +85,40 @@ describe('API Configuration', () => {
 
     await beforeRequestHook!(mockRequest, {} as NormalizedOptions);
 
-    expect(getAuthTokenBLSpy).toHaveBeenCalledTimes(1);
+    expect(authTokenRepoGetSpy).toHaveBeenCalledTimes(1);
 
     expect(setFn).not.toHaveBeenCalled();
+  });
+
+  it('should call authTokenRepositoryImpl.remove when response is 401', () => {
+    const afterResponseHook = capturedConfig?.hooks?.afterResponse?.[0];
+    expect(afterResponseHook).toBeInstanceOf(Function);
+
+    const mockResponse = {
+      status: 401,
+      statusText: 'Unauthorized',
+    } as Response;
+
+    expect(() => {
+      void afterResponseHook!(new Request('test'), {} as NormalizedOptions, mockResponse);
+    }).toThrow('Unauthorized. Please try reloading the site.');
+
+    expect(authTokenRepoRemoveSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return the response unchanged and NOT remove token when status is OK (e.g. 200)', () => {
+    const afterResponseHook = capturedConfig?.hooks?.afterResponse?.[0];
+    expect(afterResponseHook).toBeInstanceOf(Function);
+
+    const mockResponse = {
+      status: 200,
+      statusText: 'OK',
+    } as Response;
+
+    const result = afterResponseHook!(new Request('https://test.com'), {} as NormalizedOptions, mockResponse);
+
+    expect(result).toBe(mockResponse);
+
+    expect(authTokenRepoRemoveSpy).not.toHaveBeenCalled();
   });
 });

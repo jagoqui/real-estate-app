@@ -1,5 +1,5 @@
-import { getAuthToken } from '@/modules/shared/domain/business-logic/get-auth-token/get-auth-token.bl';
 import ky from 'ky';
+import { authTokenRepositoryImpl } from '../../repositories/auth-token.repository.impl';
 
 const HTTP_STATUS_UNAUTHORIZED = 401;
 const HTTP_STATUS_FORBIDDEN = 403;
@@ -13,7 +13,8 @@ export const api = ky.create({
   hooks: {
     beforeRequest: [
       (request: Request): void => {
-        const { accessToken } = getAuthToken() || {};
+        const { accessToken } = authTokenRepositoryImpl.get() || {};
+
         if (accessToken) {
           const headers = API_HEADERS(accessToken);
           Object.entries(headers).forEach(([key, value]) => {
@@ -25,6 +26,7 @@ export const api = ky.create({
     afterResponse: [
       (_request, _options, response): Response => {
         if (response.status === HTTP_STATUS_UNAUTHORIZED || response.status === HTTP_STATUS_FORBIDDEN) {
+          authTokenRepositoryImpl.remove();
           throw new Error(`${response.statusText}. Please try reloading the site.`);
         }
         return response;

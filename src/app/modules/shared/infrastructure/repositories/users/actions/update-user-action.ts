@@ -1,11 +1,11 @@
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
 import type { UpdateUserInput } from '@/modules/shared/domain/inputs/update-user.input';
 import type { User } from '@/modules/shared/domain/models/user.model';
-import { api } from '../../clients/ky/ky.client';
-import { USER_ENDPOINTS } from '../../constants/user-endpoints.constants';
-import type { UserResponseDto } from '../../dtos/user.dto';
-import { mapUserResponseToModel, mapUserToPayloadDto } from '../../mappers/user/user.mapper';
-import { userResponseSchema } from '../../schemas/user-response.schema';
+import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';
+import type { UserResponseDto } from '@/modules/shared/infrastructure/dtos/user.dto';
+import { mapUserResponseToModel, mapUserToPayloadDto } from '@/modules/shared/infrastructure/mappers/user/user.mapper';
+import { userResponseSchema } from '@/modules/shared/infrastructure/schemas/user-response.schema';
 
 export const updateUserAction = async (input: UpdateUserInput): Promise<User> => {
   const userDto = mapUserToPayloadDto(input);

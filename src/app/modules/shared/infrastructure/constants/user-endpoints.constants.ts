@@ -6,5 +6,5 @@ export const USER_ENDPOINTS = {
   ROOT: BASE,
   BY_ID: (id: string): string => `${BASE}/${id}`,
   CHANGE_PASSWORD: (id: string): string => `${BASE}/${id}/change-password`,
-  WITHOUT_OWNER: `${BASE}/available/owners`,
+  WITHOUT_OWNER: `${BASE}/without-owner`,
 };

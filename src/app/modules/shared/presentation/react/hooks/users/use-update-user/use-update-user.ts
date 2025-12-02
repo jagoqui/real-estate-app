@@ -1,5 +1,5 @@
 import { useAuthResponseContext } from '@/modules/shared//presentation/react/contexts/auth-response/auth-response.context';
-import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/user.repository.impl';
+import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/users/user.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

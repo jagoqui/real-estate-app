@@ -1,4 +1,4 @@
-import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/user.repository.impl';
+import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/users/user.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
 type GetUserByIdRequestReturn = typeof userRepositoryImpl.getById;

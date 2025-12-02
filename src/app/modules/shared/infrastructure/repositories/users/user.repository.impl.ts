@@ -1,4 +1,4 @@
-import type { UserRepository } from '../../domain/repositories/user.repository';
+import type { UserRepository } from '@/modules/shared/domain/repositories/user.repository';
 import { changeUserPasswordAction } from './actions/change-user-password-action';
 import { createUserAction } from './actions/create-user.action';
 import { deleteUserAction } from './actions/delete-user.action';

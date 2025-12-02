@@ -61,9 +61,7 @@ export const UsersManagementLayout = (): React.ReactElement => {
 
   const onConfirmDelete = (): void => {
     if (deletingId) {
-      void onDeleteUser({
-        userId: deletingId,
-      });
+      void onDeleteUser(deletingId);
     }
   };
 
@@ -177,7 +175,7 @@ export const UsersManagementLayout = (): React.ReactElement => {
                 <Input
                   placeholder="Search by ID, email, name, role or phone..."
                   value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
               </div>

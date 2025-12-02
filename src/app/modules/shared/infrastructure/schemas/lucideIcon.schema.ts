@@ -1,6 +1,4 @@
-import type dynamicIconImports from 'lucide-react/dynamicIconImports';
 import z from 'zod';
+import type { LucideIconName } from '../../domain/models/lucideI-icon-name.command';
 
-export const lucideIconNameSchema = z.custom<keyof typeof dynamicIconImports>() satisfies z.ZodType<
-  keyof typeof dynamicIconImports
->;
+export const lucideIconNameSchema = z.custom<LucideIconName>() satisfies z.ZodType<LucideIconName>;

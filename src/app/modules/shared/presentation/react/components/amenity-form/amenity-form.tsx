@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { Amenity } from '@/modules/shared/domain/models/amenity.model';
+import type { LucideIconName } from '@/modules/shared/domain/models/lucideI-icon-name.command';
 import type { PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
 import { X } from 'lucide-react';
-import type dynamicIconImports from 'lucide-react/dynamicIconImports';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { DynamicIcon } from '../dynamic-icon/dynamic-icon';
@@ -22,7 +22,7 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
   const amenities = useWatch({ control, name: 'amenities', defaultValue: [] });
 
   const [currentName, setCurrentName] = useState('');
-  const [currentIcon, setCurrentIcon] = useState<keyof typeof dynamicIconImports>();
+  const [currentIcon, setCurrentIcon] = useState<LucideIconName>();
   const [errorMessage, setErrorMessage] = useState('');
 
   // Check if there's an incomplete amenity (partial input)
@@ -79,7 +79,7 @@ export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps):
     [amenities, updateAmenities]
   );
 
-  const handleIconSelect = useCallback((icon: keyof typeof dynamicIconImports): void => {
+  const handleIconSelect = useCallback((icon: LucideIconName): void => {
     setCurrentIcon(icon);
   }, []);
 
