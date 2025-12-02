@@ -1,4 +1,4 @@
-import type { DeleteUserRequest } from '@/modules/shared/domain/contracts/usersRequests.contract';
+import type { DeleteUserRequest } from '@/modules/shared/domain/contracts/users-requests.contract';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

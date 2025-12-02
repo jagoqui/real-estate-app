@@ -159,6 +159,10 @@ export default defineConfig([
           format: ['camelCase'],
           leadingUnderscore: 'allow',
         },
+        {
+          selector: 'objectLiteralMethod',
+          format: ['camelCase', 'UPPER_CASE'],
+        },
       ],
       complexity: 'error',
       'no-new-wrappers': 'error',

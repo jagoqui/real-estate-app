@@ -22,7 +22,7 @@ El **Módulo de Propietarios (Owners)** es el componente encargado de la gestió
 
 ```
 src/app/modules/
-├── admin/infrastructure/ui/react/
+├── admin//presentation/react/
 │   ├── containers/ownersManagement/
 │   │   └── ownersManagement.container.tsx
 │   ├── layouts/ownersManagement/

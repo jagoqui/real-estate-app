@@ -1,4 +1,4 @@
-import type { DeletePropertyRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
+import type { DeletePropertyRequest } from '@/modules/shared/domain/contracts/properties-requests.contract';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

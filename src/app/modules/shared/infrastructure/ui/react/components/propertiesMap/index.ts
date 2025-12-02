@@ -1,1 +1,0 @@
-export { PropertiesMap } from './propertiesMap';

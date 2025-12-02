@@ -1,5 +1,5 @@
-import { USER_ROLES_DTO } from '@/modules/shared/application/dtos/role.dto';
-import type { CreateUserDto } from '@/modules/shared/application/dtos/user.dto';
+import { USER_ROLES_DTO } from '@/modules/shared/infrastructure/dtos/role.dto';
+import type { CreateUserDto } from '@/modules/shared/infrastructure/dtos/user.dto';
 
 export const CREATE_USER_DTO_MOCK: CreateUserDto = {
   email: 'test@example.com',

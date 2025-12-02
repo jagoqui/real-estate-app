@@ -12,11 +12,11 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@/modules/shared/infrastructure/ui/shadcn/components",
-    "utils": "@/modules/shared/infrastructure/ui/shadcn/lib/utils",
-    "ui": "@/modules/shared/infrastructure/ui/shadcn/components/ui",
-    "lib": "@/modules/shared/infrastructure/ui/shadcn/lib",
-    "hooks": "@/modules/shared/infrastructure/ui/shadcn/hooks"
+    "components": "@/modules/shared/presentation/react/libs/shadcn/components",
+    "utils": "@/modules/shared/presentation/react/libs/shadcn/lib/utils",
+    "ui": "@/modules/shared/presentation/react/libs/shadcn/components/ui",
+    "lib": "@/modules/shared/presentation/react/libs/shadcn/lib",
+    "hooks": "@/modules/shared/presentation/react/libs/shadcn/hooks"
   },
   "registries": {
     "@blocks": "https://blocks.so/r/{name}.json",

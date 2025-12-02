@@ -1,8 +1,8 @@
-import { propertyAdapter } from '@/modules/shared/application/adapters/property/property.dto';
-import type { PropertyResponseDto } from '@/modules/shared/application/dtos/propertyResponse.dto';
-import type { GetPropertiesByFilterRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import { propertySchema } from '@/modules/shared/domain/schemas/property.schema';
-import { propertyFiltersSchema } from '@/modules/shared/domain/schemas/propertyFilters.schema';
+import type { GetPropertiesByFilterRequest } from '@/modules/shared/domain/contracts/properties-requests.contract';
+import type { PropertyResponseDto } from '@/modules/shared/infrastructure/dtos/property-response.dto';
+import { mapPropertyToModel } from '@/modules/shared/infrastructure/mappers/property/property.mapper';
+import { propertyFiltersSchema } from '@/modules/shared/infrastructure/schemas/property-filters.schema';
+import { propertySchema } from '@/modules/shared/infrastructure/schemas/property.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 
@@ -15,7 +15,7 @@ export const getPropertiesByFilterRequest: GetPropertiesByFilterRequest = async 
     })
     .json();
 
-  const property = propertyDto.map(propertyAdapter);
+  const property = propertyDto.map(mapPropertyToModel);
 
   return propertySchema.array().parse(property);
 };

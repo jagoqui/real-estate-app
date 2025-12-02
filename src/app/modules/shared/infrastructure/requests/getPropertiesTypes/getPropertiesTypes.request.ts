@@ -1,5 +1,6 @@
-import type { GetPropertiesTypesRequest } from '@/modules/shared/domain/contracts/propertiesRequests.contract';
-import { type PropertyTypes, propertyTypesSchema } from '@/modules/shared/domain/schemas/propertyTypes.schema';
+import type { GetPropertiesTypesRequest } from '@/modules/shared/domain/contracts/properties-requests.contract';
+import { type PropertyTypes } from '@/modules/shared/domain/models/property-types.model';
+import { propertyTypesSchema } from '@/modules/shared/infrastructure/schemas/property-types.schema';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import { api } from '../../clients/ky/ky.client';
 

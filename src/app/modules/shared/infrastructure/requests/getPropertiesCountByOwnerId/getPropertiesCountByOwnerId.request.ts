@@ -1,4 +1,4 @@
-import type { GetPropertiesCountByOwnerIdRequest } from '@/modules/shared/domain/contracts/ownersRequest.contract';
+import type { GetPropertiesCountByOwnerIdRequest } from '@/modules/shared/domain/contracts/owners-request.contract';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { VARIABLES } from '@/variables/infrastructure/constants/variables.constants';
 import z from 'zod';

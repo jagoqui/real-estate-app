@@ -1,6 +1,6 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
-import * as authResponseAdapterModule from '@/modules/shared/application/adapters/auth-response/auth-response.adapter';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import * as authMapperModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.mapper';
 import { LOGIN_WITH_GOOGLE_REQUEST_URL, loginWithGoogleRequest } from '../loginWithGoogle.request';
 
 vi.mock('@/modules/shared/infrastructure/clients/ky/ky.client', () => ({
@@ -13,7 +13,7 @@ const postSpy = vi.spyOn(api, 'post');
 const code = 'test-code';
 
 describe('loginWithGoogle.request', () => {
-  beforeEach(() => vi.spyOn(authResponseAdapterModule, 'authResponseAdapter').mockReturnValue(AUTH_RESPONSE_MOCK));
+  beforeEach(() => vi.spyOn(authMapperModule, 'mapAuthResponseToModel').mockReturnValue(AUTH_RESPONSE_MOCK));
 
   afterEach(() => vi.clearAllMocks());
 
@@ -27,8 +27,8 @@ describe('loginWithGoogle.request', () => {
     expect(api.post).toHaveBeenNthCalledWith(1, LOGIN_WITH_GOOGLE_REQUEST_URL, { json: { code } });
     expect(result).toEqual(AUTH_RESPONSE_MOCK);
 
-    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenNthCalledWith(1, {});
-    expect(authResponseAdapterModule.authResponseAdapter).toHaveBeenCalledTimes(1);
+    expect(authMapperModule.mapAuthResponseToModel).toHaveBeenNthCalledWith(1, {});
+    expect(authMapperModule.mapAuthResponseToModel).toHaveBeenCalledTimes(1);
   });
 
   it('should throw an error if the API call fails', async () => {

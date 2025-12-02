@@ -1,4 +1,4 @@
-import type { Owner } from '@/modules/shared/domain/schemas/owner.schema';
+import type { Owner } from '@/modules/shared/domain/models/owner.model';
 
 export const OWNER_MOCK: Owner = {
   id: '68cc5fc3f1022f7ba8797ad3',

@@ -1,5 +1,5 @@
-import { type Env } from '@/variables/domain/schemas/env.schema';
+import { type Env } from '@/variables/domain/models/env.model';
 
-import { getEnvs } from '../../application/adapters/env.adapter';
+import { getEnvs } from '../mappers/env.mapper';
 
 export const VARIABLES: Env = getEnvs();
