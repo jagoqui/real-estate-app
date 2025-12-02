@@ -3,10 +3,10 @@
     "baseUrl": ".",
     "paths": {
       "@/data/*": ["data/*"],
-      "@/components/*": ["src/app/modules/shared/infrastructure/ui/shadcn/components/*"],
-      "@/hooks/*": ["src/app/modules/shared/infrastructure/ui/shadcn/hooks/*"],
-      "@/lib/*": ["src/app/modules/shared/infrastructure/ui/shadcn/lib/*"],
-      "@/utils/*": ["src/app/modules/shared/infrastructure/ui/shadcn/lib/utils/*"],
+      "@/components/*": ["src/app/modules/shared/presentation/react/libs/shadcn/components/*"],
+      "@/hooks/*": ["src/app/modules/shared/presentation/react/libs/shadcn/hooks/*"],
+      "@/lib/*": ["src/app/modules/shared/presentation/react/libs/shadcn/lib/*"],
+      "@/utils/*": ["src/app/modules/shared/presentation/react/libs/shadcn/lib/utils/*"],
       "@/modules/*": ["src/app/modules/*"],
       "@/variables/*": ["src/app/variables/*"],
       "@/*": ["src/*"]

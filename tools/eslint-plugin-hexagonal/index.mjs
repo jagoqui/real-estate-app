@@ -12,12 +12,13 @@ import noInvalidArchitectureImports from './rules/no-invalid-architecture-import
  *
  * ## Default Configuration
  * - sharedModule: 'shared'
- * - layers: { domain, application, infrastructure }
+ * - layers: { domain, application, infrastructure, presentation }
  * - whiteListPatterns: ['@/variables/', '.test.ts']
  * - allowedImports:
  *     - domain: []
  *     - application: ['domain']
  *     - infrastructure: ['application', 'domain']
+ *     - presentation: ['infrastructure', 'application', 'domain']
  * - appRouterFileRegex: 'app.router.ts*'
  * - routeFileRegex: 'route.*'
  * - documentationInfoPath: 'documentation/shared/hexagonal-architecture.md'
