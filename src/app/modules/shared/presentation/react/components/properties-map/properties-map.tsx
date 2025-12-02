@@ -4,14 +4,10 @@ import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import { useGetPropertiesRequest } from '../../hooks/property/use-get-properties-request/use-get-properties-request';
-import {
-  FilterToggleButton,
-  FiltersPanel,
-  MapEmptyState,
-  MapErrorState,
-  MapLoadingState,
-  PropertyPopupContent,
-} from './components';
+import { FilterToggleButton } from './components/filter-toggle-button';
+import { FiltersPanel } from './components/filters-panel';
+import { MapEmptyState, MapErrorState, MapLoadingState } from './components/map-states';
+import { PropertyPopupContent } from './components/property-popup-content';
 import { createPropertyMarker } from './utils/create-property-marker';
 
 // Constants

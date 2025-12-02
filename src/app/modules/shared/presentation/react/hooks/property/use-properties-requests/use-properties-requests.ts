@@ -1,15 +1,15 @@
 import type { PropertiesRequests } from '@/modules/shared/domain/contracts/properties-requests.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/async-function-validation-wrapper/async-function-validation-wrapper.helper';
-import { createPropertyRequest } from '@/modules/shared/infrastructure/requests/createProperty/createProperty.request';
-import { deletePropertyRequest } from '@/modules/shared/infrastructure/requests/deleteProperty/deleteProperty.request';
-import { getPropertiesRequest } from '@/modules/shared/infrastructure/requests/getProperties/getProperties.request';
-import { getPropertiesByFilterRequest } from '@/modules/shared/infrastructure/requests/getPropertiesByFilter/getPropertiesByFilter.request';
-import { getPropertiesByOwnerIdRequest } from '@/modules/shared/infrastructure/requests/getPropertiesByOwnerId/getPropertiesByOwnerId.request';
-import { getPropertiesStatusesRequest } from '@/modules/shared/infrastructure/requests/getPropertiesStatuses/getPropertiesStatuses.request';
-import { getPropertiesTypesRequest } from '@/modules/shared/infrastructure/requests/getPropertiesTypes/getPropertiesTypes.request';
-import { getPropertyByIdRequest } from '@/modules/shared/infrastructure/requests/getPropertyById/getPropertyById.request';
-import { updatePropertyRequest } from '@/modules/shared/infrastructure/requests/updateProperty/updateProperty.request';
-import { updatePropertyStatusRequest } from '@/modules/shared/infrastructure/requests/updatePropertyStatus/updatePropertyStatus.request';
+import { createPropertyRequest } from '@/modules/shared/infrastructure/requests/create-property/create-property.request';
+import { deletePropertyRequest } from '@/modules/shared/infrastructure/requests/delete-property/delete-property.request';
+import { getPropertiesByFilterRequest } from '@/modules/shared/infrastructure/requests/get-properties-by-filter/get-properties-by-filter.request';
+import { getPropertiesByOwnerIdRequest } from '@/modules/shared/infrastructure/requests/get-properties-by-owner-id/get-properties-by-owner-id.request';
+import { getPropertiesStatusesRequest } from '@/modules/shared/infrastructure/requests/get-properties-statuses/get-properties-statuses.request';
+import { getPropertiesTypesRequest } from '@/modules/shared/infrastructure/requests/get-properties-types/get-properties-types.request';
+import { getPropertiesRequest } from '@/modules/shared/infrastructure/requests/get-properties/get-properties.request';
+import { getPropertyByIdRequest } from '@/modules/shared/infrastructure/requests/get-property-by-id/get-property-by-id.request';
+import { updatePropertyStatusRequest } from '@/modules/shared/infrastructure/requests/update-property-status/update-property-status.request';
+import { updatePropertyRequest } from '@/modules/shared/infrastructure/requests/update-property/update-property.request';
 
 const PROPERTIES_REQUESTS: PropertiesRequests = {
   createPropertyRequest,

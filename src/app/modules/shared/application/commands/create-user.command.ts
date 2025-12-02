@@ -1,4 +1,4 @@
-import type { CreateUserInput } from '../../domain/inputs/users/create-user.input';
+import type { CreateUserInput } from '../../domain/inputs/user.input';
 
 export type CreateUserCommand = CreateUserInput;
 

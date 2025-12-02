@@ -8,7 +8,7 @@ import { useGetOwnersRequest } from '@/modules/shared//presentation/react/hooks/
 import type { Owner } from '@/modules/shared/domain/models/owner.model';
 import { Home, Mail, Pencil, Phone, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { OwnerManagementDialog } from '../../components/owner-management-Dialog/owner-management-dialog';
+import { OwnerManagementDialog } from '../../components/owner-management-dialog/owner-management-dialog';
 
 // eslint-disable-next-line max-lines-per-function
 export const OwnersManagementLayout = (): React.ReactElement => {

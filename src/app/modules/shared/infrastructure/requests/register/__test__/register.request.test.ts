@@ -1,6 +1,6 @@
-import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
-import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
-import { CREATE_USER_MOCK } from '@/data/mocks/createUser/createUser.mock';
+import { AUTH_RESPONSE_DTO_MOCK } from '@/data/__mocks__/auth-response/auth-response-dto.mock';
+import { AUTH_RESPONSE_MOCK } from '@/data/__mocks__/auth-response/auth-response.mock';
+import { CREATE_USER_MOCK } from '@/data/__mocks__/create-user/create-user.mock';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import * as authMapperModule from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.mapper';
 import { registerRequest } from '../register.request';

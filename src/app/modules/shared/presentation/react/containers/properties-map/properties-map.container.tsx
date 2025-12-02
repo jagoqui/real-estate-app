@@ -1,4 +1,4 @@
-import { PropertiesMap } from '../../components/properties-map';
+import { PropertiesMap } from '../../components/properties-map/properties-map';
 
 export const PropertiesMapContainer = (): React.ReactElement => {
   return (

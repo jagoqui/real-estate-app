@@ -1,4 +1,4 @@
-import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/users/user.repository.impl';
+import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/users/user.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
 type GetUsersWithoutOwnerRequestReturn = typeof userRepositoryImpl.getUsersWithoutOwner;

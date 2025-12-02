@@ -1,12 +1,12 @@
 import type { OwnersRequests } from '@/modules/shared/domain/contracts/owners-request.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/async-function-validation-wrapper/async-function-validation-wrapper.helper';
-import { createOwnerRequest } from '@/modules/shared/infrastructure/requests/createOwner/createOwner.request';
-import { deleteOwnerRequest } from '@/modules/shared/infrastructure/requests/deleteOwner/deleteOwner.request';
-import { getOwnerByIdRequest } from '@/modules/shared/infrastructure/requests/getOwnerById/getOwnerById.request';
-import { getOwnerByUserIdRequest } from '@/modules/shared/infrastructure/requests/getOwnerByUserId/getOwnerByUserId.request';
-import { getOwnersRequest } from '@/modules/shared/infrastructure/requests/getOwners/getOwners.request';
-import { getPropertiesCountByOwnerIdRequest } from '@/modules/shared/infrastructure/requests/getPropertiesCountByOwnerId/getPropertiesCountByOwnerId.request';
-import { updateOwnerRequest } from '@/modules/shared/infrastructure/requests/updateOwner/updateOwner.request';
+import { createOwnerRequest } from '@/modules/shared/infrastructure/requests/create-owner/create-owner.request';
+import { deleteOwnerRequest } from '@/modules/shared/infrastructure/requests/delete-owner/delete-owner.request';
+import { getOwnerByIdRequest } from '@/modules/shared/infrastructure/requests/get-owner-by-id/get-owner-by-id.request';
+import { getOwnerByUserIdRequest } from '@/modules/shared/infrastructure/requests/get-owner-by-user-id/get-owner-by-user-id.request';
+import { getOwnersRequest } from '@/modules/shared/infrastructure/requests/get-owners/get-owners.request';
+import { getPropertiesCountByOwnerIdRequest } from '@/modules/shared/infrastructure/requests/get-properties-count-by-owner-id/get-properties-count-by-owner-id.request';
+import { updateOwnerRequest } from '@/modules/shared/infrastructure/requests/update-owner/update-owner.request';
 
 const OWNERS_REQUEST: OwnersRequests = {
   createOwnerRequest,

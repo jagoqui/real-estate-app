@@ -1,4 +1,4 @@
-import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
+import { AUTH_RESPONSE_MOCK } from '@/data/__mocks__/auth-response/auth-response.mock';
 import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
 import ky, { type NormalizedOptions, type Options } from 'ky';
 import type { MockedFunction } from 'vitest';

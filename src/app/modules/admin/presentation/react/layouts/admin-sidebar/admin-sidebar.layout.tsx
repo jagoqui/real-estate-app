@@ -1,4 +1,4 @@
-import { AdminSidebarContent } from '../../components/admin-sidebar-Content/admin-sidebar-content';
+import { AdminSidebarContent } from '../../components/admin-sidebar-content/admin-sidebar-content';
 
 interface SidebarContentProps {
   setMobileMenuOpen: (open: boolean) => void;

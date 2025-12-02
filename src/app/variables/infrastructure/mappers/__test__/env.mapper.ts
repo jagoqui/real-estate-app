@@ -1,4 +1,4 @@
-import { ENVS_MOCK } from '@/data/mocks/envs/envs.mock';
+import { ENVS_MOCK } from '@/data/__mocks__/envs/envs.mock';
 import { type MockInstance, vi } from 'vitest'; // Asegúrate de importar vi
 
 import { getEnvs } from '../env.mapper';

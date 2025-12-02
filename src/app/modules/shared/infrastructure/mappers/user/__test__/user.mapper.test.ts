@@ -1,7 +1,7 @@
-import { USER_DTO_MOCK } from '@/data/mocks/users/user-dto.mock';
-import { USER_INPUT_MOCK } from '@/data/mocks/users/user-input.mock';
-import { USER_PAYLOAD_DTO_MOCK } from '@/data/mocks/users/user-payload-dto.mock';
-import { USER_MOCK } from '@/data/mocks/users/user.mock';
+import { USER_DTO_MOCK } from '@/data/__mocks__/users/user-dto.mock';
+import { USER_INPUT_MOCK } from '@/data/__mocks__/users/user-input.mock';
+import { USER_PAYLOAD_DTO_MOCK } from '@/data/__mocks__/users/user-payload-dto.mock';
+import { USER_MOCK } from '@/data/__mocks__/users/user.mock';
 import * as userRoleMapper from '../../user-role/user-role.mapper';
 import { mapUserResponseToModel, mapUserToPayloadDto } from '../user.mapper';
 

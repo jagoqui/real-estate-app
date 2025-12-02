@@ -1,5 +1,5 @@
-import { TOKEN_MOCK } from '@/data/mocks/token/token.mock';
-import { TOKEN_DTO_MOCK } from '@/data/mocks/token/tokenDto.mock';
+import { TOKEN_MOCK } from '@/data/__mocks__/token/token.mock';
+import { TOKEN_DTO_MOCK } from '@/data/__mocks__/token/tokenDto.mock';
 import { mapTokenToModel } from '../token.mapper';
 
 describe('tokenMapper', () => {

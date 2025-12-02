@@ -1,4 +1,4 @@
-import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/users/user.repository.impl';
+import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/users/user.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

@@ -2,8 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { X, ZoomIn } from 'lucide-react';
 import React from 'react';
-import { ImageCarouselView, ImageGridView, ImageThumbnails } from '.';
 import type { PropertyImage } from '../property-image-manager';
+import { ImageCarouselView } from './image-carousel-view';
+import { ImageGridView } from './image-grid-view';
+import { ImageThumbnails } from './image-thumbnails';
 
 interface ImageDisplayAreaProps {
   images: Array<PropertyImage>;

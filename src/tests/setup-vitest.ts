@@ -1,4 +1,4 @@
-import { ENVS_MOCK } from '@/data/mocks/envs/envs.mock';
+import { ENVS_MOCK } from '@/data/__mocks__/envs/envs.mock';
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 

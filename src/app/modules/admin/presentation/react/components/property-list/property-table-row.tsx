@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { ConfirmAlert } from '@/modules/shared//presentation/react/components/confirm-alert/confirm-alert';
-import { PropertyImagesTableCell } from '@/modules/shared//presentation/react/components/property-image-manager';
 import type { Property } from '@/modules/shared/domain/models/property.model';
+import { PropertyImagesTableCell } from '@/modules/shared/presentation/react/components/property-image-manager/components/property-images-table-cell';
 import { Award, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { LocationPreview } from '../location-preview/location-preview';

@@ -3,10 +3,10 @@ import { useAuthResponseContext } from '@/modules/shared//presentation/react/con
 import type { AuthRequests } from '@/modules/shared/domain/contracts/auth-requests.contract';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/async-function-validation-wrapper/async-function-validation-wrapper.helper';
 import type { AuthResponse } from '@/modules/shared/domain/models/auth-response.model';
-import { loginWithEmailAndPasswordRequest } from '@/modules/shared/infrastructure/requests/loginWithEmailAndPassword/loginWithEmailAndPassword.request';
-import { loginWithGoogleRequest } from '@/modules/shared/infrastructure/requests/loginWithGoogle/loginWithGoogle.request';
+import { loginWithEmailAndPasswordRequest } from '@/modules/shared/infrastructure/requests/login-with-email-and-password/login-with-email-and-password.request';
+import { loginWithGoogleRequest } from '@/modules/shared/infrastructure/requests/login-with-google/login-with-google.request';
 import { logoutRequest } from '@/modules/shared/infrastructure/requests/logout/logout.request';
-import { refreshTokenRequest } from '@/modules/shared/infrastructure/requests/refreshToken/refreshToken.request';
+import { refreshTokenRequest } from '@/modules/shared/infrastructure/requests/refresh-token/refresh-token.request';
 import { registerRequest } from '@/modules/shared/infrastructure/requests/register/register.request';
 import { googleLogout } from '@react-oauth/google';
 import { useNavigate, useRouter } from '@tanstack/react-router';
