@@ -1,6 +1,0 @@
-# netlify.toml
-
-[[redirects]]
-  from = "/*"
-  to = "/"
-  status = 200

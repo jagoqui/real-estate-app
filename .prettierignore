@@ -1,4 +1,0 @@
-documentation/**/*.md
-node_modules
-dist
-coverage

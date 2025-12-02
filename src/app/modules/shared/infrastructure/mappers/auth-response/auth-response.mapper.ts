@@ -1,9 +1,0 @@
-import type { AuthResponse } from '@/modules/shared/domain/models/auth-response.model';
-import type { AuthResponseDto } from '@/modules/shared/infrastructure/dtos/auth-response.dto';
-import { mapTokenToModel } from '@/modules/shared/infrastructure/mappers/token/token.mapper';
-import { mapUserResponseToModel } from '../user/user.mapper';
-
-export const mapAuthResponseToModel = (authResponseDto: AuthResponseDto): AuthResponse => ({
-  ...mapTokenToModel(authResponseDto),
-  user: mapUserResponseToModel(authResponseDto.user),
-});
