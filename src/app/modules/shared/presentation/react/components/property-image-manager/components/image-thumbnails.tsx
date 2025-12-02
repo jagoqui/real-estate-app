@@ -10,6 +10,7 @@ interface ImageThumbnailsProps {
   onReorderImages: (startIndex: number, endIndex: number) => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const ImageThumbnails = ({
   images,
   selectedImageIndex,

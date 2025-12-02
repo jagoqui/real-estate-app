@@ -16,8 +16,11 @@ import { createPropertyMarker } from './utils/create-property-marker';
 
 // Constants
 const DEFAULT_MAX_PRICE = 10000000;
-const DEFAULT_CENTER: [number, number] = [40.7128, -74.006]; // NYC
+const NYC_LATITUDE = 40.7128;
+const NYC_LONGITUDE = -74.006;
+const DEFAULT_CENTER: [number, number] = [NYC_LATITUDE, NYC_LONGITUDE]; // NYC
 const DEFAULT_ZOOM = 12;
+const MAP_BOUNDS_PADDING = 50;
 
 // Fix Leaflet default icon issue (fallback)
 delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: (() => string) | undefined })._getIconUrl;
@@ -33,11 +36,10 @@ interface MapBoundsUpdaterProps {
 
 const MapBoundsUpdater = ({ properties }: MapBoundsUpdaterProps): null => {
   const map = useMap();
-
   useEffect(() => {
     if (properties.length > 0) {
       const bounds = L.latLngBounds(properties.map(p => [parseFloat(p.location.lat), parseFloat(p.location.lon)]));
-      map.fitBounds(bounds, { padding: [50, 50] });
+      map.fitBounds(bounds, { padding: [MAP_BOUNDS_PADDING, MAP_BOUNDS_PADDING] });
     }
   }, [properties, map]);
 

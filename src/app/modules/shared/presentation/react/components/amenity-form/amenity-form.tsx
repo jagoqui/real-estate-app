@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { Amenity } from '@/modules/shared/domain/models/amenity.model';
-import type { LucideIconName } from '@/modules/shared/domain/models/lucideI-icon-name.command';
 import type { PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
 import { X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';

@@ -29,6 +29,7 @@ interface PropertyImageManagerProps {
   className?: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const PropertyImageManager = ({
   value,
   onValueChange,

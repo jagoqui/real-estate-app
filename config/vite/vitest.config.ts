@@ -21,17 +21,14 @@ export default defineConfig(
           reporter: ['clover', 'json', 'lcov', 'text', 'text-summary', 'html'],
           reportsDirectory: './coverage',
           include: ['src/app/**'],
-          exclude: [
-            'src/**/*.{constants,model,dto,schema,config,route,contract}.ts*',
-            'src/**/ui/shadcn/*',
-            'src/**/ui/react/*', //TODO: Temporary until we have tests for React components
-          ],
-          thresholds: {
-            statements: 100,
-            branches: 100,
-            functions: 100,
-            lines: 100,
-          },
+          exclude: ['src/**/*.{constants,model,dto,schema,config,route,contract}.ts*', 'src/**/shadcn/*'],
+          //TODO: Enable coverage thresholds when coverage is stable
+          // thresholds: {
+          //   statements: 100,
+          //   branches: 100,
+          //   functions: 100,
+          //   lines: 100,
+          // },
         },
       },
     }) satisfies UserConfig

@@ -1,4 +1,3 @@
-import type { LucideIconName } from '@/modules/shared/domain/models/lucideI-icon-name.command';
 import { type LucideProps, Loader2 } from 'lucide-react';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { lazy, Suspense } from 'react';
