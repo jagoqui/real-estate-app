@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGetOwnersRequest } from '@/modules/shared//presentation/react/hooks/owner/use-get-owners-request/use-get-owners-request';
 import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import { useGetOwners } from '@/modules/shared/presentation/react/hooks/owners/use-get-owners/use-get-owners';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
@@ -28,7 +28,7 @@ const OwnerNotFoundWarning = React.memo(() => (
 OwnerNotFoundWarning.displayName = 'OwnerNotFoundWarning';
 
 export const OwnerSelect = React.memo(({ control }: OwnerSelectProps) => {
-  const { data: owners, isPending, error } = useGetOwnersRequest();
+  const { data: owners, isPending, error } = useGetOwners();
 
   if (isPending) {
     return (

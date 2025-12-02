@@ -1,26 +1,24 @@
-import { useOwnersRequestsContext } from '@/modules/shared//presentation/react/contexts/owners-requests/owners-requests.context';
+import { ownerRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/owners/owner.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
-type GetOwnerByIdReturn = ReturnType<typeof useOwnersRequestsContext>['getOwnerByIdRequest'];
+type GetOwnerByIdReturn = typeof ownerRepositoryImpl.getById;
 
 type GetOwnerByIdReturnValue = Awaited<ReturnType<GetOwnerByIdReturn>>;
 
 type OnGetOwnerByIdArgs = Parameters<GetOwnerByIdReturn>[number];
 
-interface UseGetOwnerByIdRequestReturn {
+interface UseGetOwnerByIdReturn {
   onGetOwnerById: (arg: OnGetOwnerByIdArgs) => Promise<GetOwnerByIdReturnValue>;
   isPending: boolean;
   error: Error | null;
   data?: GetOwnerByIdReturnValue;
 }
 
-export const useGetOwnerByIdRequest = ({ id }: OnGetOwnerByIdArgs): UseGetOwnerByIdRequestReturn => {
-  const { getOwnerByIdRequest } = useOwnersRequestsContext();
-
-  const onGetOwnerById = getOwnerByIdRequest.bind(null, { id });
+export const useGetOwnerById = (ownerId: OnGetOwnerByIdArgs): UseGetOwnerByIdReturn => {
+  const onGetOwnerById = ownerRepositoryImpl.getById.bind(null, ownerId);
 
   const { isPending, error, data } = useQuery<GetOwnerByIdReturnValue, Error>({
-    queryKey: ['get-owner-by-id', id],
+    queryKey: ['get-owner-by-id', ownerId],
     queryFn: onGetOwnerById,
   });
 

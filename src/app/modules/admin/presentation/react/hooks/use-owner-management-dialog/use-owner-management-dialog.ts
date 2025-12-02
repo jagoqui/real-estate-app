@@ -1,6 +1,6 @@
-import { useCreateOwnerRequest } from '@/modules/shared//presentation/react/hooks/owner/use-create-owner-request/use-create-owner-request';
-import { useUpdateOwnerRequest } from '@/modules/shared//presentation/react/hooks/use-update-owner-request/use-update-owner-request';
 import type { CreateOwner, Owner } from '@/modules/shared/domain/models/owner.model';
+import { useCreateOwner } from '@/modules/shared/presentation/react/hooks/owners/use-create-owner/use-create-owner';
+import { useUpdateOwner } from '@/modules/shared/presentation/react/hooks/owners/use-update-owner/use-update-owner';
 import { useState } from 'react';
 
 const getInitialFormData = (owner?: Owner | null): CreateOwner => ({
@@ -53,7 +53,7 @@ export const useOwnerManagementDialog = ({
     onCreateOwner,
     isPending: isPendingCreate,
     error: createError,
-  } = useCreateOwnerRequest({
+  } = useCreateOwner({
     onSuccess: onEditSuccess,
   });
 
@@ -61,7 +61,7 @@ export const useOwnerManagementDialog = ({
     onUpdateOwner,
     isPending: isPendingUpdate,
     error: updateError,
-  } = useUpdateOwnerRequest({
+  } = useUpdateOwner({
     onSuccess: onEditSuccess,
   });
 

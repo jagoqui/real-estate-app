@@ -1,26 +1,24 @@
-import { useOwnersRequestsContext } from '@/modules/shared//presentation/react/contexts/owners-requests/owners-requests.context';
+import { ownerRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/owners/owner.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-type CreateOwnerReturn = ReturnType<typeof useOwnersRequestsContext>['createOwnerRequest'];
+type CreateOwnerReturn = typeof ownerRepositoryImpl.create;
 
 type CreateOwnerReturnValue = Awaited<ReturnType<CreateOwnerReturn>>;
 
 type OnCreateOwnerArgs = Parameters<CreateOwnerReturn>[number];
 
-interface UseCreateOwnerRequestReturn {
+interface UseCreateOwnerReturn {
   onCreateOwner: (args: OnCreateOwnerArgs) => void;
   isPending: boolean;
   error: Error | null;
   data?: CreateOwnerReturnValue;
 }
 
-export const useCreateOwnerRequest = (args: { onSuccess?: VoidFunction }): UseCreateOwnerRequestReturn => {
-  const { createOwnerRequest } = useOwnersRequestsContext();
-
-  const { mutate, isPending, error, data } = useMutation({
+export const useCreateOwner = (args: { onSuccess?: VoidFunction }): UseCreateOwnerReturn => {
+  const { mutate, isPending, error, data } = useMutation<CreateOwnerReturnValue, Error, OnCreateOwnerArgs>({
     mutationKey: ['create-owner'],
-    mutationFn: createOwnerRequest,
+    mutationFn: args => ownerRepositoryImpl.create(args),
     onSuccess: () => {
       args.onSuccess?.();
     },

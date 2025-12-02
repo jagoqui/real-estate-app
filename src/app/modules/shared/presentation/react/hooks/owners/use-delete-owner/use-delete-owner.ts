@@ -1,29 +1,27 @@
-import { useOwnersRequestsContext } from '@/modules/shared//presentation/react/contexts/owners-requests/owners-requests.context';
+import { ownerRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/owners/owner.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-type DeleteOwnerReturn = ReturnType<typeof useOwnersRequestsContext>['deleteOwnerRequest'];
+type DeleteOwnerReturn = typeof ownerRepositoryImpl.delete;
 
 type DeleteOwnerReturnValue = Awaited<ReturnType<DeleteOwnerReturn>>;
 
 type OnDeleteOwnerArgs = Parameters<DeleteOwnerReturn>[number];
 
-interface UseDeleteOwnerRequestReturn {
+interface UseDeleteOwnerReturn {
   onDeleteOwner: (args: OnDeleteOwnerArgs) => void;
   isPending: boolean;
   error: Error | null;
   data?: DeleteOwnerReturnValue;
 }
 
-export const useDeleteOwnerRequest = ({ onSuccess }: { onSuccess: VoidFunction }): UseDeleteOwnerRequestReturn => {
-  const { deleteOwnerRequest } = useOwnersRequestsContext();
-
-  const { mutate, isPending, error, data } = useMutation({
+export const useDeleteOwner = (args: { onSuccess?: VoidFunction }): UseDeleteOwnerReturn => {
+  const { mutate, isPending, error, data } = useMutation<DeleteOwnerReturnValue, Error, OnDeleteOwnerArgs>({
     mutationKey: ['delete-owner'],
-    mutationFn: deleteOwnerRequest,
+    mutationFn: args => ownerRepositoryImpl.delete(args),
     onSuccess: () => {
-      onSuccess();
-      toast.success('Owner deleted successfully!');
+      args.onSuccess?.();
+      toast.success('Owner deleted successfully.');
     },
     onError: error => {
       console.error('Delete owner failed:', error);
