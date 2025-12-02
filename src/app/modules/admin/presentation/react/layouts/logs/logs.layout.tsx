@@ -28,7 +28,6 @@ export interface PurchaseLog {
   notes?: string;
 }
 
-// eslint-disable-next-line max-lines-per-function
 export const LogsLayout = (): React.ReactElement => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');

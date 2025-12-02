@@ -37,6 +37,7 @@ interface UseImageManagerReturn {
   removeCoverImage: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const useImageManager = ({
   value,
   onValueChange,

@@ -9,7 +9,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { DynamicIcon } from '../dynamic-icon/dynamic-icon';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import type { LucideIconName } from '@/modules/shared/domain/models/lucideI-icon-name.command';
 import { Check, Loader2, Search } from 'lucide-react';
 
 interface IconPickerProps {

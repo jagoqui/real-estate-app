@@ -6,7 +6,7 @@ export const COMMONS_VALIDATIONS = {
   ADDRESS: { min: 5, max: 200 },
   PHOTO: { min: 1 },
   PASSWORD: { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,18}$/ },
-  PHONE: { pattern: /^\+?[1-9]\d{1,14}$/ },
+  PHONE: { pattern: /^\+?[\d\s\-()]{7,20}$/ },
   BIO: { min: 0, max: 500 },
 } as const satisfies Record<string, { min?: number; max?: number; pattern?: RegExp }>;
 

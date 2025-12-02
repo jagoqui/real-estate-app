@@ -19,7 +19,7 @@ export const ContactLayout = (): React.ReactElement => {
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    console.log('[v0] Form submitted:', formData);
+    console.info('[v0] Form submitted:', formData);
     // Handle form submission
   };
 
