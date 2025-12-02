@@ -6,21 +6,18 @@ import { TanStackRouterDevtools } from 'node_modules/@tanstack/react-router-devt
 import { AuthRequestsProvider } from '../../providers/auth-requests/auth-requests.provider';
 import { OwnersRequestsProvider } from '../../providers/owners-requests/owners-requests.provider';
 import { PropertiesRequestsProvider } from '../../providers/properties-requests/properties-requests.provider';
-import { UsersRequestsProvider } from '../../providers/users-requests/users-requests.provider';
 
 export const MainLayout = ({ children }: { children: React.ReactNode }): React.ReactElement => (
   <>
     <AuthRequestsProvider>
-      <UsersRequestsProvider>
-        <OwnersRequestsProvider>
-          <PropertiesRequestsProvider>
-            <QueryClientProvider client={queryClient}>
-              {children}
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </PropertiesRequestsProvider>
-        </OwnersRequestsProvider>
-      </UsersRequestsProvider>
+      <OwnersRequestsProvider>
+        <PropertiesRequestsProvider>
+          <QueryClientProvider client={queryClient}>
+            {children}
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </PropertiesRequestsProvider>
+      </OwnersRequestsProvider>
     </AuthRequestsProvider>
     <TanStackRouterDevtools />
   </>

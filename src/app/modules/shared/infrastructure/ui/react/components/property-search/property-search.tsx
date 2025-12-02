@@ -5,9 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
 import type { Property } from '@/modules/shared/domain/models/property.model';
-import { useGetPropertiesByFilterRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-properties-by-filter-request/use-get-properties-by-filter-request';
-import { useGetPropertiesStatusesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-properties-statuses-request/use-get-properties-statuses-request';
-import { useGetPropertiesTypesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-properties-types-Request/use-get-properties-types-Request';
+import { useGetPropertiesByFilterRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-properties-by-filter-request/use-get-properties-by-filter-request';
+import { useGetPropertiesStatusesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-properties-statuses-request/use-get-properties-statuses-request';
+import { useGetPropertiesTypesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-properties-types-Request/use-get-properties-types-Request';
 import { Link } from '@tanstack/react-router';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';

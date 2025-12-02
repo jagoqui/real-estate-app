@@ -5,8 +5,8 @@ import {
   createPropertyFormValuesSchema,
   updatePropertyFormValuesSchema,
 } from '@/modules/shared/infrastructure/schemas/property-form.schema';
-import { useCreatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-create-property-request/use-create-property-request';
-import { useUpdatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-update-property-request/use-update-property-request';
+import { useCreatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-create-property-request/use-create-property-request';
+import { useUpdatePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-update-property-request/use-update-property-request';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm, type DefaultValues } from 'react-hook-form';

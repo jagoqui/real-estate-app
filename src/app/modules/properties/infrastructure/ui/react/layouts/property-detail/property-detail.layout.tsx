@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { DynamicIcon } from '@/modules/shared/infrastructure/ui/react/components/dynamic-icon/dynamic-icon';
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import { useGetPropertyByIdRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-property-by-id-request/use-get-property-by-id-request';
+import { useGetPropertyByIdRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-property-by-id-request/use-get-property-by-id-request';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { Link, useLocation } from '@tanstack/react-router';
 import L from 'leaflet';

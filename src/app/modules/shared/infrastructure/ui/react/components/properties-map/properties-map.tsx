@@ -3,7 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
-import { useGetPropertiesRequest } from '../../hooks/use-get-properties-request/use-get-properties-request';
+import { useGetPropertiesRequest } from '../../hooks/property/use-get-properties-request/use-get-properties-request';
 import {
   FilterToggleButton,
   FiltersPanel,

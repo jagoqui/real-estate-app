@@ -7,8 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { ConfirmAlert } from '@/modules/shared/infrastructure/ui/react/components/confirm-alert/confirm-alert';
-import { useDeleteUserRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-delete-user-request/use-delete-user-request';
-import { useGetUsersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-users-request/use-get-users-request';
+import { useDeleteUser } from '@/modules/shared/infrastructure/ui/react/hooks/users/use-delete-user/use-delete-user';
+import { useGetUsers } from '@/modules/shared/infrastructure/ui/react/hooks/users/use-get-users/use-get-users';
 import { Crown, Mail, Pencil, Phone, Search, Shield, Trash2, Users } from 'lucide-react';
 import { useState } from 'react';
 import { UserManagementDialog } from '../../components/user-management-dialog/user-management-dialog';
@@ -20,7 +20,7 @@ export const UsersManagementLayout = (): React.ReactElement => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const { onRefetchGetUsers, isPending: isPendingUsers, error: usersError, data: users } = useGetUsersRequest();
+  const { onRefetchGetUsers, isPending: isPendingUsers, error: usersError, data: users } = useGetUsers();
 
   const onDeleteSuccess = (): void => {
     setIsDeleteConfirmOpen(false);
@@ -32,7 +32,7 @@ export const UsersManagementLayout = (): React.ReactElement => {
     onDeleteUser,
     isPending: isPendingDelete,
     error: deleteError,
-  } = useDeleteUserRequest({
+  } = useDeleteUser({
     onSuccess: onDeleteSuccess,
   });
 

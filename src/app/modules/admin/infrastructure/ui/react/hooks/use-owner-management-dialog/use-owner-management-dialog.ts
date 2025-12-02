@@ -1,5 +1,5 @@
 import type { CreateOwner, Owner } from '@/modules/shared/domain/models/owner.model';
-import { useCreateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-create-owner-request/use-create-owner-request';
+import { useCreateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/owner/use-create-owner-request/use-create-owner-request';
 import { useUpdateOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-update-owner-request/use-update-owner-request';
 import { useState } from 'react';
 

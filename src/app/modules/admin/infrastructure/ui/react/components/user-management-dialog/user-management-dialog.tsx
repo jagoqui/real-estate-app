@@ -4,10 +4,11 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import type { CreateUserInput } from '@/modules/shared/domain/inputs/create-user.input';
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
-import type { CreateUser, User } from '@/modules/shared/domain/models/user.model';
-import { useCreateUserRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-create-user-request/use-create-user-request';
-import { useUpdateUserRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-update-user-request/use-update-user-request';
+import type { User } from '@/modules/shared/domain/models/user.model';
+import { useCreateUser } from '@/modules/shared/infrastructure/ui/react/hooks/users/use-create-user/use-create-user';
+import { useUpdateUser } from '@/modules/shared/infrastructure/ui/react/hooks/users/use-update-user/use-update-user';
 import { Camera, Loader2, Plus } from 'lucide-react';
 import { useRef, useState } from 'react';
 
@@ -20,7 +21,7 @@ interface UserManagementDialogProps {
   getInitials: (name: string) => string;
 }
 
-const DEFAULT_CREATE_USER: CreateUser = {
+const DEFAULT_CREATE_USER: CreateUserInput = {
   name: '',
   email: '',
   role: USER_ROLES.OWNER,
@@ -40,7 +41,7 @@ export const UserManagementDialog = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Form data for create
-  const [createForm, setCreateForm] = useState<CreateUser>(DEFAULT_CREATE_USER);
+  const [createForm, setCreateForm] = useState<CreateUserInput>(DEFAULT_CREATE_USER);
 
   // Form data for edit
   const [editForm, setEditForm] = useState({
@@ -72,7 +73,7 @@ export const UserManagementDialog = ({
     onCreateUser,
     isPending: isPendingCreate,
     error: createError,
-  } = useCreateUserRequest({
+  } = useCreateUser({
     onSuccess: onEditSuccess,
   });
 
@@ -80,7 +81,7 @@ export const UserManagementDialog = ({
     onUpdateUser,
     isPending: isPendingUpdate,
     error: updateError,
-  } = useUpdateUserRequest({
+  } = useUpdateUser({
     onSuccess: onEditSuccess,
   });
 
@@ -94,17 +95,13 @@ export const UserManagementDialog = ({
 
     if (editingUser) {
       onUpdateUser({
-        user: {
-          id: editingUser.id,
-          email: editingUser.email,
-          name: editForm.name,
-          googleId: editingUser.googleId,
-          role: editForm.role,
-          isAdmin: editingUser.isAdmin,
-          phone: editForm.phone,
-          bio: editForm.bio,
-        },
-        photoFile: selectedFile,
+        id: editingUser.id,
+        email: editingUser.email,
+        name: editForm.name,
+        role: editForm.role,
+        phone: editForm.phone,
+        bio: editForm.bio,
+        photoFile: selectedFile ?? undefined,
       });
       return;
     }

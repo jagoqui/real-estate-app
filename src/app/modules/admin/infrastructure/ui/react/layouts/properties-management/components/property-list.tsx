@@ -4,8 +4,9 @@ import { PropertyHeader } from '@/modules/admin/infrastructure/ui/react/componen
 import { PropertyTableHeader } from '@/modules/admin/infrastructure/ui/react/components/property-list/property-table-header';
 import { PropertyTableRow } from '@/modules/admin/infrastructure/ui/react/components/property-list/property-table-row';
 import type { Property } from '@/modules/shared/domain/models/property.model';
-import { useDeletePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-delete-property-request/use-delete-property-request';
-import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-properties-request/use-get-properties-request';
+import { useDeletePropertyRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-delete-property-request/use-delete-property-request';
+import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-properties-request/use-get-properties-request';
+
 import React, { useState } from 'react';
 
 interface PropertyListProps {

@@ -8,6 +8,7 @@ interface AuthResponseContextValue {
   setIsAuthLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggingOut: boolean;
   setIsLoggingOut: React.Dispatch<React.SetStateAction<boolean>>;
+  updateUser: (userData: AuthResponse['user']) => void;
 }
 
 export const AuthResponseContext = createContext<AuthResponseContextValue | undefined>(undefined);

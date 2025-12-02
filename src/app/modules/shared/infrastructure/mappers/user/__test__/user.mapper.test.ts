@@ -1,7 +1,7 @@
 import { USER_MOCK } from '@/data/mocks/users/user.mock';
 import { USER_DTO_MOCK } from '@/data/mocks/users/userDto.mock';
 import * as userRoleMapper from '../../user-role/user-role.mapper';
-import { mapUserToDto, mapUserToModel } from '../user.mapper';
+import { mapUserResponseToModel, mapUserToPayloadDto } from '../user.mapper';
 
 describe('mapUser', () => {
   beforeEach(() => {
@@ -10,15 +10,15 @@ describe('mapUser', () => {
   });
 
   it('should map user dto to user', () => {
-    const user = mapUserToModel(USER_DTO_MOCK);
+    const user = mapUserResponseToModel(USER_DTO_MOCK);
 
     expect(user).toEqual(USER_MOCK);
     expect(userRoleMapper.mapUserRoleToModel).toHaveBeenCalledWith(USER_DTO_MOCK.role);
     expect(userRoleMapper.mapUserRoleToModel).toHaveBeenCalledTimes(1);
   });
 
-  it('should adapt user to user dto', () => {
-    const userDto = mapUserToDto(USER_MOCK);
+  it('should adapt user response to user dto', () => {
+    const userDto = mapUserToPayloadDto(USER_MOCK);
 
     expect(userDto).toEqual(USER_DTO_MOCK);
     expect(userRoleMapper.mapUserRoleToDto).toHaveBeenCalledWith(USER_MOCK.role);

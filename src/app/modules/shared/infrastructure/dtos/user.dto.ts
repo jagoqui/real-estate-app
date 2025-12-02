@@ -1,6 +1,6 @@
 import type { UserRoleDto } from './role.dto';
 
-export interface UserDto {
+export interface UserResponseDto {
   id: string;
   email: string;
   name?: string;
@@ -11,6 +11,17 @@ export interface UserDto {
   bio?: string;
 }
 
-export type CreateUserDto = Pick<UserDto, 'email' | 'name' | 'role'> & {
+export interface UserPayloadDto {
+  id: string;
+  email?: string;
+  name?: string;
+  photoFile?: File;
+  googleId?: string;
+  role?: UserRoleDto;
+  phoneNumber?: string;
+  bio?: string;
+}
+
+export type CreateUserDto = Pick<UserResponseDto, 'email' | 'name' | 'role'> & {
   password: string;
 };

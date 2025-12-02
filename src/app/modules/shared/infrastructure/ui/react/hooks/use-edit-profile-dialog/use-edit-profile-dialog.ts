@@ -2,7 +2,7 @@ import type { UpdateUser, User } from '@/modules/shared/domain/models/user.model
 import { useState } from 'react';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
 import { fileToBase64Helper } from '../../helpers/file-to-base64/file-to-base64.helper';
-import { useUpdateUserRequest } from '../use-update-user-request/use-update-user-request';
+import { useUpdateUser } from '../users/use-update-user/use-update-user';
 
 interface UseEditProfileDialogProps {
   onOpenChange: (open: boolean) => void;
@@ -34,7 +34,7 @@ export const useEditProfileDialog = ({ onOpenChange }: UseEditProfileDialogProps
     onOpenChange(false);
   };
 
-  const { isPending, onUpdateUser, error: updateUserError } = useUpdateUserRequest({ onSuccess });
+  const { isPending, onUpdateUser, error: updateUserError } = useUpdateUser({ onSuccess });
 
   const isLoading = isUploadingFile || isPending;
   const error = updateUserError?.message || uploadFileError;
@@ -48,8 +48,8 @@ export const useEditProfileDialog = ({ onOpenChange }: UseEditProfileDialogProps
     };
 
     onUpdateUser({
-      user: updatedUser,
-      photoFile: imageFile,
+      ...updatedUser,
+      photoFile: imageFile ?? undefined,
     });
   };
 

@@ -1,5 +1,5 @@
 import type { Property } from '@/modules/shared/domain/models/property.model';
-import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-properties-request/use-get-properties-request';
+import { useGetPropertiesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-properties-request/use-get-properties-request';
 import { useState } from 'react';
 
 export const useProperties = (): {

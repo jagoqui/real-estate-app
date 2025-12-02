@@ -5,7 +5,7 @@ import { Link } from '@tanstack/react-router';
 import { Bath, Bed, ChevronLeft, ChevronRight, Mail, MapPin, Maximize } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
-import { useGetPropertiesRequest } from '../../hooks/use-get-properties-request/use-get-properties-request';
+import { useGetPropertiesRequest } from '../../hooks/property/use-get-properties-request/use-get-properties-request';
 
 // eslint-disable-next-line max-lines-per-function
 export const PropertyCarousel = (): React.ReactElement => {

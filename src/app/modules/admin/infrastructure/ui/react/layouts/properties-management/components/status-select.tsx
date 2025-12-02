@@ -2,7 +2,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
 import { PROPERTY_STATUSES } from '@/modules/shared/domain/models/property-statutes.model';
-import { useGetPropertiesStatusesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-properties-statuses-request/use-get-properties-statuses-request';
+import { useGetPropertiesStatusesRequest } from '@/modules/shared/infrastructure/ui/react/hooks/property/use-get-properties-statuses-request/use-get-properties-statuses-request';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';

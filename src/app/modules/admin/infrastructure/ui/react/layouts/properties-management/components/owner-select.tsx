@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
-import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-owners-request/use-get-owners-request';
+import { useGetOwnersRequest } from '@/modules/shared/infrastructure/ui/react/hooks/owner/use-get-owners-request/use-get-owners-request';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';

@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import type { Owner } from '@/modules/shared/domain/models/owner.model';
 
 import { PATHNAME_ROUTES } from '@/modules/shared/infrastructure/ui/react/constants/main.constants';
-import { useGetUsersWithoutOwnerRequest } from '@/modules/shared/infrastructure/ui/react/hooks/use-get-users-without-owner-request/use-get-users-without-owner-request';
+import { useGetUsersWithoutOwner } from '@/modules/shared/infrastructure/ui/react/hooks/users/use-get-users-without-owner/use-get-users-without-owner';
 import { Link } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 import { useOwnerManagementDialog } from '../../hooks/use-owner-management-dialog/use-owner-management-dialog';
@@ -33,7 +33,7 @@ export const OwnerManagementDialog = ({
     setIsDialogOpen,
     editingOwner,
   });
-  const { isPending, error: userError, data: usersWithoutOwner } = useGetUsersWithoutOwnerRequest();
+  const { isPending, error: userError, data: usersWithoutOwner } = useGetUsersWithoutOwner();
 
   const availableUsers = usersWithoutOwner ? [...usersWithoutOwner] : [];
   if (editingOwner?.userId && usersWithoutOwner) {
