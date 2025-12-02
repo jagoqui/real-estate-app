@@ -1,6 +1,6 @@
-import type { ChangePasswordInput } from '../inputs/change-password.input';
-import type { CreateUserInput } from '../inputs/create-user.input';
-import type { UpdateUserInput } from '../inputs/update-user.input';
+import type { ChangePasswordInput } from '../inputs/users/change-password.input';
+import type { CreateUserInput } from '../inputs/users/create-user.input';
+import type { UpdateUserInput } from '../inputs/users/update-user.input';
 import type { User } from '../models/user.model';
 
 export interface UserRepository {

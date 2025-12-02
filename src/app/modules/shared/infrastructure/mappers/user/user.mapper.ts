@@ -1,4 +1,4 @@
-import type { UpdateUserInput } from '@/modules/shared/domain/inputs/update-user.input';
+import type { UpdateUserInput } from '@/modules/shared/domain/inputs/users/update-user.input';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { USER_ROLES_DTO } from '../../dtos/role.dto';
 import type { UserPayloadDto, UserResponseDto } from '../../dtos/user.dto';

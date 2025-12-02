@@ -1,4 +1,4 @@
-import type { CreateUserInput } from '@/modules/shared/domain/inputs/create-user.input';
+import type { CreateUserInput } from '@/modules/shared/domain/inputs/users/create-user.input';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';

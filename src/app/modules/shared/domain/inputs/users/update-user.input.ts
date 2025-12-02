@@ -1,4 +1,4 @@
-import type { UserRole } from '../models/user-role.model';
+import type { UserRole } from '../../models/user-role.model';
 
 export interface UpdateUserInput {
   id: string;

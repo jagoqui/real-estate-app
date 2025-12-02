@@ -1,4 +1,4 @@
-import type { UpdateUserInput } from '@/modules/shared/domain/inputs/update-user.input';
+import type { UpdateUserInput } from '@/modules/shared/domain/inputs/users/update-user.input';
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 
 export const USER_INPUT_MOCK: UpdateUserInput = {

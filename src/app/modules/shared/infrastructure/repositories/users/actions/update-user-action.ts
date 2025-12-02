@@ -1,5 +1,5 @@
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
-import type { UpdateUserInput } from '@/modules/shared/domain/inputs/update-user.input';
+import type { UpdateUserInput } from '@/modules/shared/domain/inputs/users/update-user.input';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';
