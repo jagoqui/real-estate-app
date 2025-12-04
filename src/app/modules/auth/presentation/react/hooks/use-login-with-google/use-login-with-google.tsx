@@ -1,26 +1,26 @@
-import { useAuthRequestsContext } from '@/modules/shared//presentation/react/contexts/auth-requests/auth-requests.context';
+import { useAuthRepository } from '@/modules/shared/presentation/react/hooks/auth/use-auth-repository/use-auth-repository';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-type LoginWithGoogleRequestReturn = ReturnType<typeof useAuthRequestsContext>['loginWithGoogleRequest'];
+type LoginWithGoogleReturn = ReturnType<typeof useAuthRepository>['loginWithGoogle'];
 
-type LoginWithGoogleRequestArgs = Parameters<LoginWithGoogleRequestReturn>[number];
+type LoginWithGoogleArgs = Parameters<LoginWithGoogleReturn>[number];
 
-type LoginWithGoogleRequestReturnValue = Awaited<ReturnType<LoginWithGoogleRequestReturn>>;
+type LoginWithGoogleReturnValue = Awaited<ReturnType<LoginWithGoogleReturn>>;
 
-interface UseLoginWithGoogleRequestReturn {
-  onLoginWithGoogle: (args: LoginWithGoogleRequestArgs) => void;
+interface UseLoginWithGoogleReturn {
+  onLoginWithGoogle: (args: LoginWithGoogleArgs) => void;
   isPending: boolean;
   error: Error | null;
-  data?: LoginWithGoogleRequestReturnValue;
+  data?: LoginWithGoogleReturnValue;
 }
 
-export const useLoginWithGoogleRequest = (): UseLoginWithGoogleRequestReturn => {
-  const { loginWithGoogleRequest } = useAuthRequestsContext();
+export const useLoginWithGoogleRequest = (): UseLoginWithGoogleReturn => {
+  const authRepository = useAuthRepository();
 
-  const { mutate, isPending, error, data } = useMutation({
+  const { mutate, isPending, error, data } = useMutation<LoginWithGoogleReturnValue, Error, LoginWithGoogleArgs>({
     mutationKey: ['login-with-google'],
-    mutationFn: loginWithGoogleRequest,
+    mutationFn: args => authRepository.loginWithGoogle(args),
     onError: error => {
       console.error('Login with Google failed:', error);
       toast.error('Login with Google failed. Please try again.', {

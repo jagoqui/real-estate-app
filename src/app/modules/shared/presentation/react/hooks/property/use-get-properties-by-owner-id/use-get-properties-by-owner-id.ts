@@ -17,7 +17,8 @@ interface UseGetPropertiesByOwnerIdReturn {
 export const useGetPropertiesByOwnerId = ({
   ownerId,
 }: OnGetPropertiesByOwnerIdArgs): UseGetPropertiesByOwnerIdReturn => {
-  const onGetPropertiesByOwnerId = propertyRepositoryImpl.getByOwnerId.bind(null, { ownerId });
+  const onGetPropertiesByOwnerId = (): Promise<GetPropertiesByOwnerIdReturnValue> =>
+    propertyRepositoryImpl.getByOwnerId({ ownerId });
 
   const { isPending, error, data } = useQuery<GetPropertiesByOwnerIdReturnValue, Error>({
     queryKey: ['get-properties-by-owner-id', ownerId],

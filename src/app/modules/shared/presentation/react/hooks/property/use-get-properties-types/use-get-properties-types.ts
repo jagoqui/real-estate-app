@@ -13,7 +13,7 @@ interface UseGetPropertiesTypesReturn {
 }
 
 export const useGetPropertiesTypes = (): UseGetPropertiesTypesReturn => {
-  const onGetPropertiesTypes = propertyRepositoryImpl.getTypes.bind(null);
+  const onGetPropertiesTypes = (): Promise<GetPropertiesTypesReturnValue> => propertyRepositoryImpl.getTypes();
 
   const { isPending, error, data } = useQuery<GetPropertiesTypesReturnValue, Error>({
     queryKey: ['get-properties-types'],

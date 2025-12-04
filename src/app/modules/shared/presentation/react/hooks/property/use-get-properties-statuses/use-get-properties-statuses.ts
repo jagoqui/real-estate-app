@@ -13,7 +13,7 @@ interface UseGetPropertiesStatusesReturn {
 }
 
 export const useGetPropertiesStatuses = (): UseGetPropertiesStatusesReturn => {
-  const onGetPropertiesStatuses = propertyRepositoryImpl.getStatuses.bind(null);
+  const onGetPropertiesStatuses = (): Promise<GetPropertiesStatusesReturnValue> => propertyRepositoryImpl.getStatuses();
 
   const { isPending, error, data } = useQuery<GetPropertiesStatusesReturnValue, Error>({
     queryKey: ['get-properties-statuses'],

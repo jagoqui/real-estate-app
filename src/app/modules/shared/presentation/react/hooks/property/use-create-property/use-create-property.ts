@@ -18,7 +18,7 @@ interface UseCreatePropertyReturn {
 export const useCreateProperty = (args: { onSuccess?: VoidFunction }): UseCreatePropertyReturn => {
   const { mutate, isPending, error, data } = useMutation<CreatePropertyReturnValue, Error, OnCreatePropertyArgs>({
     mutationKey: ['create-property'],
-    mutationFn: propertyRepositoryImpl.create.bind(null),
+    mutationFn: args => propertyRepositoryImpl.create(args),
     onSuccess: () => {
       args.onSuccess?.();
     },

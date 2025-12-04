@@ -1,10 +1,10 @@
-import { useRefreshTokenRequest } from '@/modules/shared//presentation/react/hooks/use-refresh-token-request/use-refresh-token-request';
 import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
+import { useRefreshToken } from '@/modules/shared/presentation/react/hooks/auth/use-refresh-token/use-refresh-token';
 import { useEffect, useRef } from 'react';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
 
 export const RefreshTokenContainer = ({ children }: { children: React.ReactNode }): React.ReactElement => {
-  const { onRefreshToken } = useRefreshTokenRequest();
+  const { onRefreshToken } = useRefreshToken();
   const { setIsAuthLoading, authResponse } = useAuthResponseContext();
   const hasInitialized = useRef(false);
 

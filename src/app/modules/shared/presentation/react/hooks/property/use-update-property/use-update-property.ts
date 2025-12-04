@@ -19,7 +19,7 @@ export const useUpdateProperty = (args: { onSuccess?: VoidFunction }): UseUpdate
   const { mutate, isPending, error, data } = useMutation<UpdatePropertyRequestReturnValue, Error, OnUpdatePropertyArgs>(
     {
       mutationKey: ['update-property'],
-      mutationFn: propertyRepositoryImpl.update.bind(null),
+      mutationFn: args => propertyRepositoryImpl.update(args),
       onSuccess: () => {
         args.onSuccess?.();
         toast.success('Property updated successfully!');

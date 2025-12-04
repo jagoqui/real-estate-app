@@ -1,32 +1,32 @@
-import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/local-storage-keys.constants';
-import type { AuthResponse } from '@/modules/shared/domain/models/auth-response.model';
+import type { Auth } from '@/modules/shared/domain/models/auth.model';
+import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
 import { useEffect, useState } from 'react';
 
 interface UseAuthResponseStorageReturn {
-  authResponse: AuthResponse | null;
-  setAuthResponse: React.Dispatch<React.SetStateAction<AuthResponse | null>>;
+  authResponse: Auth | null;
+  setAuthResponse: React.Dispatch<React.SetStateAction<Auth | null>>;
 }
 
 export const useAuthResponseStorage = (): UseAuthResponseStorageReturn => {
-  const [authResponse, setAuthResponse] = useState<AuthResponse | null>(null);
+  const [authResponse, setAuthResponse] = useState<Auth | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem(AUTH_RESPONSE_STORAGE_KEY);
+    const stored = authTokenRepositoryImpl.get();
     if (stored) {
       try {
-        setAuthResponse(JSON.parse(stored) as AuthResponse);
+        setAuthResponse(stored);
       } catch {
-        localStorage.removeItem(AUTH_RESPONSE_STORAGE_KEY);
+        authTokenRepositoryImpl.remove();
       }
     }
   }, []);
 
   useEffect(() => {
     if (authResponse) {
-      localStorage.setItem(AUTH_RESPONSE_STORAGE_KEY, JSON.stringify(authResponse));
+      authTokenRepositoryImpl.save(authResponse);
       return;
     }
-    localStorage.removeItem(AUTH_RESPONSE_STORAGE_KEY);
+    authTokenRepositoryImpl.remove();
   }, [authResponse]);
 
   return { authResponse, setAuthResponse };

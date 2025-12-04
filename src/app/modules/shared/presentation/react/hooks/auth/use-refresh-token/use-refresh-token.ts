@@ -1,25 +1,23 @@
-import { useAuthRequestsContext } from '@/modules/shared//presentation/react/contexts/auth-requests/auth-requests.context';
+import type { RefreshTokenInput } from '@/modules/shared/domain/inputs/auth.input';
+import type { Auth } from '@/modules/shared/domain/models/auth.model';
 import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useAuthRepository } from '../use-auth-repository/use-auth-repository';
 
-type RefreshTokenRequestReturn = ReturnType<typeof useAuthRequestsContext>['refreshTokenRequest'];
-
-type RefreshTokenRequestReturnValue = Awaited<ReturnType<RefreshTokenRequestReturn>>;
-
-interface UseRefreshTokenRequestReturn {
-  onRefreshToken: () => Promise<RefreshTokenRequestReturnValue>;
+interface UseRefreshTokenReturn {
+  onRefreshToken: () => Promise<Auth>;
   isPending: boolean;
   error: Error | null;
-  data?: RefreshTokenRequestReturnValue;
+  data?: Auth;
 }
 
-export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
-  const { refreshTokenRequest } = useAuthRequestsContext();
+export const useRefreshToken = (): UseRefreshTokenReturn => {
+  const authRepository = useAuthRepository();
 
-  const { mutateAsync, isPending, error, data } = useMutation({
+  const { mutateAsync, isPending, error, data } = useMutation<Auth, Error, RefreshTokenInput>({
     mutationKey: ['refresh-token'],
-    mutationFn: refreshTokenRequest,
+    mutationFn: args => authRepository.refreshToken(args),
     onError: error => {
       console.error('[useRefreshTokenRequest] Mutation onError:', error);
       toast.error('Refresh token failed. Please try again.', {
@@ -30,7 +28,7 @@ export const useRefreshTokenRequest = (): UseRefreshTokenRequestReturn => {
     },
   });
 
-  const onRefreshToken = async (): Promise<RefreshTokenRequestReturnValue> => {
+  const onRefreshToken = async (): Promise<Auth> => {
     const { refreshToken } = authTokenRepositoryImpl.get() || {};
 
     if (!refreshToken) {

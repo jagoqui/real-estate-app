@@ -1,26 +1,26 @@
-import { useAuthRequestsContext } from '@/modules/shared//presentation/react/contexts/auth-requests/auth-requests.context';
 import { useAuthResponseContext } from '@/modules/shared//presentation/react/contexts/auth-response/auth-response.context';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useAuthRepository } from '../use-auth-repository/use-auth-repository';
 
-type LogoutRequestReturn = ReturnType<typeof useAuthRequestsContext>['logoutRequest'];
+type LogoutReturn = ReturnType<typeof useAuthRepository>['logout'];
 
-type LogoutRequestReturnValue = Awaited<ReturnType<LogoutRequestReturn>>;
+type LogoutReturnValue = Awaited<ReturnType<LogoutReturn>>;
 
-interface UseLogoutRequestReturn {
+interface UseLogout {
   onLogout: () => Promise<void>;
   isPending: boolean;
   error: Error | null;
-  data?: LogoutRequestReturnValue;
+  data?: LogoutReturnValue;
 }
 
-export const useLogoutRequest = (): UseLogoutRequestReturn => {
-  const { logoutRequest } = useAuthRequestsContext();
+export const useLogout = (): UseLogout => {
+  const authRepository = useAuthRepository();
   const { setIsLoggingOut } = useAuthResponseContext();
 
-  const { mutateAsync, isPending, error, data } = useMutation({
+  const { mutateAsync, isPending, error, data } = useMutation<LogoutReturnValue, Error>({
     mutationKey: ['logout'],
-    mutationFn: logoutRequest,
+    mutationFn: () => authRepository.logout(),
     onError: error => {
       console.error('Logout failed:', error);
       toast.error('Logout failed. Please try again.', {

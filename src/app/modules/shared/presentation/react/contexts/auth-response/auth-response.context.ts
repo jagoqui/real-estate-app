@@ -1,14 +1,14 @@
-import type { AuthResponse } from '@/modules/shared/domain/models/auth-response.model';
+import type { Auth } from '@/modules/shared/domain/models/auth.model';
 import { createContext, useContext } from 'react';
 
 interface AuthResponseContextValue {
-  authResponse: AuthResponse | null;
-  setAuthResponse: React.Dispatch<React.SetStateAction<AuthResponse | null>>;
+  authResponse: Auth | null;
+  setAuthResponse: React.Dispatch<React.SetStateAction<Auth | null>>;
   isAuthLoading: boolean;
   setIsAuthLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggingOut: boolean;
   setIsLoggingOut: React.Dispatch<React.SetStateAction<boolean>>;
-  updateUser: (userData: AuthResponse['user']) => void;
+  updateUser: (userData: Auth['user']) => void;
 }
 
 export const AuthResponseContext = createContext<AuthResponseContextValue | undefined>(undefined);

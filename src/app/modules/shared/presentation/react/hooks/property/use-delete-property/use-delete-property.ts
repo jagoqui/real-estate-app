@@ -18,7 +18,7 @@ interface UseDeletePropertyReturn {
 export const useDeleteProperty = (args: { onSuccess?: VoidFunction }): UseDeletePropertyReturn => {
   const { mutate, isPending, error, data } = useMutation<DeletePropertyReturnValue, Error, OnDeletePropertyArgs>({
     mutationKey: ['delete-property'],
-    mutationFn: propertyRepositoryImpl.delete.bind(null),
+    mutationFn: args => propertyRepositoryImpl.delete(args),
     onSuccess: () => {
       args.onSuccess?.();
       toast.success('Property deleted successfully!');

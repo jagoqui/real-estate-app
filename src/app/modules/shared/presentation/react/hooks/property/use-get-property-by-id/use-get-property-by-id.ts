@@ -15,7 +15,7 @@ interface UseGetPropertyByIdReturn {
 }
 
 export const useGetPropertyById = ({ propertyId }: OnGetPropertyByIdArgs): UseGetPropertyByIdReturn => {
-  const onGetPropertyById = propertyRepositoryImpl.getById.bind(null, { propertyId });
+  const onGetPropertyById = (): Promise<GetPropertyByIdReturnValue> => propertyRepositoryImpl.getById({ propertyId });
 
   const { isLoading, error, data } = useQuery<GetPropertyByIdReturnValue, Error>({
     queryKey: ['get-property-by-id', propertyId],

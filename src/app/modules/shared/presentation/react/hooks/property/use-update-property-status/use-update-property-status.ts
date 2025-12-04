@@ -24,7 +24,7 @@ export const useUpdatePropertyStatusRequest = (args: {
     OnUpdatePropertyStatusArgs
   >({
     mutationKey: ['update-property-status'],
-    mutationFn: propertyRepositoryImpl.updateStatus.bind(null),
+    mutationFn: args => propertyRepositoryImpl.updateStatus(args),
     onSuccess: () => {
       args.onSuccess?.();
       toast.success('Property status updated successfully!');

@@ -1,7 +1,7 @@
-import type { AuthResponse } from '../models/auth-response.model';
+import type { Auth } from '../models/auth.model';
 
 export interface AuthTokenRepository {
-  get(): AuthResponse | null;
-  save(token: AuthResponse): void;
+  get(): Auth | null;
+  save(token: Auth): void;
   remove(): void;
 }

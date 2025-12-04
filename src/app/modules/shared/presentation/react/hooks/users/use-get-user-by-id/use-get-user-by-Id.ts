@@ -15,7 +15,7 @@ interface UseGetUserByIdReturn {
 }
 
 export const useGetUserById = (userId: OnGetUserByIdArgs): UseGetUserByIdReturn => {
-  const onGetUserById = userRepositoryImpl.getById.bind(null, userId);
+  const onGetUserById = (): Promise<GetUserByIdRequestReturnValue> => userRepositoryImpl.getById(userId);
 
   const { isPending, error, data } = useQuery<GetUserByIdRequestReturnValue, Error>({
     queryKey: ['get-user-by-id', userId],

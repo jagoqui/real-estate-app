@@ -84,7 +84,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
           key={editingOwner ? editingOwner.id : 'new-owner'}
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
-          onGetOwners={() => onRefetchGetOwners.bind(null)}
+          onGetOwners={() => void onRefetchGetOwners()}
           editingOwner={editingOwner}
           setEditingOwner={setEditingOwner}
         />

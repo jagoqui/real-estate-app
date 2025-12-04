@@ -1,8 +1,9 @@
-import { tokenSchema } from '@/modules/shared/infrastructure/schemas/token.schema';
-import type z from 'zod';
-import type { AuthResponse } from '../../domain/models/auth-response.model';
-import { userSchema } from './user.schema';
+import z from 'zod';
+import type { AuthResponseDto } from '../dtos/auth-response.dto';
+import { userResponseSchema } from './user-response.schema';
 
-export const authResponseSchema = tokenSchema.extend({
-  user: userSchema,
-}) satisfies z.ZodType<AuthResponse>;
+export const authResponseSchema = z.object({
+  accessToken: z.string(),
+  refreshToken: z.string(),
+  user: userResponseSchema,
+}) satisfies z.ZodType<AuthResponseDto>;

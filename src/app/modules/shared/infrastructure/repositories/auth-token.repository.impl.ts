@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/local-storage-keys.constants';
-import type { AuthResponse } from '../../domain/models/auth-response.model';
+import type { Auth } from '../../domain/models/auth.model';
 import type { AuthTokenRepository } from '../../domain/repositories/auth-token.repository';
 
 /**
@@ -28,14 +28,14 @@ import type { AuthTokenRepository } from '../../domain/repositories/auth-token.r
  * ```
  */
 export const authTokenRepositoryImpl: AuthTokenRepository = {
-  get: (): AuthResponse | null => {
+  get: (): Auth | null => {
     if (typeof window === 'undefined') return null;
 
     try {
       const stored = localStorage.getItem(AUTH_RESPONSE_STORAGE_KEY);
       if (!stored) return null;
 
-      const parsed = JSON.parse(stored) as AuthResponse;
+      const parsed = JSON.parse(stored) as Auth;
 
       if (!parsed.accessToken || !parsed.refreshToken) {
         localStorage.removeItem(AUTH_RESPONSE_STORAGE_KEY);
@@ -49,7 +49,7 @@ export const authTokenRepositoryImpl: AuthTokenRepository = {
     }
   },
 
-  save: (token: AuthResponse): void => {
+  save: (token: Auth): void => {
     if (typeof window !== 'undefined') {
       localStorage.setItem(AUTH_RESPONSE_STORAGE_KEY, JSON.stringify(token));
     }

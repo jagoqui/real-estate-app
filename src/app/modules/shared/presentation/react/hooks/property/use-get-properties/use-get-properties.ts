@@ -24,7 +24,7 @@ export const useGetProperties = ({
 
   const { isPending, error, data } = useQuery<GetPropertiesReturnValue, Error>({
     queryKey: ['get-properties'],
-    queryFn: propertyRepositoryImpl.getAll.bind(null),
+    queryFn: () => propertyRepositoryImpl.getAll(),
   });
 
   const filterData = filterByFeatured ? data?.filter(property => property.featured) : data;

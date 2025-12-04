@@ -23,7 +23,8 @@ export const useGetPropertiesByFilter = (
   options: UseGetPropertiesByFilterOptions = {}
 ): UseGetPropertiesByFilterReturn => {
   const { enabled = true } = options;
-  const onGetPropertiesByFilter = propertyRepositoryImpl.getByFilter.bind(null, filter);
+  const onGetPropertiesByFilter = (): Promise<GetPropertiesByFilterReturnValue> =>
+    propertyRepositoryImpl.getByFilter(filter);
 
   const { isPending, error, data } = useQuery<GetPropertiesByFilterReturnValue, Error>({
     queryKey: ['get-properties-by-filter', filter],
