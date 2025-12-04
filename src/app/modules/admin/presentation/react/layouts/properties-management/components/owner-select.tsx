@@ -1,14 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import { useGetOwners } from '@/modules/shared/presentation/react/hooks/owners/use-get-owners/use-get-owners';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
 
 interface OwnerSelectProps {
-  control: Control<PropertyFormValues>;
+  control: Control<PropertyCommand>;
 }
 
 // Warning message component for non-existent owner

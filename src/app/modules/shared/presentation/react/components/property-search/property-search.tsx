@@ -4,10 +4,12 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
-import { useGetPropertiesByFilterRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-properties-by-filter-request/use-get-properties-by-filter-request';
-import { useGetPropertiesStatusesRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-properties-statuses-request/use-get-properties-statuses-request';
+import type { GetPropertiesByFilterCommand } from '@/modules/shared/application/commands/property.command';
+import { removeNullishOrUndefinedProperties } from '@/modules/shared/domain/helpers/objects/objects.helper';
 import type { Property } from '@/modules/shared/domain/models/property.model';
-import { useGetPropertiesTypesRequest } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-types-request/use-get-properties-types-request';
+import { useGetPropertiesByFilter } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-by-filter/use-get-properties-by-filter';
+import { useGetPropertiesStatuses } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-statuses/use-get-properties-statuses';
+import { useGetPropertiesTypes } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-types/use-get-properties-types';
 import { Link } from '@tanstack/react-router';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -59,10 +61,10 @@ export const PropertySearch = ({
 
   const autocompleteRef = useRef<HTMLDivElement>(null);
 
-  const { data: availableTypes } = useGetPropertiesTypesRequest();
-  const { data: availableStatuses } = useGetPropertiesStatusesRequest();
+  const { data: availableTypes } = useGetPropertiesTypes();
+  const { data: availableStatuses } = useGetPropertiesStatuses();
 
-  const filters = useMemo(
+  const filters: GetPropertiesByFilterCommand = useMemo(
     () => ({
       name: debouncedSearchQuery || undefined,
       minPrice: appliedPriceRange[0] > 0 ? appliedPriceRange[0] : undefined,
@@ -90,7 +92,10 @@ export const PropertySearch = ({
     ]
   );
 
-  const { data: properties, isPending } = useGetPropertiesByFilterRequest(filters);
+  const cleanedFilters = removeNullishOrUndefinedProperties<Record<string, string>>(filters as Record<string, string>);
+  const shouldFetch = Object.keys(cleanedFilters).length > 0;
+
+  const { data: properties, isPending } = useGetPropertiesByFilter(cleanedFilters, { enabled: shouldFetch });
 
   // Debounce para el search query (solo actualiza si tiene al menos 2 caracteres)
   useEffect(() => {

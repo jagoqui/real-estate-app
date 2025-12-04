@@ -1,14 +1,14 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGetPropertiesStatusesRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-properties-statuses-request/use-get-properties-statuses-request';
-import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import { PROPERTY_STATUSES } from '@/modules/shared/domain/models/property-statutes.model';
+import { useGetPropertiesStatuses } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-statuses/use-get-properties-statuses';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
 
 interface StatusSelectProps {
-  control: Control<PropertyFormValues>;
+  control: Control<PropertyCommand>;
 }
 
 const StatusNotFoundWarning = React.memo(() => (
@@ -26,7 +26,7 @@ const StatusNotFoundWarning = React.memo(() => (
 StatusNotFoundWarning.displayName = 'StatusNotFoundWarning';
 
 export const StatusSelect = React.memo(({ control }: StatusSelectProps) => {
-  const { data: availableStatuses, isPending, error } = useGetPropertiesStatusesRequest();
+  const { data: availableStatuses, isPending, error } = useGetPropertiesStatuses();
 
   if (isPending) {
     return (

@@ -1,11 +1,12 @@
-export const PROPERTIES_TYPES = {
-  HOUSE: 'house',
-  APARTMENT: 'apartment',
-  CONDO: 'condo',
-  TOWNHOUSE: 'townhouse',
-  LAND: 'land',
-  COMMERCIAL: 'commercial',
-  OTHER: 'other',
-} as const satisfies Record<string, string>;
+export const PROPERTY_TYPES = {
+  HOUSE: 'HOUSE',
+  APARTMENT: 'APARTMENT',
+  CONDO: 'CONDO',
+  TOWNHOUSE: 'TOWNHOUSE',
+  LAND: 'LAND',
+  COMMERCIAL: 'COMMERCIAL',
+  OTHER: 'OTHER',
+  UNKNOWN: 'UNKNOWN',
+} as const;
 
-export type PropertyTypes = keyof typeof PROPERTIES_TYPES | (string & {});
+export type PropertyType = (typeof PROPERTY_TYPES)[keyof typeof PROPERTY_TYPES];

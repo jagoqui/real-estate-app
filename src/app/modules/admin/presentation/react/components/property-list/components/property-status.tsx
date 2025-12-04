@@ -1,14 +1,14 @@
 import { Badge } from '@/components/ui/badge';
-import { type PropertyStatutes } from '@/modules/shared/domain/models/property-statutes.model';
+import { type PropertyStatus } from '@/modules/shared/domain/models/property-statutes.model';
 
-const variants: Readonly<Record<PropertyStatutes, Parameters<typeof Badge>[0]['variant']>> = {
+const variants: Readonly<Record<PropertyStatus, Parameters<typeof Badge>[0]['variant']>> = {
   AVAILABLE: 'default',
   SOLD: 'secondary',
   PENDING: 'outline',
 };
 
 interface PropertyStatusProps {
-  status: PropertyStatutes;
+  status: PropertyStatus;
 }
 
 export const PropertyStatus = ({ status }: PropertyStatusProps): React.ReactElement => {

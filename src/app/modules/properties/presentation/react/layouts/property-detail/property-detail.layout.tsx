@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { DynamicIcon } from '@/modules/shared//presentation/react/components/dynamic-icon/dynamic-icon';
 import { PATHNAME_ROUTES } from '@/modules/shared//presentation/react/constants/main.constants';
-import { useGetPropertyByIdRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-property-by-id-request/use-get-property-by-id-request';
+import { useGetPropertyById } from '@/modules/shared/presentation/react/hooks/property/use-get-property-by-id/use-get-property-by-id';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { Link, useLocation } from '@tanstack/react-router';
 import L from 'leaflet';
@@ -82,7 +82,7 @@ export const PropertyDetailLayout = (): React.ReactElement => {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
 
-  const { isPending, error, data: property } = useGetPropertyByIdRequest({ propertyId });
+  const { isPending, error, data: property } = useGetPropertyById({ propertyId });
 
   if (isPending) {
     return (

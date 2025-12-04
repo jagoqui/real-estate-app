@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { FormattedInput } from '@/modules/shared//presentation/react/components/formatted-input/formatted-input';
-import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import { Sparkle } from 'lucide-react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { TypeSelect } from './type-select';
 
 // eslint-disable-next-line max-lines-per-function
 export const BasicInfoTab = React.memo(() => {
-  const { control } = useFormContext<PropertyFormValues>();
+  const { control } = useFormContext<PropertyCommand>();
 
   return (
     <div className="grid gap-4 sm:grid-cols-2">

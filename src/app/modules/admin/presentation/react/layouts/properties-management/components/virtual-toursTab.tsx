@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import type { PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import { ExternalLink, Plus, Trash2 } from 'lucide-react';
 import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -10,7 +10,7 @@ import { useFormContext } from 'react-hook-form';
 export const VirtualToursTab = (): React.ReactElement => {
   const [loadedIframes, setLoadedIframes] = useState<Record<number, boolean>>({});
 
-  const form = useFormContext<PropertyFormValues>();
+  const form = useFormContext<PropertyCommand>();
   const views360Url = form.watch('views360Url');
 
   const handleAddTour = useCallback((): void => {
