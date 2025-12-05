@@ -1,12 +1,12 @@
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useCreatePropertyRequest } from '@/modules/shared//presentation/react/hooks/property/use-create-property-request/use-create-property-request';
-import { useUpdatePropertyRequest } from '@/modules/shared//presentation/react/hooks/property/use-update-property-request/use-update-property-request';
-import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import {
-  createPropertyFormValuesSchema,
-  updatePropertyFormValuesSchema,
+  createPropertyFormSchema,
+  updatePropertyFormSchema,
 } from '@/modules/shared/infrastructure/schemas/property-form.schema';
+import { useCreateProperty } from '@/modules/shared/presentation/react/hooks/property/use-create-property/use-create-property';
+import { useUpdateProperty } from '@/modules/shared/presentation/react/hooks/property/use-update-property/use-update-property';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm, type DefaultValues } from 'react-hook-form';
@@ -17,7 +17,7 @@ import { LocationTab } from './location-tab';
 import { VirtualToursTab } from './virtual-toursTab';
 
 interface PropertyFormWithHookFormProps {
-  defaultValues?: DefaultValues<PropertyFormValues>;
+  defaultValues?: DefaultValues<PropertyCommand>;
   onReset: () => void;
   onLoadingChange?: (isLoading: boolean) => void;
 }
@@ -59,7 +59,7 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
-const formDefaultValues: DefaultValues<PropertyFormValues> = {
+const formDefaultValues: DefaultValues<PropertyCommand> = {
   action: 'create',
   amenities: [],
   highlightedFeatures: [],
@@ -102,9 +102,9 @@ const flattenErrors = (
 export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChange }: PropertyFormWithHookFormProps) => {
   const [activeTab, setActiveTab] = useState<string>('basic');
 
-  const schema = defaultValues ? updatePropertyFormValuesSchema : createPropertyFormValuesSchema;
+  const schema = defaultValues ? updatePropertyFormSchema : createPropertyFormSchema;
 
-  const form = useForm<PropertyFormValues>({
+  const form = useForm<PropertyCommand>({
     //Use never to bypass type issues with zod discriminations types and react-hook-form
     resolver: zodResolver(schema) as never,
     defaultValues: defaultValues ?? formDefaultValues,
@@ -116,7 +116,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
     onCreateProperty,
     isPending: isCreating,
     error: createError,
-  } = useCreatePropertyRequest({
+  } = useCreateProperty({
     onSuccess: onReset,
   });
 
@@ -124,7 +124,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
     onUpdateProperty,
     isPending: isUpdating,
     error: updateError,
-  } = useUpdatePropertyRequest({
+  } = useUpdateProperty({
     onSuccess: onReset,
   });
 
@@ -135,19 +135,15 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
     onLoadingChange?.(isLoading);
   }, [isLoading, onLoadingChange]);
 
-  const onSubmit = (data: PropertyFormValues): void => {
-    if (data.action === 'create') {
-      onCreateProperty(data);
+  const onSubmit = (data: PropertyCommand): void => {
+    if (data.action === 'update') {
+      const { action: _, ...restData } = data;
+      onUpdateProperty(restData);
       return;
     }
 
-    onUpdateProperty({
-      data: {
-        ...data,
-        action: 'update',
-      },
-      propertyId: data.id,
-    });
+    const { action: _, ...restData } = data;
+    onCreateProperty(restData);
   };
 
   if (isLoading) {

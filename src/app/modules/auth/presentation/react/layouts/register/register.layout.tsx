@@ -3,10 +3,10 @@ import { PATHNAME_ROUTES } from '@/modules/shared//presentation/react/constants/
 import { Link, useRouter } from '@tanstack/react-router';
 import type { JSX } from 'react';
 import { RegisterForm } from '../../components/register-form/register-form';
-import { useRegisterRequest } from '../../hooks/use-register-request/use-register-request';
+import { useRegister } from '../../hooks/use-register/use-register';
 
 export const RegisterLayout = (): JSX.Element => {
-  const { onRegister, isPending } = useRegisterRequest();
+  const { onRegister, isPending } = useRegister();
   const router = useRouter();
 
   const currentSearch = router.state.location.search as Record<string, unknown>;

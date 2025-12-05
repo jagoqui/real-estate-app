@@ -1,4 +1,4 @@
-import type { UpdateUserInput } from '@/modules/shared/domain/inputs/update-user.input';
+import type { UpdateUserInput } from '@/modules/shared/domain/inputs/user.input';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { USER_ROLES_DTO } from '../../dtos/role.dto';
 import type { UserPayloadDto, UserResponseDto } from '../../dtos/user.dto';
@@ -20,7 +20,7 @@ export const mapUserToPayloadDto = (user: UpdateUserInput): UserPayloadDto => ({
   id: user.id,
   email: user.email,
   name: user.name,
-  photoFile: user.photoFile,
+  photoFile: user.photoFile ?? undefined,
   role: user.role ? mapUserRoleToDto(user.role) : undefined,
   phoneNumber: user.phone,
   bio: user.bio,

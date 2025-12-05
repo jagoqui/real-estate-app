@@ -1,7 +1,8 @@
 export const PROPERTY_STATUSES = {
-  AVAILABLE: 'available',
-  SOLD: 'sold',
-  PENDING: 'pending',
-} as const satisfies Record<string, string>;
+  AVAILABLE: 'AVAILABLE',
+  SOLD: 'SOLD',
+  PENDING: 'PENDING',
+  UNKNOWN: 'UNKNOWN',
+} as const;
 
-export type PropertyStatutes = keyof typeof PROPERTY_STATUSES | (string & {});
+export type PropertyStatus = (typeof PROPERTY_STATUSES)[keyof typeof PROPERTY_STATUSES];

@@ -1,4 +1,4 @@
-import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/users/user.repository.impl';
+import { userRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/users/user.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
 type GetUserByIdRequestReturn = typeof userRepositoryImpl.getById;
@@ -15,7 +15,7 @@ interface UseGetUserByIdReturn {
 }
 
 export const useGetUserById = (userId: OnGetUserByIdArgs): UseGetUserByIdReturn => {
-  const onGetUserById = userRepositoryImpl.getById.bind(null, userId);
+  const onGetUserById = (): Promise<GetUserByIdRequestReturnValue> => userRepositoryImpl.getById(userId);
 
   const { isPending, error, data } = useQuery<GetUserByIdRequestReturnValue, Error>({
     queryKey: ['get-user-by-id', userId],

@@ -3,9 +3,9 @@ import { Table, TableBody } from '@/components/ui/table';
 import { PropertyHeader } from '@/modules/admin//presentation/react/components/property-list/property-header';
 import { PropertyTableHeader } from '@/modules/admin//presentation/react/components/property-list/property-table-header';
 import { PropertyTableRow } from '@/modules/admin//presentation/react/components/property-list/property-table-row';
-import { useDeletePropertyRequest } from '@/modules/shared//presentation/react/hooks/property/use-delete-property-request/use-delete-property-request';
-import { useGetPropertiesRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-properties-request/use-get-properties-request';
 import type { Property } from '@/modules/shared/domain/models/property.model';
+import { useDeleteProperty } from '@/modules/shared/presentation/react/hooks/property/use-delete-property/use-delete-property';
+import { useGetProperties } from '@/modules/shared/presentation/react/hooks/property/use-get-properties/use-get-properties';
 
 import React, { useState } from 'react';
 
@@ -33,13 +33,13 @@ export const PropertyList = React.memo(({ onEdit }: PropertyListProps) => {
     isPending: isLoadingProperties,
     error: propertiesError,
     data: properties,
-  } = useGetPropertiesRequest();
+  } = useGetProperties();
 
   const {
     onDeleteProperty,
     isPending: isDeletingProperty,
     error: deleteError,
-  } = useDeletePropertyRequest({
+  } = useDeleteProperty({
     onSuccess: onGetProperties,
   });
 

@@ -3,8 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import type { PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import type { Amenity } from '@/modules/shared/domain/models/amenity.model';
-import type { PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
 import { X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -17,7 +17,7 @@ type AmenityFormProps = {
 
 // eslint-disable-next-line max-lines-per-function
 export const AmenityForm = ({ onValidationChange, ...props }: AmenityFormProps): React.ReactElement => {
-  const { control, setValue } = useFormContext<PropertyFormValues>();
+  const { control, setValue } = useFormContext<PropertyCommand>();
   const amenities = useWatch({ control, name: 'amenities', defaultValue: [] });
 
   const [currentName, setCurrentName] = useState('');

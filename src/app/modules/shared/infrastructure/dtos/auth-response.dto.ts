@@ -1,6 +1,7 @@
-import type { TokenDto } from './token.dto';
 import type { UserResponseDto } from './user.dto';
 
-export interface AuthResponseDto extends TokenDto {
+export interface AuthResponseDto {
+  accessToken: string;
+  refreshToken: string;
   user: UserResponseDto;
 }

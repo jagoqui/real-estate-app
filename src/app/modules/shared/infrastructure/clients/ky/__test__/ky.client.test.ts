@@ -1,6 +1,6 @@
-import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
+import { AUTH_RESPONSE_MOCK } from '@/data/mocks/auth-response/auth-response.mock';
 import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
-import ky, { type NormalizedOptions, type Options } from 'ky';
+import ky, { type AfterResponseState, type BeforeRequestState, type NormalizedOptions, type Options } from 'ky';
 import type { MockedFunction } from 'vitest';
 
 vi.mock('ky', () => {
@@ -63,7 +63,7 @@ describe('API Configuration', () => {
       },
     } as unknown as Request;
 
-    await beforeRequestHook!(mockRequest, {} as NormalizedOptions);
+    await beforeRequestHook!(mockRequest, {} as NormalizedOptions, {} as BeforeRequestState);
 
     expect(authTokenRepoGetSpy).toHaveBeenCalledTimes(1);
 
@@ -83,7 +83,7 @@ describe('API Configuration', () => {
       },
     } as unknown as Request;
 
-    await beforeRequestHook!(mockRequest, {} as NormalizedOptions);
+    await beforeRequestHook!(mockRequest, {} as NormalizedOptions, {} as BeforeRequestState);
 
     expect(authTokenRepoGetSpy).toHaveBeenCalledTimes(1);
 
@@ -100,7 +100,7 @@ describe('API Configuration', () => {
     } as Response;
 
     expect(() => {
-      void afterResponseHook!(new Request('test'), {} as NormalizedOptions, mockResponse);
+      void afterResponseHook!(new Request('test'), {} as NormalizedOptions, mockResponse, {} as AfterResponseState);
     }).toThrow('Unauthorized. Please try reloading the site.');
 
     expect(authTokenRepoRemoveSpy).toHaveBeenCalledTimes(1);
@@ -115,7 +115,12 @@ describe('API Configuration', () => {
       statusText: 'OK',
     } as Response;
 
-    const result = afterResponseHook!(new Request('https://test.com'), {} as NormalizedOptions, mockResponse);
+    const result = afterResponseHook!(
+      new Request('https://test.com'),
+      {} as NormalizedOptions,
+      mockResponse,
+      {} as AfterResponseState
+    );
 
     expect(result).toBe(mockResponse);
 

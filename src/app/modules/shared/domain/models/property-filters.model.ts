@@ -1,5 +1,5 @@
-import type { PropertyStatutes } from './property-statutes.model';
-import type { PropertyTypes } from './property-types.model';
+import type { PropertyStatus } from './property-statutes.model';
+import type { PropertyType } from './property-types.model';
 
 export interface PropertyFilters {
   name?: string;
@@ -15,6 +15,6 @@ export interface PropertyFilters {
   maxArea?: number;
   minYear?: number;
   maxYear?: number;
-  type?: PropertyTypes;
-  status?: PropertyStatutes;
+  type?: PropertyType;
+  status?: PropertyStatus;
 }

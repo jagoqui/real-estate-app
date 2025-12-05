@@ -1,7 +1,7 @@
 import type { Amenity } from './amenity.model';
 import type { Location } from './location.model';
-import type { PropertyStatutes } from './property-statutes.model';
-import type { PropertyTypes } from './property-types.model';
+import type { PropertyStatus } from './property-statutes.model';
+import type { PropertyType } from './property-types.model';
 
 export interface Property {
   id: string;
@@ -24,8 +24,8 @@ export interface Property {
   coverImage?: string;
   views360Url: Array<string>;
   ownerId: string;
-  status: PropertyStatutes;
-  type: PropertyTypes;
+  status: PropertyStatus;
+  type: PropertyType;
   featured: boolean;
   createdAt: string;
   updatedAt: string;

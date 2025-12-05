@@ -1,6 +1,9 @@
 import React from 'react';
-import { ImageDisplayArea, ImageLoadingState, ImageManagerHeader, ImageUploadArea } from './components';
 import { CoverImageSection } from './components/cover-image-section';
+import { ImageDisplayArea } from './components/image-display-area';
+import { ImageLoadingState } from './components/image-loading-state';
+import { ImageManagerHeader } from './components/image-manager-header';
+import { ImageUploadArea } from './components/image-upload-area';
 import { useImageManager } from './hooks/use-image-manager';
 
 // Constants

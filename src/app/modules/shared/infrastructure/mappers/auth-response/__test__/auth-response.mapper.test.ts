@@ -1,5 +1,5 @@
-import { AUTH_RESPONSE_MOCK } from '@/data/mocks/authResponse/authResponse.mock';
-import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/authResponse/authResponseDto.mock';
+import { AUTH_RESPONSE_DTO_MOCK } from '@/data/mocks/auth-response/auth-response-dto.mock';
+import { AUTH_RESPONSE_MOCK } from '@/data/mocks/auth-response/auth-response.mock';
 import { TOKEN_MOCK } from '@/data/mocks/token/token.mock';
 import { USER_MOCK } from '@/data/mocks/users/user.mock';
 import * as tokenMapperModule from '../../token/token.mapper';

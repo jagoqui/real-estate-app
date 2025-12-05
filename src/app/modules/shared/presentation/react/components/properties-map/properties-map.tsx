@@ -3,15 +3,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
-import { useGetPropertiesRequest } from '../../hooks/property/use-get-properties-request/use-get-properties-request';
-import {
-  FilterToggleButton,
-  FiltersPanel,
-  MapEmptyState,
-  MapErrorState,
-  MapLoadingState,
-  PropertyPopupContent,
-} from './components';
+import { useGetProperties } from '../../hooks/property/use-get-properties/use-get-properties';
+import { FilterToggleButton } from './components/filter-toggle-button';
+import { FiltersPanel } from './components/filters-panel';
+import { MapEmptyState, MapErrorState, MapLoadingState } from './components/map-states';
+import { PropertyPopupContent } from './components/property-popup-content';
 import { createPropertyMarker } from './utils/create-property-marker';
 
 // Constants
@@ -52,7 +48,7 @@ interface PropertyFilters {
 }
 
 export const PropertiesMap = (): React.ReactElement => {
-  const { data, isPending, error } = useGetPropertiesRequest();
+  const { data, isPending, error } = useGetProperties();
   const [filters, setFilters] = useState<PropertyFilters>({
     search: '',
     priceRange: [0, DEFAULT_MAX_PRICE],

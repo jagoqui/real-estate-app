@@ -3,8 +3,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 import { UserProfileMenu } from '@/modules/shared//presentation/react/components/user-profile-menu/user-profile-menu';
 import { Menu } from 'lucide-react';
-import { AdminSidebarContent } from '../../components/admin-sidebar-Content/admin-sidebar-content';
-import { PanelBodyContainer } from '../panel-dody/panel-body.container';
+import { AdminSidebarContent } from '../../components/admin-sidebar-content/admin-sidebar-content';
+import { PanelBodyContainer } from '../panel-body/panel-body.container';
 
 interface SidebarContentProps {
   mobileMenuOpen: boolean;

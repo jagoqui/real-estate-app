@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ConfirmAlert } from '@/modules/shared//presentation/react/components/confirm-alert/confirm-alert';
-import { useDeleteOwnerRequest } from '@/modules/shared//presentation/react/hooks/owner/use-delete-owner-request/use-delete-owner-request';
-import { useGetOwnersRequest } from '@/modules/shared//presentation/react/hooks/owner/use-get-owners-request/use-get-owners-request';
 import type { Owner } from '@/modules/shared/domain/models/owner.model';
+import { useDeleteOwner } from '@/modules/shared/presentation/react/hooks/owners/use-delete-owner/use-delete-owner';
+import { useGetOwners } from '@/modules/shared/presentation/react/hooks/owners/use-get-owners/use-get-owners';
 import { Home, Mail, Pencil, Phone, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { OwnerManagementDialog } from '../../components/owner-management-Dialog/owner-management-dialog';
+import { OwnerManagementDialog } from '../../components/owner-management-dialog/owner-management-dialog';
 
 // eslint-disable-next-line max-lines-per-function
 export const OwnersManagementLayout = (): React.ReactElement => {
@@ -17,14 +17,14 @@ export const OwnersManagementLayout = (): React.ReactElement => {
   const [editingOwner, setEditingOwner] = useState<Owner | null>(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const { onGetOwners, isPending: isPendingOwners, error: ownersError, data: owners } = useGetOwnersRequest();
+  const { onRefetchGetOwners, isPending: isPendingOwners, error: ownersError, data: owners } = useGetOwners();
 
   const {
     onDeleteOwner,
     isPending: isPendingDelete,
     error: deleteError,
-  } = useDeleteOwnerRequest({
-    onSuccess: () => void onGetOwners(),
+  } = useDeleteOwner({
+    onSuccess: () => void onRefetchGetOwners(),
   });
 
   const isLoading = isPendingOwners || isPendingDelete;
@@ -52,9 +52,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
 
   const onConfirmDelete = (): void => {
     if (deletingId) {
-      void onDeleteOwner({
-        id: deletingId,
-      });
+      void onDeleteOwner(deletingId);
     }
   };
 
@@ -86,7 +84,7 @@ export const OwnersManagementLayout = (): React.ReactElement => {
           key={editingOwner ? editingOwner.id : 'new-owner'}
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
-          onGetOwners={() => onGetOwners.bind(null)}
+          onGetOwners={() => void onRefetchGetOwners()}
           editingOwner={editingOwner}
           setEditingOwner={setEditingOwner}
         />

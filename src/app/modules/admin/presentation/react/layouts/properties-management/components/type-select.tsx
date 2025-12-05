@@ -1,14 +1,14 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGetPropertiesTypesRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-properties-types-Request/use-get-properties-types-Request';
-import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
-import { PROPERTIES_TYPES } from '@/modules/shared/domain/models/property-types.model';
+import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
+import { PROPERTY_TYPES } from '@/modules/shared/domain/models/property-types.model';
+import { useGetPropertiesTypes } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-types/use-get-properties-types';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { type Control } from 'react-hook-form';
 
 interface TypeSelectProps {
-  control: Control<PropertyFormValues>;
+  control: Control<PropertyCommand>;
 }
 
 const TypeNotFoundWarning = React.memo(() => (
@@ -26,7 +26,7 @@ const TypeNotFoundWarning = React.memo(() => (
 TypeNotFoundWarning.displayName = 'TypeNotFoundWarning';
 
 export const TypeSelect = React.memo(({ control }: TypeSelectProps) => {
-  const { data: availableTypes, isPending, error } = useGetPropertiesTypesRequest();
+  const { data: availableTypes, isPending, error } = useGetPropertiesTypes();
 
   if (isPending) {
     return (
@@ -65,7 +65,7 @@ export const TypeSelect = React.memo(({ control }: TypeSelectProps) => {
               </FormControl>
               <SelectContent>
                 {availableTypes.map(type => {
-                  const displayName = PROPERTIES_TYPES[type as keyof typeof PROPERTIES_TYPES] ?? type;
+                  const displayName = PROPERTY_TYPES[type as keyof typeof PROPERTY_TYPES] ?? type;
                   return (
                     <SelectItem key={type} value={type}>
                       {displayName.charAt(0).toUpperCase() + displayName.slice(1)}

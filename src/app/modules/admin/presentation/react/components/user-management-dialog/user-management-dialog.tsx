@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useCreateUser } from '@/modules/shared//presentation/react/hooks/users/use-create-user/use-create-user';
 import { useUpdateUser } from '@/modules/shared//presentation/react/hooks/users/use-update-user/use-update-user';
-import type { CreateUserInput } from '@/modules/shared/domain/inputs/create-user.input';
+import type { CreateUserInput } from '@/modules/shared/domain/inputs/user.input';
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { Camera, Loader2, Plus } from 'lucide-react';
@@ -28,7 +28,7 @@ const DEFAULT_CREATE_USER: CreateUserInput = {
   password: 'DefaultPassword123!',
 };
 
-// eslint-disable-next-line max-lines-per-function, complexity
+// eslint-disable-next-line max-lines-per-function
 export const UserManagementDialog = ({
   isDialogOpen,
   editingUser,
@@ -36,6 +36,7 @@ export const UserManagementDialog = ({
   setEditingUser,
   onRefetchUsers,
   getInitials,
+  // eslint-disable-next-line complexity
 }: UserManagementDialogProps): React.ReactElement => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

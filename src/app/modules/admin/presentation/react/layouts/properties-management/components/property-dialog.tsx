@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { type PropertyFormValues } from '@/modules/shared/domain/models/property-form.model';
+import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
 import type { Property } from '@/modules/shared/domain/models/property.model';
 import { Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -81,7 +81,7 @@ interface PropertyDialogContentProps {
 }
 
 const PropertyDialogContent = React.memo(({ editingProperty, onReset, onSavingChange }: PropertyDialogContentProps) => {
-  const [defaultValues, setDefaultValues] = useState<PropertyFormValues | undefined>(undefined);
+  const [defaultValues, setDefaultValues] = useState<PropertyCommand | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(!!editingProperty);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 

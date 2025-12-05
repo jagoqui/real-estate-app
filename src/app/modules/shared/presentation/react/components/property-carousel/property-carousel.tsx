@@ -5,13 +5,13 @@ import { Link } from '@tanstack/react-router';
 import { Bath, Bed, ChevronLeft, ChevronRight, Mail, MapPin, Maximize } from 'lucide-react';
 import { useState } from 'react';
 import { PATHNAME_ROUTES } from '../../constants/main.constants';
-import { useGetPropertiesRequest } from '../../hooks/property/use-get-properties-request/use-get-properties-request';
+import { useGetProperties } from '../../hooks/property/use-get-properties/use-get-properties';
 
 // eslint-disable-next-line max-lines-per-function
 export const PropertyCarousel = (): React.ReactElement => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { isPending, error, data } = useGetPropertiesRequest({
+  const { isPending, error, data } = useGetProperties({
     filterByFeatured: true,
   });
 

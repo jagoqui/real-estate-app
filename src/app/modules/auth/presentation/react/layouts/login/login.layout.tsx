@@ -4,7 +4,7 @@ import { Link, useRouter } from '@tanstack/react-router';
 import { type ReactElement } from 'react';
 import { LoginWithEmailAndPasswordForm } from '../../components/login-form/login-form';
 import { LoginWithGoogle } from '../../components/login-with-google/login-with-google';
-import { useLoginWithEmailAndPasswordRequest } from '../../hooks/use-login-with-email-and-password-request/use-login-with-email-and-password-request';
+import { useLoginWithEmailAndPassword } from '../../hooks/use-login-with-email-and-password/use-login-with-email-and-password';
 import { useLoginWithGoogleRequest } from '../../hooks/use-login-with-google/use-login-with-google';
 
 export const LoginLayout = (): ReactElement => {
@@ -12,7 +12,7 @@ export const LoginLayout = (): ReactElement => {
     onLoginWithEmailAndPassword,
     isPending: isLoginEmailAndPasswordPending,
     error: emailError,
-  } = useLoginWithEmailAndPasswordRequest();
+  } = useLoginWithEmailAndPassword();
   const router = useRouter();
   const currentSearch = router.state.location.search as Record<string, unknown>;
 

@@ -1,14 +1,45 @@
 // @ts-check
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
+import checkFile from 'eslint-plugin-check-file';
 import eslintPluginPath from 'eslint-plugin-path';
 import importPrettier from 'eslint-plugin-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
-import hexagonalPlugin from '../../tools/eslint-plugin-hexagonal/index.mjs';
+import hexagonalPlugin from '../../tools/eslint-plugin-hexagonal/clean-architecture-rules.mjs';
 
 export default defineConfig([
+  {
+    plugins: { 'check-file': checkFile },
+    rules: {
+      'check-file/no-index': [
+        'error',
+        {
+          ignoreMiddleExtensions: true,
+        },
+      ],
+      'check-file/folder-match-with-fex': [
+        'error',
+        {
+          '*.test.{js,jsx,ts,tsx}': '**/__test?(s)__/',
+        },
+      ],
+      'check-file/filename-naming-convention': [
+        'error',
+        {
+          'src/**/!(__test?(s)__)/': 'KEBAB_CASE',
+        },
+        { ignoreMiddleExtensions: true },
+      ],
+      'check-file/folder-naming-convention': [
+        'error',
+        {
+          'src/**/!(__test?(s)__)/': 'KEBAB_CASE',
+        },
+      ],
+    },
+  },
   {
     files: ['src/**/*.ts*'],
     extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked, prettier],

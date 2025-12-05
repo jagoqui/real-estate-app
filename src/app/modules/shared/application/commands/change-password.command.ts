@@ -1,3 +1,3 @@
-import type { ChangePasswordInput } from '../../domain/inputs/change-password.input';
+import type { ChangePasswordInput } from '../../domain/inputs/user.input';
 
 export type ChangePasswordCommand = ChangePasswordInput;

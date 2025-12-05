@@ -1,5 +1,5 @@
-import { useGetPropertiesRequest } from '@/modules/shared//presentation/react/hooks/property/use-get-properties-request/use-get-properties-request';
 import type { Property } from '@/modules/shared/domain/models/property.model';
+import { useGetProperties } from '@/modules/shared/presentation/react/hooks/property/use-get-properties/use-get-properties';
 import { useState } from 'react';
 
 export const useProperties = (): {
@@ -12,7 +12,7 @@ export const useProperties = (): {
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { onGetProperties } = useGetPropertiesRequest();
+  const { onGetProperties } = useGetProperties();
 
   const handleEdit = (property: Property): void => {
     setEditingProperty(property);
