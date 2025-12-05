@@ -28,7 +28,7 @@ const DEFAULT_CREATE_USER: CreateUserInput = {
   password: 'DefaultPassword123!',
 };
 
-// eslint-disable-next-line max-lines-per-function, complexity
+// eslint-disable-next-line max-lines-per-function
 export const UserManagementDialog = ({
   isDialogOpen,
   editingUser,
@@ -36,6 +36,7 @@ export const UserManagementDialog = ({
   setEditingUser,
   onRefetchUsers,
   getInitials,
+  // eslint-disable-next-line complexity
 }: UserManagementDialogProps): React.ReactElement => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

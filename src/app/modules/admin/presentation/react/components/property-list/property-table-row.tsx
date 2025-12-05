@@ -9,7 +9,7 @@ import { LocationPreview } from '../location-preview/location-preview';
 import { PropertyAmenities } from './components/property-amenities';
 import { PropertyDetails } from './components/property-details';
 import { PropertyFeatures } from './components/property-features';
-import { PropertyStatus } from './components/property-status';
+import { PropertyStatusContainer } from './components/property-status';
 
 interface PropertyTableRowProps {
   property: Property;
@@ -94,7 +94,7 @@ export const PropertyTableRow = ({
             </div>
             <div className="w-[120px] flex-shrink-0 px-4 py-3 overflow-hidden text-ellipsis">{property.ownerId}</div>
             <div className="w-[100px] flex-shrink-0 px-4 py-3">
-              <PropertyStatus status={property.status} />
+              <PropertyStatusContainer status={property.status} />
             </div>
           </div>
         </TableCell>

@@ -1,5 +1,5 @@
-import { OWNER_MOCK } from '@/data/__mocks__/owners/owner.mock';
-import { OWNER_DTO_MOCK } from '@/data/__mocks__/owners/ownerDto.mock';
+import { OWNER_MOCK } from '@/data/mocks/owners/owner.mock';
+import { OWNER_DTO_MOCK } from '@/data/mocks/owners/ownerDto.mock';
 import { mapOwnerToDto, mapOwnerToModel } from '../owner.mapper';
 
 describe('mapOwner', () => {

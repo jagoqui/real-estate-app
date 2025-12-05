@@ -1,4 +1,4 @@
-import { CHANGE_PASSWORD_INPUT_MOCK } from '@/data/__mocks__/users/change-password-Input.mock';
+import { CHANGE_PASSWORD_INPUT_MOCK } from '@/data/mocks/users/change-password-Input.mock';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';
 import { changeUserPasswordAction } from '../change-user-password.action';

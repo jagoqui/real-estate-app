@@ -2,20 +2,20 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { type RegisterFormValues } from '@/modules/auth/domain/models/register-form-values.model';
 import { registerFormValuesSchema } from '@/modules/auth/infrastructure/schemas/register-form-values.schema';
+import type { RegisterCommand } from '@/modules/shared/application/commands/register.command';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
 interface RegisterFormProps {
-  onSubmit: SubmitHandler<RegisterFormValues>;
+  onSubmit: SubmitHandler<RegisterCommand>;
   isPending: boolean;
 }
 
 export const RegisterForm = ({ onSubmit, isPending }: RegisterFormProps): JSX.Element => {
-  const form = useForm<RegisterFormValues>({
+  const form = useForm<RegisterCommand>({
     resolver: zodResolver(registerFormValuesSchema),
   });
 
