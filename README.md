@@ -1,5 +1,7 @@
 # Real Estate App
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/jagoqui/real-estate-app)
+
 > 🏠 **Aplicación de gestión de propiedades raíz** diseñada como proyecto de demostración de buenas prácticas y arquitectura hexagonal en el desarrollo frontend.
 
 ## 📚 Documentación Completa
