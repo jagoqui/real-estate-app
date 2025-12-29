@@ -20,7 +20,7 @@ El **Módulo de Propietarios (Owners)** es el componente encargado de la gestió
 
 ### 📁 Estructura de Directorios
 
-```
+```bash
 src/app/modules/
 ├── admin//presentation/react/
 │   ├── containers/ownersManagement/
@@ -114,6 +114,7 @@ export interface OwnerDto {
 ### 1. 📝 **Gestión CRUD de Propietarios**
 
 #### ✅ Crear Propietario
+
 - **Endpoint**: `POST /owners`
 - **Campos requeridos**: `name`, `email`, `phone`, `address`
 - **Campos opcionales**: `birthday`, `photoUrl`
@@ -121,6 +122,7 @@ export interface OwnerDto {
 - **Hook**: `useCreateOwnerRequest`
 
 #### 📖 Listar Propietarios
+
 - **Endpoint**: `GET /owners`
 - **Respuesta**: Array de propietarios
 - **Hook**: `useGetOwnersRequest`
@@ -130,16 +132,19 @@ export interface OwnerDto {
   - Cache automático con TanStack Query
 
 #### 🔍 Obtener Propietario por ID
+
 - **Endpoint**: `GET /owners/:id`
 - **Hook**: `useGetOwnerByIdRequest`
 - **Uso**: Detalles específicos de un propietario
 
 #### 🔄 Actualizar Propietario
+
 - **Endpoint**: `PUT /owners/:id`
 - **Hook**: `useUpdateOwnerRequest`
 - **Funcionalidad**: Edición completa de datos
 
 #### 🗑️ Eliminar Propietario
+
 - **Endpoint**: `DELETE /owners/:id`
 - **Hook**: `useDeleteOwnerRequest`
 - **Confirmación**: Dialog de confirmación antes de eliminar
@@ -147,11 +152,13 @@ export interface OwnerDto {
 ### 2. 🔗 **Vinculación con Usuarios y Propiedades**
 
 #### 👤 Obtener Propietario por User ID
+
 - **Endpoint**: `GET /owners/user/:userId`
 - **Hook**: `useGetOwnerByUserIdRequest`
 - **Propósito**: Conectar usuarios del sistema con propietarios
 
 #### 🏠 Contar Propiedades por Propietario
+
 - **Endpoint**: `GET /owners/:ownerId/properties-count`
 - **Hook**: `useGetPropertiesCountByOwnerIdRequest`
 - **Retorna**: Número total de propiedades del propietario
@@ -168,6 +175,7 @@ const filteredOwners = owners.filter(owner =>
 ```
 
 **Campos de búsqueda**:
+
 - ✅ Nombre completo
 - ✅ Email
 - ✅ Teléfono
@@ -179,12 +187,14 @@ const filteredOwners = owners.filter(owner =>
 ### 1. 📊 **OwnersManagementLayout**
 
 **Características principales**:
+
 - **Dashboard de métricas**: Total de propietarios, propiedades, promedios
 - **Tabla de propietarios**: Lista completa con paginación
 - **Barra de búsqueda**: Filtrado en tiempo real
 - **Acciones por fila**: Editar y eliminar
 
 **Métricas mostradas**:
+
 ```typescript
 // Métricas del Dashboard
 const metrics = {
@@ -197,6 +207,7 @@ const metrics = {
 ### 2. 📝 **OwnerManagementDialog**
 
 **Funcionalidades**:
+
 - **Modo Crear**: Formulario vacío para nuevo propietario
 - **Modo Editar**: Formulario precargado con datos existentes
 - **Validación en tiempo real**: TypeScript + Zod validation
@@ -204,6 +215,7 @@ const metrics = {
 - **Manejo de errores**: Display de errores de API
 
 **Campos del formulario**:
+
 ```typescript
 interface FormFields {
   name: string;        // Nombre completo (requerido)
@@ -217,6 +229,7 @@ interface FormFields {
 ### 3. 📋 **Tabla de Propietarios**
 
 **Columnas mostradas**:
+
 - **Nombre**: Nombre completo del propietario
 - **Contacto**: Email y teléfono con iconos
 - **Dirección**: Dirección completa o "N/A"
@@ -230,6 +243,7 @@ interface FormFields {
 ## 🎣 Hooks Personalizados
 
 ### 1. **useCreateOwnerRequest**
+
 ```typescript
 const { onCreateOwner, isPending, error, data } = useCreateOwnerRequest({
   onSuccess: () => console.log('Owner created successfully')
@@ -237,11 +251,13 @@ const { onCreateOwner, isPending, error, data } = useCreateOwnerRequest({
 ```
 
 ### 2. **useGetOwnersRequest**
+
 ```typescript
 const { onGetOwners, isPending, error, data: owners } = useGetOwnersRequest();
 ```
 
 ### 3. **useUpdateOwnerRequest**
+
 ```typescript
 const { onUpdateOwner, isPending, error } = useUpdateOwnerRequest({
   onSuccess: () => onGetOwners()
@@ -249,6 +265,7 @@ const { onUpdateOwner, isPending, error } = useUpdateOwnerRequest({
 ```
 
 ### 4. **useDeleteOwnerRequest**
+
 ```typescript
 const { onDeleteOwner, isPending, error } = useDeleteOwnerRequest({
   onSuccess: () => onGetOwners()
@@ -256,16 +273,19 @@ const { onDeleteOwner, isPending, error } = useDeleteOwnerRequest({
 ```
 
 ### 5. **useGetOwnerByIdRequest**
+
 ```typescript
 const { isPending, error, data: owner } = useGetOwnerByIdRequest(ownerId);
 ```
 
 ### 6. **useGetOwnerByUserIdRequest**
+
 ```typescript
 const { isPending, error, data: owners } = useGetOwnerByUserIdRequest(userId);
 ```
 
 ### 7. **useGetPropertiesCountByOwnerIdRequest**
+
 ```typescript
 const { isPending, error, data: count } = useGetPropertiesCountByOwnerIdRequest(ownerId);
 ```
@@ -275,6 +295,7 @@ const { isPending, error, data: count } = useGetPropertiesCountByOwnerIdRequest(
 ## 🔄 Adapters y Transformaciones
 
 ### 📤 Owner Adapter (Domain → DTO)
+
 ```typescript
 export const ownerAdapter = (owner: Owner): OwnerDto => ({
   idOwner: owner.id,
@@ -290,6 +311,7 @@ export const ownerAdapter = (owner: Owner): OwnerDto => ({
 ```
 
 ### 📥 Owner DTO Adapter (DTO → Domain)
+
 ```typescript
 export const ownerDtoAdapter = (ownerDTO: OwnerDto): Owner => ({
   id: ownerDTO.idOwner,     // Transformación: idOwner → id
@@ -308,15 +330,15 @@ export const ownerDtoAdapter = (ownerDTO: OwnerDto): Owner => ({
 
 ## 🌐 Endpoints API
 
-| Método | Endpoint | Descripción | Hook |
-|--------|----------|-------------|------|
-| `POST` | `/owners` | Crear propietario | `useCreateOwnerRequest` |
-| `GET` | `/owners` | Listar propietarios | `useGetOwnersRequest` |
-| `GET` | `/owners/:id` | Obtener por ID | `useGetOwnerByIdRequest` |
-| `GET` | `/owners/user/:userId` | Obtener por User ID | `useGetOwnerByUserIdRequest` |
-| `GET` | `/owners/:ownerId/properties-count` | Contar propiedades | `useGetPropertiesCountByOwnerIdRequest` |
-| `PUT` | `/owners/:id` | Actualizar propietario | `useUpdateOwnerRequest` |
-| `DELETE` | `/owners/:id` | Eliminar propietario | `useDeleteOwnerRequest` |
+| Método   | Endpoint                             | Descripción            | Hook                                    |
+| -------- | ------------------------------------ | ---------------------- | --------------------------------------- |
+| `POST`   | `/owners`                            | Crear propietario      | `useCreateOwnerRequest`                 |
+| `GET`    | `/owners`                            | Listar propietarios    | `useGetOwnersRequest`                   |
+| `GET`    | `/owners/:id`                        | Obtener por ID         | `useGetOwnerByIdRequest`                |
+| `GET`    | `/owners/user/:userId`               | Obtener por User ID    | `useGetOwnerByUserIdRequest`            |
+| `GET`    | `/owners/:ownerId/properties-count`  | Contar propiedades     | `useGetPropertiesCountByOwnerIdRequest` |
+| `PUT`    | `/owners/:id`                        | Actualizar propietario | `useUpdateOwnerRequest`                 |
+| `DELETE` | `/owners/:id`                        | Eliminar propietario   | `useDeleteOwnerRequest`                 |
 
 ---
 
@@ -363,16 +385,19 @@ toast.error('Create owner failed. Please try again.', {
 ## 🔗 Relaciones con Otros Módulos
 
 ### 🏠 **Módulo de Properties**
+
 - **Vinculación**: Cada propiedad tiene un `ownerId`
 - **Display**: En Properties se muestra `ownerName`
 - **Conteo**: Endpoint para contar propiedades por propietario
 
 ### 👤 **Sistema de Usuarios**
+
 - **Conexión**: `userId` opcional en Owner schema
 - **Propósito**: Vincular propietarios con usuarios del sistema
 - **Endpoint**: `GET /owners/user/:userId`
 
 ### 🔐 **Control de Acceso**
+
 - **Rol requerido**: `ADMIN` para gestión de propietarios
 - **Ubicación**: Dentro del panel de administración
 - **Ruta**: `/admin/owners`
@@ -382,10 +407,12 @@ toast.error('Create owner failed. Please try again.', {
 ## 📈 Métricas y Analíticas
 
 ### 📊 Dashboard Metrics (Implementadas)
+
 - ✅ **Total Owners**: `owners.length`
 - ✅ **Búsqueda en tiempo real**: Filtrado por nombre, email, teléfono
 
 ### 📊 Métricas Pendientes
+
 - 🔄 **Total Properties**: Suma de propiedades de todos los propietarios
 - 🔄 **Average per Owner**: Promedio de propiedades por propietario
 - 🔄 **Propiedades por Owner**: Display individual en tabla
@@ -395,6 +422,7 @@ toast.error('Create owner failed. Please try again.', {
 ## 🛠️ Stack Tecnológico
 
 ### 🎨 **Frontend**
+
 - **React 19**: UI framework
 - **TypeScript**: Type safety
 - **TanStack Query**: State management y caching
@@ -404,11 +432,13 @@ toast.error('Create owner failed. Please try again.', {
 - **Lucide React**: Icons
 
 ### 🔧 **Validación y Tipos**
+
 - **Zod**: Schema validation
 - **TypeScript**: Type definitions
 - **Adapters**: Domain/DTO transformations
 
 ### 🌐 **HTTP Client**
+
 - **Ky**: HTTP requests
 - **Error handling**: Automatic error management
 - **Type safety**: Full TypeScript integration
@@ -418,6 +448,7 @@ toast.error('Create owner failed. Please try again.', {
 ## 🎯 Casos de Uso Principales
 
 ### 1. **Admin crea nuevo propietario**
+
 ```typescript
 // 1. Admin abre dialog de creación
 setIsDialogOpen(true);
@@ -434,6 +465,7 @@ onSuccess: () => {
 ```
 
 ### 2. **Admin busca propietario específico**
+
 ```typescript
 // 1. Admin escribe en barra de búsqueda
 setSearchTerm("john@email.com");
@@ -445,6 +477,7 @@ const filteredOwners = owners.filter(/* filtros por nombre, email, teléfono */)
 ```
 
 ### 3. **Admin edita información de propietario**
+
 ```typescript
 // 1. Admin hace clic en botón editar
 handleEdit(owner);
@@ -458,6 +491,7 @@ onUpdateOwner({ ...editingOwner, ...formData });
 ```
 
 ### 4. **Sistema cuenta propiedades por propietario**
+
 ```typescript
 // Hook para obtener conteo
 const { data: count } = useGetPropertiesCountByOwnerIdRequest(owner.id);
@@ -471,6 +505,7 @@ const { data: count } = useGetPropertiesCountByOwnerIdRequest(owner.id);
 ## 🚀 Mejoras Futuras
 
 ### 📋 **Funcionalidades Pendientes**
+
 - [ ] **Implementar conteo real de propiedades** en dashboard
 - [ ] **Upload de fotos de perfil** para propietarios  
 - [ ] **Filtros avanzados** (fecha de registro, rango de propiedades)
@@ -478,12 +513,14 @@ const { data: count } = useGetPropertiesCountByOwnerIdRequest(owner.id);
 - [ ] **Historial de cambios** (audit trail)
 
 ### 🎨 **Mejoras de UI/UX**
+
 - [ ] **Paginación** para listas grandes
 - [ ] **Ordenamiento de columnas** en tabla
 - [ ] **Vista de detalles** expandida por propietario
 - [ ] **Bulk operations** (eliminar múltiples)
 
 ### 🔧 **Optimizaciones Técnicas**
+
 - [ ] **Implementar caching** más granular
 - [ ] **Lazy loading** de componentes
 - [ ] **Optimistic updates** en mutaciones
@@ -494,12 +531,14 @@ const { data: count } = useGetPropertiesCountByOwnerIdRequest(owner.id);
 ## 🧪 Testing
 
 ### 🧪 **Test Coverage**
+
 - ✅ **Mocks disponibles**: `OWNER_MOCK`, `OWNER_DTO_MOCK`
 - 🔄 **Unit tests**: Pendientes para hooks y componentes
 - 🔄 **Integration tests**: Pendientes para flujos completos
 - 🔄 **E2E tests**: Pendientes para casos de uso
 
 ### 📝 **Test Data**
+
 ```typescript
 // Mock data para testing
 export const OWNER_MOCK: Owner = {
