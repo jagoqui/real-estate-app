@@ -1,6 +1,7 @@
 import { AUTH_RESPONSE_STORAGE_KEY } from '@/modules/shared/domain/constants/local-storage-keys.constants';
 import type { Auth } from '../../domain/models/auth.model';
 import type { AuthTokenRepository } from '../../domain/repositories/auth-token.repository';
+import { authSchema } from '../schemas/auth.schema';
 
 /**
  * Implementation of the AuthTokenRepository interface for managing authentication tokens in localStorage.
@@ -35,7 +36,7 @@ export const authTokenRepositoryImpl: AuthTokenRepository = {
       const stored = localStorage.getItem(AUTH_RESPONSE_STORAGE_KEY);
       if (!stored) return null;
 
-      const parsed = JSON.parse(stored) as Auth;
+      const parsed = authSchema.parse(JSON.parse(stored));
 
       if (!parsed.accessToken || !parsed.refreshToken) {
         localStorage.removeItem(AUTH_RESPONSE_STORAGE_KEY);
