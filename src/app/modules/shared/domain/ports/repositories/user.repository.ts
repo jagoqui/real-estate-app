@@ -1,4 +1,4 @@
-import type { ChangePasswordCommand, CreateUserCommand, UpdateUserCommand } from '../../commands/user.command';
+import type { ChangePasswordCommand, CreateUserCommand, UpdateUserCommand } from '../../commands/user.commands';
 import type { User } from '../../models/user.model';
 
 export interface UserRepository {

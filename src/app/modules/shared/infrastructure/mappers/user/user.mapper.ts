@@ -1,4 +1,4 @@
-import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.command';
+import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.commands';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { USER_ROLES_DTO } from '../../dtos/role.dto';
 import type { UserPayloadDto, UserResponseDto } from '../../dtos/user.dto';

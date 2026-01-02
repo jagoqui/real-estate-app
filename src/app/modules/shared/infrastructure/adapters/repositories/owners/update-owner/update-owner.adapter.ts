@@ -1,4 +1,4 @@
-import type { UpdateOwnerCommand } from '@/modules/shared/domain/commands/owner.command';
+import type { UpdateOwnerCommand } from '@/modules/shared/domain/commands/owner.commands';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
 import type { Owner } from '@/modules/shared/domain/models/owner.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';

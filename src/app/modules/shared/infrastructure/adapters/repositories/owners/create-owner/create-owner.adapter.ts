@@ -1,4 +1,4 @@
-import type { CreateOwnerCommand } from '@/modules/shared/domain/commands/owner.command';
+import type { CreateOwnerCommand } from '@/modules/shared/domain/commands/owner.commands';
 import type { Owner } from '@/modules/shared/domain/models/owner.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { OWNER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/owner-endpoints.constants';

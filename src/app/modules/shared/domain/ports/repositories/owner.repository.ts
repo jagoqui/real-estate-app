@@ -1,4 +1,4 @@
-import type { CreateOwnerCommand, UpdateOwnerCommand } from '../../commands/owner.command';
+import type { CreateOwnerCommand, UpdateOwnerCommand } from '../../commands/owner.commands';
 import type { Owner } from '../../models/owner.model';
 
 export interface OwnerRepository {

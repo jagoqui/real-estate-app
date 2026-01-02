@@ -1,4 +1,4 @@
-import type { CreateUserCommand } from '@/modules/shared/domain/commands/user.command';
+import type { CreateUserCommand } from '@/modules/shared/domain/commands/user.commands';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';

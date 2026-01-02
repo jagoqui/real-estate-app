@@ -1,4 +1,4 @@
-import type { UpdatePropertyCommand } from '@/modules/shared/domain/commands/property.command';
+import type { UpdatePropertyCommand } from '@/modules/shared/domain/commands/property.commands';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
 import type { Property } from '@/modules/shared/domain/models/property.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';

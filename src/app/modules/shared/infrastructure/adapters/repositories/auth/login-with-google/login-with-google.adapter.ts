@@ -1,4 +1,4 @@
-import type { LoginWithGoogleCommand } from '@/modules/shared/domain/commands/auth.command';
+import type { LoginWithGoogleCommand } from '@/modules/shared/domain/commands/auth.commands';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import type { AuthResponseDto } from '@/modules/shared/infrastructure/dtos/auth-response.dto';

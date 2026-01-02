@@ -3,7 +3,7 @@ import type {
   LoginWithGoogleCommand,
   RefreshTokenCommand,
   RegisterCommand,
-} from '@/modules/shared/domain/commands/auth.command';
+} from '@/modules/shared/domain/commands/auth.commands';
 import type { Auth } from '../../models/auth.model';
 
 export interface AuthRepository {

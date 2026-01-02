@@ -1,4 +1,4 @@
-import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.command';
+import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.commands';
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 
 export const USER_COMMAND_MOCK: UpdateUserCommand = {

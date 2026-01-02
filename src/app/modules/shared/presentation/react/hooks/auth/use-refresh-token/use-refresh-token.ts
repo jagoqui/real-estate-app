@@ -1,4 +1,4 @@
-import type { RefreshTokenCommand } from '@/modules/shared/domain/commands/auth.command';
+import type { RefreshTokenCommand } from '@/modules/shared/domain/commands/auth.commands';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
 import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
 import { useMutation } from '@tanstack/react-query';

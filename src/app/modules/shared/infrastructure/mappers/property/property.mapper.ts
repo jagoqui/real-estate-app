@@ -1,4 +1,4 @@
-import type { CreatePropertyCommand } from '@/modules/shared/domain/commands/property.command';
+import type { CreatePropertyCommand } from '@/modules/shared/domain/commands/property.commands';
 import type { Property } from '@/modules/shared/domain/models/property.model';
 import type { CreatePropertyPayloadDto } from '../../dtos/create-property-payload.dto';
 import type { PropertyResponseDto } from '../../dtos/property-response.dto';

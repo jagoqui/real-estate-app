@@ -1,4 +1,4 @@
-import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.command';
+import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.commands';
 import { objectToFormDataHelper } from '@/modules/shared/domain/helpers/data-to-form-data/data-to-form-data.helper';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';

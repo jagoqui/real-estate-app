@@ -1,4 +1,4 @@
-import type { DeletePropertyCommand } from '@/modules/shared/domain/commands/property.command';
+import type { DeletePropertyCommand } from '@/modules/shared/domain/commands/property.commands';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { PROPERTY_ENDPOINTS } from '@/modules/shared/infrastructure/constants/property-endpoints.constants';
 

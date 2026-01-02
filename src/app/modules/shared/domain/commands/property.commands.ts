@@ -67,8 +67,6 @@ export interface GetPropertiesByOwnerIdCommand {
   ownerId: string;
 }
 
-export type GetPropertiesByFilterCommand = Record<string, string>;
-
 export interface DeletePropertyCommand {
   propertyId: string;
 }

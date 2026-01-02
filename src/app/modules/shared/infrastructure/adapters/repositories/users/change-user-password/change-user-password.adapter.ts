@@ -1,4 +1,4 @@
-import type { ChangePasswordCommand } from '@/modules/shared/domain/commands/user.command';
+import type { ChangePasswordCommand } from '@/modules/shared/domain/commands/user.commands';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';
 
