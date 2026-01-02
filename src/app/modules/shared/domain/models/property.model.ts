@@ -1,5 +1,5 @@
 import type { Amenity } from './amenity.model';
-import type { Location } from './location.model';
+import type { GeoCoordinates } from './geo-coordinates.model';
 import type { PropertyStatus } from './property-statutes.model';
 import type { PropertyType } from './property-types.model';
 
@@ -11,7 +11,7 @@ export interface Property {
   city: string;
   state: string;
   country: string;
-  location: Location;
+  location: GeoCoordinates;
   price: number;
   bedrooms: number;
   bathrooms: number;

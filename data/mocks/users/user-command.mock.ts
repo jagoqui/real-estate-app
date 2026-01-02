@@ -1,7 +1,7 @@
 import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.command';
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 
-export const USER_INPUT_MOCK: UpdateUserCommand = {
+export const USER_COMMAND_MOCK: UpdateUserCommand = {
   id: '64b64c8f8f8f8f8f8f8f8f8f',
   email: 'user@example.com',
   name: 'John Doe',

@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 
 // Import Leaflet CSS
-import type { Location } from '@/modules/shared/domain/models/location.model';
+import type { GeoCoordinates } from '@/modules/shared/domain/models/geo-coordinates.model';
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default markers in React Leaflet
@@ -23,14 +23,14 @@ L.Icon.Default.mergeOptions({
 });
 
 interface LocationPickerProps {
-  value?: Location;
-  onValueChange?: (location: Location | undefined) => void;
+  value?: GeoCoordinates;
+  onValueChange?: (location: GeoCoordinates | undefined) => void;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
 }
 
-interface NominatimResult extends Omit<Location, 'displayName'> {
+interface NominatimResult extends Omit<GeoCoordinates, 'displayName'> {
   place_id: string;
   osm_type: string;
   osm_id: string;
@@ -82,7 +82,7 @@ export const LocationPicker = ({
   const [suggestions, setSuggestions] = useState<Array<NominatimResult>>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<GeoCoordinates | null>(null);
   const [mapCenter, setMapCenter] = useState<[number, number]>([40.7128, -74.006]); // Default: NYC
   const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
@@ -99,7 +99,7 @@ export const LocationPicker = ({
         const data = (await response.json()) as NominatimResult;
 
         if (data?.display_name) {
-          const location: Location = {
+          const location: GeoCoordinates = {
             displayName: data.display_name,
             lat: lat.toString(),
             lon: lon.toString(),
@@ -187,7 +187,7 @@ export const LocationPicker = ({
   // Handle suggestion selection
   const handleSuggestionSelect = useCallback(
     (suggestion: NominatimResult): void => {
-      const location: Location = {
+      const location: GeoCoordinates = {
         displayName: suggestion.display_name,
         lat: suggestion.lat,
         lon: suggestion.lon,
@@ -275,7 +275,7 @@ export const LocationPicker = ({
       const data = (await response.json()) as NominatimResult;
 
       if (data?.display_name) {
-        const location: Location = {
+        const location: GeoCoordinates = {
           displayName: data.display_name,
           lat: lat.toString(),
           lon: lon.toString(),

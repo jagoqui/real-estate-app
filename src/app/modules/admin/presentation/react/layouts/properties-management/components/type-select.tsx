@@ -1,6 +1,6 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { type PropertyCommand2 } from '@/modules/shared/application/commands/property.command';
+import { type PropertyData } from '@/modules/shared/domain/data/property.data';
 import { PROPERTY_TYPES } from '@/modules/shared/domain/models/property-types.model';
 import { useGetPropertiesTypes } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-types/use-get-properties-types';
 import { AlertTriangle, Loader2 } from 'lucide-react';
@@ -8,7 +8,7 @@ import React from 'react';
 import { type Control } from 'react-hook-form';
 
 interface TypeSelectProps {
-  control: Control<PropertyCommand2>;
+  control: Control<PropertyData>;
 }
 
 const TypeNotFoundWarning = React.memo(() => (

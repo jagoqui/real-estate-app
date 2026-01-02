@@ -1,4 +1,4 @@
-import { CHANGE_PASSWORD_INPUT_MOCK } from '@/data/mocks/users/change-password-Input.mock';
+import { CHANGE_PASSWORD_COMMAND_MOCK } from '@/data/mocks/users/change-password-command.mock';
 import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
 import { USER_ENDPOINTS } from '@/modules/shared/infrastructure/constants/user-endpoints.constants';
 import { changeUserPasswordAdapter } from '../change-user-password.adapter';
@@ -15,13 +15,13 @@ describe('changeUserPasswordAdapter', () => {
   it('should call API.post with correct URL and payload', async () => {
     (api.post as ReturnType<typeof vi.fn>).mockResolvedValueOnce(undefined);
 
-    await changeUserPasswordAdapter(CHANGE_PASSWORD_INPUT_MOCK);
+    await changeUserPasswordAdapter(CHANGE_PASSWORD_COMMAND_MOCK);
 
     expect(api.post).toHaveBeenNthCalledWith(
       1,
-      `${USER_ENDPOINTS.BY_ID(CHANGE_PASSWORD_INPUT_MOCK.userId)}/change-password`,
+      `${USER_ENDPOINTS.BY_ID(CHANGE_PASSWORD_COMMAND_MOCK.userId)}/change-password`,
       {
-        json: { newPassword: CHANGE_PASSWORD_INPUT_MOCK.newPassword },
+        json: { newPassword: CHANGE_PASSWORD_COMMAND_MOCK.newPassword },
       }
     );
 
@@ -31,13 +31,13 @@ describe('changeUserPasswordAdapter', () => {
   it('should propagate error if API.post fails', async () => {
     (api.post as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('API Error'));
 
-    await expect(changeUserPasswordAdapter(CHANGE_PASSWORD_INPUT_MOCK)).rejects.toThrow('API Error');
+    await expect(changeUserPasswordAdapter(CHANGE_PASSWORD_COMMAND_MOCK)).rejects.toThrow('API Error');
   });
 
   it('should return void on success', async () => {
     (api.post as ReturnType<typeof vi.fn>).mockResolvedValueOnce(undefined);
 
-    const result = await changeUserPasswordAdapter(CHANGE_PASSWORD_INPUT_MOCK);
+    const result = await changeUserPasswordAdapter(CHANGE_PASSWORD_COMMAND_MOCK);
 
     expect(result).toBeUndefined();
   });

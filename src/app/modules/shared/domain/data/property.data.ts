@@ -2,9 +2,8 @@ import type { Amenity } from '../models/amenity.model';
 import type { GeoCoordinates } from '../models/geo-coordinates.model';
 import type { PropertyStatus } from '../models/property-statutes.model';
 import type { PropertyType } from '../models/property-types.model';
-import type { Property } from '../models/property.model';
 
-export interface CreatePropertyCommand {
+export interface CreatePropertyData {
   name: string;
   address: string;
   city: string;
@@ -26,9 +25,10 @@ export interface CreatePropertyCommand {
   featured: boolean;
   imagesFiles: Array<File>;
   coverImageFile: File;
+  action: 'create';
 }
 
-export interface UpdatePropertyCommand {
+export interface UpdatePropertyData {
   id: string;
   internalCode?: string;
   name: string;
@@ -52,23 +52,27 @@ export interface UpdatePropertyCommand {
   featured: boolean;
   imagesFiles: Array<File>;
   coverImageFile: File;
+  images: Array<string>;
+  coverImage?: string;
+  action: 'update';
 }
 
-export interface UpdatePropertyStatusCommand {
-  propertyId: string;
-  status: Property['status'];
-}
+export type PropertyData = CreatePropertyData | UpdatePropertyData;
 
-export interface GetPropertyByIdCommand {
-  propertyId: string;
-}
-
-export interface GetPropertiesByOwnerIdCommand {
-  ownerId: string;
-}
-
-export type GetPropertiesByFilterCommand = Record<string, string>;
-
-export interface DeletePropertyCommand {
-  propertyId: string;
+export interface GetPropertiesByFilterData {
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minBedrooms?: number;
+  maxBedrooms?: number;
+  minBathrooms?: number;
+  maxBathrooms?: number;
+  minArea?: number;
+  maxArea?: number;
+  minYear?: number;
+  maxYear?: number;
+  type?: string;
+  status?: string;
+  city?: string;
+  country?: string;
 }

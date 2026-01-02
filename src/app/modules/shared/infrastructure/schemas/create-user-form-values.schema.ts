@@ -1,5 +1,5 @@
 import z from 'zod';
-import type { CreateUserCommand2 } from '../../application/commands/create-user.command';
+import type { CreateUserData } from '../../domain/data/create-user.data';
 import { userRoleSchema } from './user-role.schema';
 
 const MIN_PASSWORD_LENGTH = 6;
@@ -14,4 +14,4 @@ export const createUserFormValuesSchema = z
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-  }) satisfies z.ZodType<CreateUserCommand2>;
+  }) satisfies z.ZodType<CreateUserData>;
