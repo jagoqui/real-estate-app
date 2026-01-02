@@ -1,18 +1,18 @@
-import type { CreatePropertyInput, UpdatePropertyInput } from '../../domain/inputs/property.input';
+import type { CreatePropertyCommand, UpdatePropertyCommand } from '../../domain/commands/property.command';
 
-export interface CreatePropertyCommand extends CreatePropertyInput {
+export interface CreatePropertyCommand2 extends CreatePropertyCommand {
   action: 'create';
 }
 
-export interface UpdatePropertyCommand extends UpdatePropertyInput {
+export interface UpdatePropertyCommand2 extends UpdatePropertyCommand {
   images: Array<string>;
   coverImage?: string;
   action: 'update';
 }
 
-export type PropertyCommand = CreatePropertyCommand | UpdatePropertyCommand;
+export type PropertyCommand2 = CreatePropertyCommand2 | UpdatePropertyCommand2;
 
-export interface GetPropertiesByFilterCommand {
+export interface GetPropertiesByFilterCommand2 {
   name?: string;
   minPrice?: number;
   maxPrice?: number;

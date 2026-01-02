@@ -1,5 +1,5 @@
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
-import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
 import { useEffect, useState } from 'react';
 
 interface UseAuthResponseStorageReturn {
@@ -11,22 +11,22 @@ export const useAuthResponseStorage = (): UseAuthResponseStorageReturn => {
   const [authResponse, setAuthResponse] = useState<Auth | null>(null);
 
   useEffect(() => {
-    const stored = authTokenRepositoryImpl.get();
+    const stored = tokenStorageRepositoryImpl.get();
     if (stored) {
       try {
         setAuthResponse(stored);
       } catch {
-        authTokenRepositoryImpl.remove();
+        tokenStorageRepositoryImpl.remove();
       }
     }
   }, []);
 
   useEffect(() => {
     if (authResponse) {
-      authTokenRepositoryImpl.save(authResponse);
+      tokenStorageRepositoryImpl.save(authResponse);
       return;
     }
-    authTokenRepositoryImpl.remove();
+    tokenStorageRepositoryImpl.remove();
   }, [authResponse]);
 
   return { authResponse, setAuthResponse };

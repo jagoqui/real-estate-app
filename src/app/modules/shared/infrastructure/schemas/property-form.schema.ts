@@ -1,8 +1,8 @@
 import z from 'zod';
 import type {
-  CreatePropertyCommand,
-  PropertyCommand,
-  UpdatePropertyCommand,
+  CreatePropertyCommand2,
+  PropertyCommand2,
+  UpdatePropertyCommand2,
 } from '../../application/commands/property.command';
 import { PROPERTY_RULES } from '../../domain/constants/property-validation.constants';
 import { amenitySchema } from './amenity.schema';
@@ -111,14 +111,14 @@ export const createPropertyFormSchema = propertySchema
   .extend({
     action: z.literal('create'),
     ...filesUploadSchema.shape,
-  }) satisfies z.ZodType<CreatePropertyCommand>;
+  }) satisfies z.ZodType<CreatePropertyCommand2>;
 
 export const updatePropertyFormSchema = propertySchema.extend({
   action: z.literal('update'),
   ...filesUploadSchema.shape,
-}) satisfies z.ZodType<UpdatePropertyCommand>;
+}) satisfies z.ZodType<UpdatePropertyCommand2>;
 
 export const _propertyFormValuesSchema = z.discriminatedUnion('action', [
   createPropertyFormSchema,
   updatePropertyFormSchema,
-]) satisfies z.ZodType<PropertyCommand>;
+]) satisfies z.ZodType<PropertyCommand2>;

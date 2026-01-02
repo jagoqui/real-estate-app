@@ -3,19 +3,19 @@ import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { registerFormValuesSchema } from '@/modules/auth/infrastructure/schemas/register-form-values.schema';
-import type { RegisterCommand } from '@/modules/shared/application/commands/register.command';
+import type { RegisterCommand2 } from '@/modules/shared/application/commands/register.command';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
 interface RegisterFormProps {
-  onSubmit: SubmitHandler<RegisterCommand>;
+  onSubmit: SubmitHandler<RegisterCommand2>;
   isPending: boolean;
 }
 
 export const RegisterForm = ({ onSubmit, isPending }: RegisterFormProps): JSX.Element => {
-  const form = useForm<RegisterCommand>({
+  const form = useForm<RegisterCommand2>({
     resolver: zodResolver(registerFormValuesSchema),
   });
 

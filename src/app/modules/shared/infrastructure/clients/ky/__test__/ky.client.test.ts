@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/auth-response/auth-response.mock';
-import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
 import ky, { type AfterResponseState, type BeforeRequestState, type NormalizedOptions, type Options } from 'ky';
 import type { MockedFunction } from 'vitest';
 
@@ -17,9 +17,9 @@ const setup = async (): Promise<unknown> => await import('../ky.client');
 let mockKyCreate: MockedFunction<typeof ky.create>;
 let capturedConfig: Options | undefined;
 
-const authTokenRepoGetSpy = vi.spyOn(authTokenRepositoryImpl, 'get');
+const authTokenRepoGetSpy = vi.spyOn(tokenStorageRepositoryImpl, 'get');
 // Opcional: Si quieres testear el logout en el afterResponse, espía remove también
-const authTokenRepoRemoveSpy = vi.spyOn(authTokenRepositoryImpl, 'remove');
+const authTokenRepoRemoveSpy = vi.spyOn(tokenStorageRepositoryImpl, 'remove');
 
 describe('API Configuration', () => {
   beforeAll(async () => {

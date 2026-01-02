@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
-import type { GetPropertiesByFilterCommand } from '@/modules/shared/application/commands/property.command';
+import type { GetPropertiesByFilterCommand2 } from '@/modules/shared/application/commands/property.command';
 import { removeNullishOrUndefinedProperties } from '@/modules/shared/domain/helpers/objects/objects.helper';
 import type { Property } from '@/modules/shared/domain/models/property.model';
 import { useGetPropertiesByFilter } from '@/modules/shared/presentation/react/hooks/property/use-get-properties-by-filter/use-get-properties-by-filter';
@@ -64,7 +64,7 @@ export const PropertySearch = ({
   const { data: availableTypes } = useGetPropertiesTypes();
   const { data: availableStatuses } = useGetPropertiesStatuses();
 
-  const filters: GetPropertiesByFilterCommand = useMemo(
+  const filters: GetPropertiesByFilterCommand2 = useMemo(
     () => ({
       name: debouncedSearchQuery || undefined,
       minPrice: appliedPriceRange[0] > 0 ? appliedPriceRange[0] : undefined,

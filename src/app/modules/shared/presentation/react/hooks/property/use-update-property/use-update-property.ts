@@ -1,4 +1,4 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/adapters/repositories/properties/property.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

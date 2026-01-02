@@ -1,4 +1,4 @@
-import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
 import { useRefreshToken } from '@/modules/shared/presentation/react/hooks/auth/use-refresh-token/use-refresh-token';
 import { useEffect, useRef } from 'react';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';
@@ -12,7 +12,7 @@ export const RefreshTokenContainer = ({ children }: { children: React.ReactNode 
     if (hasInitialized.current) return;
     hasInitialized.current = true;
 
-    const { refreshToken } = authTokenRepositoryImpl.get() || {};
+    const { refreshToken } = tokenStorageRepositoryImpl.get() || {};
 
     if (refreshToken) {
       setIsAuthLoading(true);

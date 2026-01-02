@@ -1,4 +1,4 @@
-import type { UpdateUserInput } from '@/modules/shared/domain/inputs/user.input';
+import type { UpdateUserCommand } from '@/modules/shared/domain/commands/user.command';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { USER_ROLES_DTO } from '../../dtos/role.dto';
 import type { UserPayloadDto, UserResponseDto } from '../../dtos/user.dto';
@@ -16,7 +16,7 @@ export const mapUserResponseToModel = (dto: UserResponseDto): User => ({
   bio: dto.bio,
 });
 
-export const mapUserToPayloadDto = (user: UpdateUserInput): UserPayloadDto => ({
+export const mapUserToPayloadDto = (user: UpdateUserCommand): UserPayloadDto => ({
   id: user.id,
   email: user.email,
   name: user.name,

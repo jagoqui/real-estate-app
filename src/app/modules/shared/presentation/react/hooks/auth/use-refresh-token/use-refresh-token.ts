@@ -1,6 +1,6 @@
-import type { RefreshTokenInput } from '@/modules/shared/domain/inputs/auth.input';
+import type { RefreshTokenCommand } from '@/modules/shared/domain/commands/auth.command';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
-import { authTokenRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth-token.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useAuthRepository } from '../use-auth-repository/use-auth-repository';
@@ -15,7 +15,7 @@ interface UseRefreshTokenReturn {
 export const useRefreshToken = (): UseRefreshTokenReturn => {
   const authRepository = useAuthRepository();
 
-  const { mutateAsync, isPending, error, data } = useMutation<Auth, Error, RefreshTokenInput>({
+  const { mutateAsync, isPending, error, data } = useMutation<Auth, Error, RefreshTokenCommand>({
     mutationKey: ['refresh-token'],
     mutationFn: args => authRepository.refreshToken(args),
     onError: error => {
@@ -29,7 +29,7 @@ export const useRefreshToken = (): UseRefreshTokenReturn => {
   });
 
   const onRefreshToken = async (): Promise<Auth> => {
-    const { refreshToken } = authTokenRepositoryImpl.get() || {};
+    const { refreshToken } = tokenStorageRepositoryImpl.get() || {};
 
     if (!refreshToken) {
       throw new Error('No refresh token found');

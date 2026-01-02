@@ -1,5 +1,5 @@
-import type { RegisterInput } from '../../domain/inputs/auth.input';
+import type { RegisterCommand } from '../../domain/commands/auth.command';
 
-export type RegisterCommand = RegisterInput & {
+export type RegisterCommand2 = RegisterCommand & {
   confirmPassword: string;
 };

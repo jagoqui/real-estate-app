@@ -1,5 +1,5 @@
-import type { CreateUserInput } from '../../domain/inputs/user.input';
+import type { CreateUserCommand } from '../../domain/commands/user.command';
 
-export type CreateUserCommand = CreateUserInput & {
+export type CreateUserCommand2 = CreateUserCommand & {
   confirmPassword: string;
 };

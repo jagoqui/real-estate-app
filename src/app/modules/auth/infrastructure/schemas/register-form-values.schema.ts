@@ -1,4 +1,4 @@
-import type { RegisterCommand } from '@/modules/shared/application/commands/register.command';
+import type { RegisterCommand2 } from '@/modules/shared/application/commands/register.command';
 import { userRoleSchema } from '@/modules/shared/infrastructure/schemas/user-role.schema';
 import z from 'zod';
 
@@ -15,4 +15,4 @@ export const registerFormValuesSchema = z
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ['confirmPassword'],
-  }) satisfies z.ZodType<RegisterCommand>;
+  }) satisfies z.ZodType<RegisterCommand2>;

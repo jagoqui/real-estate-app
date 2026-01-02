@@ -1,6 +1,6 @@
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
+import { type PropertyCommand2 } from '@/modules/shared/application/commands/property.command';
 import {
   createPropertyFormSchema,
   updatePropertyFormSchema,
@@ -17,7 +17,7 @@ import { LocationTab } from './location-tab';
 import { VirtualToursTab } from './virtual-toursTab';
 
 interface PropertyFormWithHookFormProps {
-  defaultValues?: DefaultValues<PropertyCommand>;
+  defaultValues?: DefaultValues<PropertyCommand2>;
   onReset: () => void;
   onLoadingChange?: (isLoading: boolean) => void;
 }
@@ -59,7 +59,7 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
-const formDefaultValues: DefaultValues<PropertyCommand> = {
+const formDefaultValues: DefaultValues<PropertyCommand2> = {
   action: 'create',
   amenities: [],
   highlightedFeatures: [],
@@ -104,7 +104,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
 
   const schema = defaultValues ? updatePropertyFormSchema : createPropertyFormSchema;
 
-  const form = useForm<PropertyCommand>({
+  const form = useForm<PropertyCommand2>({
     //Use never to bypass type issues with zod discriminations types and react-hook-form
     resolver: zodResolver(schema) as never,
     defaultValues: defaultValues ?? formDefaultValues,
@@ -135,7 +135,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
     onLoadingChange?.(isLoading);
   }, [isLoading, onLoadingChange]);
 
-  const onSubmit = (data: PropertyCommand): void => {
+  const onSubmit = (data: PropertyCommand2): void => {
     if (data.action === 'update') {
       const { action: _, ...restData } = data;
       onUpdateProperty(restData);

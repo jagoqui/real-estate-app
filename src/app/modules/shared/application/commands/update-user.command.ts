@@ -1,3 +1,3 @@
-import type { UpdateUserInput } from '../../domain/inputs/user.input';
+import type { UpdateUserCommand } from '../../domain/commands/user.command';
 
-export type UpdateUserCommand = UpdateUserInput;
+export type UpdateUserCommand2 = UpdateUserCommand;

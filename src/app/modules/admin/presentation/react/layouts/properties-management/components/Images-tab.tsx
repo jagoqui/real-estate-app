@@ -1,10 +1,10 @@
 import { PropertyImageManager } from '@/modules/shared//presentation/react/components/property-image-manager/property-image-manager';
-import type { PropertyCommand } from '@/modules/shared/application/commands/property.command';
+import type { PropertyCommand2 } from '@/modules/shared/application/commands/property.command';
 import React, { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 export const ImagesTab = (): React.ReactElement => {
-  const form = useFormContext<PropertyCommand>();
+  const form = useFormContext<PropertyCommand2>();
   const images = form.watch('images');
   const coverImage = form.watch('coverImage');
 

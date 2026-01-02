@@ -1,4 +1,4 @@
-import { ownerRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/owners/owner.repository.impl';
+import { ownerRepositoryImpl } from '@/modules/shared/infrastructure/adapters/repositories/owners/owner.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
 type GetPropertiesCountByOwnerIdReturn = typeof ownerRepositoryImpl.getPropertiesCountByOwnerId;

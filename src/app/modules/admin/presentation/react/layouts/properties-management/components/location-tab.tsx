@@ -1,11 +1,11 @@
 import { LocationPicker } from '@/modules/shared//presentation/react/components/location-picker/location-picker';
-import type { PropertyCommand } from '@/modules/shared/application/commands/property.command';
+import type { PropertyCommand2 } from '@/modules/shared/application/commands/property.command';
 import type { Location } from '@/modules/shared/domain/models/location.model';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 export const LocationTab = (): React.ReactElement => {
-  const form = useFormContext<PropertyCommand>();
+  const form = useFormContext<PropertyCommand2>();
   const location = form.watch('location') || { lat: '0', lng: '0' };
 
   const handleLocationChange = (location: Location | undefined): void => {
