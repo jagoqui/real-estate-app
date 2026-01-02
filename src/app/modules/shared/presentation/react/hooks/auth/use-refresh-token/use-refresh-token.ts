@@ -1,6 +1,6 @@
 import type { RefreshTokenCommand } from '@/modules/shared/domain/commands/auth.commands';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
-import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/storage/token/token-storage.repository.impl';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useAuthRepository } from '../use-auth-repository/use-auth-repository';

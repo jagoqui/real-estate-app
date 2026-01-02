@@ -5,11 +5,11 @@ import type {
   GetPropertyByIdCommand,
   UpdatePropertyCommand,
   UpdatePropertyStatusCommand,
-} from '../../commands/property.commands';
-import type { PropertyStatus } from '../../models/property-statutes.model';
-import type { PropertyType } from '../../models/property-types.model';
-import type { Property } from '../../models/property.model';
-import type { GetPropertiesByFilterQuery } from '../../queries/property.queries';
+} from '../commands/property.commands';
+import type { PropertyStatus } from '../models/property-statutes.model';
+import type { PropertyType } from '../models/property-types.model';
+import type { Property } from '../models/property.model';
+import type { GetPropertiesByFilterQuery } from '../queries/property.queries';
 
 export interface PropertyRepository {
   create(args: CreatePropertyCommand): Promise<Property>;

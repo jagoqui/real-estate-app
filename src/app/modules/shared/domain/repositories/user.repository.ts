@@ -1,5 +1,5 @@
-import type { ChangePasswordCommand, CreateUserCommand, UpdateUserCommand } from '../../commands/user.commands';
-import type { User } from '../../models/user.model';
+import type { ChangePasswordCommand, CreateUserCommand, UpdateUserCommand } from '../commands/user.commands';
+import type { User } from '../models/user.model';
 
 export interface UserRepository {
   create(args: CreateUserCommand): Promise<User>;

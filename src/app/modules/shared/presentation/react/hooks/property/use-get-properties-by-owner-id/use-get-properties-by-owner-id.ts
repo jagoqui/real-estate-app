@@ -1,4 +1,4 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/adapters/repositories/properties/property.repository.impl';
+import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/properties/property.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
 type GetPropertiesByOwnerIdReturn = typeof propertyRepositoryImpl.getByOwnerId;

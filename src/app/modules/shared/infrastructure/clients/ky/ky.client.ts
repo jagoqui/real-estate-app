@@ -1,5 +1,5 @@
 import ky from 'ky';
-import { tokenStorageRepositoryImpl } from '../../adapters/storage/token/token-storage.repository.impl';
+import { tokenStorageRepositoryImpl } from '../../storage/token/token-storage.repository.impl';
 
 const HTTP_STATUS_UNAUTHORIZED = 401;
 const HTTP_STATUS_FORBIDDEN = 403;

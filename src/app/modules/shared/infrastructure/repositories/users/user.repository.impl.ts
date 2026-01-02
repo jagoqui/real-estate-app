@@ -1,4 +1,4 @@
-import type { UserRepository } from '@/modules/shared/domain/ports/repositories/user.repository';
+import type { UserRepository } from '@/modules/shared/domain/repositories/user.repository';
 import { changeUserPasswordAdapter } from './change-user-password/change-user-password.adapter';
 import { createUserAdapter } from './create-user/create-user.adapter';
 import { deleteUserAdapter } from './delete-user/delete-user.adapter';

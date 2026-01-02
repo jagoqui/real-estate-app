@@ -4,7 +4,7 @@ import type {
   RefreshTokenCommand,
   RegisterCommand,
 } from '@/modules/shared/domain/commands/auth.commands';
-import type { Auth } from '../../models/auth.model';
+import type { Auth } from '../models/auth.model';
 
 export interface AuthRepository {
   register(args: RegisterCommand): Promise<Auth>;

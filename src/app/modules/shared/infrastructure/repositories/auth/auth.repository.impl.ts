@@ -1,4 +1,4 @@
-import type { AuthRepository } from '@/modules/shared/domain/ports/repositories/auth.repository';
+import type { AuthRepository } from '@/modules/shared/domain/repositories/auth.repository';
 import { loginWithEmailAndPasswordAdapter } from './login-with-email-and-password/login-with-email-and-password.adapter';
 import { loginWithGoogleAdapter } from './login-with-google/login-with-google.adapter';
 import { logoutAdapter } from './logout/logout.adapter';

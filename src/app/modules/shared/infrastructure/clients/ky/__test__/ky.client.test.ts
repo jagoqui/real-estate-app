@@ -1,5 +1,5 @@
 import { AUTH_RESPONSE_MOCK } from '@/data/mocks/auth-response/auth-response.mock';
-import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/storage/token/token-storage.repository.impl';
 import ky, { type AfterResponseState, type BeforeRequestState, type NormalizedOptions, type Options } from 'ky';
 import type { MockedFunction } from 'vitest';
 

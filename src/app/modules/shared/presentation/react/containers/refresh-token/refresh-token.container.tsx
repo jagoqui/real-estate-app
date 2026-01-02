@@ -1,4 +1,4 @@
-import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/storage/token/token-storage.repository.impl';
 import { useRefreshToken } from '@/modules/shared/presentation/react/hooks/auth/use-refresh-token/use-refresh-token';
 import { useEffect, useRef } from 'react';
 import { useAuthResponseContext } from '../../contexts/auth-response/auth-response.context';

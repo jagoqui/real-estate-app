@@ -1,4 +1,4 @@
-import type { OwnerRepository } from '@/modules/shared/domain/ports/repositories/owner.repository';
+import type { OwnerRepository } from '@/modules/shared/domain/repositories/owner.repository';
 import { createOwnerAdapter } from './create-owner/create-owner.adapter';
 import { deleteOwnerAdapter } from './delete-owner/delete-owner.adapter';
 import { getOwnerByIdAdapter } from './get-owner-by-id/get-owner-by-id.adapter';

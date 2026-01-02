@@ -1,4 +1,4 @@
-import type { PropertyRepository } from '@/modules/shared/domain/ports/repositories/property.repository';
+import type { PropertyRepository } from '@/modules/shared/domain/repositories/property.repository';
 import { createPropertyAdapter } from './create-property/create-property.adapter';
 import { deletePropertyAdapter } from './delete-property/delete-property.adapter';
 import { getAllPropertiesAdapter } from './get-all-properties/get-all-properties.adapter';

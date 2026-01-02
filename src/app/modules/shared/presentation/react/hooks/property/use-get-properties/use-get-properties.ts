@@ -1,5 +1,5 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/adapters/repositories/properties/property.repository.impl';
 import { queryClient } from '@/modules/shared/infrastructure/clients/query/query.client';
+import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/properties/property.repository.impl';
 import { useQuery } from '@tanstack/react-query';
 
 type GetPropertiesReturn = typeof propertyRepositoryImpl.getAll;

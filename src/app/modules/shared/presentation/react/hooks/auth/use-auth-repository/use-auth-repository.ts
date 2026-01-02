@@ -2,8 +2,8 @@ import { PATHNAME_ROUTES } from '@/modules/shared//presentation/react/constants/
 import { useAuthResponseContext } from '@/modules/shared//presentation/react/contexts/auth-response/auth-response.context';
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/async-function-validation-wrapper/async-function-validation-wrapper.helper';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
-import type { AuthRepository } from '@/modules/shared/domain/ports/repositories/auth.repository';
-import { authRepositoryImpl } from '@/modules/shared/infrastructure/adapters/repositories/auth/auth.repository.impl';
+import type { AuthRepository } from '@/modules/shared/domain/repositories/auth.repository';
+import { authRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth/auth.repository.impl';
 import { googleLogout } from '@react-oauth/google';
 import { useRouter } from '@tanstack/react-router';
 

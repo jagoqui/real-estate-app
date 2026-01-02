@@ -1,5 +1,5 @@
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
-import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/adapters/storage/token/token-storage.repository.impl';
+import { tokenStorageRepositoryImpl } from '@/modules/shared/infrastructure/storage/token/token-storage.repository.impl';
 import { useEffect, useState } from 'react';
 
 interface UseAuthResponseStorageReturn {
