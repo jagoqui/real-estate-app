@@ -1,8 +1,8 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-type UpdatePropertyRequestReturn = typeof propertyRepositoryImpl.update;
+type UpdatePropertyRequestReturn = ReturnType<typeof usePropertyRepositoryContext>['update'];
 
 type UpdatePropertyRequestReturnValue = Awaited<ReturnType<UpdatePropertyRequestReturn>>;
 
@@ -16,10 +16,12 @@ interface UseUpdatePropertyReturn {
 }
 
 export const useUpdateProperty = (args: { onSuccess?: VoidFunction }): UseUpdatePropertyReturn => {
+  const propertyRepository = usePropertyRepositoryContext();
+
   const { mutate, isPending, error, data } = useMutation<UpdatePropertyRequestReturnValue, Error, OnUpdatePropertyArgs>(
     {
       mutationKey: ['update-property'],
-      mutationFn: args => propertyRepositoryImpl.update(args),
+      mutationFn: args => propertyRepository.update(args),
       onSuccess: () => {
         args.onSuccess?.();
         toast.success('Property updated successfully!');

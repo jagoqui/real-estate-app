@@ -1,8 +1,8 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-type CreatePropertyReturn = typeof propertyRepositoryImpl.create;
+type CreatePropertyReturn = ReturnType<typeof usePropertyRepositoryContext>['create'];
 
 type CreatePropertyReturnValue = Awaited<ReturnType<CreatePropertyReturn>>;
 
@@ -16,9 +16,11 @@ interface UseCreatePropertyReturn {
 }
 
 export const useCreateProperty = (args: { onSuccess?: VoidFunction }): UseCreatePropertyReturn => {
+  const propertyRepository = usePropertyRepositoryContext();
+
   const { mutate, isPending, error, data } = useMutation<CreatePropertyReturnValue, Error, OnCreatePropertyArgs>({
     mutationKey: ['create-property'],
-    mutationFn: args => propertyRepositoryImpl.create(args),
+    mutationFn: args => propertyRepository.create(args),
     onSuccess: () => {
       args.onSuccess?.();
     },

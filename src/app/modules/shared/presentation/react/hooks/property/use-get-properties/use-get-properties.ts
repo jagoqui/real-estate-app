@@ -1,8 +1,8 @@
 import { queryClient } from '@/modules/shared/infrastructure/clients/query/query.client';
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
 
-type GetPropertiesReturn = typeof propertyRepositoryImpl.getAll;
+type GetPropertiesReturn = ReturnType<typeof usePropertyRepositoryContext>['getAll'];
 
 type GetPropertiesReturnValue = Awaited<ReturnType<GetPropertiesReturn>>;
 
@@ -18,13 +18,15 @@ export const useGetProperties = ({
 }: {
   filterByFeatured?: boolean;
 } = {}): UseGetPropertiesReturn => {
+  const propertyRepository = usePropertyRepositoryContext();
+
   const onGetProperties = (): void => {
     void queryClient.resetQueries({ queryKey: ['get-properties'] });
   };
 
   const { isPending, error, data } = useQuery<GetPropertiesReturnValue, Error>({
     queryKey: ['get-properties'],
-    queryFn: () => propertyRepositoryImpl.getAll(),
+    queryFn: () => propertyRepository.getAll(),
   });
 
   const filterData = filterByFeatured ? data?.filter(property => property.featured) : data;
