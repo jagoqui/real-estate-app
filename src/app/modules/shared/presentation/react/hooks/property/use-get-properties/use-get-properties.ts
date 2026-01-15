@@ -1,3 +1,4 @@
+import { getPropertyUseCase } from '@/modules/shared/application/use-cases/get-properties/get-properties.use-case';
 import { queryClient } from '@/modules/shared/infrastructure/clients/query/query.client';
 import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
@@ -20,13 +21,15 @@ export const useGetProperties = ({
 } = {}): UseGetPropertiesReturn => {
   const propertyRepository = usePropertyRepositoryContext();
 
+  const getProperties = getPropertyUseCase(propertyRepository);
+
   const onGetProperties = (): void => {
     void queryClient.resetQueries({ queryKey: ['get-properties'] });
   };
 
   const { isPending, error, data } = useQuery<GetPropertiesReturnValue, Error>({
     queryKey: ['get-properties'],
-    queryFn: () => propertyRepository.getAll(),
+    queryFn: getProperties,
   });
 
   const filterData = filterByFeatured ? data?.filter(property => property.featured) : data;
