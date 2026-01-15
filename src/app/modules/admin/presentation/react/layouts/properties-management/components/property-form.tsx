@@ -113,7 +113,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
   const [formErrors, setFormErrors] = useState<typeof form.formState.errors>();
 
   const {
-    onCreateProperty,
+    onExecute: onCreateProperty,
     isPending: isCreating,
     error: createError,
   } = useCreateProperty({

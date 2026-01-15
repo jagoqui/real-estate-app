@@ -29,7 +29,7 @@ export const PropertyList = React.memo(({ onEdit }: PropertyListProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const {
-    onGetProperties,
+    onExecute: onGetProperties,
     isPending: isLoadingProperties,
     error: propertiesError,
     data: properties,
