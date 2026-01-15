@@ -33,6 +33,7 @@ const DEFAULT_ERROR_DESCRIPTION = 'Please try again later.';
  * @see {@link GC_TIME_MS} for the cache garbage collection time
  */
 export const QUERY_CLIENT_CONFIG: QueryClientConfig = {
+  //TODO: Refactor toast logic into a separate notification service with global error handling
   queryCache: new QueryCache({
     onSuccess: (data, query): void => {
       query.meta?.onSuccess?.(data);
