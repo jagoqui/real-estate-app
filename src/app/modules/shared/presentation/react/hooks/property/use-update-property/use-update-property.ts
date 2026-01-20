@@ -9,7 +9,7 @@ type UpdatePropertyRequestReturnValue = Awaited<ReturnType<UpdatePropertyRequest
 type OnUpdatePropertyArgs = Parameters<UpdatePropertyRequestReturn>[number];
 
 interface UseUpdatePropertyReturn {
-  onUpdateProperty: (arg: OnUpdatePropertyArgs) => void;
+  onExecute: (arg: OnUpdatePropertyArgs) => void;
   isPending: boolean;
   error: Error | null;
   data?: UpdatePropertyRequestReturnValue;
@@ -38,7 +38,7 @@ export const useUpdateProperty = (args: { onSuccess?: VoidFunction }): UseUpdate
   );
 
   return {
-    onUpdateProperty: mutate,
+    onExecute: mutate,
     isPending,
     error,
     data,

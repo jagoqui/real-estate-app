@@ -2,9 +2,9 @@ import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { type PropertyData } from '@/modules/shared/domain/data/property.data';
 import {
-  createPropertyFormSchema,
-  updatePropertyFormSchema,
-} from '@/modules/shared/infrastructure/schemas/property-form.schema';
+  createPropertyDataSchema,
+  updatePropertyDataSchema,
+} from '@/modules/shared/infrastructure/schemas/property-data.schema';
 import { useCreateProperty } from '@/modules/shared/presentation/react/hooks/property/use-create-property/use-create-property';
 import { useUpdateProperty } from '@/modules/shared/presentation/react/hooks/property/use-update-property/use-update-property';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -102,7 +102,7 @@ const flattenErrors = (
 export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChange }: PropertyFormWithHookFormProps) => {
   const [activeTab, setActiveTab] = useState<string>('basic');
 
-  const schema = defaultValues ? updatePropertyFormSchema : createPropertyFormSchema;
+  const schema = defaultValues ? updatePropertyDataSchema : createPropertyDataSchema;
 
   const form = useForm<PropertyData>({
     //Use never to bypass type issues with zod discriminations types and react-hook-form
@@ -121,7 +121,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
   });
 
   const {
-    onUpdateProperty,
+    onExecute: onUpdateProperty,
     isPending: isUpdating,
     error: updateError,
   } = useUpdateProperty({

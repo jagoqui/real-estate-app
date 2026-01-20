@@ -9,8 +9,8 @@ import { AnalyticsContainer } from '../containers/analytics/analytics.container'
 import { DashboardContainer } from '../containers/dashboard/dashboard.container';
 import { LogsContainer } from '../containers/logs/logs.container';
 import { OwnersManagementContainer } from '../containers/owners-management/owners-management.container';
-import { PropertiesManagementContainer } from '../containers/properties-management/properties-management.container';
 import { UsersManagementContainer } from '../containers/users-management/users-management.container';
+import { PropertiesManagementPage } from '../pages/properties-management/properties-management.page';
 
 export const adminRoute = createRoute({
   getParentRoute: () => appRoute,
@@ -39,7 +39,7 @@ const ownersRoute = createRoute({
 const propertiesRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: PATHNAME_ROUTES_LAST_SEGMENTS.ADMIN_PROPERTIES,
-  component: PropertiesManagementContainer,
+  component: PropertiesManagementPage,
 });
 
 const analyticsRoute = createRoute({

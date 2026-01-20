@@ -4,7 +4,7 @@ import z from 'zod';
 
 const MIN_PASSWORD_LENGTH = 6;
 
-export const registerFormValuesSchema = z
+export const registerDataSchema = z
   .object({
     email: z.email().min(1, 'Email is required'),
     name: z.string().min(1, 'Name is required'),

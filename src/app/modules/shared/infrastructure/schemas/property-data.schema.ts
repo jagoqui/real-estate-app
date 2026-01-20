@@ -96,7 +96,7 @@ const propertySchema = z.object({
     .readonly(),
 });
 
-export const createPropertyFormSchema = propertySchema
+export const createPropertyDataSchema = propertySchema
   .omit({
     id: true,
     createdAt: true,
@@ -109,12 +109,12 @@ export const createPropertyFormSchema = propertySchema
     ...filesUploadSchema.shape,
   }) satisfies z.ZodType<CreatePropertyData>;
 
-export const updatePropertyFormSchema = propertySchema.extend({
+export const updatePropertyDataSchema = propertySchema.extend({
   action: z.literal('update'),
   ...filesUploadSchema.shape,
 }) satisfies z.ZodType<UpdatePropertyData>;
 
-export const _propertyFormValuesSchema = z.discriminatedUnion('action', [
-  createPropertyFormSchema,
-  updatePropertyFormSchema,
+export const _propertyDataSchema = z.discriminatedUnion('action', [
+  createPropertyDataSchema,
+  updatePropertyDataSchema,
 ]) satisfies z.ZodType<PropertyData>;
