@@ -1,4 +1,4 @@
-import type { CreatePropertyInput } from '@/modules/shared/domain/inputs/property.input';
+import type { CreatePropertyCommand } from '@/modules/shared/domain/commands/property.commands';
 import type { Property } from '@/modules/shared/domain/models/property.model';
 import type { CreatePropertyPayloadDto } from '../../dtos/create-property-payload.dto';
 import type { PropertyResponseDto } from '../../dtos/property-response.dto';
@@ -34,7 +34,7 @@ export const mapPropertyToModel = (propertyDto: PropertyResponseDto): Property =
   updatedAt: propertyDto.updatedAt,
 });
 
-export const mapCreatePropertyInputToPayload = (input: CreatePropertyInput): CreatePropertyPayloadDto => ({
+export const mapCreatePropertyInputToPayload = (input: CreatePropertyCommand): CreatePropertyPayloadDto => ({
   name: input.name,
   address: input.address,
   price: input.price,

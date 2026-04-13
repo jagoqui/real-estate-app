@@ -1,5 +1,5 @@
+import { USER_COMMAND_MOCK } from '@/data/mocks/users/user-command.mock';
 import { USER_DTO_MOCK } from '@/data/mocks/users/user-dto.mock';
-import { USER_INPUT_MOCK } from '@/data/mocks/users/user-input.mock';
 import { USER_PAYLOAD_DTO_MOCK } from '@/data/mocks/users/user-payload-dto.mock';
 import { USER_MOCK } from '@/data/mocks/users/user.mock';
 import * as userRoleMapper from '../../user-role/user-role.mapper';
@@ -23,15 +23,15 @@ describe('mapUser', () => {
 
   describe('mapUserToPayloadDto', () => {
     it('should map user response to user dto', () => {
-      const userDto = mapUserToPayloadDto(USER_INPUT_MOCK);
+      const userDto = mapUserToPayloadDto(USER_COMMAND_MOCK);
 
       expect(userDto).toEqual(USER_PAYLOAD_DTO_MOCK);
-      expect(userRoleMapper.mapUserRoleToDto).toHaveBeenCalledWith(USER_INPUT_MOCK.role);
+      expect(userRoleMapper.mapUserRoleToDto).toHaveBeenCalledWith(USER_COMMAND_MOCK.role);
       expect(userRoleMapper.mapUserRoleToDto).toHaveBeenCalledTimes(1);
     });
 
     it('should map user to user dto without role', () => {
-      const userInputWithoutRole = { ...USER_INPUT_MOCK, role: undefined };
+      const userInputWithoutRole = { ...USER_COMMAND_MOCK, role: undefined };
       const userDto = mapUserToPayloadDto(userInputWithoutRole);
 
       expect(userDto).toEqual({ ...USER_PAYLOAD_DTO_MOCK, role: undefined });

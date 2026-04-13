@@ -1,7 +1,7 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
 
-type GetPropertiesStatusesReturn = typeof propertyRepositoryImpl.getStatuses;
+type GetPropertiesStatusesReturn = ReturnType<typeof usePropertyRepositoryContext>['getStatuses'];
 
 type GetPropertiesStatusesReturnValue = Awaited<ReturnType<GetPropertiesStatusesReturn>>;
 
@@ -13,7 +13,9 @@ interface UseGetPropertiesStatusesReturn {
 }
 
 export const useGetPropertiesStatuses = (): UseGetPropertiesStatusesReturn => {
-  const onGetPropertiesStatuses = (): Promise<GetPropertiesStatusesReturnValue> => propertyRepositoryImpl.getStatuses();
+  const propertyRepository = usePropertyRepositoryContext();
+
+  const onGetPropertiesStatuses = (): Promise<GetPropertiesStatusesReturnValue> => propertyRepository.getStatuses();
 
   const { isPending, error, data } = useQuery<GetPropertiesStatusesReturnValue, Error>({
     queryKey: ['get-properties-statuses'],

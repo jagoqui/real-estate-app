@@ -1,8 +1,8 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-type DeletePropertyReturn = typeof propertyRepositoryImpl.delete;
+type DeletePropertyReturn = ReturnType<typeof usePropertyRepositoryContext>['delete'];
 
 type DeletePropertyReturnValue = Awaited<ReturnType<DeletePropertyReturn>>;
 
@@ -16,9 +16,11 @@ interface UseDeletePropertyReturn {
 }
 
 export const useDeleteProperty = (args: { onSuccess?: VoidFunction }): UseDeletePropertyReturn => {
+  const propertyRepository = usePropertyRepositoryContext();
+
   const { mutate, isPending, error, data } = useMutation<DeletePropertyReturnValue, Error, OnDeletePropertyArgs>({
     mutationKey: ['delete-property'],
-    mutationFn: args => propertyRepositoryImpl.delete(args),
+    mutationFn: args => propertyRepository.delete(args),
     onSuccess: () => {
       args.onSuccess?.();
       toast.success('Property deleted successfully!');

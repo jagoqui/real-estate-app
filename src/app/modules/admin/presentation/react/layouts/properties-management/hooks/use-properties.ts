@@ -12,7 +12,7 @@ export const useProperties = (): {
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { onGetProperties } = useGetProperties();
+  const { onExecute: onGetProperties } = useGetProperties();
 
   const handleEdit = (property: Property): void => {
     setEditingProperty(property);

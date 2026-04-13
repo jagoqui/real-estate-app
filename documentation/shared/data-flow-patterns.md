@@ -186,7 +186,7 @@ export const authRepositoryImpl: AuthRepository = {
 // Action: register.action.ts (infrastructure/repositories/actions/auth/)
 import type { RegisterInput } from '@/modules/shared/domain/inputs/auth.input';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
-import { api } from '@/modules/shared/infrastructure/clients/ky/ky.client';
+import { api } from '@/modules/shared/infrastructure/http/clients/ky/ky.client';
 import { authResponseSchema } from '@/modules/shared/infrastructure/schemas/auth-response.schema';
 import { mapAuthResponseToModel } from '@/modules/shared/infrastructure/mappers/auth-response/auth-response.mapper';
 

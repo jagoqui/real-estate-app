@@ -1,4 +1,4 @@
-import type { PropertyCommand } from '@/modules/shared/application/commands/property.command';
+import type { PropertyData } from '@/modules/shared/domain/data/property.data';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -48,7 +48,7 @@ export const useFeatureChips = (): UseFeatureChipsReturn => {
   const [newFeature, setNewFeature] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const form = useFormContext<PropertyCommand>();
+  const form = useFormContext<PropertyData>();
 
   const features = form.watch('highlightedFeatures');
 

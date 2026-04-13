@@ -1,15 +1,15 @@
 import type {
-  LoginWithEmailAndPasswordInput,
-  LoginWithGoogleInput,
-  RefreshTokenInput,
-  RegisterInput,
-} from '../inputs/auth.input';
+  LoginWithEmailAndPasswordCommand,
+  LoginWithGoogleCommand,
+  RefreshTokenCommand,
+  RegisterCommand,
+} from '@/modules/shared/domain/commands/auth.commands';
 import type { Auth } from '../models/auth.model';
 
 export interface AuthRepository {
-  register(input: RegisterInput): Promise<Auth>;
-  loginWithEmailAndPassword(input: LoginWithEmailAndPasswordInput): Promise<Auth>;
-  loginWithGoogle(input: LoginWithGoogleInput): Promise<Auth>;
-  refreshToken(input: RefreshTokenInput): Promise<Auth>;
+  register(args: RegisterCommand): Promise<Auth>;
+  loginWithEmailAndPassword(args: LoginWithEmailAndPasswordCommand): Promise<Auth>;
+  loginWithGoogle(args: LoginWithGoogleCommand): Promise<Auth>;
+  refreshToken(args: RefreshTokenCommand): Promise<Auth>;
   logout(): Promise<void>;
 }

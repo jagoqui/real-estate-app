@@ -1,7 +1,7 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
 
-type GetPropertiesTypesReturn = typeof propertyRepositoryImpl.getTypes;
+type GetPropertiesTypesReturn = ReturnType<typeof usePropertyRepositoryContext>['getTypes'];
 
 type GetPropertiesTypesReturnValue = Awaited<ReturnType<GetPropertiesTypesReturn>>;
 
@@ -13,7 +13,9 @@ interface UseGetPropertiesTypesReturn {
 }
 
 export const useGetPropertiesTypes = (): UseGetPropertiesTypesReturn => {
-  const onGetPropertiesTypes = (): Promise<GetPropertiesTypesReturnValue> => propertyRepositoryImpl.getTypes();
+  const propertyRepository = usePropertyRepositoryContext();
+
+  const onGetPropertiesTypes = (): Promise<GetPropertiesTypesReturnValue> => propertyRepository.getTypes();
 
   const { isPending, error, data } = useQuery<GetPropertiesTypesReturnValue, Error>({
     queryKey: ['get-properties-types'],

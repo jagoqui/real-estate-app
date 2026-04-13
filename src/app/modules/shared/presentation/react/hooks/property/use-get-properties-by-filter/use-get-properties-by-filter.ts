@@ -1,7 +1,7 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
 
-type GetPropertiesByFilterReturn = typeof propertyRepositoryImpl.getByFilter;
+type GetPropertiesByFilterReturn = ReturnType<typeof usePropertyRepositoryContext>['getByFilter'];
 
 type GetPropertiesByFilterReturnValue = Awaited<ReturnType<GetPropertiesByFilterReturn>>;
 
@@ -22,9 +22,11 @@ export const useGetPropertiesByFilter = (
   filter: OnGetPropertiesByFilterArgs,
   options: UseGetPropertiesByFilterOptions = {}
 ): UseGetPropertiesByFilterReturn => {
+  const propertyRepository = usePropertyRepositoryContext();
+
   const { enabled = true } = options;
   const onGetPropertiesByFilter = (): Promise<GetPropertiesByFilterReturnValue> =>
-    propertyRepositoryImpl.getByFilter(filter);
+    propertyRepository.getByFilter(filter);
 
   const { isPending, error, data } = useQuery<GetPropertiesByFilterReturnValue, Error>({
     queryKey: ['get-properties-by-filter', filter],

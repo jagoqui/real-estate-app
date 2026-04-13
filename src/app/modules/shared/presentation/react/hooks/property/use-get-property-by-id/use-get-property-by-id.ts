@@ -1,7 +1,7 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
 
-type GetPropertyByIdReturn = typeof propertyRepositoryImpl.getById;
+type GetPropertyByIdReturn = ReturnType<typeof usePropertyRepositoryContext>['getById'];
 
 type GetPropertyByIdReturnValue = Awaited<ReturnType<GetPropertyByIdReturn>>;
 
@@ -15,7 +15,9 @@ interface UseGetPropertyByIdReturn {
 }
 
 export const useGetPropertyById = ({ propertyId }: OnGetPropertyByIdArgs): UseGetPropertyByIdReturn => {
-  const onGetPropertyById = (): Promise<GetPropertyByIdReturnValue> => propertyRepositoryImpl.getById({ propertyId });
+  const propertyRepository = usePropertyRepositoryContext();
+
+  const onGetPropertyById = (): Promise<GetPropertyByIdReturnValue> => propertyRepository.getById({ propertyId });
 
   const { isLoading, error, data } = useQuery<GetPropertyByIdReturnValue, Error>({
     queryKey: ['get-property-by-id', propertyId],

@@ -1,7 +1,7 @@
-import { propertyRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/properties/property.repository.impl';
+import { usePropertyRepositoryContext } from '@/modules/shared/presentation/react/contexts/property-repository/property-repository.context';
 import { useQuery } from '@tanstack/react-query';
 
-type GetPropertiesByOwnerIdReturn = typeof propertyRepositoryImpl.getByOwnerId;
+type GetPropertiesByOwnerIdReturn = ReturnType<typeof usePropertyRepositoryContext>['getByOwnerId'];
 
 type GetPropertiesByOwnerIdReturnValue = Awaited<ReturnType<GetPropertiesByOwnerIdReturn>>;
 
@@ -17,8 +17,10 @@ interface UseGetPropertiesByOwnerIdReturn {
 export const useGetPropertiesByOwnerId = ({
   ownerId,
 }: OnGetPropertiesByOwnerIdArgs): UseGetPropertiesByOwnerIdReturn => {
+  const propertyRepository = usePropertyRepositoryContext();
+
   const onGetPropertiesByOwnerId = (): Promise<GetPropertiesByOwnerIdReturnValue> =>
-    propertyRepositoryImpl.getByOwnerId({ ownerId });
+    propertyRepository.getByOwnerId({ ownerId });
 
   const { isPending, error, data } = useQuery<GetPropertiesByOwnerIdReturnValue, Error>({
     queryKey: ['get-properties-by-owner-id', ownerId],

@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useCreateUser } from '@/modules/shared//presentation/react/hooks/users/use-create-user/use-create-user';
 import { useUpdateUser } from '@/modules/shared//presentation/react/hooks/users/use-update-user/use-update-user';
-import type { CreateUserCommand } from '@/modules/shared/application/commands/create-user.command';
+import type { CreateUserData } from '@/modules/shared/domain/data/create-user.data';
 import { USER_ROLES } from '@/modules/shared/domain/models/user-role.model';
 import type { User } from '@/modules/shared/domain/models/user.model';
 import { Camera, Loader2, Plus } from 'lucide-react';
@@ -21,7 +21,7 @@ interface UserManagementDialogProps {
   getInitials: (name: string) => string;
 }
 
-const DEFAULT_CREATE_USER: CreateUserCommand = {
+const DEFAULT_CREATE_USER: CreateUserData = {
   name: '',
   email: '',
   role: USER_ROLES.OWNER,
@@ -43,7 +43,7 @@ export const UserManagementDialog = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Form data for create
-  const [createForm, setCreateForm] = useState<CreateUserCommand>(DEFAULT_CREATE_USER);
+  const [createForm, setCreateForm] = useState<CreateUserData>(DEFAULT_CREATE_USER);
 
   // Form data for edit
   const [editForm, setEditForm] = useState({

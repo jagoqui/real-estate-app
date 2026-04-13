@@ -1,8 +1,8 @@
 import z from 'zod';
-import type { Location } from '../../domain/models/location.model';
+import type { GeoCoordinates } from '../../domain/models/geo-coordinates.model';
 
 export const locationSchema = z.object({
   lat: z.string(),
   lon: z.string(),
   displayName: z.string(),
-}) satisfies z.ZodType<Location>;
+}) satisfies z.ZodType<GeoCoordinates>;

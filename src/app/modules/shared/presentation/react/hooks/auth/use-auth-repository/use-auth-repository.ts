@@ -3,7 +3,7 @@ import { useAuthResponseContext } from '@/modules/shared//presentation/react/con
 import { asyncFunctionValidationWrapper } from '@/modules/shared/domain/helpers/async-function-validation-wrapper/async-function-validation-wrapper.helper';
 import type { Auth } from '@/modules/shared/domain/models/auth.model';
 import type { AuthRepository } from '@/modules/shared/domain/repositories/auth.repository';
-import { authRepositoryImpl } from '@/modules/shared/infrastructure/repositories/actions/auth/auth.repository.impl';
+import { authRepositoryImpl } from '@/modules/shared/infrastructure/repositories/auth/auth.repository.impl';
 import { googleLogout } from '@react-oauth/google';
 import { useRouter } from '@tanstack/react-router';
 

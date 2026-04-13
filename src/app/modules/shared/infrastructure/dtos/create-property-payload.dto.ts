@@ -1,5 +1,5 @@
 import type { Amenity } from '../../domain/models/amenity.model';
-import type { Location } from '../../domain/models/location.model';
+import type { GeoCoordinates } from '../../domain/models/geo-coordinates.model';
 import type { PropertyStatus } from '../../domain/models/property-statutes.model';
 import type { PropertyType } from '../../domain/models/property-types.model';
 
@@ -9,7 +9,7 @@ export interface CreatePropertyPayloadDto {
   city: string;
   state: string;
   country: string;
-  location: Location;
+  location: GeoCoordinates;
   price: number;
   bedrooms: number;
   bathrooms: number;

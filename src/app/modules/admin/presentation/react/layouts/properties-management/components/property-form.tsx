@@ -1,10 +1,10 @@
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { type PropertyCommand } from '@/modules/shared/application/commands/property.command';
+import { type PropertyData } from '@/modules/shared/domain/data/property.data';
 import {
-  createPropertyFormSchema,
-  updatePropertyFormSchema,
-} from '@/modules/shared/infrastructure/schemas/property-form.schema';
+  createPropertyDataSchema,
+  updatePropertyDataSchema,
+} from '@/modules/shared/infrastructure/schemas/property-data.schema';
 import { useCreateProperty } from '@/modules/shared/presentation/react/hooks/property/use-create-property/use-create-property';
 import { useUpdateProperty } from '@/modules/shared/presentation/react/hooks/property/use-update-property/use-update-property';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +17,7 @@ import { LocationTab } from './location-tab';
 import { VirtualToursTab } from './virtual-toursTab';
 
 interface PropertyFormWithHookFormProps {
-  defaultValues?: DefaultValues<PropertyCommand>;
+  defaultValues?: DefaultValues<PropertyData>;
   onReset: () => void;
   onLoadingChange?: (isLoading: boolean) => void;
 }
@@ -59,7 +59,7 @@ const FormTabsList = React.memo(() => (
 
 FormTabsList.displayName = 'FormTabsList';
 
-const formDefaultValues: DefaultValues<PropertyCommand> = {
+const formDefaultValues: DefaultValues<PropertyData> = {
   action: 'create',
   amenities: [],
   highlightedFeatures: [],
@@ -102,9 +102,9 @@ const flattenErrors = (
 export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChange }: PropertyFormWithHookFormProps) => {
   const [activeTab, setActiveTab] = useState<string>('basic');
 
-  const schema = defaultValues ? updatePropertyFormSchema : createPropertyFormSchema;
+  const schema = defaultValues ? updatePropertyDataSchema : createPropertyDataSchema;
 
-  const form = useForm<PropertyCommand>({
+  const form = useForm<PropertyData>({
     //Use never to bypass type issues with zod discriminations types and react-hook-form
     resolver: zodResolver(schema) as never,
     defaultValues: defaultValues ?? formDefaultValues,
@@ -113,7 +113,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
   const [formErrors, setFormErrors] = useState<typeof form.formState.errors>();
 
   const {
-    onCreateProperty,
+    onExecute: onCreateProperty,
     isPending: isCreating,
     error: createError,
   } = useCreateProperty({
@@ -121,7 +121,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
   });
 
   const {
-    onUpdateProperty,
+    onExecute: onUpdateProperty,
     isPending: isUpdating,
     error: updateError,
   } = useUpdateProperty({
@@ -135,7 +135,7 @@ export const PropertyForm = React.memo(({ defaultValues, onReset, onLoadingChang
     onLoadingChange?.(isLoading);
   }, [isLoading, onLoadingChange]);
 
-  const onSubmit = (data: PropertyCommand): void => {
+  const onSubmit = (data: PropertyData): void => {
     if (data.action === 'update') {
       const { action: _, ...restData } = data;
       onUpdateProperty(restData);
